@@ -1,0 +1,4 @@
+guide
+=====
+
+The Chebfun Guide
