@@ -28,8 +28,9 @@
 % effective even for functions complicated enough to require 1000 or
 % 1,000,000 points. Chebfun makes use of adaptive procedures that aim to
 % find the right number of points automatically so as to represent each
-% function to roughly machine precision (about 15 digits of relative
-% accuracy).  (Originally Chebfun stored function values at Chebyshev
+% function to roughly machine precision, that is, about
+% 15 digits of relative
+% accuracy.  (Originally Chebfun stored function values at Chebyshev
 % points; in Version 5 it switched to storing Chebyshev expansion 
 % coefficients.)
 
@@ -49,7 +50,7 @@
 % also became involved, and other contributors included Pedro Gonnet, Joris
 % Van Deun, and Georges Klein.  Nick Hale served as Director of the
 % project during 2010-2014.  The Chebfun Version 5 rewrite was directed
-% by Nick Hale during 2013-2014 and the team included Anthony
+% by Nick Hale during 2013-2014, and the team included Anthony
 % Austin, Asgeir Birkisson, Toby Driscoll, Hrothgar, Mohsin
 % Javed, Hadrien Montanelli, Nick Trefethen, Grady Wright, and Kuan Xu.
 % Further information about Chebfun history is available at the Chebfun
@@ -166,11 +167,11 @@
 
 %%
 % To find out what a command does, you can use `help`.
-  help chebfun/chebpoly
+  help chebfun/sum
 
 %%
 % Most of the commands in the list exist in ordinary Matlab; some
-% exceptions are `domain`, `restrict`, `chebpoly`, `define`, and `remez`.
+% exceptions are `domain`, `restrict`, `chebpoly`, and `remez`.
 % We have already seen `length` and `sum` in action.  In fact we have
 % already seen `subsref` too, since that is the Matlab command for (among
 % other things) evaluating arguments in parentheses.
@@ -225,12 +226,8 @@
 
 %%
 % This output confirms that f consists of two funs, each defined by two
-% points and two corresponding function values. We can see the structure
-% from another angle with `disp`:
-  disp(f)
-  
-%%
-% This output again show that `f` consists of two funs with breakpoints at
+% points and two corresponding function values.
+% The functions live on intervals defined by breakpoints at
 % $-1$, $1$, and a number very close to $0.3$.  The `Vscale` field is related to
 % the maximum absolute value of `f` and `Epslevel` gives some information (to
 % be discussed later) about its relative accuracy.
@@ -308,7 +305,7 @@
 %% 1.5  Infinite intervals and infinite function values
 % A major change from Chebfun Version 2 to Version 3 was the generalization of
 % chebfuns to allow certain functions on infinite intervals or which
-% diverge to infinity: the initial credit for these innovations belongs to
+% diverge to infinity; the initial credit for these innovations belongs to
 % Nick Hale, Rodrigo Platte, and Mark Richardson.
 % For example, here is a function on the whole real axis,
   f = chebfun('exp(-x.^2/16).*(1+.2*cos(10*x))',[-inf,inf]);
@@ -368,7 +365,7 @@
 %% 1.7  How this Guide is produced
 % This guide is produced in Matlab using the "publish" command with a 
 % style sheet somewhat different from the usual; the output of publish
-% is then processed by markdown.
+% is then processed by Markdown.
 % To publish a chapter for yourself, make sure the
 % chebfun guide directory is in your path and then type, for example,
 % `open(publish('guide1'))`.  The formatting may not be exactly 
