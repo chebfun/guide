@@ -1,10 +1,10 @@
 %% CHEBFUN GUIDE 3: ROOTFINDING AND MINIMA AND MAXIMA
-% Lloyd N. Trefethen, October 2009, latest revision December 2013
+% Lloyd N. Trefethen, October 2009, latest revision May 2014
 
-%% 3.1 roots
+%% 3.1 `roots`
 % Chebfun comes with a global rootfinding capability -- the ability to find
 % all the zeros of a function in its region of definition.  For example,
-% here is a polynomial with two roots in [-1,1]:
+% here is a polynomial with two roots in $[-1,1]$:
   x = chebfun('x');
   p = x.^3 + x.^2 - x;
   r = roots(p)
@@ -39,12 +39,12 @@
 
 %%
 % Chebfun finds roots by a method due to Boyd and Battles [Boyd 2002,
-% Battles 2006].  If the chebfun is of degree greater than 100, it is
+% Battles 2006].  If the chebfun is of degree greater than about $50$, it is
 % broken into smaller pieces recursively.  On each small piece zeros are
 % then found as eigenvalues of a "colleague matrix", the analogue for
 % Chebyshev polynomials of a companion matrix for monomials [Specht 1960,
 % Good 1961]. This method can be startlingly fast and accurate.  For
-% example, here is a sine function with 11 zeros:
+% example, here is a sine function with $11$ zeros:
   f = chebfun('sin(pi*x)',[0 10]);
   lengthf = length(f)
   tic, r = roots(f); toc
@@ -66,7 +66,7 @@
 
 %%
 % With the ability to find zeros, we can solve a variety of nonlinear
-% problems.  For example, where do the curves x and cos(x) intersect?  Here
+% problems.  For example, where do the curves $x$ and $\cos(x)$ intersect?  Here
 % is the answer.
   x = chebfun('x',[-2 2]);
   hold off, plot(x)
@@ -78,7 +78,7 @@
 %%
 % All of the examples above concern chebfuns consisting of a single fun.
 % If there are several funs, then roots are included at jumps as necessary.
-% The following example shows a chebfun with 26 pieces.  It has nine zeros:
+% The following example shows a chebfun with $26$ pieces.  It has nine zeros:
 % one within a fun, eight at jumps between funs.
   x = chebfun('x',[-2 2]);
   f = x.^3 - 3*x - 2 + sign(sin(20*x));
@@ -97,8 +97,8 @@
 % because a number of commands, when applied to smooth chebfuns, must
 % produce non-smooth results, and it is rootfinding that tells us where to
 % put the discontinuities. For example, the "abs" command introduces
-% breakpoints wherever the argument goes through zero.  Here we see that x
-% consists of a single piece, whereas abs(x) consists of two pieces.
+% breakpoints wherever the argument goes through zero.  Here we see that `x`
+% consists of a single piece, whereas `abs(x)` consists of two pieces.
   x = chebfun('x')
   absx = abs(x)
   subplot(1,2,1), plot(x,'.-')
@@ -107,15 +107,15 @@
 %%
 % We saw this effect already in Section 1.4.
 % Another similar effect shown in that section occurs with
-% min(f,g) or max(f,g).  Here, breakpoints are introduced
-% at points where f-g is zero:
+% `min(f,g)` or `max(f,g)`.  Here, breakpoints are introduced
+% at points where `f-g` is zero:
   f = min(x,-x/2), subplot(1,2,1), plot(f,'.-')
   g = max(.6,1-x.^2), subplot(1,2,2), plot(g,'.-'), ylim([.5,1])
 
 %%
-% The function "sign" also introduces breaks, as illustrated in the last
-% section. The commands "round", "floor", and "ceil" behave like this too.
-% For example, here is exp(x) rounded to nearest multiples of 0.5:
+% The function `sign` also introduces breaks, as illustrated in the last
+% section. The commands `round`, `floor`, and `ceil` behave like this too.
+% For example, here is $\exp(x)$ rounded to nearest multiples of $0.5$:
   g = exp(x);
   clf, plot(g)
   gh = 0.5*round(2*g);
@@ -157,13 +157,13 @@
   plot(maxima,h(maxima),'ok','markersize',12)
 
 %% 3.4 Global extrema: max and min
-% If "min" or "max" is applied to a single chebfun, it returns its global
+% If `min` or `max` is applied to a single chebfun, it returns its global
 % minimum or maximum.  For example:
   f = chebfun('1-x.^2/2');
   [min(f) max(f)]
 
 %%
-% Chebfun computes such a result by checking the values of f at all
+% Chebfun computes such a result by checking the values of `f` at all
 % endpoints and at zeros of the derivative.
 
 %%
@@ -200,16 +200,16 @@
   [extemevalues,extremepositions] = minandmax(f)
 
 %% 3.5 norm(f,1) and norm(f,inf)
-% The default, 2-norm form of the "norm" command was considered in Section
-% 2.2. In standard Matlab one can also compute 1-, infinity-, and Frobenius
-% norms with norm(f,1), norm(f,inf), and norm(f,'fro').  These have been
+% The default, $2$-norm form of the `norm` command was considered in Section
+% 2.2. In standard Matlab one can also compute $1$-, $\infty$-, and Frobenius
+% norms with `norm(f,1)`, `norm(f,inf)`, and `norm(f,'fro')`.  These have been
 % overloaded in Chebfun, and in the first two cases, rootfinding is part of
-% the implementation.  (The 2- and Frobenius norms are equal for a single
-% chebfun but differ for quasimatrices; see Chapter 6.) The 1-norm
-% norm(f,1) is the integral of the absolute value, and Chebfun computes
-% this by adding up segments between zeros, at which abs(f) will typically
-% have a discontinuous slope. The infinity-norm is computed from the
-% formula norm(f,inf) = max(max(f),-min(f));
+% the implementation.  (The $2$- and Frobenius norms are equal for a single
+% chebfun but differ for quasimatrices; see Chapter 6.) The $1$-norm
+% `norm(f,1)` is the integral of the absolute value, and Chebfun computes
+% this by adding up segments between zeros, at which $|f(x)|$ will typically
+% have a discontinuous slope. The $\infty$-norm is computed from the
+% formula $\|f\|_\infty = \max\{\max(f),-\min(f)\}$.
 
 %%
 % For example:
@@ -221,9 +221,9 @@
 % Chebfuns live on real intervals, and the funs from which they are made
 % live on real subintervals.  But a polynomial representing a fun may have
 % roots outside the interval of definition, which may be complex.
-% Sometimes we may want to get our hands on these roots, and the "roots"
-% command makes this possible in various ways through the flags 'all',
-% 'complex', and 'norecurse'.
+% Sometimes we may want to get our hands on these roots, and the `roots`
+% command makes this possible in various ways through the flags `'all'`,
+% `'complex'`, and `'norecursion'`.
 
 %%
 % The simplest example is a chebfun that is truly intended to
@@ -231,7 +231,7 @@
 f = 1+16*x.^2;
 
 %%
-% has no roots in [-1,1]:
+% has no roots in $[-1,1]$:
 roots(f)
 
 %%
@@ -252,10 +252,10 @@ roots(g)
 roots(g,'all')
 
 %%
-% Most of these are spurious. What has happened is that g is represented by
-% a polynomial chosen for its approximation properties on [-1,1].
+% Most of these are spurious. What has happened is that `g` is represented by
+% a polynomial chosen for its approximation properties on $[-1,1]$.
 % Inevitably that polynomial will have roots in the complex plane, even if
-% they have little to do with g.
+% they have little to do with `g`.
 
 %%
 % One cannot expect Chebfun to solve this problem perfectly -- after all,
@@ -270,14 +270,18 @@ roots(g,'complex')
 % We will not go into detail here of how this is done, but the idea is that
 % associated with any fun is a family of "Chebfun ellipses" in the complex
 % plane, with foci at the endpoints, inside which one may expect reasonably
-% good accuracy of the fun.  Assuming the interval is [-1,1] and the fun
-% has length L, the Chebfun ellipse associated with a parameter delta<<1 is
+% good accuracy of the fun.
+% Assuming the interval is $[-1,1]$ and the fun
+% has length $L$, the Chebfun ellipse associated with a parameter
+% $\delta\ll 1$ is
 % the region in the complex plane bounded by the image under the map
-% (z+1/z)/2 of the circle |z|=r, where r is defined by r^(-L)=delta.  (See
-% Chapter 8 of [Trefethen 2013].)  The command roots(g,'complex') first
-% effectively does roots(g,'all'), then returns only those roots lying
+% $(z+1/z)/2$ of the circle $|z|=r$, where $r$ is defined by
+% the condition $r^{-L}=\delta$.  (See
+% Chapter 8 of [Trefethen 2013].)  The command `roots(g,'complex')` first
+% effectively does `roots(g,'all')`, then returns only those roots lying
 % inside a particular Chebfun ellipse -- we take the one corresponding to
-% delta equal to the square root of the Chebfun tolerance parameter eps.
+% delta equal to the square root of the Chebfun tolerance
+% parameter `eps`.
 
 %%
 % One must expect complex roots of chebfuns to lose accuracy as one moves
@@ -286,9 +290,9 @@ roots(g,'complex')
   roots(f,'complex')
 
 %%
-% Notice that the first three imaginary roots are located with about 11, 8,
-% and 5 digits of accuracy, while the fourth does not appear in the list at
-% all.
+% Notice that the first three imaginary roots are located with about
+% $11$, $8$, and $5$ digits of accuracy,
+% while the fourth does not appear in the list at all.
 
 %%
 % Here is a more complicated example:
@@ -303,12 +307,12 @@ f = chebfun(F,[-100,100]);
 
 %%
 % If you are dealing with complex roots of complicated chebfuns like this,
-% it may be safer to add a flag 'nonrecurse' to the roots call, at the cost
+% it may be safer to add a flag `'norecursion'` to the roots call, at the cost
 % of slowing down the computation. This turns off the Boyd-Battles
 % recursion mentioned above, lowering the chance of missing a few roots
 % near interfaces of the recursion.  If we try that here we find that the
 % results look almost the same as before in a plot:
-r2 = roots(f,'complex','norecurse');
+r2 = roots(f,'complex','norecursion');
 hold on, plot(r,'om','markersize',8)
 
 %%
@@ -320,25 +324,30 @@ norm(F(r2))
 % To find poles in the complex plane as opposed to zeros, see Section 4.8.
 % More advanced methods of rootfinding and polefinding are based on
 % rational approximations rather than polynomials, an area where Chebfun
-% has significant capabilities; see the next chapter of this guide and
-% Chapter 28 of [Trefethen 2013].
+% has significant capabilities; see the next chapter of this guide,
+% Chapter 28 of [Trefethen 2013], and [Webb 2013].
 
 %% 3.7 References
 %
-% [Battles 2006] Z. Battles, Numerical Linear Algebra for
-% Continuous Functions, DPhil thesis, Oxford University
+% [Battles 2006] Z. Battles, _Numerical Linear Algebra for
+% Continuous Functions_, DPhil thesis, Oxford University
 % Computing Laboratory, 2006.
 %
 % [Boyd 2002] J. A. Boyd, "Computing zeros on a real interval
 % through Chebyshev expansion and polynomial rootfinding",
-% SIAM Journal on Numerical Analysis 40 (2002), 1666-1682.
+% _SIAM Journal on Numerical Analysis_ 40 (2002), 1666-1682.
 %
 % [Good 1961] I. J. Good, "The colleague matrix, a Chebyshev
-% analogue of the companion matrix", Quarterly Journal of 
-% Mathematics 12 (1961), 61-68.
+% analogue of the companion matrix", _Quarterly Journal of 
+% Mathematics_ 12 (1961), 61-68.
 %
 % [Specht 1960] W. Specht, "Die Lage der Nullstellen eines Polynoms.
-% IV", Mathematische Nachrichten 21 (1960), 201-222.
+% IV", _Mathematische Nachrichten_ 21 (1960), 201-222.
 %
-% [Trefethen 2013] L. N. Trefethen, Approximation Theory and
-% Approximation Practice, SIAM, 2013.
+% [Trefethen 2013] L. N. Trefethen, _Approximation Theory and
+% Approximation Practice_, SIAM, 2013.
+%
+% [Webb 2011] M. Webb, "Computing complex singularities of
+% differential equations with Chebfun",
+% _SIAM Undergraduate Research Online_, 6 (2013), 
+% http://dx.doi.org/10.1137/12S011520.

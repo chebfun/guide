@@ -1,5 +1,5 @@
 %% CHEBFUN GUIDE 2: INTEGRATION AND DIFFERENTIATION
-% Lloyd N. Trefethen, November 2009, latest revision December 2013
+% Lloyd N. Trefethen, November 2009, latest revision May 2014
 
 %% 2.1 sum
 % We have seen that the `sum` command returns the definite integral of a
@@ -106,18 +106,26 @@
 % large, but the integral comes out correct to full precision:
   length(f)
   sum(f)
-
+  
 %%
-% With splitting on, we get a much shorter chebfun since the narrow spike
-% is isolated; and the integral is the same:
+% With splitting on, Chebfun misses the narrowest spike, and
+% the integral comes out too small:
   f = chebfun(ff,[0,1],'splitting','on');
   length(f)
   sum(f)
 
 %%
-% Incidentally, if you are dealing with functions with narrow spikes like
-% this, it is a good idea to increase the value of "minsamples" as
-% described in Section 8.6.
+% We can fix the problem by forcing finer initial sampling in the
+% Chebfun constructor with the `minsamples' flag:
+  f = chebfun(ff,[0,1],'splitting','on','minsamples',100);
+  length(f)
+  sum(f)
+
+%%
+% Now the integral is correct again, and note that the length of
+% the chebfun is much smaller than with the original
+% global representation.  For more about `minsamples` see
+% Section 8.6.
 
 %%
 % As mentioned in Chapter 1 and described in more detail in Chapter 9,
@@ -364,7 +372,7 @@ toc
 
 %%
 % and we can plot the function without the need for `meshgrid`:
-contour(f2,-1:.2:1), grid on
+contour(f2,-1:.2:1), colorbar, grid on
 
 %% 2.6 Gauss and Gauss-Jacobi quadrature
 % For quadrature experts, Chebfun contains some powerful capabilities
