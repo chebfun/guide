@@ -320,21 +320,21 @@ text(45,1e-3,'C^{-N}','color','r','fontsize',16)
 % [Battles & Trefethen 2004], and all are discussed in [Trefethen 2013].
 % Let $f$ be a continuous function on $[-1,1]$, and let $p$ denote its
 % interpolant in $N$ Chebyshev points and $p^*$ its best degree
-% $N$ approximation
-% with respect to the maximum norm $\|\cdot\|$.
+% $N$ approximation with respect to the maximum norm $\|\cdot\|$.
 
 %%
 % The first theorem asserts that Chebyshev interpolants are "near-best"
 % [Ehlich & Zeller 1966].
 
 %%
-% *THEOREM 1.* $$ \|f-p^*\| \le (2+(2/\pi)\log(N)) \|f-p^*\|. $$
+% *THEOREM 1.*
+% \\[ \|f-p^\*\| \le (2+(2/\pi)\log(N)) \|f-p^\*\|. \\]
 
 %%
 % This theorem implies that even if $N$ is as large as $100,000$, one can lose
-% no more than one digit by using $p$ instead of $p^*$.  Whereas Chebfun will
-% readily compute such a $p$, it is unlikely that anybody
-% has ever computed a nontrivial $p^*$ for a value of $N$ so large.
+% no more than one digit by using $p$ instead of \\(p^\*\\). Whereas Chebfun
+% will readily compute such a $p$, it is unlikely that anybody has ever
+% computed a nontrivial $p^*$ for a value of $N$ so large.
 
 %%
 % The next theorem asserts that if $f$ is $k$ times differentiable, roughly
