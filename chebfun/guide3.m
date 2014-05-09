@@ -209,7 +209,7 @@
 % `norm(f,1)` is the integral of the absolute value, and Chebfun computes
 % this by adding up segments between zeros, at which $|f(x)|$ will typically
 % have a discontinuous slope. The $\infty$-norm is computed from the
-% formula $\|f\|_\infty = \max\{\max(f),-\min(f)\}$.
+% formula $\|f\|_\infty = \max(\max(f),-\min(f))$.
 
 %%
 % For example:
@@ -263,7 +263,7 @@ roots(g,'all')
 % continuation from the one to the other is well known to be an ill-posed
 % problem.  Nevertheless, Chebfun may do a pretty good job of selecting
 % genuine complex (and real) roots near the interval of definition if you
-% use the 'complex' flag:
+% use the `'complex'` flag:
 roots(g,'complex')
 
 %%
@@ -303,7 +303,7 @@ f = chebfun(F,[-100,100]);
 % This function has a lot of complex roots lying in strips on either side
 % of the real axis.
   r = roots(f,'complex');
-  hold off, plot(r,'.','markersize',6)
+  hold off, plot(r,'.','markersize',8)
 
 %%
 % If you are dealing with complex roots of complicated chebfuns like this,

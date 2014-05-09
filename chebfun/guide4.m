@@ -77,7 +77,7 @@
 % 4x^3 - 3x$.
 
 %%
-% Here are plots of T_2, T_3, T_15, and T_50.
+% Here are plots of $T_2$, $T_3$, $T_{15}$, and $T_{50}$.
   subplot(2,2,1), plot(chebpoly(2))
   subplot(2,2,2), plot(chebpoly(3))
   subplot(2,2,3), plot(chebpoly(15))
@@ -165,9 +165,9 @@ disp([cchebfun ctaylor])
 
 %%
 % We can examine the approximation qualities of Chebyshev interpolants by
-% means of a command of the form "chebfun(...,N)".  When an integer N is
+% means of a command of the form `chebfun(...,N)`.  When an integer $N$ is
 % specified in this manner, it indicates that a Chebyshev interpolant is to
-% be constructed of precisely length N rather than by the usual adaptive
+% be constructed of precisely length $N$ rather than by the usual adaptive
 % process.
 
 %%
@@ -253,7 +253,7 @@ err1000 = norm(f1000-fexact,inf)
 % Notice the clean linear decrease of the error as N increases.
 
 %%
-% If f is a bit smoother, polynomial approximation to machine precision
+% If $f$ is a bit smoother, polynomial approximation to machine precision
 % becomes practical:
   length(chebfun('abs(x).*x'))
   length(chebfun('abs(x).*x.^2'))
@@ -331,7 +331,7 @@ text(45,1e-3,'C^{-N}','color','r','fontsize',16)
 % *THEOREM 1.* $$ \|f-p^*\| \le (2+(2/\pi)\log(N)) \|f-p^*\|. $$
 
 %%
-% This theorem implies that even if $N$ is as large as $100,000$, one can lose
+% This theorem implies that even if $N$ is as large as 100,000, one can lose
 % no more than one digit by using $p$ instead of $p^*$.  Whereas Chebfun will
 % readily compute such a $p$, it is unlikely that anybody
 % has ever computed a nontrivial $p^*$ for a value of $N$ so large.
@@ -418,6 +418,7 @@ clf, plot(f,'b',p,'r'), grid on
 [p,err] = remez(f,20);
 plot(f-p,'m'), hold on
 plot([0 4],err*[1 1],'--k'), plot([0 4],-err*[1 1],'--k')
+ylim(1.5*err*[-1,1])
 
 %%
 % Let's add the error curve for the degree $20$ (i.e. $21$-point) Chebyshev
@@ -639,7 +640,7 @@ roots(q,'complex')
 % B. J. Kuijlaars, "Impossibility of fast stable approximation of analytic
 % functions from equispaced samples", _SIAM Review_, 53 (2011), 308-318.
 %
-% [Powell 1981] M. J. D. Powell, _`Approximation Theory and Methods_,
+% [Powell 1981] M. J. D. Powell, _Approximation Theory and Methods_,
 % Cambridge University Press, 1981.
 %
 % [Rack & Reimer 1982] H.-J. Rack and M. Reimer, "The numerical stability
