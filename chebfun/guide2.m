@@ -1,4 +1,4 @@
-%% CHEBFUN GUIDE 2: INTEGRATION AND DIFFERENTIATION
+%% Chebfun Guide 2: Integration and Differentiation
 % Lloyd N. Trefethen, November 2009, latest revision May 2014
 
 %% 2.1 sum

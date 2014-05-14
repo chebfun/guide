@@ -1,4 +1,4 @@
-%% CHEBFUN2 GUIDE 3: ROOTFINDING AND OPTIMISATION
+%% Chebfun2 Guide 3: Rootfinding and Optimisation
 % A. Townsend, March 2013
 
 %% 3.1 ZERO CONTOURS 

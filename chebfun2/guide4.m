@@ -1,4 +1,4 @@
-%% CHEBFUN2 GUIDE 4: COMPLEX-VALUED CHEBFUN2 OBJECTS
+%% Chebfun2 Guide 4: Complex-valued Chebfun2 Objects
 % A. Townsend, March 2013
 
 %% 4.1 ANALYTIC FUNCTIONS

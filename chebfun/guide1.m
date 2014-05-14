@@ -1,4 +1,4 @@
-%% CHEBFUN GUIDE 1: GETTING STARTED WITH CHEBFUN
+%% Chebfun Guide 1: Getting Started with Chebfun
 % Lloyd N. Trefethen, October 2009, latest revision May 2014
 
 %% 1.1  What is a chebfun?

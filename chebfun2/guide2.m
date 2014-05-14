@@ -1,4 +1,4 @@
-%% CHEBFUN2 GUIDE 2: INTEGRATION AND DIFFERENTIATION
+%% Chebfun2 Guide 2: Integration and Differentiation
 % A. Townsend, March 2013
  
 %% 2.1 SUM AND SUM2 

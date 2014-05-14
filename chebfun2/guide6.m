@@ -1,4 +1,4 @@
-%% CHEBFUN2 GUIDE 6: 2D SURFACES IN 3D SPACE
+%% Chebfun2 Guide 6: 2d Surfaces in 3D Space
 % A. Townsend, March 2013
 
 %% 6.1 REPRESENTING PARAMETRIC SURFACES
