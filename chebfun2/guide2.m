@@ -1,5 +1,5 @@
-%% CHEBFUN2 GUIDE 2: INTEGRATION AND DIFFERENTIATION
-% A. Townsend, March 2013, last updated May 2014
+%% Chebfun2 Guide 2: Integration and Differentiation
+% A. Townsend, March 2013
  
 %% 2.1 `sum` and `sum2`
 % We have already seen the `sum2` command, which returns the definite double

@@ -1,5 +1,5 @@
-%% CHEBFUN2 GUIDE 3: ROOTFINDING AND OPTIMISATION
-% A. Townsend, March 2013, last modified May 2014
+%% Chebfun2 Guide 3: Rootfinding and Optimisation
+% A. Townsend, March 2013
 
 %% 3.1 Zero contours 
 % Chebfun2 comes with the capability to compute the zero contours of a

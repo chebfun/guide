@@ -1,4 +1,4 @@
-%% CHEBFUN GUIDE 4: CHEBFUN AND APPROXIMATION THEORY
+%% Chebfun Guide 4: Chebfun and Approximation Theory
 % Lloyd N. Trefethen, November 2009, latest revision May 2014
 
 %% 4.1  Chebyshev series and interpolants
