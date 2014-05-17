@@ -4,7 +4,7 @@
 %% 1.1  What is a chebfun2?
 % A chebfun2 is a function of two variables defined on a rectangle
 % $[a,b]\times[c,d]$. The syntax for chebfun2 objects is similar to the syntax 
-% for matrices in Matlab, and Chebfun2 objects have many Matlab commands
+% for matrices in MATLAB, and Chebfun2 objects have many MATLAB commands
 % overloaded. For instance, `trace(f)` returns the sum of the diagonal entries
 % when $f$ is a matrix and the integral of $f(x,x)$ when $f$ is a chebfun2. 
 
@@ -35,7 +35,7 @@
 % vector valued functions, such as $[\exp(x+y);\cos(x-y)]$.  We represent 
 % vector valued functions as chebfun2v objects, and these are useful for
 % computations of vector calculus. For information about
-% chebfun2v objects and vector calculus, see Chapters 5 and 6 of this
+% chebfun2v objects and vector calculus, see Chapters 4 and 5 of this
 % guide.
 
 %% 1.3 Constructing chebfun2 objects
@@ -105,7 +105,7 @@ plot(fy)
 
 %%
 % The syntax for the `diff` command can cause confusion because we are
-% following the matrix syntax in Matlab. We also offer `diffx(f,k)` and 
+% following the matrix syntax in MATLAB. We also offer `diffx(f,k)` and 
 % `diffy(f,k)` which differentiate $f(x,y)$ $k$ times with respect
 % to the first first and second variable, respectively.
 
@@ -119,7 +119,7 @@ mean2(f)
 methods chebfun2
 
 %% 
-% Most of these commands have been overloaded from Matlab. 
+% Most of these commands have been overloaded from MATLAB. 
 % More information about a Chebfun2 command can be found with `help`; 
 % for instance
 help chebfun2/max2
@@ -136,13 +136,43 @@ y = chebfun2(@(x,y) y, [-2 3 -4 4]);
 f = 1./( 2 + cos(.25 + x.^2.*y + y.^2) );
 contour(f), axis square
 
-%% 1.7 What to do now
+%% 1.7 Analytic functions
+% An analytic function $f(z)$ can be thought of as a complex valued 
+% function of two real variables $f(x,y) = f(x+iy)$. If the Chebfun2 
+% constructor is given an anonymous function with one argument, 
+% it assumes that argument is a complex variable. For instance, 
+f = chebfun2(@(z) sin(z));   
+f(1+1i), sin(1+1i)           
+
+%% 
+% These functions can be visualised by using a technique known as phase
+% portrait plots. Given a complex number $z = re^{i\theta}$, the
+% phase $e^{i\theta}$ can be represented by a colour. We follow Wegert's colour 
+% recommendations [Wegert 2012]. Using red for a phase $i$, then yellow, 
+% green, blue, and violet as the phase moves clockwise around the unit 
+% circle. For example, 
+f = chebfun2(@(z) sin(z)-sinh(z),2*pi*[-1 1 -1 1]);
+plot(f)
+
+%% 
+% Many properties of analytic functions can be visualised by these types
+% of plots [Wegert 2012] such as the location of zeros and their multiplicities.
+% Can you work out the multiplicity of the root at z=0 from this plot?
+
+%%
+% At present, since Chebfun2 only represents smooth functions, a trick is
+% required to draw pictures like these for
+% functions with poles [Trefethen 2013].  
+% For functions with branch points or essential singularities, it is currently
+% not possible in Chebfun2 to draw phase plots.
+
+%% 1.8 What to do now
 % To find out more about Chebfun2 you can continue reading this guide, or 
 % have a look at the Chebfun2 Examples. This guide and the Chebfun2 
 % Examples are written as publishable m-files. For example, you can publish
 % this chapter of the guide by typing publish('guide1.m').   
 
-%% 1.8 References 
+%% 1.9 References 
 % 
 % [Bebendorf 2008] M. Bebendorf, _Hierarchical Matrices: A Means to 
 % Efficiently Solve Elliptic Boundary Value Problems_, Springer, 2008.
@@ -158,3 +188,10 @@ contour(f), axis square
 % [Townsend & Trefethen 2013b] A. Townsend and L. N. Trefethen, An extension
 % of Chebfun to two dimensions, _SIAM Journal on Scientific Computing_, 35
 % (2013), C495-C518.
+%
+% [Trefethen 2013] L. N. Trefethen, Phase Portraits for functions with poles, 
+% http://www2.maths.ox.ac.uk/chebfun/examples/complex/html/PortraitsWithPoles.shtml
+%
+% [Wegert 2012] E. Wegert, Visual Complex Functions: An Introduction with
+% Phase Portraits, Birkhauser/Springer, 2012
+

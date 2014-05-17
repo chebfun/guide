@@ -1,7 +1,7 @@
 %% CHEBFUN2 GUIDE 3: ROOTFINDING AND OPTIMISATION
-% A. Townsend, March 2013
+% A. Townsend, March 2013, last modified May 2014
 
-%% 3.1 ZERO CONTOURS 
+%% 3.1 Zero contours 
 % Chebfun2 comes with the capability to compute the zero contours of a
 % function of two variables. For example, we can compute a representation
 % of Trott's curve, an important example from algebraic geometry [Trott 1997].
@@ -21,7 +21,7 @@ r(:,1)
 % The zero contours of a function are computed by Chebfun2 to plotting
 % accuracy and they are typically not accurate to machine precision. 
 
-%% 3.2 ROOTS
+%% 3.2 `roots`
 % Chebfun2 also comes with the capability of finding zeros of bivariate
 % systems, i.e., the solutions to 
 %   $$f(x,y) = g(x,y) = 0.$$ 
@@ -45,7 +45,7 @@ axis([-1 1 -1 1]), axis square, hold off
 % The solution to bivariate polynomial systems and intersections of curves, are
 % typically computed to full machine precision.
 
-%% 3.3 INTERSECTIONS OF CURVES
+%% 3.3 Intersections of curves
 % The determination of the intersections of real parameterised complex curves can be expressed as a
 % bivariate rootfinding problem.  For instance, here are the intersections
 % between the 'splat' curve [Guettel Example 2010] and a 'figure-of-eight'
@@ -92,7 +92,7 @@ fprintf('minandmax2 command = %5.3fs\n',t)
 
 %%
 % For high accuracy the commands MIN2, MAX2, and MINANDMAX2 require the 
-% Optimisation Toolbox in Matlab. 
+% Optimisation Toolbox in MATLAB. 
 
 %% 3.5 CRITICAL POINTS
 % The critical points of smooth function of two variables can be located 
@@ -111,7 +111,7 @@ axis square
 % vector and represents it as a chebfun2v object.
 % The roots command then solves for the isolated roots of the bivariate 
 % polynomial system represented in the chebfun2v representing the gradient.  
-% For more information about the gradient command see Chapter 5 of this guide. 
+% For more information about the gradient command see Chapter 4 of this guide. 
  
 %% 3.6 INFINITY NORM
 % The infinity norm of a function is the maximum absolute value in its 
