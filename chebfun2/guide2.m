@@ -1,5 +1,5 @@
 %% Chebfun2 Guide 2: Integration and Differentiation
-% A. Townsend, March 2013
+% Alex Townsend, March 2013, last updated May 2014
  
 %% 2.1 `sum` and `sum2`
 % We have already seen the `sum2` command, which returns the definite double
@@ -13,7 +13,8 @@ sum(f)
 % A chebfun is returned because the result depends on $x$ and hence, is a 
 % function of one variable.  Similarly, we can integrate over the
 % $x$ variable, and we plot the result. 
-sum(f,2), plot(sum(f,2)) 
+LW = 'linewidth';
+sum(f,2), plot(sum(f,2),LW,1.6) 
 
 %% 
 % A closer look reveals that `sum(f)` returns a row
@@ -39,7 +40,8 @@ tic, I = sum2(chebfun2(F)); t = toc;
 fprintf('CHEBFUN2/SUM2:  I = %17.15f  time = %6.4f secs\n',I,t)
 
 %% 
-% Chebfun2 is not designed specifically for numerical quadrature, and
+% Chebfun2 is not designed specifically for numerical quadrature (or
+% more properly, "cubature"), and
 % careful comparisons with existing software have not been carried out.
 % Low rank function approximations have been previously used for numerical
 % quadrature by Carvajal, Chapman, and Geddes [Carvajal, Chapman & Geddes
@@ -54,7 +56,7 @@ norm(f), sqrt(sum2(f.^2))
 
 %%
 % Here is another example. This time we compute the norms of $f(x,y)$, 
-% $\cos(f(x,y))$, and the $f(x,y)^5$.
+% $\cos(f(x,y))$, and $f(x,y)^5$.
 f = chebfun2( @(x,y) exp(-1./( sin(x.*y) + x ).^2) );
 norm(f), norm( cos(f) ), norm( f.^5 )
 %% 
@@ -72,11 +74,12 @@ mean2(runge)
 % The command `mean` computes 
 % the average along one variable.  The output of `mean(f)` is a
 % function of one variable represented by a chebfun, and so we can plot it.
-plot(mean(runge)), title('Mean value of 2D Runge function wrt y')
+plot(mean(runge),LW,1.6)
+title('Mean value of 2D Runge function wrt y')
 
 %%
 % If we average over the $y$ variable and then the
-% $x$ variable, we obtain the mean value over the whole domain
+% $x$ variable, we obtain the mean value over the whole domain.
 mean(mean(runge))      % compare with mean2(runge)
 
 %% 2.3 `cumsum` and `cumsum2`
@@ -107,8 +110,10 @@ c = chebfun(@(t) cos(t)+1i*sin(t),[0 2*pi]); % one complex function
 
 %%
 % Here are two ways to make a plot of a circle.
-subplot(1,2,1), plot(c1,c2), axis equal, title('Two real-valued functions')
-subplot(1,2,2), plot(c), axis equal, title('One complex-valued function')
+subplot(1,2,1), plot(c1,c2,LW,1.6)
+axis equal, title('Two real-valued functions')
+subplot(1,2,2), plot(c,LW,1.6)
+axis equal, title('One complex-valued function')
 
 %%
 % This complex encoding trick is used in a number of places in 
@@ -124,7 +129,7 @@ subplot(1,2,2), plot(c), axis equal, title('One complex-valued function')
 % functionality. 
 
 %% 2.5 Integration along curves
-% We can compute the integral of $f(x,y)$ along a curve $(x(t),y(t))$. 
+% Chebfun2 can compute the integral of $f(x,y)$ along a curve $(x(t),y(t))$. 
 % It uses the complex encoding trick and encode the curve $(x(t),y(t))$ 
 % as a complex valued chebfun $x(t) + iy(t)$.
 % For instance, what is the area under the following curve? 
@@ -147,7 +152,7 @@ sum(f(C))
 help chebfun2/diff
 
 %%
-% Here we use `diff` to check that the Cauchy-Riemann equations hold for a 
+% Here we use `diff` to check that the Cauchy-Riemann equations hold for an 
 % analytic function. 
 f = chebfun2(@(x,y) sin(x+1i*y));   % a holomorphic function
 u = real(f); v = imag(f);           % real and imaginary parts
@@ -164,23 +169,15 @@ r = @(x,y,z) sqrt(x.^2 + y.^2 + z.^2);
 t = @(x,y,z) acos(z./r(x,y,z)); p = @(x,y,z) atan(y./x);
 f = @(x,y,z) sin(5*(t(x,y,z) - r(x,y,z))) .* sin(p(x,y,z)).^2;
 
-I = @(z) sum2(chebfun2(@(x,y) f(x,y,z),[-2 2 .5 2.5])); %integrate out x,y
+I = @(z) sum2(chebfun2(@(x,y) f(x,y,z),[-2 2 .5 2.5])); % integrate out x,y
 tic, I = sum(chebfun(@(z) I(z),[1 2],'vectorize')); t = toc;
-fprintf('Chebfun2:  I = %16.14f  time = %5.3f secs\n',I,t)
-tic, I = integral3(f,-2,2,.5,2.5,1,2); t = toc; % Compare against MATLAB
+fprintf(' Chebfun2:  I = %16.14f  time = %5.3f secs\n',I,t)
+tic, I = integral3(f,-2,2,.5,2.5,1,2); t = toc;         % compare with MATLAB
 fprintf('Integral3:  I = %16.14f  time = %5.3f secs\n',I,t)
 
-%% 2.8 More information
-% For more information about the algorithms used in Chebfun2,
-% see [Townsend & Trefethen 2013].
-
-%% 2.9 REFERENCES
+%% 2.9 References
 %
 % [Carvajal, Chapman & Geddes 2005] O. A. Carvajal, F. W. Chapman and 
 % K. O. Geddes, Hybrid symbolic-numeric integration in multiple dimensions 
 % via tensor-product series, _Proceedings of ISSAC'05_, M. Kauers, ed., 
-% ACM Press, 2005, pp.~84--91.
-%
-% [Townsend & Trefethen 2013] A. Townsend and L. N. Trefethen, An extension
-% of Chebfun to two dimensions, _SIAM Journal on Scientific Computing_, 35
-% (2013), C495-C518.
+% ACM Press, 2005, pp. 84--91.

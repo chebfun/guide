@@ -1,5 +1,5 @@
 %% Chebfun2 Guide 1: Getting Started
-% A. Townsend, March 2013, last updated May 2014
+% Alex Townsend, March 2013, last updated May 2014
 
 %% 1.1  What is a chebfun2?
 % A chebfun2 is a function of two variables defined on a rectangle
@@ -16,7 +16,7 @@
 
 %%
 % The implementation of Chebfun2 exploits the observation that many
-% functions of two variables can be well approximated by low rank approximants.
+% functions of two variables can be well approximable by low rank approximants.
 % A rank $1$ function is of the form $u(y)v(x)$, and a rank $k$ function can be
 % written as the sum of $k$ rank $1$ functions. Smooth functions tend to be 
 % well approximated by functions of low rank.  
@@ -24,26 +24,25 @@
 % by means of an algorithm that 
 % can be viewed as an iterative application of Gaussian elimination with 
 % complete pivoting [Townsend & Trefethen 2013]. 
-
-%% 
 % The underlying function representations are related to work by Carvajal, 
 % Chapman and Geddes [Carvajal, Chapman, & Geddes 2008] and others including
 % Bebendorf [Bebendorf 2008], Hackbusch, Khoromskij, Oseledets, and Tyrtyshnikov.
 
 %% 1.2 What is a chebfun2v?
 % Chebfun2 can represent scalar valued functions, such as $\exp(x+y)$, and
-% vector valued functions, such as $[\exp(x+y);\cos(x-y)]$.  We represent 
-% vector valued functions as chebfun2v objects, and these are useful for
+% vector valued functions, such as $[\exp(x+y);\cos(x-y)]$. 
+% A vector valued function is called a chebfun2v, and chebfun2v objects
+% are useful for
 % computations of vector calculus. For information about
 % chebfun2v objects and vector calculus, see Chapters 4 and 5 of this
 % guide.
 
 %% 1.3 Constructing chebfun2 objects
 % A chebfun2 is constructed by supplying the Chebfun2 constructor with a
-% function handle or string. The default rectangular domain of a chebfun2 is 
+% function handle or string. The default rectangular domain is 
 % $[-1,1]\times [-1,1]$. (An example showing how to specify a different domain is 
-% given at the end of this chapter.) For example, here we make a chebfun2
-% representing $\cos(xy)$ on $[-1,1]\times[-1,1]$ and then plot it. 
+% given at the end of this chapter.) For example, here we construct and
+% plot a chebfun2 representing $\cos(xy)$ on $[-1,1]\times[-1,1]$.
 f = chebfun2(@(x,y) cos(x.*y)); 
 plot(f), zlim([-2 2])
 
@@ -53,8 +52,8 @@ plot(f), zlim([-2 2])
 contour(f), axis square
 
 %%
-% One way to find the rank of the approximant used to represent $f$ is the
-% following:
+% One way to find the rank of the approximant used to represent $f$
+% like this:
 length(f)
 
 %%
@@ -94,9 +93,8 @@ f(:,pi/6)
 %% 
 % There are plenty of other questions that may be of interest.  For
 % instance, what are the zero contours of $f(x,y) - .95$? 
-%
-% r = roots(f-.95);
-% plot(r), axis square, title('Zero contours of f-.95')
+r = roots(f-.95);
+plot(r), axis square, title('Zero contours of f-.95')
 
 %%
 % What is the partial derivative $\partial f/\partial y$? 
@@ -106,8 +104,8 @@ plot(fy)
 %%
 % The syntax for the `diff` command can cause confusion because we are
 % following the matrix syntax in MATLAB. We also offer `diffx(f,k)` and 
-% `diffy(f,k)` which differentiate $f(x,y)$ $k$ times with respect
-% to the first first and second variable, respectively.
+% `diffy(f,k)`, which differentiate $f(x,y)$ with respect
+% to the first first and second variable $k$ times, respectively.
 
 %%
 % What is the mean value of $f(x,y)$ on $[-1,1]\times[-1,1]$? 
@@ -129,7 +127,7 @@ help chebfun2/max2
 % chebfun2 objects have been constructed explicitly via a command
 % of the form `chebfun2(...)`. Another way to construct new
 % chebfun2 objects is by composing them together with operations such as 
-% '+', '-', '.*', and '.^'. For instance,
+% `+`, `-`, `.*`, and `.^`. For instance,
 x = chebfun2(@(x,y) x, [-2 3 -4 4]); 
 y = chebfun2(@(x,y) y, [-2 3 -4 4]);   
 
@@ -138,7 +136,7 @@ contour(f), axis square
 
 %% 1.7 Analytic functions
 % An analytic function $f(z)$ can be thought of as a complex valued 
-% function of two real variables $f(x,y) = f(x+iy)$. If the Chebfun2 
+% function of two real variables, $f(x,y) = f(x+iy)$. If the Chebfun2 
 % constructor is given an anonymous function with one argument, 
 % it assumes that argument is a complex variable. For instance, 
 f = chebfun2(@(z) sin(z));   
@@ -148,7 +146,7 @@ f(1+1i), sin(1+1i)
 % These functions can be visualised by using a technique known as phase
 % portrait plots. Given a complex number $z = re^{i\theta}$, the
 % phase $e^{i\theta}$ can be represented by a colour. We follow Wegert's colour 
-% recommendations [Wegert 2012]. Using red for a phase $i$, then yellow, 
+% recommendations [Wegert 2012], using red for a phase $i$, then yellow, 
 % green, blue, and violet as the phase moves clockwise around the unit 
 % circle. For example, 
 f = chebfun2(@(z) sin(z)-sinh(z),2*pi*[-1 1 -1 1]);
@@ -156,7 +154,7 @@ plot(f)
 
 %% 
 % Many properties of analytic functions can be visualised by these types
-% of plots [Wegert 2012] such as the location of zeros and their multiplicities.
+% of plots [Wegert 2012], such as the location of zeros and their multiplicities.
 % Can you work out the multiplicity of the root at z=0 from this plot?
 
 %%
@@ -192,6 +190,6 @@ plot(f)
 % [Trefethen 2013] L. N. Trefethen, Phase Portraits for functions with poles, 
 % http://www2.maths.ox.ac.uk/chebfun/examples/complex/html/PortraitsWithPoles.shtml
 %
-% [Wegert 2012] E. Wegert, Visual Complex Functions: An Introduction with
-% Phase Portraits, Birkhauser/Springer, 2012
+% [Wegert 2012] E. Wegert, _Visual Complex Functions: An Introduction with
+% Phase Portraits_, Birkhauser/Springer, 2012
 
