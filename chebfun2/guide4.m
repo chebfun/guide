@@ -1,4 +1,4 @@
-%% CHEBFUN2 GUIDE 4: VECTOR CALCULUS
+%% Chebfun2 Guide 4: Vector Calculus
 % Alex Townsend, March 2013, last updated May 2014
 
 %% 4.1 What is a chebfun2v? 
