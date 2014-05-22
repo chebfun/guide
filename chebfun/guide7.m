@@ -1,4 +1,4 @@
-%% CHEBFUN GUIDE 7: LINEAR DIFFERENTIAL OPERATORS AND EQUATIONS
+%% Chebfun Guide 7: Linear Differential Operators and Equations
 % Tobin A. Driscoll, November 2009, last revised May 2014
 
 %% 7.1  Introduction
@@ -342,7 +342,8 @@ tic
 u = chebop(@(x,u) diff(u,2)+u,[-10,10],cos(10),cos(10))\0;
 toc
 error = u(5) - cos(5)
-cheboppref.setDefaults('factory')   % reset to standard mode
+cheboppref.setDefaults('factory')
+   % reset to standard mode
 
 %% 7.8 Block operators and systems of equations
 % Some problems involve several variables coupled together. In Chebfun,

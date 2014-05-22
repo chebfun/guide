@@ -1,4 +1,4 @@
-%% CHEBFUN GUIDE 9: INFINITE INTERVALS, INFINITE FUNCTION VALUES, AND SINGULARITIES
+%% Chebfun Guide 9: Infinite Intervals, Infinite Function Values, and Singularities
 % Lloyd N. Trefethen, November 2009, latest revision May 2014
 
 %%
