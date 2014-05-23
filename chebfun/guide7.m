@@ -98,7 +98,7 @@ L.op = @(x,u) cumsum(u);
 % For example, the indefinite integral of $x$ is $x^2/2$:
 x = chebfun('x',[0,1]);
 LW = 'linewidth';
-hold off, plot(L*x,LW,1.6), grid on
+hold off, plot(L*x,LW,2), grid on
 
 %%
 % Chebops can be specified in various ways, including all in a
@@ -129,7 +129,7 @@ L = chebop(@(x,u) diff(u)+diff(u,2),[-1,1],@(u) 0,@(u) diff(u))
 L = chebop(-3,3);
 L.op = @(x,u) diff(u,2) + x.^3.*u;
 L.lbc = 0; L.rbc = 0;
-u = L\1; plot(u,LW,1.6), grid on
+u = L\1; plot(u,LW,2), grid on
 
 %%
 % We confirm that the computed $u$ satisfies the differential equation to
@@ -141,7 +141,7 @@ norm(L(u)-1)
 % changes the solution:
 L.rbc = @(u) diff(u);
 u = L\1;
-hold on, plot(u,'r',LW,1.6)
+hold on, plot(u,'r',LW,2)
 
 %%
 % An equivalent to backslash is the `solvebvp` command.
@@ -157,58 +157,58 @@ norm(u-v)
 % hope to introduce this feature before long.
 L.bc = 'periodic';
 u = L\1;
-hold off, plot(u,LW,1.6), grid on
+hold off, plot(u,LW,2), grid on
 
 %%
-% A command like `L.bc=100` imposes the corresponding Dirichlet condition at
-% both ends of the domain:
+% A command like `L.bc=100` imposes the corresponding numerical Dirichlet
+% condition at both ends of the domain:
 L.bc = 100;
-plot(L\1,LW,1.6), grid on
+plot(L\1,LW,2), grid on
 
 %%
 % Boundary conditions can also be specified in a single line, as noted above:
-L = chebop(@(x,u) diff(u,2)+10000*u,[-1,1],0,@(u) diff(u));
+L = chebop( @(x,u) diff(u,2)+10000*u, [-1,1], 0, @(u) diff(u) );
 
 %%
 % Thus it is possible to set up and solve a differential equation
 % and plot the solution with a single line of Chebfun:
-plot(chebop(@(x,u) diff(u,2)+50*(1+sin(x)).*u,[-20,20],0,0)\1)
+plot( chebop(@(x,u) diff(u,2)+50*(1+sin(x)).*u,[-20,20],0,0) \ 1 )
 
 %%
 % When Chebfun solves differential or integral equations, the coefficients
-% may be piecewise smooth rather than globally smooth.
-% For example, here is a problem involving a
-% coefficient that jumps from $+1$ for $x<0$ to $-1$ for $x>0$:
+% may be piecewise smooth rather than globally smooth. For example, here is
+% a 2nd order problem involving a coefficient that jumps from $+1$
+% (oscillation) for $x<0$ to $-1$ (growth/decay) for $x>0$:
 L = chebop(-60,60);
 L.op = @(x,u) diff(u,2) - sign(x).*u;
 L.lbc = 1; L.rbc = 0;
 u = L\0;
-plot(u,LW,1.6), grid on
+plot(u,LW,2), grid on
 
 %%
 % Further examples of Chebfun solutions of differential equations
-% with discontinuous coefficients can be found in the `demos` tab
-% in `chebgui`.
+% with discontinuous coefficients can be found in the _Demos_ menu
+% of |chebgui|.
 
 %% 7.5 Eigenvalue problems -- `eigs`
-% In MATLAB, `eig` finds all the eigenvalues of a matrix whereas `eigs` finds
+% In MATLAB, |eig| finds all the eigenvalues of a matrix whereas |eigs| finds
 % some of them.  A differential or integral operator normally has
-% infinitely many eigenvalues, so one could not expect an overload of `eig`
-% for chebops.  `eigs`, however, has been overloaded.  Just like MATLAB `eigs`,
-% Chebfun `eigs` finds 6 eigenvalues by default, together with eigenfunctions
+% infinitely many eigenvalues, so one could not expect an analog of |eig|
+% for chebops.  |eigs|, however, has been overloaded.  Just like MATLAB |eigs|,
+% Chebfun |eigs| finds 6 eigenvalues by default, together with eigenfunctions
 % if requested.  (For details see [Driscoll, Bornemann & Trefethen
 % 2008].) Here is an example involving sine waves.
-L = chebop(@(x,u) diff(u,2),[0,pi]);
+L = chebop( @(x,u) diff(u,2), [0,pi] );
 L.bc = 0;
 [V,D] = eigs(L);
 diag(D)
-clf, plot(V(:,1:4)), ylim([-1 1])
+clf, plot(V(:,1:4),LW,2), ylim([-1 1])
 
 %%
-% By default, `eigs` tries to find the six eigenvalues whose eigenmodes are
+% By default, |eigs| tries to find the six eigenvalues whose eigenmodes are
 % "most readily converged to", which approximately means the smoothest
-% ones. You can change the number sought and tell `eigs` where to look for
-% them. Note, however, that you can easily confuse `eigs` if you ask for
+% ones. You can change the number sought and tell |eigs| where to look for
+% them. Note, however, that you can easily confuse |eigs| if you ask for
 % something unreasonable, like the largest eigenvalues of a differential
 % operator.
 
@@ -222,8 +222,8 @@ A.op = @(x,u) diff(u,2) - 2*q*cos(2*x).*u;
 A.bc = 'periodic';
 [V,D] = eigs(A,16,'LR');    % eigenvalues with largest real part
 d = diag(D); [d,ii] = sort(d,'descend'); V = V(:,ii');
-subplot(1,2,1), plot(V(:, 9),LW,1.6), ylim([-.8 .8]), title('elliptic cosine')
-subplot(1,2,2), plot(V(:,10),LW,1.6), ylim([-.8 .8]), title('elliptic sine')
+subplot(1,2,1), plot(V(:, 9),LW,2), ylim([-.8 .8]), title('elliptic cosine')
+subplot(1,2,2), plot(V(:,10),LW,2), ylim([-.8 .8]), title('elliptic sine')
 
 %%
 % `eigs` can also solve generalized eigenproblems, that is, problems of the
@@ -255,10 +255,10 @@ spectral_abscissa = max(real(lam))
 % use `expm` to solve the heat equation $u_t = u_{xx}$:
 A = chebop(@(x,u) diff(u,2),[-1,1],0);  
 f = chebfun('exp(-1000*(x+0.3).^6)');
-clf, plot(f,'r',LW,1.6), hold on, c = [0.8 0 0];
+clf, plot(f,'r',LW,2), hold on, c = [0.8 0 0];
 for t = [0.01 0.1 0.5]
   u = expm(A,t,f);
-  plot(u,'color',c,LW,1.6), c = 0.5*c;
+  plot(u,'color',c,LW,2), c = 0.5*c;
   ylim([-.1 1.1])
 end
 
