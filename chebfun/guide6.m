@@ -1,4 +1,4 @@
-%% CHEBFUN GUIDE 6: QUASIMATRICES AND LEAST-SQUARES
+%% Chebfun Guide 6: Quasimatrices and Least-Squares
 % Lloyd N. Trefethen, November 2009, latest revision May 2014
 
 %% 6.1  Quasimatrices and `spy`
