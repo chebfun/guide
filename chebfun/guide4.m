@@ -71,7 +71,7 @@
   end
 
 %%
-% Note that that output of `poly` follows the pattern for Matlab's standard
+% Note that that output of `poly` follows the pattern for MATLAB's standard
 % `poly` command: it is a row vector, and the high-order coefficients come
 % first. Thus, for example, the fourth row above tells us that $T_3(x) =
 % 4x^3 - 3x$.
@@ -217,7 +217,7 @@ end
 % [Helmberg & Wagner 1997].
 
 %% 4.4 Smoothness and rate of convergence
-% The centra dogma of approximation theory is this: the smoother
+% The central dogma of approximation theory is this: the smoother
 % the function, the faster the convergence as $N\to\infty$. What this means
 % for Chebfun is that so long as a function is twice continuously
 % differentiable, it can usually be approximated to machine precision for a
@@ -236,9 +236,9 @@ subplot(1,2,2), plot(f20,'.-'), ylim([0 1]), grid on
 %%
 % Chebfun has no difficulty computing interpolants of much higher order:
 f100 = chebfun('abs(x)',100);
-subplot(1,2,1), plot(f100), grid on
+subplot(1,2,1), plot(f100), ylim([0 1]), grid on
 f1000 = chebfun('abs(x)',1000);
-subplot(1,2,2), plot(f1000), grid on
+subplot(1,2,2), plot(f1000), ylim([0 1]), grid on
 
 %%
 % Such plots look good to the eye, but they do not achieve machine
@@ -328,7 +328,7 @@ text(45,1e-3,'C^{-N}','color','r','fontsize',16)
 
 %%
 % *THEOREM 1.*
-% \\[ \|f-p^\*\| \le (2+(2/\pi)\log(N)) \|f-p^\*\|. \\]
+% $$ \|f-p\| \le (2+(2/\pi)\log(N)) \|f-p^*\|. $$
 
 %%
 % This theorem implies that even if $N$ is as large as 100,000, one can lose
@@ -344,13 +344,13 @@ text(45,1e-3,'C^{-N}','color','r','fontsize',16)
 %%
 % *THEOREM 2*.  Let $f, f',\dots , f^{(k-1)}$ be absolutely continuous for
 % some $k \ge 1$, and let $f^{(k)}$ be a function of bounded variation.
-% Then $\|f-p^*\| = O(N^{-k})$ as $N \to\infty$.
+% Then $\|f-p\| = O(N^{-k})$ as $N \to\infty$.
 
 %%
 % Smoother than this would be a $C^\infty$ function, i.e. infinitely
 % differentiable, and smoother still would be a function analytic on
 % $[-1,1]$, i.e., one whose Taylor series at each point of $[-1,1]$ converges
-% at least in a small neighborhood of that point.  In such a case the
+% at least in a small neighborhood of that point.  For analytic functions the
 % convergence is geometric. The essence of the following theorem is due to
 % Bernstein in 1912, though I do not know where an explicit statement first
 % appeared in print.
@@ -358,7 +358,7 @@ text(45,1e-3,'C^{-N}','color','r','fontsize',16)
 %%
 % *THEOREM 3*.  If $f$ is analytic and bounded in the "Bernstein ellipse" of
 % foci $1$ and $-1$ with semimajor and semiminor axis lengths summing to $r$,
-% then $\|f-p^*\| = O(r^{-N})$ as $N \to\infty$.
+% then $\|f-p\| = O(r^{-N})$ as $N \to\infty$.
 
 %%
 % More precisely, if $|f(z)|\le  M$ in the ellipse, then the bound on the
@@ -371,8 +371,10 @@ text(45,1e-3,'C^{-N}','color','r','fontsize',16)
 % from $k=0$ to $k=N$ with both terms $k=0$ and $k=N$ multiplied by $1/2$.
 
 %%
-% *THEOREM 4*.  $$ p(x) = \sum '' (-1)^k f(x_k)/(x-x_k) /
-% \sum ''(-1)^k/(x-x_k). $$
+% *THEOREM 4*.
+%
+% $$ p(x) = \sum_{k=0}^N \mbox{''} {(-1)^k f(x_k)\over x-x_k} \left/
+% \sum_{k=0}^N \mbox{''}{(-1)^k\over x-x_k}. \right. $$
 
 %%
 % See [Berrut & Trefethen 2005] and [Trefethen 2013] for information about
@@ -418,7 +420,7 @@ clf, plot(f,'b',p,'r'), grid on
 [p,err] = remez(f,20);
 plot(f-p,'m'), hold on
 plot([0 4],err*[1 1],'--k'), plot([0 4],-err*[1 1],'--k')
-ylim(1.5*err*[-1,1])
+ylim(3*err*[-1,1])
 
 %%
 % Let's add the error curve for the degree $20$ (i.e. $21$-point) Chebyshev
@@ -446,8 +448,8 @@ ylim(2e-13*[-1 1])
 
 %%
 % CF approximation often comes close to optimal for non-smooth functions
-% too, provided you specify a fourth argument to tell the system on how
-% fine a Chebyshev grid to sample:
+% too, provided you specify a fourth argument to tell the system which
+% Chebyshev grid to use:
 f = abs(x-.3);
 [p,q,r_handle,lam] = cf(f,5,5,300);
 clf, plot(f-p./q,'c'), hold on
@@ -580,7 +582,7 @@ roots(q,'complex')
 % _Pade Approximants_, 2nd ed., Cambridge U. Press, 1996.
 %
 % [Battles & Trefethen 2004] Z. Battles and L. N. Trefethen, "An extension
-% of Matlab to continuous functions and operators", _SIAM Journal on
+% of MATLAB to continuous functions and operators", _SIAM Journal on
 % Scientific Computing_, 25 (2004), 1743-1770.
 %
 % [Berrut & Trefethen 2005] J.-P. Berrut and L. N. Trefethen, "Barycentric
@@ -599,13 +601,13 @@ roots(q,'complex')
 % 1963 and Dover, 1975.
 %
 % [Ehlich & Zeller 1966] H. Ehlich and K. Zeller, "Auswertung der Normen
-% von Interpolationsoperatoren," _Mathematische Annalen_, 164 (1966), 105-112.
+% von Interpolationsoperatoren", _Mathematische Annalen_, 164 (1966), 105-112.
 %
 % [Fox & Parker 1966] L. Fox and I. B. Parker,
 % _Chebyshev Polynomials in Numerical Analysis_, Oxford U. Press, 1968.
 %
 % [Helmberg & Wagner 1997] G. Helmberg & P. Wagner, "Manipulating Gibbs'
-% phenomenon for Fourier interpolation," _Journal of Approximation Theory_, 89
+% phenomenon for Fourier interpolation", _Journal of Approximation Theory_, 89
 % (1997), 308-320.
 %
 % [Higham 2004] N. J. Higham, "The numerical stability of barycentric
@@ -622,7 +624,7 @@ roots(q,'complex')
 % Polynomials_, CRC Press, 2003.
 %
 % [Mastroianni & Szabados 1995] G. Mastroianni and J. Szabados, "Jackson
-% order of approximation by Lagrange interpolation," _Acta
+% order of approximation by Lagrange interpolation", _Acta
 % Mathematica Hungarica_, 69 % (1995), 73-82.
 %
 % [Meinardus 1967] G. Meinardus, _Approximation of Functions: Theory and
@@ -630,7 +632,7 @@ roots(q,'complex')
 %
 % [Pachon, Gonnet & Van Deun 2012] R. Pachon, P Gonnet and J. Van Deun,
 % "Fast and stable rational interpolation in roots of unity and Chebyshev
-% points," _SIAM Journal on Numerical Analysis_, 50 (2011), 1713-1734.
+% points", _SIAM Journal on Numerical Analysis_, 50 (2011), 1713-1734.
 %
 % [Pachon & Trefethen 2009] R. Pachon and L. N. Trefethen,
 % "Barycentric-Remez algorithms for best polynomial approximation in the
@@ -658,7 +660,7 @@ roots(q,'complex')
 % points cos(nu pi/n), nu = 0(1)n; some unnoted advantages", _Computer
 % Journal_, 15 (1972),156-159.
 %
-% [Trefethen 2000] L. N. Trefethen, _Spectral Methods in Matlab_,  SIAM, 2000.
+% [Trefethen 2000] L. N. Trefethen, _Spectral Methods in MATLAB,  SIAM, 2000.
 %
 % [Trefethen 2013] L. N. Trefethen, _Approximation Theory and Approximation
 % Practice_, SIAM, 2013.
@@ -672,5 +674,5 @@ roots(q,'complex')
 % _BIT Numerical Mathematics_, 51 (2011), 1039-1050.
 %
 % [Webb, Trefethen & Gonnet 2012] M. Webb, L. N. Trefethen, and P. Gonnet,
-% "Stability of barycentric interpolation formulas for extrapolation,"
+% "Stability of barycentric interpolation formulas for extrapolation",
 % _SIAM Journal on Scientific Computing_, 34 (2013), A3009-A3015.

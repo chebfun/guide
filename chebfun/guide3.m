@@ -10,13 +10,14 @@
   r = roots(p)
 
 %%
-% We can plot p and its roots like this:
-  plot(p)
-  hold on, plot(r,p(r),'.r')
+% We can plot $p$ and its roots like this:
+  plot(p), grid on
+  MS = 'markersize';
+  hold on, plot(r,p(r),'.r',MS,20)
 
 %%
 % Of course, one does not need Chebfun to find roots of a polynomial. The
-% Matlab roots command works from a polynomial's coefficients and computes
+% MATLAB `roots` command works from a polynomial's coefficients and computes
 % estimates of all the roots, not just those in a particular interval.
   roots([1 1 -1 0])
 
@@ -29,8 +30,8 @@
   Bi = chebfun(@(x) airy(2,x),[-10,3]);
   hold off, plot(Ai,'r')
   hold on, plot(Bi,'b')
-  rA = roots(Ai); plot(rA,Ai(rA),'.r')
-  rB = roots(Bi); plot(rB,Bi(rB),'.b')
+  rA = roots(Ai); plot(rA,Ai(rA),'.r',MS,16)
+  rB = roots(Bi); plot(rB,Bi(rB),'.b',MS,16)
   axis([-10 3 -.6 1.5]), grid on
 
 %%
@@ -73,7 +74,7 @@
   f = cos(x);
   hold on, plot(f,'k')
   r = roots(f-x)
-  plot(r,f(r),'or')
+  plot(r,f(r),'or',MS,8)
 
 %%
 % All of the examples above concern chebfuns consisting of a single fun.
@@ -84,13 +85,13 @@
   f = x.^3 - 3*x - 2 + sign(sin(20*x));
   hold off, plot(f), grid on
   r = roots(f);
-  hold on, plot(r,0*r,'.r')
+  hold on, plot(r,0*r,'.r',MS,16)
   
 %%
 % If one prefers only the "genuine" roots, omitting those at jumps, they
 % can be computed like this:
   r = roots(f,'nojump');
-  plot(r,0*r,'.r','markersize',30)
+  plot(r,0*r,'.r',MS,30)
 
 %% 3.2 min, max, abs, sign, round, floor, ceil
 % Rootfinding is more central to Chebfun than one might at first imagine,
@@ -122,7 +123,7 @@
   hold on, plot(gh,'r');
   grid on
 
-%% 3.3 Local extrema: roots(diff(f))
+%% 3.3 Local extrema
 % Local extrema of smooth functions can be located by finding
 % zeros of the derivative.  For example, here is a variant of
 % the Airy function again, with all its extrema in its range of
@@ -133,7 +134,17 @@
   hold on, plot(r,f(r),'.r'), grid on
 
 %%
-% This method will find non-smooth extrema as well as smooth ones,
+% Chebfun users don't have to comute the derivative explicitly
+% to find extrema, however.  An alternative is to type
+  [ignored,r2] = minandmax(f,'local');
+
+%%
+% which returns both interior local extrema and also
+% the endpoints of `f`.
+% Similarly one can type `min(f,'local')` and `max(f,'local')`.
+
+%%
+% These methods will find non-smooth extrema as well as smooth ones,
 % since these correspond to "zeros" of the derivative where
 % the derivative jumps from one sign to the other.  Here is an
 % example.
@@ -145,16 +156,21 @@
 
 %%
 % Here are all the local extrema, smooth and nonsmooth:
-  extrema = roots(diff(h));
+  [ignored,extrema2] = minandmax(h,'local');
   hold on, plot(extrema,h(extrema),'.r')
 
 %%
 % Suppose we want to pick out the local extrema that are actually local
-% minima.  We can do that by checking for the second derivative to be
+% minima.  We can do that by hand by checking for the second derivative to be
 % positive:
   h2 = diff(h,2);
   maxima = extrema(h2(extrema)>0);
-  plot(maxima,h(maxima),'ok','markersize',12)
+  plot(maxima,h(maxima),'ok',MS,12)
+
+%%
+% Or we could do it implicitly with `local`,
+  [maxval,maxpos] = min(h,'local')
+  plot(maxpos,maxval,'.k',MS,24)
 
 %% 3.4 Global extrema: max and min
 % If `min` or `max` is applied to a single chebfun, it returns its global
@@ -167,14 +183,14 @@
 % endpoints and at zeros of the derivative.
 
 %%
-% As with standard Matlab, one can find the location of the extreme point
+% As with standard MATLAB, one can find the location of the extreme point
 % by supplying two output arguments:
 
   [minval,minpos] = min(f)
 %%
 % Note that just one position is returned even though the minimum is
 % attained at two points.  This is consistent with the behavior of standard
-% Matlab.
+% MATLAB.
 
 %%
 % This ability to do global 1D optimization in Chebfun is rather
@@ -189,19 +205,19 @@
   [minval,minpos] = min(f)
   [maxval,maxpos] = max(f)
   hold on
-  plot(minpos,minval,'.b','markersize',30)
-  plot(maxpos,maxval,'.r','markersize',30)
+  plot(minpos,minval,'.b',MS,30)
+  plot(maxpos,maxval,'.r',MS,30)
 
 %%
 % For larger chebfuns, it is inefficient to compute the global minimum and
 % maximum separately like this -- each one must compute the derivative and
-% find all its zeros. An alternative code is offered that computes both at
-% once:
-  [extemevalues,extremepositions] = minandmax(f)
+% find all its zeros. The alternative `minandmax` code shown above
+% provides a faster alternative:
+  [extremevalues,extremepositions] = minandmax(f)
 
 %% 3.5 norm(f,1) and norm(f,inf)
 % The default, $2$-norm form of the `norm` command was considered in Section
-% 2.2. In standard Matlab one can also compute $1$-, $\infty$-, and Frobenius
+% 2.2. In standard MATLAB one can also compute $1$-, $\infty$-, and Frobenius
 % norms with `norm(f,1)`, `norm(f,inf)`, and `norm(f,'fro')`.  These have been
 % overloaded in Chebfun, and in the first two cases, rootfinding is part of
 % the implementation.  (The $2$- and Frobenius norms are equal for a single
@@ -303,7 +319,7 @@ f = chebfun(F,[-100,100]);
 % This function has a lot of complex roots lying in strips on either side
 % of the real axis.
   r = roots(f,'complex');
-  hold off, plot(r,'.','markersize',8)
+  hold off, plot(r,'.',MS,8)
 
 %%
 % If you are dealing with complex roots of complicated chebfuns like this,
@@ -313,7 +329,7 @@ f = chebfun(F,[-100,100]);
 % near interfaces of the recursion.  If we try that here we find that the
 % results look almost the same as before in a plot:
 r2 = roots(f,'complex','norecursion');
-hold on, plot(r,'om','markersize',8)
+hold on, plot(r,'om',MS,8)
 
 %%
 % However, the accuracy has improved:
@@ -335,14 +351,14 @@ norm(F(r2))
 %
 % [Boyd 2002] J. A. Boyd, "Computing zeros on a real interval
 % through Chebyshev expansion and polynomial rootfinding",
-% _SIAM Journal on Numerical Analysis_ 40 (2002), 1666-1682.
+% _SIAM Journal on Numerical Analysis_, 40 (2002), 1666-1682.
 %
 % [Good 1961] I. J. Good, "The colleague matrix, a Chebyshev
 % analogue of the companion matrix", _Quarterly Journal of 
-% Mathematics_ 12 (1961), 61-68.
+% Mathematics_, 12 (1961), 61-68.
 %
 % [Specht 1960] W. Specht, "Die Lage der Nullstellen eines Polynoms.
-% IV", _Mathematische Nachrichten_ 21 (1960), 201-222.
+% IV", _Mathematische Nachrichten_, 21 (1960), 201-222.
 %
 % [Trefethen 2013] L. N. Trefethen, _Approximation Theory and
 % Approximation Practice_, SIAM, 2013.

@@ -75,7 +75,8 @@ subplot(1,2,2), plot(z.^2), axis equal, grid on
 
 %% 5.2 Analytic functions and conformal maps
 % A function is *analytic* if it is differentiable in the complex sense, or
-% equivalently, if it has a convergent Taylor series near each point.
+% equivalently, if it has a convergent Taylor series near each point in
+% its domain of definition.
 % Analytic functions do interesting things in the complex plane. In
 % particular, away from points where the derivative is zero, they are
 % *conformal maps*, which means that though they may scale and rotate an
@@ -111,7 +112,7 @@ hold on, plot(exp(X),'r',LW,lw2)
     S = [S d+1i*x 1i*d+x];      % add 2 more lines to the collection
   end
   clf,
-  % subplot(1,2,1), plot(S), axis equal
+  subplot(1,2,1), plot(S), axis equal
   
 
 %%
@@ -122,10 +123,10 @@ hold on, plot(exp(X),'r',LW,lw2)
 %%
 % Here is a sequence that puts all three images together on a single scale:
   clf
-% plot(S), hold on
-% plot(1.6+exp(S))
-% plot(6.6+tan(S))
-% axis equal, axis off
+  plot(S), hold on
+  plot(1.6+exp(S))
+  plot(6.6+tan(S))
+  axis equal, axis off
 
 %%
 % A particularly interesting set of conformal maps are the *Moebius
@@ -133,7 +134,7 @@ hold on, plot(exp(X),'r',LW,lw2)
 % constants $a,b,c,d$.  For example, here is a square and its image under the
 % map $w = 1/(1+z)$, and the image of the image under the same map, and the
 % image of the image of the image.  We also plot the limit point given by
-% the equation $z = 1/(1+z)$, i.e., $z = (sqrt(5)-1)/2$.
+% the equation $z = 1/(1+z)$, i.e., $z = (\sqrt{5}-1)/2$.
 moebius = @(z) 1./(1+z);
 s = chebfun(@(s) s,[0 1]);
 S = join(-.5i+s, 1-.5i+1i*s, 1+.5i-s, .5i-1i*s);
@@ -238,7 +239,8 @@ I3 = sum(f.*diff(z))/(2i*pi)
 
 %%
 % In Chebfun one can also construct more interesting contours of the kind
-% that appear in complex variables texts.  Here is an example:
+% that appear in complex variables texts.  Here is an example involving
+% a "keyhole" contour:
   c = [-2+.05i, -.2+.05i, -.2-.05i, -2-.05i];    % 4 corners
   s = chebfun('s',[0 1]);
   z = join(c(1)+s*(c(2)-c(1)), c(2)*c(3).^s./c(2).^s, ...
@@ -280,12 +282,12 @@ B10 = factorial(k)*sum((f./z.^(k+1)).*diff(z))/(2i*pi)
 % in specified regions.  According to the *principle of the argument*, the
 % number of zeros minus the number of poles of $f$ in a region is
 %
-% $$ N = {1\over 2\pi i} \int { f'(z) dz \over f(z)} $$
+% $$ N = {1\over 2\pi i} \int { f'(z) \over f(z)} dz, $$
 %
 % where the integral is taken over the boundary.  Since $f' = df/dz =
 % (df/ds)(ds/dz)$, we can rewrite this as
 %
-% $$ N = {1\over 2\pi i} \int {df\over f ds} ds. $$
+% $$ N = {1\over 2\pi i} \int {1\over f} {df\over ds} ds. $$
 %
 % For example, the function $f(z) = \sin(z)^3 + \cos(z)^3$ clearly has no
 % poles; how many zeros does it have in the disk about $0$ of radius $2$? The
@@ -349,11 +351,11 @@ plot(exp(3i*f),'m',LW,lw), ylim(1.2*[-1 1]), axis equal
 %%
 % Does putting a box around enhance the image? (We do this by adding a
 % second column of a Chebfun quasimatrix -- see Chapter 6.)
-%L = f.ends(end);
-%s = chebfun(@(x) 2*x+2,[-1 -0.5]);
-%box = join(-1.1-.05i+2.2*s,1.1-.05i+.22i*s,1.1+.17i-2.2*s,-1.1+.17i-.22i*s);
-%f = [f box];
-%plot(f,LW,lw), xlim(1.2*[-1 1]), axis equal
+L = f.ends(end);
+s = chebfun(@(x) 2*x+2,[-1 -0.5]);
+box = join(-1.1-.05i+2.2*s,1.1-.05i+.22i*s,1.1+.17i-2.2*s,-1.1+.17i-.22i*s);
+f = [f box];
+plot(f,LW,lw), xlim(1.2*[-1 1]), axis equal
 
 %%
 clf, plot(exp((1+.2i)*f),LW,lw), axis equal, axis off
@@ -382,7 +384,7 @@ axis auto equal off
 %
 % [Austin, Kravanja & Trefethen 2013] A. P. Austin, P. Kravanja and
 % L. N. Trefethen, "Numerical algorithms based on analytic function
-% values at roots of unity," _SIAM Journal on Numerical Analysis_, to appear.
+% values at roots of unity", _SIAM Journal on Numerical Analysis_, to appear.
 %
 % [Bornemann 2009] F. Bornemann, "Accuracy and stability of computing
 % high-order derivatives of analytic functions by Cauchy integrals",
