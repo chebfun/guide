@@ -40,11 +40,11 @@
 
   %%
 % It is interesting to compare the times involved in evaluating this number
-% in various ways.  Matlab's specialized erf code is the fastest:
+% in various ways.  MATLAB's specialized erf code is the fastest:
   tic, erf(1), toc
 
   %%
-% Using Matlab's various quadrature commands
+% Using MATLAB's various quadrature commands
 % is understandably slower:
   tol = 3e-14;
   tic, I = quad(F,0,1,tol); t = toc;
@@ -116,7 +116,7 @@
 
 %%
 % We can fix the problem by forcing finer initial sampling in the
-% Chebfun constructor with the `minsamples' flag:
+% Chebfun constructor with the `minsamples` flag:
   f = chebfun(ff,[0,1],'splitting','on','minsamples',100);
   length(f)
   sum(f)
@@ -146,7 +146,7 @@
 % capabilities. Nevertheless Chebfun compares reasonably well as a
 % quadrature engine against specialized software.  This was the conclusion
 % of an Oxford MSc thesis by Phil Assheton [Assheton 2008], which compared
-% Chebfun experimentally to quadrature codes including Matlab's `quad` and
+% Chebfun experimentally to quadrature codes including MATLAB's `quad` and
 % `quadl`, Gander and Gautschi's `adaptsim` and `adaptlob`, Espelid's `modsim`,
 % `modlob`, `coteda`, and `coteglob`, QUADPACK's `QAG` and `QAGS`, and the NAG
 % Library's `d01ah`.  In both reliability and speed, Chebfun was found to be
@@ -179,7 +179,7 @@
   norm(f), norm(f.^10)
 
 %% 2.3 cumsum
-% In Matlab, "cumsum" gives the cumulative sum of a 
+% In MATLAB, `cumsum` gives the cumulative sum of a 
 % vector,
   v = [1 2 3 5]
   cumsum(v)
@@ -247,11 +247,11 @@
 
 %%
 % The `mean`, `std`, and `var` commands have also been overloaded for
-% chebfuns and are based on integrals.  For example
+% chebfuns and are based on integrals.  For example,
   mean(chebfun('cos(x).^2',[0,10*pi]))
 
 %% 2.4 diff
-% In Matlab, `diff` gives finite differences of a vector:
+% In MATLAB, `diff` gives finite differences of a vector:
   v = [1 2 3 5]
   diff(v)
 
@@ -266,17 +266,17 @@
 % If the derivative of a function with a jump is computed, then a delta
 % function is introduced. Consider for example this function defined
 % piecewise:
-  f = chebfun({@(x) x.^2, @(x) 1+0*x, @(x) 4-x, @(x) 4./x},0:4);
+  f = chebfun({@(x) x.^2, 1, @(x) 4-x, @(x) 4./x},0:4);
   hold off, plot(f)
 
 %%
 % Here is the derivative:
   fprime = diff(f);
-% plot(fprime,'r'), ylim([-2,3])
+  plot(fprime,'r'), ylim([-2,3])
 
 %%
 % The first segment of $f'$ is linear, since $f$ is quadratic here. Then comes
-% a segment with $f' = 0$, since $f$ is constant. And the end of this second
+% a segment with $f' = 0$, since $f$ is constant. At the end of this second
 % segment appears a delta function of amplitude $1$, corresponding to the
 % jump of $f$ by $1$.
 % The third segment has constant value $f' = -1$. Finally another
@@ -290,7 +290,7 @@
   norm(f-diff(cumsum(f)))
 
 %%
-% More surprising is that integrating a derivative does the same, so long
+% More surprising is that integrating a derivative does the same, as long
 % as we add in the value at the left endpoint:
   d = domain(f);
   f2 = f(d(1)) + cumsum(diff(f));
@@ -316,9 +316,10 @@
   length(f)
 
 %%
-% Since $f$ is a polynomial of low degree, it cannot help but lose
-% information rather fast as we differentiate, and $15$ differentiations
-% eliminate the function entirely.
+% Differentiation is a notoriously ill-posed problem, and
+% since $f$ is a polynomial of low degree, it cannot help but lose
+% information rather fast as we differentiate.  In fact,
+% differentiating $15$ times eliminates the function entirely.
   for j = 0:length(f)
     fprintf('%6d %19.12f\n', j,f(1))
     f = diff(f);
@@ -352,7 +353,7 @@
   fprintf('CHEBFUN:  I = %16.14f  time = %5.3f secs\n',I,t)
 
 %%
-% Here for comparison is Matlab's
+% Here for comparison is MATLAB's
 % `dblquad/quadl` with a tolerance of $10^{-11}$:
   tic, I = dblquad(f,-2,2,0.5,2.5,1e-11,@quadl); t = toc;
   fprintf('DBLQUAD/QUADL:  I = %16.14f  time = %5.3f secs\n',I,t)
@@ -433,22 +434,21 @@ contour(f2,-1:.2:1), colorbar, grid on
 % Computing, Oxford University, 2008.
 %
 % [Espelid 2003] T. O. Espelid, "Doubly adaptive quadrature routines
-% based on Newton-Cotes rules," _BIT Numerical Mathematics_ 43 (2003),
+% based on Newton-Cotes rules", _BIT Numerical Mathematics_ 43 (2003),
 % 319-337.
 %
 % [Gentleman 1972] W. M. Gentleman, "Implementing Clenshaw-Curtis
 % quadrature I and II", _Journal of the ACM_ 15 (1972), 337-346 and 353.
 %
 % [Golub & Welsch 1969] G. H. Golub and J. H. Welsch, "Calculation of Gauss
-% quadrature rules," _Mathematics of Computation_ 23 (1969), 221-230.
+% quadrature rules", _Mathematics of Computation_ 23 (1969), 221-230.
 %
 % [Gonnet 2009] P. Gonnet, _Adaptive Quadrature Re-Revisited_, ETH
 % dissertation no. 18347, Swiss Federal Institute of Technology, 2009.
 %
 % [Hale & Townsend 2013] N. Hale and A. Townsend,
 % Fast and accurate computation of Gauss-Legendre and Gauss-Jacobi
-% quadrature
-% nodes and weights, _SIAM Journal on Scientific Compputing_
+% quadrature nodes and weights, _SIAM Journal on Scientific Computing_
 % 35 (2013), A652-A674.
 %
 % [Hale & Trefethen 2012] N. Hale and L. N. Trefethen,

@@ -3,8 +3,8 @@
 
 %% 1.1  What is a chebfun?
 % A chebfun is a function of one variable defined on an interval $[a,b]$. The
-% syntax for chebfuns is almost exactly the same as the usual Matlab syntax
-% for vectors, with the familiar Matlab commands for vectors overloaded in
+% syntax for chebfuns is almost exactly the same as the usual MATLAB syntax
+% for vectors, with the familiar MATLAB commands for vectors overloaded in
 % natural ways. Thus, for example, whereas `sum(f)` returns the sum of the
 % entries when `f` is a vector, it returns a definite integral when `f` is a
 % chebfun.
@@ -60,7 +60,7 @@
 % This Guide is based on Chebfun Version 5, released
 % in 2014.  Chebfun is available at
 % http://www.maths.ox.ac.uk/chebfun/, and an earlier version of the Guide
-% for Version 4 can found there.
+% for Version 4 can be found there.
 
 %% 1.2  Constructing simple chebfuns
 % The `chebfun` command constructs a chebfun from a specification such as a
@@ -170,10 +170,10 @@
   help chebfun/sum
 
 %%
-% Most of the commands in the list exist in ordinary Matlab; some
+% Most of the commands in the list exist in ordinary MATLAB; some
 % exceptions are `domain`, `restrict`, `chebpoly`, and `remez`.
 % We have already seen `length` and `sum` in action.  In fact we have
-% already seen `subsref` too, since that is the Matlab command for (among
+% already seen `subsref` too, since that is the MATLAB command for (among
 % other things) evaluating arguments in parentheses.
 %  Here is another example of its use:
   f(0.5)
@@ -185,7 +185,7 @@
 %% 
 % In this Runge function example, we have also implicitly seen `times`,
 % `plus`, `power`, and `rdivide`, all of which have been overloaded from
-% their usual Matlab uses to apply to chebfuns.
+% their usual MATLAB uses to apply to chebfuns.
 
 %%
 % In the next part of this tour we shall explore many of these commands
@@ -238,7 +238,7 @@
 % specifies three functions $x^2$, $1$, and $4-x$, together with a vector of
 % endpoints indicating that the first function applies on $[-1,1]$, the
 % second on $[1,2]$, and the third on $[2,4]$:
-  f = chebfun({@(x) x.^2, @(x) 1+0*x, @(x) 4-x},[-1 1 2 4]);
+  f = chebfun({@(x) x.^2, 1, @(x) 4-x},[-1 1 2 4]);
   plot(f)
 
 %%
@@ -292,15 +292,13 @@
 % this may be desirable or undesirable depending on the application.  For
 % example, considering $\sin(x)$ over $[0,1000]$ with splitting on, we end up
 % with a chebfun with many pieces:
-  tic, f = chebfun('sin(x)',[0 1000*pi],'splitting','on'); toc
-  disp(f)
+  tic, f = chebfun('sin(x)',[0 1000*pi],'splitting','on'), toc
 
 %%
 % In this case it is more efficient -- and more interesting mathematically
 % -- to omit the splitting and construct one global chebfun:
 
-  tic, f2 = chebfun('sin(x)',[0 1000*pi]); toc
-  disp(f2)
+  tic, f2 = chebfun('sin(x)',[0 1000*pi]), toc
 
 %% 1.5  Infinite intervals and infinite function values
 % A major change from Chebfun Version 2 to Version 3 was the generalization of
@@ -326,9 +324,9 @@
 
 %%
 % Here is an example of a function that diverges to infinity,
-% which we can capture by including the flag `'blowup 2'` (try help chebfun
-% for details):
-  h = chebfun('(1/pi)./sqrt(1-x.^2)','blowup',2);
+% which we can capture with the `'exps'` flag; see Chapter 7
+% for details:
+  h = chebfun('(1/pi)./sqrt(1-x.^2)','exps',[-.5 -.5]);
   plot(h)
 
 %%
@@ -339,7 +337,7 @@
 % For more on the treatment of infinities in Chebfun, see Chapter 9.
 
 %% 1.6  Rows, columns, and quasimatrices
-% Matlab doesn't only deal with column vectors: there are also row vectors
+% MATLAB doesn't only deal with column vectors: there are also row vectors
 % and matrices.  The same is true of Chebfun. The chebfuns shown so far
 % have all been in column orientation, which is the default, but one can
 % also take the transpose, compute inner products, and so on:
@@ -363,17 +361,17 @@
 % Chapter 6.
 
 %% 1.7  How this Guide is produced
-% This guide is produced in Matlab using the "publish" command with a 
-% style sheet somewhat different from the usual; the output of publish
+% This guide is produced in MATLAB using the `publish` command with a 
+% style sheet somewhat different from the usual; the output of `publish`
 % is then processed by Markdown.
 % To publish a chapter for yourself, make sure the
 % chebfun guide directory is in your path and then type, for example,
 % `open(publish('guide1'))`.  The formatting may not be exactly 
-% right but it should certainly be legible.
+% right but it should certainly be intelligible.
 
 %% 1.8  References
 % [Battles & Trefethen 2004] Z. Battles and L. N. Trefethen, "An extension
-% of Matlab to continuous functions and operators", _SIAM Journal on
+% of MATLAB to continuous functions and operators", _SIAM Journal on
 % Scientific Computing_ 25 (2004), 1743-1770.
 % 
 % [Berrut & Trefethen 2005] J.-P. Berrut and L. N. Trefethen, "Barycentric
