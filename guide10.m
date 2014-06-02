@@ -1,4 +1,4 @@
-%% 10. Nonlinear ODEs and ChebGUI
+%% 10. Nonlinear ODEs and Chebgui
 % Lloyd N. Trefethen, November 2009, revised February 2011
 
 %%
@@ -390,7 +390,7 @@ cheboppref.setDefaults('display','none')
 %% 10.5 Graphical User Interface: CHEBGUI
 % Chebfun includes a GUI (Graphical User Interface) for solving all kinds of
 % ODE, time-dependent PDE, and eigenvalue problems interactively. We will not
-% describe it here but encourange the reader to type chebgui and give it a try.
+% describe it here, but we encourage the reader to type `chebgui` and give it a try.
 % Be sure to note the "Demo" menu, which contains dozens of preloaded examples,
 % both scalars and systems. Perhaps most important of all is the "Export to
 % m-file" button, which produces a Chebfun m-file corresponding to whatever
