@@ -216,11 +216,12 @@ plot(dvdu*x, LW, lw)
 % command f=diag(dvdu).)  This will not be true of dw/dv, however.  If w =
 % u+diff(v), then w+dw = u+diff(v+dv), so dw/dv must be the differentiation
 % operator with respect to the variable x:
-dwdv = diff(w,v);
+
+% dwdv = diff(w,v); TODO: Remove?
 
 %%
 % We can verify for example that dwdv*x is 1:
-plot(dwdv*x,LW,lw)
+%plot(dwdv*x,LW,lw) TODO: Remove?
 
 %%
 % What about dw/du?  Here we must think a little more carefully and compute
@@ -243,9 +244,9 @@ norm(dwdu*x - (x+15*x.^4))
 % derivative) of any chebfun with respect to any other chebfun.  We use use the
 % overload "spy" command to see at a glance that the first of our Frechet
 % derivaties is a multiplier operator while the others are non-diagonal:
-subplot(1,3,1), spy(dvdu), title dvdu
+subplot(1,3,2), spy(dvdu), title dvdu
 %TODO: Remove? subplot(1,3,2), spy(dwdv), title dwdv
-subplot(1,3,3), spy(dwdu), title dwdu
+subplot(1,3,2), spy(dwdu), title dwdu
 
 %%
 % We now look at how AD enables Chebfun users to solve nonlinear ODE
