@@ -156,7 +156,7 @@
 
 %%
 % Here are all the local extrema, smooth and nonsmooth:
-  [ignored,extrema2] = minandmax(h,'local');
+  [ignored,extrema] = minandmax(h,'local');
   hold on, plot(extrema,h(extrema),'.r')
 
 %%
