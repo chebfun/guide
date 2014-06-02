@@ -369,7 +369,7 @@ semilogy(nrmdu,'.-k',LW,lw), ylim([1e-14,1e2])
 cheboppref.setDefaults('plotting','on')
 %%
 % or
-cheboppref.setDefault('display','iter')
+cheboppref.setDefaults('display','iter')
 
 %%
 % Type help cheboppref for details.  Here we shall not pursue this option
