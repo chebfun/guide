@@ -1,4 +1,4 @@
-%% Chebfun Guide 3: Rootfinding and Minima and Maxima
+%% 3. Rootfinding and Minima and Maxima
 % Lloyd N. Trefethen, October 2009, latest revision May 2014
 
 %% 3.1 `roots`

@@ -1,4 +1,4 @@
-%% Chebfun2 Guide 3: Rootfinding and Optimisation
+%% 13. Chebfun2: Rootfinding and Optimisation
 % Alex Townsend, March 2013, last updated May 2014
 
 %% 3.1 Zero contours 

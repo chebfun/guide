@@ -1,4 +1,4 @@
-%% CHEBFUN GUIDE 10: NONLINEAR ODES AND CHEBGUI
+%% 10. Nonlinear ODEs and ChebGUI
 % Lloyd N. Trefethen, November 2009, revised February 2011
 
 %%

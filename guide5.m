@@ -1,4 +1,4 @@
-%% Chebfun Guide 5: Complex Chebfuns
+%% 5. Complex Chebfuns
 % Lloyd N. Trefethen, November 2009, latest revision May 2014
 
 %% 5.1  Complex functions of a real variable

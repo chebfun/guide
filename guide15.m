@@ -1,4 +1,4 @@
-%% Chebfun2 Guide 5: 2D Surfaces in 3D Space
+%% 15. Chebfun2: 2D Surfaces in 3D Space
 % Alex Townsend, March 2013, last updated May 2014
 
 %% 5.1 Representing parametric surfaces

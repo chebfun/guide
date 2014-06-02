@@ -1,4 +1,4 @@
-%% Chebfun2 Guide 1: Getting Started
+%% 11. Chebfun2: Getting Started
 % Alex Townsend, March 2013, last updated May 2014
 
 %% 1.1  What is a chebfun2?

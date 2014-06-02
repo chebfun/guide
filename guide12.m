@@ -1,4 +1,4 @@
-%% Chebfun2 Guide 2: Integration and Differentiation
+%% 12. Chebfun2: Integration and Differentiation
 % Alex Townsend, March 2013, last updated May 2014
  
 %% 2.1 `sum` and `sum2`
