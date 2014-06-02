@@ -1,7 +1,7 @@
 %% 11. Chebfun2: Getting Started
 % Alex Townsend, March 2013, last updated May 2014
 
-%% 1.1  What is a chebfun2?
+%% 11.1  What is a chebfun2?
 % A chebfun2 is a function of two variables defined on a rectangle
 % $[a,b]\times[c,d]$. The syntax for chebfun2 objects is similar to the syntax 
 % for matrices in MATLAB, and Chebfun2 objects have many MATLAB commands
@@ -28,16 +28,16 @@
 % Chapman and Geddes [Carvajal, Chapman, & Geddes 2008] and others including
 % Bebendorf [Bebendorf 2008], Hackbusch, Khoromskij, Oseledets, and Tyrtyshnikov.
 
-%% 1.2 What is a chebfun2v?
+%% 11.2 What is a chebfun2v?
 % Chebfun2 can represent scalar valued functions, such as $\exp(x+y)$, and
 % vector valued functions, such as $[\exp(x+y);\cos(x-y)]$. 
 % A vector valued function is called a chebfun2v, and chebfun2v objects
 % are useful for
 % computations of vector calculus. For information about
-% chebfun2v objects and vector calculus, see Chapters 4 and 5 of this
+% chebfun2v objects and vector calculus, see Chapters 14 and 15 of this
 % guide.
 
-%% 1.3 Constructing chebfun2 objects
+%% 11.3 Constructing chebfun2 objects
 % A chebfun2 is constructed by supplying the Chebfun2 constructor with a
 % function handle or string. The default rectangular domain is 
 % $[-1,1]\times [-1,1]$. (An example showing how to specify a different domain is 
@@ -67,7 +67,7 @@ f
 % used by operations to aim for close to machine precision relative 
 % to that number. 
 
-%% 1.4 Basic operations
+%% 11.4 Basic operations
 % Once we have a chebfun2, we can compute
 % quantities such as its definite double integral:
 sum2(f)
@@ -111,7 +111,7 @@ plot(fy)
 % What is the mean value of $f(x,y)$ on $[-1,1]\times[-1,1]$? 
 mean2(f) 
 
-%% 1.5 Chebfun2 methods
+%% 11.5 Chebfun2 methods
 % There are over 100 methods that can be applied to chebfun2 objects. For a
 % complete list type:
 methods chebfun2
@@ -122,7 +122,7 @@ methods chebfun2
 % for instance
 help chebfun2/max2
 
-%% 1.6 Object composition
+%% 11.6 Object composition
 % So far, in this chapter,
 % chebfun2 objects have been constructed explicitly via a command
 % of the form `chebfun2(...)`. Another way to construct new
@@ -134,7 +134,7 @@ y = chebfun2(@(x,y) y, [-2 3 -4 4]);
 f = 1./( 2 + cos(.25 + x.^2.*y + y.^2) );
 contour(f), axis square
 
-%% 1.7 Analytic functions
+%% 11.7 Analytic functions
 % An analytic function $f(z)$ can be thought of as a complex valued 
 % function of two real variables, $f(x,y) = f(x+iy)$. If the Chebfun2 
 % constructor is given an anonymous function with one argument, 
@@ -164,13 +164,13 @@ plot(f)
 % For functions with branch points or essential singularities, it is currently
 % not possible in Chebfun2 to draw phase plots.
 
-%% 1.8 What to do now
+%% 11.8 What to do now
 % To find out more about Chebfun2 you can continue reading this guide, or 
 % have a look at the Chebfun2 Examples. This guide and the Chebfun2 
-% Examples are written as publishable m-files. For example, you can publish
-% this chapter of the guide by typing publish('guide1.m').   
+% Examples are written as publishable m-files. For instance, you can publish
+% this chapter of the guide by typing publish('guide11.m').   
 
-%% 1.9 References 
+%% 11.9 References 
 % 
 % [Bebendorf 2008] M. Bebendorf, _Hierarchical Matrices: A Means to 
 % Efficiently Solve Elliptic Boundary Value Problems_, Springer, 2008.
@@ -191,5 +191,4 @@ plot(f)
 % http://www2.maths.ox.ac.uk/chebfun/examples/complex/html/PortraitsWithPoles.shtml
 %
 % [Wegert 2012] E. Wegert, _Visual Complex Functions: An Introduction with
-% Phase Portraits_, Birkhauser/Springer, 2012
-
+% Phase Portraits_, Birkhauser/Springer, 2012.
