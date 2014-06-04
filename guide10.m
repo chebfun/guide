@@ -1,4 +1,4 @@
-% 10. Nonlinear ODEs and Chebgui
+%% 10. Nonlinear ODEs and Chebgui
 % Lloyd N. Trefethen, November 2009, latest revision June 2014
 
 %%
@@ -37,14 +37,15 @@
 
 %%
 % Chebfun includes versions of `ode45` (for medium accuracy), `ode113` (for high
-% accuracy), and `ode15s` (for stiff problems) created by Toby Driscoll and
+% accuracy), and `ode15s` (for stiff problems) originally
+% created by Toby Driscoll and
 % Rodrigo Platte. These codes operate by calling their MATLAB counterparts, then
 % converting the result to a chebfun. Thanks to the Chebfun framework of dealing
 % with functions, their use is very natural and simple.
 
 %%
-% For example, here is a solution of u' = u^2 over [0,1] with initial
-% condition u(0) = 0.95.
+% For example, here is a solution of $u' = u^2$ over $[0,1]$ with initial
+% condition $u(0) = 0.95$.
 fun = @(t,u) u.^2;  
 u = chebfun.ode45(fun, [0, 1], 0.95);
 LW = 'linewidth'; lw = 2;
@@ -80,7 +81,7 @@ minandmax(u)
 %%
 % Evidently the accuracy is only around five digits.  The reason is that the
 % chebfun `ode45` code uses the same default tolerances as the original `ode45`. We
-% can tighten the tolerance using the standard MATLAB ODESET command, switching
+% can tighten the tolerance using the standard MATLAB `odeset` command, switching
 % also to `ode113` since it is more efficient for high-accuracy computations:
 opts = odeset('abstol',3e-14,'reltol',3e-14);
 v = chebfun.ode113(fun, [0 10*pi], [1 0], opts);
@@ -116,8 +117,8 @@ xlabel x, ylabel y, zlabel z
 % MATLAB also has well-established codes `bvp4c` and `bvp5c` for solving BVPs, and
 % these too have been replicated in Chebfun. Again the Chebfun usage becomes
 % somewhat simpler than the original.  In particular, there is no need to call
-% BVPINIT; the initial guess and associated mesh are both determined by an input
-% initial guess $u_0$.
+% `bvpinit`; the initial guess and associated mesh are both
+% determined by an input initial guess $u_0$.
 
 %%
 % For example, here is the problem labeled "twoode" in the MATLAB `bvp4c`
@@ -141,7 +142,7 @@ u = v(:,1); plot(u,LW,lw)
 
 %%
 % Here is an example with a variable coefficient, a problem due to George
-% Carrier described in Sec. 9.7 of the book by Bender and Orszag [Bender &
+% Carrier described in Sec. 9.7 of the book [Bender &
 % Orzsag 1978].  On $[-1,1]$, we seek a function $u$ satisfying
 %
 % $$ \varepsilon u'' + 2(1-x^2)u + u^2 = 1 ,\qquad
@@ -163,7 +164,7 @@ u = v(:,1); plot(u, LW, lw)
 %% 10.3 Automatic differentiation
 % The options described in the last two sections rely on standard numerical
 % discretizations, whose results are then converted to Chebfun form.  It is
-% natural, however, to want to be able to try solving ODEs fully within the
+% natural, however, to want to be able to solve ODEs fully within the
 % Chebfun context, operating always at the level of functions.  If the ODE is
 % nonlinear, this will lead to Newton iterations for functions, also known as
 % Newton-Kantorovich iterations.  As with any Newton method, this will require a
@@ -171,11 +172,10 @@ u = v(:,1); plot(u, LW, lw)
 % infinite-dimensional Jacobian, or more properly a Frechet derivative.
 
 %%
-% Chebfun contains features for making such explorations possible.  It is not
-% clear when these approaches can or cannot compute in speed and robustness with
-% `bvp4c`/`bvp5c`.  But they offer something entirely new, the possibility of
-% enabling one to explore iterations at the function level. The crucial tool for
-% making all this possible is Chebfun Automatic Differentiation (AD), introduced
+% Chebfun contains features for making such explorations possible.
+% This means that with Chebfun, you can explore Newton
+% iterations at the function level. The crucial tool for
+% making this possible is Chebfun Automatic Differentiation (AD), introduced
 % by Asgeir Birkisson and Toby Driscoll [Birkisson & Driscoll 2011].
 
 %%
@@ -341,7 +341,7 @@ u = N\0;
 plot(u,'m',LW,lw)
 
 %%
-% Next came the linear equation $u"=-u$.  With chebops, there is no need to
+% Next came the linear equation $u''=-u$.  With chebops, there is no need to
 % reformulate the problem as a first-order system.  There are two boundary
 % conditions at the left, which can be imposed by making `N.lbc` a function
 % returning an array.
@@ -370,7 +370,7 @@ u = N\1; plot(u, 'm', LW, lw)
 %%
 % We get a different solution from the one we got before! This one is
 % correct too; the Carrier problem has many solutions.
-% If we multiply this solution by sin(x/2) and take the result as a new
+% If we multiply this solution by $\sin(x/2)$ and take the result as a new
 % initial guess, we converge to another new solution:
 N.init= u.*sin(x/2);
 [u, info] = solvebvp(N, 1);
@@ -379,7 +379,7 @@ plot(u,'m',LW,lw)
 %TODO: This no longer converges?
 
 %%
-% This time, we called the method `solvebvp()` with two output arguments. The
+% This time, we called the method `solvebvp` with two output arguments. The
 % second output is a MATLAB struct, which contains data showing the norms of the
 % updates during the Newton iteration, revealing in this case a troublesome
 % initial phase followed by eventual rapid convergence.
