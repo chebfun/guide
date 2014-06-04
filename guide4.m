@@ -1,5 +1,5 @@
 %% 4. Chebfun and Approximation Theory
-% Lloyd N. Trefethen, November 2009, latest revision May 2014
+% Lloyd N. Trefethen, November 2009, latest revision June 2014
 
 %% 4.1  Chebyshev series and interpolants
 % Chebfun is founded on the mathematical subject of approximation theory,

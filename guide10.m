@@ -1,5 +1,5 @@
 %% 10. Nonlinear ODEs and Chebgui
-% Lloyd N. Trefethen, November 2009, revised February 2011
+% Lloyd N. Trefethen, November 2009, latest revision June 2014
 
 %%
 % Chapter 7 described the chebop capability for solving linear ODEs (ordinary

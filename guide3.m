@@ -1,5 +1,5 @@
 %% 3. Rootfinding and Minima and Maxima
-% Lloyd N. Trefethen, October 2009, latest revision May 2014
+% Lloyd N. Trefethen, October 2009, latest revision June 2014
 
 %% 3.1 `roots`
 % Chebfun comes with a global rootfinding capability -- the ability to find

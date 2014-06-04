@@ -1,5 +1,5 @@
 %% 15. Chebfun2: 2D Surfaces in 3D Space
-% Alex Townsend, March 2013, last updated May 2014
+% Alex Townsend, March 2013, latest revision June 2014
 
 %% 5.1 Representing parametric surfaces
 % In Chapter 4, we explored chebfun2v objects with two components, but

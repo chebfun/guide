@@ -1,5 +1,5 @@
 %% 7. Linear Differential Operators and Equations
-% Tobin A. Driscoll, November 2009, last revised May 2014
+% Tobin A. Driscoll, November 2009, latest revision June 2014
 
 %% 7.1  Introduction
 % Chebfun has powerful capabilities for solving ordinary differential

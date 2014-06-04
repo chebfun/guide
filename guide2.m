@@ -1,5 +1,5 @@
 %% 2. Integration and Differentiation
-% Lloyd N. Trefethen, November 2009, latest revision May 2014
+% Lloyd N. Trefethen, November 2009, latest revision June 2014
 
 %% 2.1 sum
 % We have seen that the `sum` command returns the definite integral of a

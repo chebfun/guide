@@ -1,5 +1,5 @@
 %% 14. Chebfun2: Vector Calculus
-% Alex Townsend, March 2013, last updated May 2014
+% Alex Townsend, March 2013, latest revision June 2014
 
 %% 4.1 What is a chebfun2v? 
 % Chebfun2 objects represent vector valued functions. We use a lower case

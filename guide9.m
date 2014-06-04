@@ -1,5 +1,5 @@
 %% 9. Infinite Intervals, Infinite Function Values, and Singularities
-% Lloyd N. Trefethen, November 2009, latest revision May 2014
+% Lloyd N. Trefethen, November 2009, latest revision June 2014
 
 %%
 % This chapter presents some features of

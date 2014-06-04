@@ -1,5 +1,5 @@
 %% 6. Quasimatrices and Least-Squares
-% Lloyd N. Trefethen, November 2009, latest revision May 2014
+% Lloyd N. Trefethen, November 2009, latest revision June 2014
 
 %% 6.1  Quasimatrices and `spy`
 % A chebfun can have more than one column, or if it is transposed, it can

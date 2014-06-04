@@ -1,5 +1,5 @@
 %% 1. Getting Started with Chebfun
-% Lloyd N. Trefethen, October 2009, latest revision May 2014
+% Lloyd N. Trefethen, October 2009, latest revision June 2014
 
 %% 1.1  What is a chebfun?
 % A chebfun is a function of one variable defined on an interval $[a,b]$. The

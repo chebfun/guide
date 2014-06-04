@@ -1,5 +1,5 @@
 %% 11. Chebfun2: Getting Started
-% Alex Townsend, March 2013, last updated May 2014
+% Alex Townsend, March 2013, latest revision June 2014
 
 %% 11.1  What is a chebfun2?
 % A chebfun2 is a function of two variables defined on a rectangle

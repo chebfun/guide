@@ -1,5 +1,5 @@
 %% 12. Chebfun2: Integration and Differentiation
-% Alex Townsend, March 2013, last updated May 2014
+% Alex Townsend, March 2013, latest revision June 2014
  
 %% 12.1 `sum` and `sum2`
 % We have already seen the `sum2` command, which returns the definite double
