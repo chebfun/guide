@@ -11,7 +11,7 @@
 %
 %   Boundary-value problems: `bvp4c`, `bvp5c`
 %
-%   Both kinds of problems via chebops:  nonlinear backslash ( = `solvebvp`)
+%   Both kinds of problems via chebops:  nonlinear backslash (=`solvebvp`)
 %
 % In this chapter we outline the use of these methods; for fuller details, see
 % the `help` documentation and especially the online Chebfun Examples.  The last
@@ -55,18 +55,18 @@ plot(u,LW,lw)
 % The first argument to `ode45` defines the equation, the second defines the
 % domain for the independent variable, and the third provides the initial
 % condition.  It is the presence of the domain object that directs MATLAB to use
-% the chebfun version of `ode45` rather than the MATLAB original.
+% the Chebfun version of `ode45` rather than the MATLAB original.
 
 %%
 % To find out where the solution takes the value 10, for example, we can write
 roots(u-10)
 
 %%
-% As a second example let us consider the linear
+% As a second example, let us consider the linear
 % second-order equation $u''=-u$,
 % whose solutions are sines and cosines.
 % We convert this to first-order form by
-% using a vector $v$ with $v(1)=u$ and $v(2)=u'$,
+% using a vector $v$ with $v(1)=u$ and $v(2)=u'$
 % and solve the problem again using `ode45`:
 fun = @(t, v) [v(2); -v(1)];
 v = chebfun.ode45(fun, [0 10*pi], [1 0]);
@@ -93,12 +93,12 @@ minandmax(v(:,1))
 % $u'' = 1000(1-u^2)u'-u$ with initial conditions
 % $u=2$, $u'=0$.  This is a highly
 % stiff problem whose solution contains very rapid transitions, so we use
-% ode15s with splitting on:
+% ode15s in "splitting on" mode:
 opts = odeset('abstol',1e-8,'reltol',1e-8);
 fun = @(t,v) [v(2); 1000*(1 - v(1)^2)*v(2) - v(1)];
-splitting on
+chebfunpref.setDefaults('enableBreakpointDetection',true)
 v = chebfun.ode15s(fun, [0 3000], [2 0], opts);
-splitting off
+chebfunpref.setDefaults('factory')
 u = v(:,1); plot(u,LW,lw)
 
 %%
@@ -121,7 +121,7 @@ xlabel x, ylabel y, zlabel z
 % determined by an input initial guess $u_0$.
 
 %%
-% For example, here is the problem labeled "twoode" in the MATLAB `bvp4c`
+% For example, here is the problem labeled `twoode` in the MATLAB `bvp4c`
 % documentation.  The domain is $[0,4]$,
 % the equation is $u'' + |u| = 0$, and the
 % boundary conditions are $u(0)=0$, $u(4)=-2$.
@@ -290,7 +290,8 @@ disp(L)
 % Notice that one of the fields is called `init`,
 % which may hold an initial guess
 % for an iteration if one is specified.  If a guess is not specified, then a
-% zero or linear function is used depending on the boundary conditions. To solve
+% low-order polynomial function is used that matches the boundary conditions.
+% To solve
 % a nonlinear ODE, Chebfun uses a Newton or damped Newton iteration starting at
 % the given initial guess.  Each step of the iteration requires the solution of
 % a linear problem specified by a Jacobian operator (Frechet derivative)
@@ -412,7 +413,7 @@ cheboppref.setDefaults('display','none')
 % standard MATLAB between `\` and `linsolve`. See the help documentation for
 % details.
 
-%% 10.5 Graphical User Interface: Chebgui
+%% 10.5 Graphical user interface: Chebgui
 % Chebfun includes a GUI (Graphical User Interface) for solving all kinds of
 % ODE, time-dependent PDE, and eigenvalue problems interactively. We will not
 % describe it here, but we encourage the reader to type `chebgui` and give it a try.
