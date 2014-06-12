@@ -3,7 +3,7 @@
 
 %%
 % Chapter 7 described the chebop capability for solving linear ODEs (ordinary
-% differential equations) by a backslash command.  We will now describe
+% differential equations) by the backslash command.  We will now describe
 % extensions of chebops to nonlinear problems, as well as other methods for
 % nonlinear ODEs:
 %
@@ -48,7 +48,7 @@
 % condition $u(0) = 0.95$.
 fun = @(t,u) u.^2;  
 u = chebfun.ode45(fun, [0, 1], 0.95);
-LW = 'linewidth'; lw = 2;
+LW = 'linewidth'; lw = 1.6;
 plot(u,LW,lw)
 
 %%
@@ -93,7 +93,7 @@ minandmax(v(:,1))
 % $u'' = 1000(1-u^2)u'-u$ with initial conditions
 % $u=2$, $u'=0$.  This is a highly
 % stiff problem whose solution contains very rapid transitions, so we use
-% ode15s in "splitting on" mode:
+% `ode15s` in "splitting on" mode:
 opts = odeset('abstol',1e-8,'reltol',1e-8);
 fun = @(t,v) [v(2); 1000*(1 - v(1)^2)*v(2) - v(1)];
 chebfunpref.setDefaults('enableBreakpointDetection',true)
@@ -149,7 +149,7 @@ u = v(:,1); plot(u,LW,lw)
 % u(-1) = u(1) = 0. $$
 %
 % with $\varepsilon = 0.01$.  Here is a
-% solution with `bvp5c`, just one of many solutions
+% solution with `bvp4c`, just one of many solutions
 % of this problem.
 ep = 0.01;
 ode = @(x,v) [v(2); (1-v(1)^2-2*(1-x^2)*v(1))/ep];
@@ -157,10 +157,9 @@ bc = @(va,vb) [va(1); vb(1)];
 d = [-1,1];
 one = chebfun(1,d);
 v0 = [0*one 0*one];
-v = bvp5c(ode, bc, v0);
+v = bvp4c(ode, bc, v0);
 u = v(:,1); plot(u, LW, lw)
 
-%TODO: This no longer seems to give a solution!
 %% 10.3 Automatic differentiation
 % The options described in the last two sections rely on standard numerical
 % discretizations, whose results are then converted to Chebfun form.  It is
@@ -169,13 +168,13 @@ u = v(:,1); plot(u, LW, lw)
 % nonlinear, this will lead to Newton iterations for functions, also known as
 % Newton-Kantorovich iterations.  As with any Newton method, this will require a
 % derivative, which in this case becomes a linear operator: an
-% infinite-dimensional Jacobian, or more properly a Frechet derivative.
+% infinite-dimensional Jacobian, or more properly a _Frechet derivative_.
 
 %%
 % Chebfun contains features for making such explorations possible.
 % This means that with Chebfun, you can explore Newton
-% iterations at the function level. The crucial tool for
-% making this possible is Chebfun Automatic Differentiation (AD), introduced
+% iterations at the function level. The enabling tool
+% is Chebfun Automatic Differentiation (AD), introduced
 % by Asgeir Birkisson and Toby Driscoll [Birkisson & Driscoll 2011].
 
 %%
@@ -199,8 +198,7 @@ w = u + diff(v);
 % basis variable for derivative computations, and seed its derivative.  
 % (This procedure has changed with Version 5.)  To
 % compute derivatives with respect to $u$, we convert
-% it to an object known as an `adchebfun`, and redo
-% the computations:
+% it to an object known as an `adchebfun` and redo the computations:
 u = adchebfun(u);
 v = exp(x) + u.^3;
 w = u + diff(v);
@@ -216,48 +214,32 @@ dvdu = v.jacobian;
 plot(dvdu*x, LW, lw)
 
 %%
-% TODO: This is no longer supported. If we want `dwdv`, we'd have to redo the
-% computation, with `v` seeded as the base variable. But I think the computation
-% of `dwdu` below is enough to show this point. AB, 2014/06/02.
-%
 % Notice that `dvdu` is a multiplication operator, acting on a function just by
-% pointwise multiplication.  (The proper term is _multiplier operator_.
-% You can extract the chebfun corresponding to its diagonal part with the
-% command `f=diag(dvdu)`.)  This will not be true of $dw/dv$, however. 
-% If `w = u+diff(v)`, then `w+dw = u+diff(v+dv)`, so
-% $dw/dv$ must be the differentiation
-% operator with respect to the variable $x$:
-
-% dwdv = diff(w,v); TODO: Remove?
+% pointwise multiplication.  (The proper term is _multiplier operator_.)
 
 %%
-% We can verify for example that `dwdv*x` is $1$:
-%plot(dwdv*x,LW,lw) TODO: Remove?
-
-%%
-% What about $dw/du$?  Here we must think a little more carefully and compute
+% What about $dw/du$?  To do this on paper
+% we must think a little more carefully and compute
 %
-%   dw/du = (partial w/partial u) + (partial w/partial v)*(partial
-%   v/partial u)
+% $$ {dw\over du} = {\partial w\over \partial u} +
+% {\partial w\over \partial v}{\partial v\over \partial u}
+% = I + D(3u^2)  =  I + D(3x^4), $$
 %
-%         = I + D*3u^2  =  I + D*3x^4 ,
-%
-% where I is the identity operator and D is the differentiation operator with
-% respect to x.  If we apply dw/du to x, for example, the result will be x +
-% (3x^5)' = x + 15x^4.  The following computation confirms that Chebfun reaches
+% where $I$ is the identity operator and $D$ is the
+% differentiation operator with
+% respect to $x$.  If we apply $dw/du$ to $x$, for example,
+% the result will be $x +
+% (3x^5)' = x + 15x^4$.  The following computation confirms that Chebfun reaches
 % this result automatically.
 dwdu = w.jacobian;
 norm(dwdu*x - (x+15*x.^4))
 
 %%
-% All these AD calculations are built into Chebfun's `diff(f,g)` command, making
-% available in principle the linear operator representing the Jacobian (Frechet
-% derivative) of any chebfun with respect to any other chebfun.  We use use the
-% overload `spy` command to see at a glance that the first of our Frechet
-% derivaties is a multiplier operator while the others are non-diagonal:
-subplot(1,3,2), spy(dvdu), title dvdu
-%TODO: Remove? subplot(1,3,2), spy(dwdv), title dwdv
-subplot(1,3,2), spy(dwdu), title dwdu
+% We can use use the
+% overloaded `spy` command to see at a glance that the first of our Frechet
+% derivatives is a multiplier operator while the others are non-diagonal:
+subplot(1,2,1), spy(dvdu), title dvdu
+subplot(1,2,2), spy(dwdu), title dwdu
 
 %%
 % We now look at how AD enables Chebfun users to solve nonlinear ODE
@@ -299,7 +281,7 @@ disp(L)
 % facility, and the linear problem is then solved by chebops.
 
 %%
-% In Section 7.9 we hand coded our own Newton iteration to solve the nonlinear
+% In Section 7.9 we hand-coded our own Newton iteration to solve the nonlinear
 % BVP
 %
 % $$ 0.001u''-u^3 = 0,\qquad  u(-1) = 1,~~ u(1) = -1. $$
@@ -354,9 +336,7 @@ plot(u, 'm', diff(u), 'c', LW, lw)
 
 %%
 % The van der Pol problem of Section 10.1 cannot be solved by chebops; the
-% stiffness quickly causes failure of the Newton iteration.
-%
-% TODO: Verify this is still the case.
+% stiffness causes failure of the Newton iteration.
 
 %%
 % Here is the Carrier problem of section 10.2:
@@ -371,19 +351,18 @@ u = N\1; plot(u, 'm', LW, lw)
 %%
 % We get a different solution from the one we got before! This one is
 % correct too; the Carrier problem has many solutions.
-% If we multiply this solution by $\sin(x/2)$ and take the result as a new
+% If we multiply this solution by $1.2\sin(x/2)$ and take the result as a new
 % initial guess, we converge to another new solution:
-N.init= u.*sin(x/2);
+N.init= 1.2*u.*sin(x/2);
 [u, info] = solvebvp(N, 1);
 plot(u,'m',LW,lw)
-
-%TODO: This no longer converges?
 
 %%
 % This time, we called the method `solvebvp` with two output arguments. The
 % second output is a MATLAB struct, which contains data showing the norms of the
 % updates during the Newton iteration, revealing in this case a troublesome
 % initial phase followed by eventual rapid convergence.
+nrmdu = info.normDelta;
 semilogy(nrmdu,'.-k',LW,lw), ylim([1e-14,1e2])
 
 %%
@@ -400,9 +379,6 @@ cheboppref.setDefaults('display','iter')
 % and thus return the system to its factory state:
 cheboppref.setDefaults('plotting','off')
 cheboppref.setDefaults('display','none')
-
-% TODO: Do we want to show how to create a `cheboppref` object,
-% and pass that to `solvebvp`?
 
 %%
 % The heading of this section refers to the command `solvebvp`. When you apply
@@ -422,8 +398,8 @@ cheboppref.setDefaults('display','none')
 % m-file" button, which produces a Chebfun m-file corresponding to whatever
 % problem is loaded into the GUI.  This feature enables one to get going quickly
 % and interactively, then switch to a Chebfun program to adjust the fine points.
-% close all
-% chebgui
+close all
+chebgui
 
 %% 10.6 References
 %
