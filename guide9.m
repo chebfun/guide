@@ -111,19 +111,19 @@ plot(f,LW,1.6), ylim([-30 30])
 
 %%
 % Here's the tangent function:
-f = chebfun('tan(x)', pi*((-5/2):(5/2)), 'exps', -ones(1,6)); %% PROBLEM!
+f = chebfun('tan(x)', pi*((-5/2):(5/2)), 'exps', -ones(1,6));
 plot(f,LW,1.6), ylim([-5 5])
 
 %%
 % Rootfinding works as expected:
-%x2 = chebfun('x/2',pi*(5/2)*[-1 1]);
-%hold on, plot(x2,'k',LW,1.6)
-%r = roots(f-x2); plot(r,x2(r),LW,1.6,'or','markersize',8)
+x2 = chebfun('x/2',pi*(5/2)*[-1 1]);
+hold on, plot(x2,'k',LW,1.6)
+r = roots(f-x2); plot(r,x2(r),'or',LW,1.6,'markersize',8)
 
 %%
 % And we can manipulate the function in various other familiar ways:
-%g = sin(2*x2)+min(abs(f+2),6);
-%hold off, plot(g,LW,1.6)
+g = sin(2*x2)+min(abs(f+2),6);
+hold off, plot(g,LW,1.6)
 
 %%
 % If you don't know what singularities your function may
@@ -168,7 +168,7 @@ sum(w)
 x = chebfun('x');
 T = chebpoly(0:5)';
 f = x.^4 + x.^5;
-%chebcoeffs1 = T*(w.*f)
+chebcoeffs1 = T*(w.*f)
 
 %%
 % Here for comparison are the Chebyshev coefficients as obtained
@@ -220,7 +220,7 @@ f = chebfun('x.*(1+x).^(-exp(1)).*(1-x).^(-pi)','blowup',2)
 % Notice that the `'exps'` field shows values close
 % to $-e$ and $-\pi$, as is confirmed by looking
 % at the numbers to higher precision:
-f.funs{1}.onefun.exponents
+get(f, 'exps')
 
 %%
 % The treatment of blowups in Chebfun
