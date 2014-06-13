@@ -3,19 +3,21 @@
 
 %% 14.1 What is a chebfun2v? 
 % Chebfun2 objects represent vector-valued functions. We use a lower case
-% letter, $f$, for a chebfun2 and an upper case letter, $F$, for a
+% letter like $f$ for a chebfun2 and an upper case letter like $F$ for a
 % chebfun2v. 
 
 %%
 % Chebfun2 represents a vector-valued function $F(x,y) = (f(x,y);g(x,y))$ 
 % by approximating each component by a low rank approximant. 
 % There are two ways to form a chebfun2v: either by explicitly 
-% calling the constructor or by vertical concatenation of two chebfun2 objects. 
+% calling the constructor, or by
+% vertical concatenation of two chebfun2 objects. 
 % Here are these two alternatives:
 d = [0 1 0 2];
 F = chebfun2v(@(x,y) sin(x.*y), @(x,y) cos(y), d);  % calling the constructor
-f = chebfun2(@(x,y) sin(x.*y), d); g = chebfun2(@(x,y) cos(y), d);
-G = [f;g]                                          % vertical concatenation
+f = chebfun2(@(x,y) sin(x.*y), d);
+g = chebfun2(@(x,y) cos(y), d);
+G = [f;g]                                           % vertical concatenation
 
 %% 
 % Note that displaying a chebfun2v shows that it is a vector of two chebfun2
@@ -41,7 +43,7 @@ fprintf('Parallelogram law holds with error = %10.5e\n',plaw)
 %%
 % The dot product combines two vector functions into a scalar function. 
 % If the dot product of two chebfun2v objects takes the value 
-% zero at some (x,y) then the vector valued functions are orthogonal at 
+% zero at some (x,y), then the vector-valued functions are orthogonal at 
 % (x,y).  For example, the following code segment determines a curve along
 % which two vector-valued functions are orthogonal:
 LW = 'linewidth';
@@ -56,7 +58,7 @@ help chebfun2v/cross
 
 %% 14.3 Differential operators
 % Vector calculus also involves various differential operators defined 
-% on scalar or vector valued functions such as gradient, 
+% on scalar- or vector-valued functions such as gradient, 
 % curl, divergence, and Laplacian.
 
 %%
@@ -66,7 +68,7 @@ help chebfun2v/cross
 % $(x,y)$, then $f$ has a critical point at $(x,y)$. Here are the
 % critical points of a sum of Gaussian bumps:
 f = chebfun2(0);
-rand('state',1)
+rng('default')
 for k = 1:10 
     x0 = 2*rand-1; y0 = 2*rand-1;
     f = f + chebfun2(@(x,y) exp(-10*((x-x0).^2 + (y-y0).^2)));
@@ -130,7 +132,7 @@ abs(v-ends)                                         % gradient theorem
 % autonomous system $dx/dt=f(x,y)$, $dy/dt=g(x,y)$,
 % where $f$ and $g$ are the first and second components of $F$. Given a 
 % prescribed time interval and initial conditions, this command returns a 
-% complex valued chebfun representing the trajectory in the form 
+% complex-valued chebfun representing the trajectory in the form 
 % $x(t) + iy(t)$. For example:
 d = 0.04; a = 1; b = -.75;
 F = chebfun2v(@(x,y)y, @(x,y)-d*y - b*x - a*x.^3, [-2 2 -2 2]);
