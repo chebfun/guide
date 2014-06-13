@@ -155,7 +155,7 @@ plot(f)
 
 %% 
 % Many properties of analytic functions can be visualised by these types
-% of plots [Wegert 2012], such as the location of zeros and their multiplicities.
+% of plots, such as the location of zeros and their multiplicities.
 % Can you work out the multiplicity of the root at z=0 from this plot?
 
 %%
@@ -165,13 +165,7 @@ plot(f)
 % For functions with branch points or essential singularities, it is currently
 % not possible in Chebfun2 to draw phase plots.
 
-%% 11.8 What to do now
-% To find out more about Chebfun2 you can continue reading this guide, or 
-% have a look at the Chebfun2 Examples. This guide and the Chebfun2 
-% Examples are written as publishable m-files. For instance, you can publish
-% this chapter of the guide by typing publish('guide11.m').   
-
-%% 11.9 References 
+%% 11.8 References 
 % 
 % [Bebendorf 2008] M. Bebendorf, _Hierarchical Matrices: A Means to 
 % Efficiently Solve Elliptic Boundary Value Problems_, Springer, 2008.
