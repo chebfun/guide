@@ -89,8 +89,8 @@ tic; [Y X] = minandmax2(f); t=toc;
 fprintf('minandmax2 command = %5.3fs\n',t)
 
 %%
-% For high accuracy the commands `min2`, `max2`, and `minandmax2` require the 
-% Optimisation Toolbox in MATLAB. 
+% The commands `min2`, `max2`, and `minandmax2` run faster if
+% the MATLAB Optimisation Toolbox is available.
 
 %% 13.5 Critical points
 % The critical points of smooth function of two variables can be located 
@@ -101,7 +101,7 @@ r = roots(gradient(f));                       % critical points
 plot(roots(diff(f,1,2)),'b',LW,1.6), hold on  % plot zero contours of f_x
 plot(roots(diff(f)),'r')                      % plot zero contours of f_y
 plot(r(:,1),r(:,2),'k.','MarkerSize',30)      % plot extrema
-axis square
+axis([-1,1,-1,1]), axis square
 
 %% 
 % There is a new command here called gradient that computes the gradient
