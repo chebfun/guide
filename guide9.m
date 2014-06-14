@@ -73,7 +73,7 @@ for n = 1:6, disp([erf(n) errorfun(n)]), end
 sum(chebfun('(1/pi)./(1+s.^2)',[-inf inf]))
 
 %%
-% Here's an example of a function whose wiggles decay to slowly to be
+% Here's an example of a function whose wiggles decay too slowly to be
 % fully resolved:
 sinc = chebfun('sin(pi*x)./(pi*x)',[-inf inf]);
 plot(sinc,'m',LW,1.6,'interval',[-10 10])
@@ -95,7 +95,7 @@ plot(sinc,'m',LW,1.6,'interval',[-10 10])
 % "horizontal" infinities -- especially, functions that blow up according
 % to an integer power, i.e., with a pole.  If you know the nature of the blowup,
 % it is a good idea to specify it using the `'exps'` flag.
-% For example, here's a function with a pole at $0$.  We use
+% For example, here's a function with a simple pole at $0$.  We use
 % `'exps'` to tell the constructor that the function looks like $x^{-1}$
 % at the left endpoint and $x^0$ (i.e., smooth) at the right
 % endpoint.
@@ -118,7 +118,7 @@ plot(f,LW,1.6), ylim([-5 5])
 % Rootfinding works as expected:
 x2 = chebfun('x/2',pi*(5/2)*[-1 1]);
 hold on, plot(x2,'k',LW,1.6)
-r = roots(f-x2); plot(r,x2(r),'or',LW,1.6,'markersize',8)
+r = roots(f-x2,'nojump'); plot(r,x2(r),'or',LW,1.6,'markersize',8)
 
 %%
 % And we can manipulate the function in various other familiar ways:
@@ -194,7 +194,7 @@ f = chebfun(ff,d)
 f = chebfun(ff,d,'splitting','on')
 
 %%
-% A much better representation, however, is constructed if we
+% A better representation, however, is constructed if we
 % tell Chebfun about the singularity at $x=0$:
 f = chebfun(ff,d,'exps',[.5 0])
 plot(f,LW,1.6)
