@@ -65,13 +65,13 @@
 %% 6.2 Backslash and least-squares
 
 %%
-% In Matlab, the command `c = A\b` computes the solution to the system
+% In MATLAB, the command `c = A\b` computes the solution to the system
 % of equations $Ac = b$ if $A$ is a square matrix, whereas if $A$ is rectangular,
 % with more rows than columns, it computes the least squares solution,
 % the vector $c$ that minimizes $\|Ac-b\|$.  A quasimatrix is always rectangular, and
 % `\` has accordingly been overloaded
 % to carry out the appropriate continuous least-squares computation.
-% (The actual Matlab command that handles backslash is called mldivide.)
+% (The actual MATLAB command that handles backslash is called mldivide.)
 
 %%
 % For example, continuing with the same chebfun `x` and
@@ -139,7 +139,7 @@
 % to what is known in various texts as the "reduced", "economy size", "skinny",
 % "abbreviated", or "condensed"
 % QR factorization, since $Q$ is rectangular rather than square and $R$ is
-% square rather than rectangular.  In Matlab the syntax for computing such things is
+% square rather than rectangular.  In MATLAB the syntax for computing such things is
 % `[Q,R] = qr(A,0)`, and the same command has been overloaded for chebfuns.  The
 % computation makes use of a quasimatrix analogue of Householder triangularization
 % [Trefethen 2010].  Alternatively one can simply write `[Q,R] = qr(A)`:
@@ -233,7 +233,7 @@
 
 %%
 % (Note that we must include the argument `2` here: for reasons of speed,
-% the default for quasimatrices, unlike the usual Matlab matrices, is
+% the default for quasimatrices, unlike the usual MATLAB matrices, is
 % the Frobenius norm rather than the 2-norm.)
 % The SVD enables us to identify exactly what vectors are involved in achieving
 % this maximum ratio.  The optimal vector $x$ is $v_1$,
@@ -332,7 +332,7 @@ cond(chebpoly(0:12))
 %%
 % The norms of row quasimatrices are analogous, with
 % `norm(A',inf) = norm(A,1)` and `norm(A',1) = norm(A,inf)`.
-% Like Matlab itself applied to a rectangular matrix, Chebfun
+% Like MATLAB itself applied to a rectangular matrix, Chebfun
 % does not define `cond(A,1)` or `cond(A,inf)` if `A` is a quasimatrix.
 
 %%
@@ -344,7 +344,7 @@ cond(chebpoly(0:12))
 
 %%
 % Chebfun also contains overloads for some further
-% Matlab operations related to orthogonal matrix factorizations.
+% MATLAB operations related to orthogonal matrix factorizations.
 % Perhaps the most useful of these is `rank(A)`, which computes the singular
 % values of $A$ and makes a judgement as to how many of them are significantly
 % different from zero.  For example, with $x$
