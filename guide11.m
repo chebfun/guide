@@ -2,16 +2,25 @@
 % Alex Townsend, March 2013, latest revision June 2014
 
 %% 11.1  What is a chebfun2?
-% A chebfun2 is a function of two variables defined on a rectangle
-% $[a,b]\times[c,d]$. The syntax for chebfun2 objects is similar to the syntax 
+% Chebfun2 is the part of Chebfun that deals with functions of
+% two variables defined on a rectangle $[a,b]\times[c,d]$.
+% Just like Chebfun in 1D, it is an extremely convenient tool
+% for all kinds of computations including algebraic 
+% manipulation, optimization, integration, and rootfinding.
+% It also extends to vector-valued functions of two variable, so
+% that one can perform vector calculus. 
+
+%%
+% A chebfun2, with a lower-case "c", is a Matlab object, the
+% 2D analogue of a chebfun.
+% The syntax for chebfun2 objects is similar to the syntax 
 % for matrices in MATLAB, and Chebfun2 objects have many MATLAB commands
 % overloaded. For instance, `trace(f)` returns the sum of the diagonal entries
 % when $f$ is a matrix and the integral of $f(x,x)$ when $f$ is a chebfun2. 
 
 %%
 % Chebfun2 builds on Chebfun's univariate representations and
-% algorithms. It is the first extension of Chebfun
-% to functions of two variables.  Algorithmic details
+% algorithms.  Algorithmic details
 % are given in [Townsend & Trefethen 2013b].
 
 %%
