@@ -2,7 +2,7 @@
 % Lloyd N. Trefethen, November 2009, latest revision June 2014
 
 %% 5.1  Complex functions of a real variable
-% One of the attractive features of Matlab is that it handles complex
+% One of the attractive features of MATLAB is that it handles complex
 % arithmetic well. For example, here are $20$ points on the upper half of the
 % unit circle in the complex plane:
 s = linspace(0,pi,20);
@@ -11,10 +11,10 @@ plot(f,'.')
 axis equal
   
 %%
-% In Matlab, both the variables `i` and `j` are initialized as $i$, the square
+% In MATLAB, both the variables `i` and `j` are initialized as $i$, the square
 % root of $-1$, but this code uses `1i` instead (just as one might write, for
 % example, `3+2i` or `2.2-1.1i`).  Writing the imaginary unit in this fashion
-% is a common trick among Matlab programmers, for it avoids the risk of
+% is a common trick among MATLAB programmers, for it avoids the risk of
 % surprises caused by `i` or `j` having been overwritten by other values. The
 % `axis equal` command ensures that the real and imaginary axes are scaled
 % equally.
@@ -299,7 +299,7 @@ N = sum((diff(f)./f))/(2i*pi)
 %%
 % What is really going on here is a calculation of the change of the
 % argument of $f$ as the boundary is traversed.  Another way to find that
-% number is with the Chebfun overloads of the Matlab commands `angle`
+% number is with the Chebfun overloads of the MATLAB commands `angle`
 % and `unwrap`:
 anglef = unwrap(angle(f));
 N = (anglef(end)-anglef(0))/(2*pi)
