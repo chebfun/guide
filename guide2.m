@@ -1,10 +1,10 @@
 %% 2. Integration and Differentiation
 % Lloyd N. Trefethen, November 2009, latest revision June 2014
 
-%% 2.1 sum
+%% 2.1 `sum`
 % We have seen that the `sum` command returns the definite integral of a
 % chebfun over its range of definition.  The integral is normally
-% calculated by an FFT-based variant of Clenshaw-Curtis quadrature, as
+% calculated by an FFT-based version of Clenshaw-Curtis quadrature, as
 % described first in [Gentleman 1972]. This formula is applied on each fun
 % (i.e., each smooth piece of the chebfun), and then the results are added
 % up.
@@ -18,13 +18,13 @@
 
 %%
 % Here is an example whose answer is not known exactly, given as the first
-% example in the section "Numerical Mathematics in Mathematica" in The
-% Mathematica Book [Wolfram 2003].
+% example in the section "Numerical Mathematics in Mathematica" in _The
+% Mathematica Book_ [Wolfram 2003].
   f = chebfun('sin(sin(x))',[0 1]);
   sum(f)
 
 %%
-% All these digits match the result 0.4306061031206906049... reported by
+% All these digits match the result $0.4306061031206906049\dots$ reported by
 % Mathematica.
 
 %%
@@ -35,12 +35,12 @@
 
 %%
 % The reader may recognize this as the integral that defines the error
-% function evaluated at t=1:
+% function evaluated at $t=1$:
   Iexact = erf(1)
 
   %%
 % It is interesting to compare the times involved in evaluating this number
-% in various ways.  MATLAB's specialized erf code is the fastest:
+% in various ways.  MATLAB's specialized `erf` code is the fastest:
   tic, erf(1), toc
 
   %%
@@ -116,15 +116,15 @@
 
 %%
 % We can fix the problem by forcing finer initial sampling in the
-% Chebfun constructor with the `minsamples` flag:
-  f = chebfun(ff,[0,1],'splitting','on','minsamples',100);
+% Chebfun constructor with the `minSamples` flag:
+  f = chebfun(ff,[0,1],'splitting','on','minSamples',100);
   length(f)
   sum(f)
 
 %%
 % Now the integral is correct again, and note that the length of
 % the chebfun is much smaller than with the original
-% global representation.  For more about `minsamples` see
+% global representation.  For more about `minSamples`, see
 % Section 8.6.
 
 %%
@@ -158,7 +158,7 @@
 % integrator" in the Quadrature section of the Chebfun Examples
 % collection.
 
-%% 2.2 norm, mean, std, var
+%% 2.2 `norm`, `mean`, `std`, `var`
 % A special case of an integral is the `norm` command, which for a chebfun
 % returns by default the 2-norm, i.e., the square root of the integral of
 % the square of the absolute value over the region of definition.  Here is
@@ -179,8 +179,7 @@
   norm(f), norm(f.^10)
 
 %% 2.3 cumsum
-% In MATLAB, `cumsum` gives the cumulative sum of a 
-% vector,
+% In MATLAB, `cumsum` gives the cumulative sum of a vector,
   v = [1 2 3 5]
   cumsum(v)
 %%
@@ -224,7 +223,7 @@
 % avoid the singularity at $x=0$ we begin our integral at the point
 % $\mu = 1.451...$ where $Li(x)$ is zero, known as Soldner's constant.
 % The test value $Li(2)$ is correct except in the last digit:
-  mu = 1.45136923488338105;   % Soldner's constant
+  mu = 1.45136923488338105;      % Soldner's constant
   xmax = 400;
   Li = cumsum(chebfun(@(x) 1./log(x),[mu xmax]));
   lengthLi = length(Li)
@@ -250,7 +249,7 @@
 % chebfuns and are based on integrals.  For example,
   mean(chebfun('cos(x).^2',[0,10*pi]))
 
-%% 2.4 diff
+%% 2.4 `diff`
 % In MATLAB, `diff` gives finite differences of a vector:
   v = [1 2 3 5]
   diff(v)
@@ -364,7 +363,7 @@
 
 %%
 % A much better approach for this problem, however, is to use
-% Chebfun2, which is described in the Chebfun2 chapters of this guide.
+% Chebfun2, which is described in Chapters 11-15.
 % With this method we can compute the integral quickly,
 tic
 f2 = chebfun2(f,[-2 2 0.5 2.5]);
@@ -412,6 +411,8 @@ contour(f2,-1:.2:1), colorbar, grid on
 % and weights by the eigenvalue algorithm of Golub and Welsch [Golub &
 % Welsch 1969]. However, the Hale-Townsend algorithms are both more
 % accurate and much faster [Hale & Townsend 2013].
+% Closely related fast algorithms developed independently are presented
+% in [Bogaert, Michiels & Fostier 2012].
 
 %%
 % For Legendre polynomials, Legendre points, and Gauss quadrature, use
@@ -433,33 +434,37 @@ contour(f2,-1:.2:1), colorbar, grid on
 % Software_, dissertation, MSc in Mathematical Modelling and Scientific
 % Computing, Oxford University, 2008.
 %
+% [Bogaert, Michiels, and Fostier, "O(1) computation of Legendre
+% polynomials and Legendre nodes and weights for parallel computing",
+% _SIAM Journal on Scientific Computing_,34 (2012), C83-C101. 
+%
 % [Espelid 2003] T. O. Espelid, "Doubly adaptive quadrature routines
-% based on Newton-Cotes rules", _BIT Numerical Mathematics_ 43 (2003),
+% based on Newton-Cotes rules", _BIT Numerical Mathematics_, 43 (2003),
 % 319-337.
 %
 % [Gentleman 1972] W. M. Gentleman, "Implementing Clenshaw-Curtis
-% quadrature I and II", _Journal of the ACM_ 15 (1972), 337-346 and 353.
+% quadrature I and II", _Journal of the ACM_, 15 (1972), 337-346 and 353.
 %
 % [Golub & Welsch 1969] G. H. Golub and J. H. Welsch, "Calculation of Gauss
-% quadrature rules", _Mathematics of Computation_ 23 (1969), 221-230.
+% quadrature rules", _Mathematics of Computation_, 23 (1969), 221-230.
 %
 % [Gonnet 2009] P. Gonnet, _Adaptive Quadrature Re-Revisited_, ETH
 % dissertation no. 18347, Swiss Federal Institute of Technology, 2009.
 %
 % [Hale & Townsend 2013] N. Hale and A. Townsend,
 % Fast and accurate computation of Gauss-Legendre and Gauss-Jacobi
-% quadrature nodes and weights, _SIAM Journal on Scientific Computing_
+% quadrature nodes and weights, _SIAM Journal on Scientific Computing_,
 % 35 (2013), A652-A674.
 %
 % [Hale & Trefethen 2012] N. Hale and L. N. Trefethen,
-% Chebfun and numerical quadrature, _Science in China_ 55 (2012), 1749-1760.
+% Chebfun and numerical quadrature, _Science in China_, 55 (2012), 1749-1760.
 %
 % [Kahaner 1971] D. K. Kahaner, "Comparison of numerical quadrature
 % formulas", in J. R. Rice, ed., _Mathematical Software_, Academic Press,
 % 1971, 229-259.
 %
 % [Kotnik 2008] T. Kotnik, "The prime-counting function and its analytic
-% approximations", _Advances in Computational Mathematics_ 29 (2008), 55-70.
+% approximations", _Advances in Computational Mathematics_, 29 (2008), 55-70.
 %
 % [Wolfram 2003] S. Wolfram, _The Mathematica Book_, 5th ed., Wolfram Media,
 % 2003.
