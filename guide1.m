@@ -39,7 +39,7 @@
 % established by results scattered throughout the 20th century.  A key
 % early figure, for example, was Bernstein in the 1910s. Much of the
 % relevant material can be found collected in the Chebfun-based book
-% [Trefethen 2013].
+% _Approximation Theory and Approximation Practice_[Trefethen 2013].
 
 %%
 % Chebfun was originally created by Zachary Battles and Nick Trefethen at
@@ -52,15 +52,14 @@
 % project during 2010-2014.  The Chebfun Version 5 rewrite was directed
 % by Nick Hale during 2013-2014, and the team included Anthony
 % Austin, Asgeir Birkisson, Toby Driscoll, Hrothgar, Mohsin
-% Javed, Hadrien Montanelli, Nick Trefethen, Grady Wright, and Kuan Xu.
+% Javed, Hadrien Montanelli, Alex Townsend,
+% Nick Trefethen, Grady Wright, and Kuan Xu.
 % Further information about Chebfun history is available at the Chebfun
-% web site.
+% web site, http://www.chebfun.org.
 
 %%
 % This Guide is based on Chebfun Version 5, released
-% in 2014.  Chebfun is available at
-% http://www.maths.ox.ac.uk/chebfun/, and an earlier version of the Guide
-% for Version 4 can be found there.
+% in June 2014.  Chebfun is available at http://www.chebfun.org.
 
 %% 1.2  Constructing simple chebfuns
 % The `chebfun` command constructs a chebfun from a specification such as a
@@ -81,7 +80,7 @@
 
 %%
 % These results tell us that `f` is represented by a polynomial interpolant
-% through 59 Chebyshev points, i.e., a polynomial of degree 58.  These
+% through 61 Chebyshev points, i.e., a polynomial of degree 60.  These
 % numbers have been determined by an adaptive process.  We can see the data
 % points by plotting `f`with the `'.-'` option:
   plot(f,'.-')
@@ -170,7 +169,7 @@
   help chebfun/sum
 
 %%
-% Most of the commands in the list exist in ordinary MATLAB; some
+% Most of the commands in the list above exist in ordinary MATLAB; some
 % exceptions are `domain`, `restrict`, `chebpoly`, and `remez`.
 % We have already seen `length` and `sum` in action.  In fact we have
 % already seen `subsref` too, since that is the MATLAB command for (among
@@ -198,7 +197,7 @@
 % its own polynomial representation.  Each of the smooth pieces is called a
 % "fun".  This enhancement of Chebfun was developed initially by Ricardo
 % Pachon during 2006-2007, then also by Rodrigo Platte starting in 2007
-% [Pachon, Platte and Trefethen 2009]. Essentially funs are the "classic
+% [Pachon, Platte and Trefethen 2010]. Essentially funs are the "classic
 % chebfuns" for smooth functions on $[-1,1]$ originally implemented by
 % Zachary Battles in Chebfun Version 1.
 
@@ -229,8 +228,8 @@
 % points and two corresponding function values.
 % The functions live on intervals defined by breakpoints at
 % $-1$, $1$, and a number very close to $0.3$.  The `Vscale` field is related to
-% the maximum absolute value of `f` and `Epslevel` gives some information (to
-% be discussed later) about its relative accuracy.
+% the maximum absolute value of `f` and `Epslevel` gives some rough
+% information about its relative accuracy.
 
 %%
 % Another way to make a piecewise smooth chebfun is to construct it
@@ -272,7 +271,7 @@
   plot(h)
 
 %%
-% As always, h may look complicated to a human, but to Chebfun it is just a
+% As always, `h` may look complicated to a human, but to Chebfun it is just a
 % function.  Here are its mean, standard deviation, minimum, and maximum:
   mean(h)
 
@@ -299,6 +298,9 @@
 % -- to omit the splitting and construct one global chebfun:
 
   tic, f2 = chebfun('sin(x)',[0 1000*pi]), toc
+
+%%
+% Splitting on and off are discussed further in Section 8.3.
 
 %% 1.5  Infinite intervals and infinite function values
 % A major change from Chebfun Version 2 to Version 3 was the generalization of
@@ -372,17 +374,18 @@
 %% 1.8  References
 % [Battles & Trefethen 2004] Z. Battles and L. N. Trefethen, "An extension
 % of MATLAB to continuous functions and operators", _SIAM Journal on
-% Scientific Computing_ 25 (2004), 1743-1770.
+% Scientific Computing_, 25 (2004), 1743-1770.
 % 
 % [Berrut & Trefethen 2005] J.-P. Berrut and L. N. Trefethen, "Barycentric
-% Lagrange interpolation", _SIAM Review 46_ (2004), 501-517.
+% Lagrange interpolation", _SIAM Review 46_, (2004), 501-517.
 %
 % [Higham 2004] N. J. Higham, "The numerical stability of barycentric
-% Lagrange interpolation", _IMA Journal of Numerical Analysis_ 24 (2004),
+% Lagrange interpolation", _IMA Journal of Numerical Analysis_, 24 (2004),
 % 547-556.
 %
-% [Pachon, Platte & Trefethen 2009] R. Pachon, R. B. Platte and L. N.
-% Trefethen, "Piecewise smooth chebfuns", _IMA J. Numer. Anal._, 2009.
+% [Pachon, Platte & Trefethen 2010] R. Pachon, R. B. Platte and L. N.
+% Trefethen, "Piecewise-smooth chebfuns", _IMA J. Numer. Anal._, 30 (2010),
+% 898-916.
 %
 % [Salzer 1972] H. E. Salzer, "Lagrangian interpolation at the Chebyshev
 % points cos(nu pi/n), nu = 0(1)n; some unnoted advantages", _Computer
