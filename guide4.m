@@ -119,7 +119,7 @@
 % to the user, and both representations are exploited for various
 % purposes internally in the system.
 
-%% 4.2 `chebpoly` and `poly`
+%% 4.2 `chebcoeffs` and `poly`
 % We have just seen that the command `chebpoly(N)` returns a chebfun
 % corresponding to the Chebyshev polynomial $T_N$.  Conversely, if `f` is a
 % chebfun, then `chebcoeffs(f)` is the vector of its Chebyshev coefficients.
@@ -557,7 +557,7 @@ roots(q,'complex')
 % Caratheodory-Fejer approximants computed by `cf` [Trefethen & Gutknecht
 % 1983, Van Deun & Trefethen 2011]. As mentioned in Section 4.6, CF
 % approximants often agree with best approximations to machine precision if
-% f is smooth. We explore the same function yet again, and this time obtain
+% $f$ is smooth. We explore the same function yet again, and this time obtain
 % an equioscillating error curve:
 [p,q] = cf(f,40,4);
 r = p./q;
@@ -624,7 +624,7 @@ roots(q,'complex')
 %
 % [Mastroianni & Szabados 1995] G. Mastroianni and J. Szabados, "Jackson
 % order of approximation by Lagrange interpolation", _Acta
-% Mathematica Hungarica_, 69 % (1995), 73-82.
+% Mathematica Hungarica_, 69 (1995), 73-82.
 %
 % [Meinardus 1967] G. Meinardus, _Approximation of Functions: Theory and
 % Numerical Methods_, Springer, 1967.
@@ -659,7 +659,7 @@ roots(q,'complex')
 % points cos(nu pi/n), nu = 0(1)n; some unnoted advantages", _Computer
 % Journal_, 15 (1972),156-159.
 %
-% [Trefethen 2000] L. N. Trefethen, _Spectral Methods in MATLAB,  SIAM, 2000.
+% [Trefethen 2000] L. N. Trefethen, _Spectral Methods in MATLAB_, SIAM, 2000.
 %
 % [Trefethen 2013] L. N. Trefethen, _Approximation Theory and Approximation
 % Practice_, SIAM, 2013.

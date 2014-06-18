@@ -10,7 +10,7 @@
 % `help chebfunpref`, or for chebops, as used to solve
 % integral and differential equations,
 % `help cheboppref`.  To see the list of preferences and their current
-% values, you can simply execute `chebfunpref`:
+% values, execute `chebfunpref` or `cheboppref`:
 chebfunpref
 
 %%
@@ -33,14 +33,14 @@ chebfunpref.setDefaults('factory')
 f = chebfun('x.^x',[0,1],'splitting','on');
 
 %%
-% In the latter case, however, one must typicall turn the preference on and
+% In the latter case, however, one must typically turn the preference on and
 % off again.
 x = chebfun('x',[0,1]);
 chebfunpref.setDefaults('enableBreakpointDetection',true)  %%% splitting
 f = x.^x;
 chebfunpref.setDefaults('enableBreakpointDetection',false) %%% splitting
 
-%% 8.2  domain: the default domain
+%% 8.2  `domain`: the default domain
 % Like Chebyshev polynomials themselves, chebfuns are defined by default on
 % the domain $[-1,1]$ if no other domain is specified.  However, this default
 % choice of the default domain can be modified.  For example, we can work
@@ -50,7 +50,7 @@ chebfunpref.setDefaults('enableBreakpointDetection',false) %%% splitting
   g = chebfun(@(t) cos(20*t));
   plot(f,g), axis equal, axis off
 
-%% 8.3  splitting: splitting on/off
+%% 8.3 `splitting`: breaking into subintervals or not
 % Perhaps the preference that users wish to control most often is the
 % choice of splitting off or on.  Splitting off is the factory default.
 
@@ -65,7 +65,7 @@ chebfunpref.setDefaults('enableBreakpointDetection',false) %%% splitting
   plot(f)
 
 %%
-% One breakpoint is introduced at $x=0$, where the constructor recognizes
+% One breakpoint is introduced at $x=0$, where the constructor determines
 % that $|x|$ has a zero, and two more breakpoints are introduced at
 % $-0.1443$ and at $0.2045$, where it recognizes that
 % $|x|$ and $\exp(x)/6$ will intersect.
@@ -109,7 +109,7 @@ chebfunpref.setDefaults('enableBreakpointDetection',false) %%% splitting
 
 %%
 % In this example the subdivisions have occurred near an
-% endpoint, for the edge detector has estimated that the difficulty of
+% endpoint, for the edge detector has determined that the difficulty of
 % resolution lies there.  For other functions, however, splitting will take
 % place at midpoints.  For example, here is a function that is complicated
 % throughout $[-1,1]$, especially for larger values of $x$.
@@ -153,7 +153,10 @@ chebfunpref.setDefaults('enableBreakpointDetection',false) %%% splitting
 % very convenient that Chebfun can be used so easily to study the
 % properties of pure polynomial representations.
 
-%% 8.4  splitDegree: degree limit in splitting on mode    %%% splitLength?
+%% 8.4 `splitDegree`: degree limit in splitting on mode 
+%      %%% Is this becoming `splitLength?
+
+%%
 % When intervals are subdivided in splitting on mode, as just illustrated,
 % the parameter `splitDegree` determines where this will happen.  With the
 % factory value `splitDegree=160`, splitting will take place if a polynomial
@@ -161,7 +164,7 @@ chebfunpref.setDefaults('enableBreakpointDetection',false) %%% splitting
 % uses Chebyshev points of the second kind as it does by default, this number
 % is rounded down to a power of 2.)  Let us confirm for
 % the chebfun `f` constructed a moment ago that the degrees of the individual
-% funs are all less or equal than 160 (actually 128):
+% funs are all less than or equal to 160 (actually 128):
   f.funs
 
 %%
@@ -172,11 +175,11 @@ chebfunpref.setDefaults('enableBreakpointDetection',false) %%% splitting
   format short, f.ends
   f.funs
 
-%% 8.5  maxDegree: maximum degree
+%% 8.5  `maxDegree`: maximum degree
 % As just mentioned, in splitting off mode, the constructor tries to make a
 % global chebfun from the given string or anonymous function.  For a
 % function like $|x|$ or $\hbox{sign}(x)$, this will typically not be possible and
-% we must give up somewhere. The parameter maxDegree, set to $2^16$ in the
+% we must give up somewhere. The parameter `maxDegree`, set to $2^16$ in the
 % factory, determines this giving-up point.
 
 %%
@@ -188,14 +191,17 @@ chebfunpref.setDefaults('enableBreakpointDetection',false) %%% splitting
 % Suppose we wish to examine the interpolant to this function through 50
 % points instead of 65537.  One way is like this:
   f = chebfun('sign(x)',50);
+  length(f)
   plot(f)
 
 %%
 % Notice that no warning message is produced since we have asked explicitly
 % for exactly 50 points.  On the other hand we could also change the
 % default maximum to this number (or more precisely the default degree to
-% one less than this number), and then there would be a different warning message:
+% one less than this number), giving the same effect
+% though now with another warning message:
   f = chebfun('sign(x)','maxPoints',49);    %%% maxDegree %%%BUG
+  length(f)
 
 %%
 % Perhaps more often one might wish to adjust this preference to enable use
@@ -216,7 +222,7 @@ chebfunpref.setDefaults('enableBreakpointDetection',false) %%% splitting
 % singularity, are described in Chapter 9.)
 
 %% 8.6 `minSamples`: minimum number of sample points
-% At the other end of the spectrum, the preference minSamples determines the
+% At the other end of the spectrum, the preference `minSamples` determines the
 % minimum number of points at which a function is sampled during the
 % chebfun construction process, and the factory value of this parameter is
 % 17.  This does not mean that all chebfuns have length at least 17.  For
@@ -229,7 +235,7 @@ chebfunpref.setDefaults('enableBreakpointDetection',false) %%% splitting
   lengthf = length(f)
 
 %%
-% More generally a function is sampled at $17, 33, 65\dots$ points until a set
+% More generally a function is sampled at $17, 33, 65,\dots$ points until a set
 % of Chebyshev coefficients are obtained with a tail judged to be
 % negligible.
 
@@ -255,8 +261,8 @@ chebfunpref.setDefaults('enableBreakpointDetection',false) %%% splitting
 % $\exp(-(30(x-.47)^2))$ takes values of about $0.001$, which are easily
 % large enough to be noticed by the
 % Chebfun constructor. On the other hand in the case of exponent 4, the
-% values shrink to less than $10^{-19}$, which 
-% is far below machine precision.  So in
+% values at these points shrink to less than $10^{-19}$, which 
+% is below machine precision.  So in
 % the latter case the constructor thinks it has a quadratic and does not
 % try a finer grid.
 
@@ -274,8 +280,8 @@ chebfunpref.setDefaults('enableBreakpointDetection',false) %%% splitting
 % `chebfunpref('minSamples',33)`.
 
 %%
-% The default `minSamples=17` was chosen as a compromise between
-% efficiency and reliability.  (Until Version 5, we took
+% The factory value `minSamples=17` was chosen as a compromise between
+% efficiency and reliability.  (Until Version 5, the value was
 % `minSamples=9'.)  In practice it rarely seems to fail, but
 % perhaps it is most vulnerable when applied in splitting on mode to
 % functions with narrow spikes.  For example, the following chebfun is
@@ -291,15 +297,15 @@ chebfunpref.setDefaults('enableBreakpointDetection',false) %%% splitting
   f = chebfun(ff,[0,10],'splitting','on');
   plot(f)
     
-%% 8.7  resampling: resampling on/off
+%% 8.7  `resampling`: exploiting nested grids or not
 % We now turn to a particularly interesting preference for Chebfun geeks,
 % relating to the very idea of what it means to sample a function.
 
 %%
 % When a chebfun is constructed, a function is normally sampled at $17,
-% 33, 65\dots$ Chebyshev points until convergence is achieved. (We are speaking
+% 33, 65,\dots$ Chebyshev points until convergence is achieved. (We are speaking
 % here of the process for Chebyshev points of the second kind; for
-% first-kind points the process is different.)  Now Chebyshev
+% first-kind points the details are different.)  Now Chebyshev
 % grids are nested, so the 33-point grid, for example, only contains 16
 % points that are not in the 17-point grid.  By default, the Chebfun
 % constructor takes advantage of this property so as not to recompute
@@ -314,9 +320,10 @@ chebfunpref.setDefaults('enableBreakpointDetection',false) %%% splitting
   length(f)
 
 %%
-% Let us see what happens if we set 'resampling on', so that previously
+% There is little difference, even in the timing, if
+% we set 'resampling on', so that previously
 % computed values are not reused:
-  tic, f = chebfun(ff,[0 8],'resampling','on'); toc
+  tic, f = chebfun(ff,[0 8],'resampling','on'); toc   %%% ?
   length(f)
 
 %%
@@ -327,35 +334,35 @@ chebfunpref.setDefaults('enableBreakpointDetection',false) %%% splitting
   ff = @(x) length(x)*sin(2*x);
 
 %%
-% The values of f at any particular point will depend on the length of the
+% The values of $f$ at any particular point will depend on the length of the
 % vector in which it is embedded! What will happen if we try to make a
-% chebfun, disabling the "sampletest" feature that is usually applied by
+% chebfun, disabling the "sampleTest" feature that is usually applied by
 % the constructor as a safety test? The constructor tries the 9-point
 % Chebyshev grid, then the 17-point grid, then the 33-point grid.  On the
 % last of these it finds the Chebyshev coefficients are sufficiently small,
 % and proceeds to truncate to length 18. We end up with a chebfun of length
-% 18 that precisely matches the function 33sin(2x).
-%%%  f = chebfun(ff,'sampletest',0,'resampling','on');
-%%%  length(f)
-%%%  max(f)
-%%%  plot(f,'.-')
+% 18 that precisely matches the function $33\sin(2x)$.
+%
+%   f = chebfun(ff,'sampleTest',0,'resampling','on');   %%% ?
+%   length(f)
+%   max(f)
+%   plot(f,'.-')
 
 %%
 % This rather bizarre example encourages us to play further. What if we
 % change length(x)*sin(2*x) to sin(length(x)*x)? Now there is no
 % convergence, for no matter how fine the grid is, the function is
 % underresolved.
-
   hh = @(x) sin(length(x)*x);
-  h = chebfun(hh,'sampletest',0,'resampling','on');
+  h = chebfun(hh,'sampleTest',0,'resampling','on');
 
 %%
 % Here is an in-between case where convergence is achieved on the grid of
 % length 65, and the resulting chebfun then trimmed to length 44.
-%%%  kk = @(x) sin(length(x).^(2/3)*x);
-%%%  k = chebfun(kk,'sampletest',0,'resampling','on');
-%%%  length(k)
-%%%  plot(k,'.-')
+%    kk = @(x) sin(length(x).^(2/3)*x);                   %%% ?
+%    k = chebfun(kk,'sampleTest',0,'resampling','on');
+%    length(k)
+%    plot(k,'.-')
 
 %%
 % Are such curious effects of any use?  Yes indeed, they are at the heart
@@ -372,15 +379,17 @@ chebfunpref.setDefaults('enableBreakpointDetection',false) %%% splitting
 % feature? We do not currently know the answer and would be pleased to hear
 % from users who may have ideas.
 
-%% 8.8 eps: Chebfun constructor tolerance
+%% 8.8 `eps`: Chebfun constructor tolerance
 % One of the controllable preferences is all too tempting: you can weaken
 % the tolerance used in constructing a chebfun. The chebfunpref parameter
 % eps is set by default to machine precision:
-%%% chebfunpref('eps')  %%% what should this be now?
+%
+%   chebfunpref('eps')  %%% what should this be now?
 
 %%
 % However, one can change this with a command like
-%%% `chebfunpref('eps',1e-6)`.   %%% and this?
+%
+%  `chebfunpref('eps',1e-6)`.   %%% and this?
 
 %%
 % There are cases where weakening the tolerance makes a big
@@ -392,9 +401,16 @@ chebfunpref.setDefaults('enableBreakpointDetection',false) %%% splitting
 % imagine, and we recommend that users not change eps unless they are
 % having real problems with standard precision.
 
-%% 8.9 Additional preferences
-% Information about additional Chebfun preferences can be found by typing
-% help chebfunpref.  Here is a quick summary.  In most cases various
+%% 8.9 Chebyshev points of first or second kind
+
+%% 8.10 Rectangular or ultraspherical spectral discretizations
+
+%% 8.11 Chebfun2 preferences
+
+%% 8.12 Additional preferences
+% Information about additional Chebfun preferences can be found by
+% executing
+% `help chebfunpref`.  Here is a quick summary.  In most cases various
 % keywords are permitted such as `'on'` or `1` or `true, `'off'` or `0` or `false`.
 
 %%

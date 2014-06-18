@@ -65,8 +65,8 @@ subplot(1,2,2), plot(z.^2), axis equal, grid on
 % construction like `join(f,g,h)` constructs a single chebfun with the same
 % values as `f`, `g`, and `h`, but on a domain concatenated together.  Thus if
 % the domains of `f`, `g`, `h` are $[a,b]$,
-% $[c,d]$, and $[e,d]$, then `chebjoin(f,g,h)` has
-% three pieces with domains $[a,b]$, $[b,b+(d-c)]$, $[b+(d-c),b+(d-c)+(d-e)]$.
+% $[c,d]$, and $[e,f]$, then `join(f,g,h)` has
+% three pieces with domains $[a,b]$, $[b,b+(d-c)]$, $[b+(d-c),b+(d-c)+(f-e)]$.
 % Using this trick, we can construct the chebfun `z` above in the following
 % alternative manner:
   s = chebfun(@(s) s,[0 1]);
@@ -215,7 +215,7 @@ I = sum(f.*diff(z))/(2i*pi)
 % normally take advantage of the fact that the integrand is periodic.
 % That would
 % be Fourier analysis as opposed to Chebyshev analysis, and a "Fourtech"
-% approach would be more efficient for such problems [Davis 1959].  (This
+% approach is more efficient for such problems [Davis 1959].  (This
 % can be achieved by calling the Chebfun constructor with the
 % `periodic` flag; an example will be added.)
 % Chebyshev
@@ -257,7 +257,7 @@ Iexact = 4i*pi*log(pi/2)
 %% 5.4 Cauchy integrals and locating zeros and poles
 % Here are some further examples of computations with Cauchy integrals. The
 % Bernoulli number $B_k$ is $k!$ times the kth Taylor coefficient of
-% $z/((exp(z)-1)$. Here is $B_{10}$ compared with its exact value $5/66$.
+% $z/((\exp(z)-1)$. Here is $B_{10}$ compared with its exact value $5/66$.
 k = 10;
 z = chebfun('5*exp(1i*s)',[0 2*pi]);
 f = z./((exp(z)-1));
@@ -265,7 +265,7 @@ B10 = factorial(k)*sum((f./z.^(k+1)).*diff(z))/(2i*pi)
 exact = 5/66
 
 %%
-% Notice that we have taken $z$ to be a circle of radius $5$. If the radius is
+% Notice that we have taken `z` to be a circle of radius $5$. If the radius is
 % $1$, the accuracy is a good deal lower:
 z = chebfun('exp(1i*s)',[0 2*pi]);
 f = z./((exp(z)-1));
