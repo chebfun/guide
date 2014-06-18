@@ -9,7 +9,7 @@
 
 %%
 % The history of "Chebyshev technology" goes back to the 19th century
-% Russian mathematician P. L. Chebyshev (1821-1894) and his mathematical
+% Russian mathematician Pafnuty Chebyshev (1821-1894) and his mathematical
 % descendants such as Zolotarev and Bernstein (1880-1968).  These men
 % realized that just as Fourier series provide an efficient way to
 % represent a smooth periodic function, series of Chebyshev polynomials can
@@ -55,7 +55,7 @@
 % where $N\ge 1 $ is an integer.  (If $N=0$, we take $x_0=0$.)   A fuller
 % name is that these are *Chebyshev points of the second kind*.
 % (Chebfun also enables computations based on Chebyshev points
-% of the first kind; see Chapter 8.)
+% of the first kind; see Section 8.9.)
 % Through any data
 % values $f_j$ at these points there is a unique polynomial interpolant $p(x)$
 % of degree $\le N$, which we call the *Chebyshev interpolant*. In particular,
@@ -113,7 +113,7 @@
 % Each coefficient $c_k$ will converge to $a_k$ as $N\to\infty$
 % (apart from the effects of rounding errors),
 % but for finite $N$, $c_k$ and $a_k$ are different.
-% Chebfuns versions 1-4 stored functions via their values at
+% Chebfun versions 1-4 stored functions via their values at
 % Chebyshev points, whereas version 5 switched to
 % Chebyshev coefficients, but this hardly matters
 % to the user, and both representations are exploited for various
@@ -122,35 +122,34 @@
 %% 4.2 `chebpoly` and `poly`
 % We have just seen that the command `chebpoly(N)` returns a chebfun
 % corresponding to the Chebyshev polynomial $T_N$.  Conversely, if `f` is a
-% chebfun, then `chebpoly(f)` is the vector of its Chebyshev coefficients.
-% (This use of `chebpoly` is scheduled to be replaced soon
-% by a distinct command `chebcoeffs`.)
+% chebfun, then `chebcoeffs(f)` is the vector of its Chebyshev coefficients.
+% (Before Version 5, the command for this was `chebpoly`.)
 % For example, here are the Chebyshev coefficients of $x^3$:
 x = chebfun(@(x) x);
-c = chebpoly(x.^3)
+c = chebcoeffs(x.^3)
 
 %%
-% Like `poly`, `chebpoly` returns a row vector with the high-order coefficients first.
+% Like `poly`, `chebcoeffs` returns a row vector with the high-order coefficients first.
 % Thus this computation reveals the identity
 % $x^3 = (1/4)T_3(x) + (3/4)T_1(x)$.
 
 %%
-% If we apply `chebpoly` to a function that is not "really" a polynomial, we
+% If we apply `chebcoeffs` to a function that is not "really" a polynomial, we
 % will usually get a vector whose first entry (i.e., highest order) is just
 % above machine precision. This reflects the adaptive nature of the Chebfun
 % constructor, which always seeks to use a minimal number of points.
-chebpoly(sin(x))
+chebcoeffs(sin(x))
 
 %%
 % Of course, machine precision is defined relative to the scale of
 % the function:
-chebpoly(1e100*sin(x))
+chebcoeffs(1e100*sin(x))
 
 %%
 % By using `poly` we can print the coefficients of such a chebfun in the
 % monomial basis.  Here for example are the coefficients of the Chebyshev
 % interpolant of $\exp(x)$ compared with the Taylor series coefficients:
-cchebfun = flipud(chebpoly(exp(x))');
+cchebfun = flipud(chebcoeffs(exp(x))');
 ctaylor = 1./gamma(1:length(cchebfun))';
 disp('        chebfun              Taylor')
 disp([cchebfun ctaylor])
@@ -185,15 +184,15 @@ subplot(1,2,2), plot(f,'.-'), grid on
 % There is an overshoot problem here, known as the Gibbs phenomenon, that
 % does not go away as $N\to\infty$. We can zoom in on the overshoot region by
 % resetting the axes:
-subplot(1,2,1), axis([0 .4 .5 1.5])
-subplot(1,2,2), axis([0 .2 .5 1.5])
+subplot(1,2,1), axis([0 .8 .5 1.5])
+subplot(1,2,2), axis([0 .4 .5 1.5])
 
 %%
 % Here are analogous results with $N=100$ and $1000$.
 f = chebfun('sign(x)',100);
-subplot(1,2,1), plot(f,'.-'), grid on, axis([0 .04 .5 1.5])
+subplot(1,2,1), plot(f,'.-'), grid on, axis([0 .08 .5 1.5])
 f = chebfun('sign(x)',1000);
-subplot(1,2,2), plot(f,'.-'), grid on, axis([0 .004 .5 1.5])
+subplot(1,2,2), plot(f,'.-'), grid on, axis([0 .008 .5 1.5])
 
 %%
 % What is the amplitude of the Gibbs overshoot for Chebyshev
@@ -352,7 +351,7 @@ text(45,1e-3,'C^{-N}','color','r','fontsize',16)
 % $[-1,1]$, i.e., one whose Taylor series at each point of $[-1,1]$ converges
 % at least in a small neighborhood of that point.  For analytic functions the
 % convergence is geometric. The essence of the following theorem is due to
-% Bernstein in 1912, though I do not know where an explicit statement first
+% Bernstein in 1912, though it is not clear where an explicit statement first
 % appeared in print.
 
 %%
