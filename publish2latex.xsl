@@ -26,8 +26,10 @@ Copyright 1984-2013 The MathWorks, Inc.
 \usepackage{color}
 
 \sloppy
-\definecolor{lightgray}{gray}{0.5}
+\definecolor{lightgray}{gray}{0.4}
 \setlength{\parindent}{0pt}
+\usepackage[letterpaper,hmargin={1.25in,1.25in},vmargin={1.5in,1in}]{geometry}
+
 
 \begin{document}
 
@@ -174,7 +176,7 @@ Copyright 1984-2013 The MathWorks, Inc.
 <!-- Figure and model snapshots -->
 
 <xsl:template match="img">
-\includegraphics [width=4in]{<xsl:value-of select="@src"/>}
+\includegraphics{<xsl:value-of select="@src"/>}
 </xsl:template>
 
 <!-- Colors for syntax-highlighted input code -->
