@@ -28,7 +28,8 @@
 % arithmetic.  In fact, beginning with version 5, Chebfun actually offers two
 % different methods for solving these problems, which go by the names
 % of rectangular collocation (or Driscoll-Hale) spectral methods
-% and ultraspherical (or Olver-Townsend) spectral methods.  See Section 7.7.
+% and ultraspherical (or Olver-Townsend) spectral methods.
+% See Sections 7.7 and 8.10.
 
 %%
 % The linear part of the chebop package was conceived at Oxford by
@@ -48,15 +49,15 @@ L = chebop(-1,1);
 L.op = @(x,u) diff(u,2);
 
 %%
-% (For scalar operators like this, one may also dispense with the `x` and
+% (For scalar operators like this, one may dispense with the `x` and
 % just write `L.op = @(u) diff(u,2)`.) This operator can now be applied to
-% chebfuns defined on [-1,1]. For example, taking two derivatives of
-% $sin(3x)$ multiplies its amplitude by 9:
+% chebfuns defined on $[-1,1]$. For example, taking two derivatives of
+% $\sin(3x)$ multiplies its amplitude by 9:
 u = chebfun('sin(3*x)');
 norm(L(u),inf)
 
 %%
-% Both the notations L*u and L(u) are allowed, with the same meaning.
+% Both the notations `L*u` and `L(u)` are allowed, with the same meaning.
 min(L*u)
 
 %%
@@ -78,7 +79,7 @@ L.lbc = @(u) u;
 L.rbc = @(u) diff(u)-1;
 
 %%
-% We can see a summary of L by typing the name without a semicolon:
+% We can see a summary of `L` by typing the name without a semicolon:
 L
 
 %%
@@ -116,7 +117,8 @@ L = chebop(@(x,u) diff(u)+diff(u,2),[-1,1],@(u) 0,@(u) diff(u))
 %% 7.4 Solving differential and integral equations
 % In MATLAB, if `A` is a square matrix and `b` is a vector, then the command
 % `x=A\b` solves the linear system of equations $Ax=b$.  Similarly in Chebfun,
-% if `L` is a differential operator and `f` is a Chebfun, then `u=L\f` solves the
+% if `L` is a differential operator with appropriate
+% boundary conditions and `f` is a Chebfun, then `u=L\f` solves the
 % differential equation $L(u)=f$.  More generally `L` might be an integral or
 % integro-differential operator.  (Of course, just as you can solve $Ax=b$
 % only if $A$ is nonsingular, you can solve $L(u)=f$ only if the problem is
@@ -190,12 +192,12 @@ plot(u,LW,2), grid on
 % with discontinuous coefficients can be found in the _Demos_ menu
 % of |chebgui|.
 
-%% 7.5 Eigenvalue problems -- `eigs`
+%% 7.5 Eigenvalue problems: `eigs`
 % In MATLAB, |eig| finds all the eigenvalues of a matrix whereas |eigs| finds
 % some of them.  A differential or integral operator normally has
 % infinitely many eigenvalues, so one could not expect an analog of |eig|
 % for chebops.  |eigs|, however, has been overloaded.  Just like MATLAB |eigs|,
-% Chebfun |eigs| finds 6 eigenvalues by default, together with eigenfunctions
+% Chebfun |eigs| finds six eigenvalues by default, together with eigenfunctions
 % if requested.  (For details see [Driscoll, Bornemann & Trefethen
 % 2008].) Here is an example involving sine waves.
 L = chebop( @(x,u) diff(u,2), [0,pi] );
@@ -246,7 +248,7 @@ MS = 'markersize';
 clf, plot(lam,'r.',MS,16), grid on, axis equal
 spectral_abscissa = max(real(lam))
 
-%% 7.6 Exponential of a linear operator -- `expm`
+%% 7.6 Exponential of a linear operator: `expm`
 % In MATLAB, `expm` computes the exponential of a matrix, and this command
 % has been overloaded in Chebfun to compute the exponential of a linear
 % operator.  If $L$ is a linear operator and $E(t) = \exp(tL)$, then the
@@ -285,7 +287,7 @@ end
 % the methods involved were all Chebyshev spectral methods on
 % automatically chosen grids.  The general ideas are presented in [Trefethen 2000],
 % [Driscoll, Bornemann & Trefethen 2008], and [Driscoll 2010], but Chebfun
-% actually uses modifications of these methods to be described in [Driscoll
+% actually uses modifications of these methods described in [Driscoll
 % & Hale 2014] involving a novel mix of Chebyshev grids of the first and
 % second kinds.  These *rectangular collocation* or *Driscoll-Hale*
 % spectral discretizations start from the idea that a differential operator is
@@ -301,7 +303,7 @@ end
 % One matter you might not guess was challenging is the determination of
 % whether or not an operator is linear!  This is important since if an
 % operator is linear, special actions are possible
-% possible such as application of `eigs` and `expm and solution of
+% possible such as application of `eigs` and `expm` and solution of
 % differential equations in a single step without iteration.  Chebfun
 % includes special devices to determine whether a chebop is linear so that
 % these effects can be realized [Birkisson 2014].
@@ -342,13 +344,12 @@ tic
 u = chebop(@(x,u) diff(u,2)+u,[-10,10],cos(10),cos(10))\0;
 toc
 error = u(5) - cos(5)
-cheboppref.setDefaults('factory')
-   % reset to standard mode
+cheboppref.setDefaults('factory')   % reset to standard mode
 
 %% 7.8 Block operators and systems of equations
 % Some problems involve several variables coupled together. In Chebfun,
 % these are treated with the use of quasimatrices, that is, chebfuns with
-% several columns.
+% several columns, as described in Chapter 6.
 
 %%
 % For example, suppose we want to solve the coupled system $u'=v$, $v'=-u$ with
@@ -362,7 +363,7 @@ rhs = [0; 0];
 U = L\rhs;
 
 %%
-% The solution U is an $\infty\times 2$ Chebfun quasimatrix with columns
+% The solution `U` is an $\infty\times 2$ Chebfun quasimatrix with columns
 % `u=U(:,1)` and `v=U(:,2)`.  Here is a plot:
 clf, plot(U)
 
@@ -379,7 +380,8 @@ clf, plot(U)
 
 %%
 % To illustrate the solution of an eigenvalue problem involving a block
-% operator, we can take much the same idea.  The eigenvalue problem $u``=c^2u$
+% operator, we can take much the same idea.
+% The eigenvalue problem $u''=c^2u$
 % with $u=0$ at the boundaries can be written in first order form as $u'=cv$,
 % $v'=cu$.  Here are the first 7 eigenvalues:
 % L = chebop(0,10*pi);
@@ -411,7 +413,7 @@ clf, plot(U)
 % problems may be useful in solving nonlinear problems. For example, the
 % nonlinear BVP
 % 
-% 0.001u'' - u^3 = 0,  u(-1)=1, u(1)=-1
+% $$ 0.001u'' - u^3 = 0,\qquad   u(-1)=1,~~ u(1)=-1 $$
 % 
 % could be solved by Newton iteration as follows.
 L = chebop(-1,1);
@@ -430,7 +432,7 @@ clf, plot(u)
 
 %%
 % Note the beautifully fast convergence, as one expects with Newton's
-% method. The chebop J defined in the *while* loop is a Jacobian operator
+% method. The chebop `J` defined in the **while** loop is a Jacobian operator
 % (=Frechet derivative), which we have constructed explicitly by
 % differentiating the nonlinear operator defining the ODE.  In Section 10.4
 % we shall see that this whole Newton iteration can be automated by use of
@@ -446,14 +448,14 @@ clf, plot(u)
 % The result is the same as before to many digits of accuracy:
 % norm(u-v)
 
-%% 7.10 BVP Systems with Unknown Parameters
-% It is sometimes the case that ODEs or systems of ODEs contain unknown
-% parameter values which must be computed for as part of the solution. An
-% example of this is MATLAB's built-in MAT4BVP example. These parameters
+%% 7.10 BVP systems with unknown parameters
+% Sometimes ODEs or systems of ODEs contain unknown
+% parameter values that must be computed for as part of the solution. An
+% example of this is MATLAB's built-in `mat4bvp` example. These parameters
 % can always be included in system as unknowns with zero derivatives, but
 % this can be computationally inefficient. Chebfun allows the option of
 % explicit treatment of the parameters. Often the dependence of the
-% solution on these parameters is nonlinear (such as in the case below),
+% solution on these parameters is nonlinear (as in the case below),
 % and this discussion might better have been left to Chapter 10, but since,
 % from the user perspective, there is little difference in this case, we
 % include it here.
@@ -461,7 +463,9 @@ clf, plot(u)
 %% 
 % Below is an example of such a paramterised problem, which is represents a
 % linear pendulum with a forcing sine-wave term of an unknown frequency T.
-% The task is to compute the solution for which u(-pi)=u(pi)=u'(pi)=1;
+% The task is to compute the solution for which 
+%
+%u(-pi)=u(pi)=u'(pi)=1;
 % N = chebop(@(x,u,T) diff(u,2) - u - sin(T.*x/pi),[-pi pi]);
 % N.lbc = @(u,T) u-1;
 % N.rbc = @(u,T) [u-1, diff(u)-1];
@@ -484,7 +488,10 @@ clf, plot(u)
 
 %% 7.11 References
 %
-% [Birkisson 2014] A. Birkisson, D. Phil. thesis, University of Oxford, 2014.
+% [Birkisson 2014] A. Birkisson, _Numerical
+% Solution of Nonlinear Boundary Value Problems for
+% Ordinary Differential Equations in the Continuous
+% Framework_, D. Phil. thesis, University of Oxford, 2014.
 %
 % [Birkisson & Driscoll 2011] A. Birkisson and T. A. Driscoll, Automatic
 % Frechet differentiation for the numerical solution of boundary-value
@@ -498,8 +505,8 @@ clf, plot(u)
 % L. N. Trefethen, "The chebop system for automatic solution of
 % differential equations", _BIT Numerical Mathematics_, 46 (2008), 701-723.
 %
-% [Driscoll & Hale 2014] T. A. Driscoll and N. Hale, manuscript in
-% preparation, 2014.
+% [Driscoll & Hale 2014] T. A. Driscoll and N. Hale, Rectangular
+% spectral collocation, manuscript, 2014.
 %
 % [Fornberg 1996] B. Fornberg, _A Practical Guide to Pseudospectral Methods_,
 % Cambridge University Press, 1996.
