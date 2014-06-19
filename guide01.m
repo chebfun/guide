@@ -368,9 +368,10 @@ max(f2)
 plot(f2,'m')
 
 %%
-% Its length is now only about $100\times 2$.   This improvement
+% Its length is now only about $100\times 2$ (exactly
+% 201).   This improvement
 % by a factor of about $\pi/2$ is typical.
-length(f)
+length(f2)
 
 %%
 % We can confirm that the two functions agree like this:
@@ -406,7 +407,7 @@ f = chebfun('exp(cos(t))',[-pi pi],'periodic');
 [a,b] = fourcoeffs(f);
 n = floor(length(f)/2);
 exact = 2*besseli(n:-1:0,1); exact(end) = exact(end)/2;
-disp('        computed           exact')
+disp('        computed            exact')
 disp([a' exact'])
 
 %% 1.7  Rows, columns, and quasimatrices
