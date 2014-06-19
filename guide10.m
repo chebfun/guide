@@ -398,7 +398,6 @@ cheboppref.setDefaults('display','none')
 % m-file" button, which produces a Chebfun m-file corresponding to whatever
 % problem is loaded into the GUI.  This feature enables one to get going quickly
 % and interactively, then switch to a Chebfun program to adjust the fine points.
-close all
 chebgui
 
 %% 10.6 References

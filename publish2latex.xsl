@@ -21,7 +21,7 @@ Copyright 1984-2013 The MathWorks, Inc.
 % This LaTeX was auto-generated from MATLAB code.
 % To make changes, update the MATLAB code and republish this document.
 
-\documentclass{article}
+\documentclass[twoside]{book}
 \usepackage{graphicx}
 \usepackage{color}
 
@@ -29,14 +29,16 @@ Copyright 1984-2013 The MathWorks, Inc.
 \definecolor{lightgray}{gray}{0.4}
 \setlength{\parindent}{0pt}
 \usepackage[letterpaper,hmargin={1.25in,1.25in},vmargin={1.5in,1in}]{geometry}
-
+\pagestyle{myheadings}
+\thispagestyle{empty}
 
 \begin{document}
 
     <!-- Determine if the there should be an introduction section. -->
     <xsl:variable name="hasIntro" select="count(cell[@style = 'overview'])"/>
     <xsl:if test = "$hasIntro">
-\section*{<xsl:apply-templates select="cell[1]/steptitle"/>}
+\chapter*{<xsl:apply-templates select="cell[1]/steptitle"/>}
+\markboth{Chebfun Guide}{<xsl:apply-templates select="cell[1]/steptitle"/>}
 
 <xsl:apply-templates select="cell[1]/text"/>
 </xsl:if>
@@ -176,7 +178,7 @@ Copyright 1984-2013 The MathWorks, Inc.
 <!-- Figure and model snapshots -->
 
 <xsl:template match="img">
-\includegraphics{<xsl:value-of select="@src"/>}
+\includegraphics[width=6in]{<xsl:value-of select="@src"/>}
 </xsl:template>
 
 <!-- Colors for syntax-highlighted input code -->
