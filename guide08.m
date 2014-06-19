@@ -14,6 +14,11 @@
 chebfunpref
 
 %%
+% More detailed information from further down in the
+% preference structure will come from, for example,
+% `help chebtech/techpref`.
+
+%%
 % To ensure that all preferences are set to their factory values, execute
 chebfunpref.setDefaults('factory')
 
@@ -33,12 +38,13 @@ chebfunpref.setDefaults('factory')
 f = chebfun('x.^x',[0,1],'splitting','on');
 
 %%
-% In the latter case, however, one must typically turn the preference on and
+% In the latter case, however, one can turn the preference on and
 % off again.
 x = chebfun('x',[0,1]);
-chebfunpref.setDefaults('enableBreakpointDetection',true)  %%% splitting
+chebfunpref.setDefaults('splitting',true) 
 f = x.^x;
-chebfunpref.setDefaults('enableBreakpointDetection',false) %%% splitting
+chebfunpref.setDefaults('splitting',false) 
+
 
 %% 8.2  `domain`: the default domain
 % Like Chebyshev polynomials themselves, chebfuns are defined by default on
@@ -151,35 +157,33 @@ chebfunpref.setDefaults('enableBreakpointDetection',false) %%% splitting
 % functions are represented by global polynomials, and chebops
 % for the most part require this.  Also, for educational purposes, it is
 % very convenient that Chebfun can be used so easily to study the
-% properties of pure polynomial representations.
+% properties of pure polynomial representations even of very high degree.
 
-%% 8.4 `splitDegree`: degree limit in splitting on mode 
-%      %%% Is this becoming `splitLength?
-
-%%
+%% 8.4 `splitLength`: length limit in splitting on mode 
 % When intervals are subdivided in splitting on mode, as just illustrated,
-% the parameter `splitDegree` determines where this will happen.  With the
-% factory value `splitDegree=160`, splitting will take place if a polynomial
-% of degree 160 proves insufficient to resolve a fun. (Actually, when Chebfun
+% the parameter `splitLength` determines where this will happen.  With the
+% factory value `splitLength=160`, splitting will take place if a polynomial
+% of length 160 proves insufficient to resolve a fun. (Actually, when Chebfun
 % uses Chebyshev points of the second kind as it does by default, this number
-% is rounded down to a power of 2.)  Let us confirm for
-% the chebfun `f` constructed a moment ago that the degrees of the individual
-% funs are all less than or equal to 160 (actually 128):
+% is rounded down to 1 more than a power of 2.)  Let us confirm for
+% the chebfun `f` constructed a moment ago that the lengths of the individual
+% funs are all less than or equal to 160 (actually 129):
   f.funs
 
 %%
-% Alternatively, suppose we wish to allow individual funs to have degree up
-% to 512.  We can do that like this:
-  f = chebfun(ff,'splitting','on','splitMaxLength',512); %%% splitDegree %%% BUG
+% Alternatively, suppose we wish to allow individual funs to have length up
+% to 513.  We can do that like this:
+  f = chebfun(ff,'splitting','on','splitLength',513);
   length(f)
   format short, f.ends
   f.funs
 
-%% 8.5  `maxDegree`: maximum degree
+%% 8.5  `maxLength`: maximum length
 % As just mentioned, in splitting off mode, the constructor tries to make a
 % global chebfun from the given string or anonymous function.  For a
 % function like $|x|$ or $\hbox{sign}(x)$, this will typically not be possible and
-% we must give up somewhere. The parameter `maxDegree`, set to $2^16$ in the
+% we must give up somewhere. The parameter `maxLength`,
+% set to $2^{16}+1$ in the
 % factory, determines this giving-up point.
 
 %%
@@ -200,18 +204,18 @@ chebfunpref.setDefaults('enableBreakpointDetection',false) %%% splitting
 % default maximum to this number (or more precisely the default degree to
 % one less than this number), giving the same effect
 % though now with another warning message:
-  f = chebfun('sign(x)','maxPoints',49);    %%% maxDegree %%%BUG
+  f = chebfun('sign(x)','maxLength',50);
   length(f)
 
 %%
 % Perhaps more often one might wish to adjust this preference to enable use
 % of especially high degrees.  On the machines of 2014, Chebfun is
 % perfectly capable of working with polynomials of degrees in the millions.
-% The function $|x|^{3/2}$ on $[-1,1]$ provides a nice example, for it is
+% The function $|x|^{5/4}$ on $[-1,1]$ provides a nice example, for it is
 % smooth enough to be resolved by a global polynomial, provided it is of
 % rather high degree:
   tic
-  f = chebfun('abs(x).^1.5','maxPoints',1e6);     %%% maxDegree
+  f = chebfun('abs(x).^1.25','maxLength',1e6);
   lengthf = length(f)
   format long, sumf = sum(f)
   plot(f)
@@ -242,13 +246,12 @@ chebfunpref.setDefaults('enableBreakpointDetection',false) %%% splitting
 %% 
 % Like any process based on sampling, this one can fail. For example, here
 % is a success:
-  splitting off
   f = chebfun('-x -x.^2 + exp(-(30*(x-.47)).^2)');
   length(f)
   plot(f)
 
 %%
-% But if we change the exponent to 6, we get a failure:
+% But if we change the exponent to 4, we get a failure:
   f = chebfun('-x -x.^2 + exp(-(30*(x-.47)).^4)');
   length(f)
   plot(f)
@@ -268,33 +271,28 @@ chebfunpref.setDefaults('enableBreakpointDetection',false) %%% splitting
 
 %%
 % If we increase `minSamples`, the correct chebfun is found:
-  chebfunpref.setDefaults('minPoints',33)    %%% minSamples
-  f = chebfun('-x -x.^2 + exp(-(30*(x-.48)).^4)');
+  f = chebfun('-x -x.^2 + exp(-(30*(x-.48)).^4)','minSamples',33);
   length(f)
   plot(f)
 
 %%
 % Incidentally, if the value of `minSamples` specified is not one greater
-% than a power of 2, it is rounded up to the next such value. So
-% `chebfunpref('minSamples',18)` would give the same result as
-% `chebfunpref('minSamples',33)`.
+% than a power of 2, it is rounded up to the next such value.
 
 %%
 % The factory value `minSamples=17` was chosen as a compromise between
-% efficiency and reliability.  (Until Version 5, the value was
+% efficiency and reliability.  (Until Version 5, the choice was
 % `minSamples=9'.)  In practice it rarely seems to fail, but
 % perhaps it is most vulnerable when applied in splitting on mode to
 % functions with narrow spikes.  For example, the following chebfun is
 % missing most of the spikes that should be there:
-  chebfunpref.setDefaults('factory')
   ff = @(x) max(.85,sin(x+x.^2)) - x/20;
   f = chebfun(ff,[0,10],'splitting','on');
   plot(f)
 
 %%
 % Increasing `minSamples` fills them in:
-  chebfunpref.setDefaults('minPoints',33)  %%% minsamples
-  f = chebfun(ff,[0,10],'splitting','on');
+  f = chebfun(ff,[0,10],'splitting','on','minsamples',33);
   plot(f)
     
 %% 8.7  `resampling`: exploiting nested grids or not
@@ -384,12 +382,11 @@ chebfunpref.setDefaults('enableBreakpointDetection',false) %%% splitting
 % the tolerance used in constructing a chebfun. The chebfunpref parameter
 % eps is set by default to machine precision:
 %
-%   chebfunpref('eps')  %%% what should this be now?
+% chebfunpref().eps
 
 %%
 % However, one can change this with a command like
-%
-%  `chebfunpref('eps',1e-6)`.   %%% and this?
+% `chebfunpref.setDefaults('eps',1e-6)`.
 
 %%
 % There are cases where weakening the tolerance makes a big
