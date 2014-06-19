@@ -93,11 +93,11 @@
   r = roots(f,'nojump');
   plot(r,0*r,'.r',MS,30)
 
-%% 3.2 min, max, abs, sign, round, floor, ceil
+%% 3.2 `min`, `max`, `abs`, `sign`, `round`, `floor`, `ceil`
 % Rootfinding is more central to Chebfun than one might at first imagine,
 % because a number of commands, when applied to smooth chebfuns, must
 % produce non-smooth results, and it is rootfinding that tells us where to
-% put the discontinuities. For example, the "abs" command introduces
+% put the discontinuities. For example, the `abs` command introduces
 % breakpoints wherever the argument goes through zero.  Here we see that `x`
 % consists of a single piece, whereas `abs(x)` consists of two pieces.
   x = chebfun('x')
@@ -134,7 +134,7 @@
   hold on, plot(r,f(r),'.r'), grid on
 
 %%
-% Chebfun users don't have to comute the derivative explicitly
+% Chebfun users don't have to compute the derivative explicitly
 % to find extrema, however.  An alternative is to type
   [ignored,r2] = minandmax(f,'local');
 
@@ -211,11 +211,11 @@
 %%
 % For larger chebfuns, it is inefficient to compute the global minimum and
 % maximum separately like this -- each one must compute the derivative and
-% find all its zeros. The alternative `minandmax` code shown above
+% find all its zeros. The alternative `minandmax` code mentioned above
 % provides a faster alternative:
   [extremevalues,extremepositions] = minandmax(f)
 
-%% 3.5 norm(f,1) and norm(f,inf)
+%% 3.5 `norm(f,1)` and `norm(f,inf)`
 % The default, $2$-norm form of the `norm` command was considered in Section
 % 2.2. In standard MATLAB one can also compute $1$-, $\infty$-, and Frobenius
 % norms with `norm(f,1)`, `norm(f,inf)`, and `norm(f,'fro')`.  These have been
@@ -272,6 +272,8 @@ roots(g,'all')
 % a polynomial chosen for its approximation properties on $[-1,1]$.
 % Inevitably that polynomial will have roots in the complex plane, even if
 % they have little to do with `g`.
+% (See the discussion of the Walsh and Blatt-Saff theorems
+% in Chapter 18 of [Trefethen 2013].)
 
 %%
 % One cannot expect Chebfun to solve this problem perfectly -- after all,

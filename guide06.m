@@ -71,7 +71,7 @@
 % the vector $c$ that minimizes $\|Ac-b\|$.  A quasimatrix is always rectangular, and
 % `\` has accordingly been overloaded
 % to carry out the appropriate continuous least-squares computation.
-% (The actual MATLAB command that handles backslash is called mldivide.)
+% (The actual MATLAB command that handles backslash is `mldivide`.)
 
 %%
 % For example, continuing with the same chebfun `x` and
@@ -151,7 +151,7 @@
 % In principle half the dots in the upper-triangle should
 % be zero because of the fact that
 % the columns of $A$ alternate even and odd functions, but rounding
-% errors introduces nonzeros.
+% errors introduce nonzeros.
   subplot(1,3,1), spy(A), title A
   subplot(1,3,2), spy(Q), title Q
   subplot(1,3,3), spy(R), title R
@@ -171,7 +171,7 @@
 
 %%
 % (A slicker way to produce this plot in Chebfun would be
-% simply to type `plot(legpoly(0:5))`.)
+% to execute `plot(legpoly(0:5))`.)
   
 %%
 % If $A=QR$, then $A R^{-1} = Q$, and here is $R^{-1}$:
@@ -180,7 +180,7 @@
 %%
 % Column $k$ of $R^{-1}$ is the vector of coefficients of the 
 % expansion of column $k$ of $Q$ as a linear combination of the
-% columns of $A$, that is, the monomials $1, x, x^2,\dots$.  In other words,
+% columns of $A$, that is, the monomials $1, x, x^2,\dots.$  In other words,
 % column $k$ of $R^{-1}$ is the vector of coefficients of the degree $k$
 % Legendre polynomial.  For example, we see from the matrix
 % that $P_3(x) = 2.5x^3 - 1.5x$.
@@ -198,8 +198,9 @@
 % $R^n$ to a hyperellipsoid of dimension $\le n$ in $R^m$.
 % The (reduced, skinny, condensed,...)
 % *SVD* or *singular value decomposition* exhibits this
-% map by providing a factorization $AV = US$ or equivalently
-% $A = USV^*$, where $U$ is $m\times n$ with orthonormal columns, $S$ is diagonal with
+% map by providing a factorization $AV = US$ or
+% equivalently $A = USV^*$, where $U$ is $m\times n$ with orthonormal
+% columns, $S$ is diagonal with
 % nonincreasing nonnegative diagonal entries known as the *singular values*,
 % and $V$ is $n\times n$ and orthogonal.
 % $A$ maps $v_j$, the $j$ th column of $V$ or the $j$ th *right singular vector*, 
@@ -237,7 +238,7 @@
 % the Frobenius norm rather than the 2-norm.)
 % The SVD enables us to identify exactly what vectors are involved in achieving
 % this maximum ratio.  The optimal vector $x$ is $v_1$,
-% the first right singular vector of A,
+% the first right singular vector of $A$,
   [U,S,V] = svd(A);
   v1 = V(:,1)
 
@@ -246,10 +247,10 @@
 % As with `spy( R)` earlier, here
 % `spy(V)` should in principle show a checkerboard,
 % but nonzeros are introduced by rounding errors.
-  subplot(1,4,1), spy(A), title A
-  subplot(1,4,2), spy(U), title U
-  subplot(1,4,3), spy(S), title S
-  subplot(1,4,4), spy(V), title V
+  subplot(1,5,1), spy(A), title A
+  subplot(1,5,3), spy(U), title U
+  subplot(1,5,4), spy(S), title S
+  subplot(1,5,5), spy(V), title V
 
 %%
 % We confirm that the norm of $v_1$ is $1$:
@@ -294,18 +295,18 @@
 % of the monomials $1,x,\dots ,x^5$ as a basis
 % for degree $5$ polynomials in $[-1,1]$.  The effect
 % becomes rapidly stronger as we take more terms in the sequence:
-  cond([A x.^6 x.^7 x.^8 x.^9 x.^10 x.^11 x.^12])
+  cond([A x.^6 x.^7 x.^8 x.^9 x.^10 x.^11 x.^12 x.^13 x.^14 x.^15])
 
 %%
 % By contrast a quasimatrix formed of suitably
 % normalized Legendre polynomials has
 % condition number $1$, since they are orthonormal:
-cond(legpoly(0:12,'norm'))
+cond(legpoly(0:15,'norm'))
 
 %%
 % A quasimatrix of Chebyshev polynomials doesn't quite achieve
 % condition number $1$, but it comes close:
-cond(chebpoly(0:12))
+cond(chebpoly(0:15))
 
 %%
 % Chebyshev polynomials form an excellent basis for expansions on

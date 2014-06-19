@@ -11,7 +11,7 @@
 % that one can perform vector calculus. 
 
 %%
-% A chebfun2, with a lower-case "c", is a Matlab object, the
+% A chebfun2, with a lower-case "c", is a MATLAB object, the
 % 2D analogue of a chebfun.
 % The syntax for chebfun2 objects is similar to the syntax 
 % for matrices in MATLAB, and Chebfun2 objects have many MATLAB commands
