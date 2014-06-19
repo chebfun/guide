@@ -358,7 +358,7 @@ max(f)
 plot(f)
 
 %%
-% Its length, very approximately, is $100\times \pi$, 
+% Its length, very roughly, is $100\times \pi$, 
 length(f)
 
 %%
