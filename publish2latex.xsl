@@ -178,7 +178,7 @@ Copyright 1984-2013 The MathWorks, Inc.
 <!-- Figure and model snapshots -->
 
 <xsl:template match="img">
-\includegraphics[width=6in]{<xsl:value-of select="@src"/>}
+\includegraphics{<xsl:value-of select="@src"/>}
 </xsl:template>
 
 <!-- Colors for syntax-highlighted input code -->
