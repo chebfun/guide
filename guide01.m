@@ -338,7 +338,78 @@
 %%
 % For more on the treatment of infinities in Chebfun, see Chapter 9.
 
-%% 1.6  Rows, columns, and quasimatrices
+%% 1.6  Periodic functions
+% Until 2014, Chebfun used only nonperiodic representations, 
+% based on Chebyshev polynomials.  Beginning with Version 5, there
+% is a new capability of 
+% representing sufficiently smooth periodic
+% functions by trigonometric polynomials instead, that is,
+% Fourier series.  Such an object is still called a chebfun, but
+% it is a periodic one.  These features were added by Grady Wright in
+% the first half of 2014, and will undoubtedly be developed further in
+% the future.
+
+%%
+% For example, here is a periodic function on $[-\pi,\pi]$ represented
+% in the usual way by a Chebyshev series.
+ff = @(t) sin(t)/2 + cos(2*t) + 0.2*cos(100*t);
+f = chebfun(ff,[-pi,pi]);
+max(f)
+plot(f)
+
+%%
+% Its length, very approximately, is $100\times \pi$, 
+length(f)
+
+%%
+% Here is the same function represented by a Fourier series:
+f2 = chebfun(ff,[-pi,pi],'periodic')
+max(f2)
+plot(f2,'m')
+
+%%
+% Its length is now only about $100\times 2$.   This improvement
+% by a factor of about $\pi/2$ is typical.
+length(f)
+
+%%
+% We can confirm that the two functions agree like this:
+norm(f-chebfun(f2,[-pi, pi]))
+
+%%
+% Readers may be interested to compare `plotcoeffs` applied
+% to the first and second versions of $f$.  Rather than display
+% that here we shall turn to a simpler example involving a 
+% shorter Fourier series.  Consider the function
+f = chebfun('7 + sin(t) + exp(1)*cos(2*t)',[-pi,pi],'periodic')
+
+%%
+% Here are the coefficients of $f$ as an expansion in sines and
+% cosines:
+[a,b] = fourcoeffs(f)
+
+%%
+% Here they are as an expansion in complex
+% exponentials:
+c = fourcoeffs(f)
+
+%%
+% Bookkeeping of Fourier coefficients can often be a headache. If
+% these examples don't make the patterns clear, details can be found with
+% `help fourcoeffs`.
+
+%%
+% For a mathematically less trivial example,
+% here is the cosine expansion of a function whose Fourier series coefficients
+% are known to be values of a Bessel function:
+f = chebfun('exp(cos(t))',[-pi pi],'periodic');
+[a,b] = fourcoeffs(f);
+n = floor(length(f)/2);
+exact = 2*besseli(n:-1:0,1); exact(end) = exact(end)/2;
+disp('        computed           exact')
+disp([a' exact'])
+
+%% 1.7  Rows, columns, and quasimatrices
 % MATLAB doesn't only deal with column vectors: there are also row vectors
 % and matrices.  The same is true of Chebfun. The chebfuns shown so far
 % have all been in column orientation, which is the default, but one can
@@ -362,7 +433,7 @@
 % These are called _quasimatrices_, and they are discussed in
 % Chapter 6.
 
-%% 1.7  How this Guide is produced
+%% 1.8  How this Guide is produced
 % This guide is produced in MATLAB using the `publish` command with a 
 % style sheet somewhat different from the usual; the output of `publish`
 % is then processed by Markdown.
@@ -371,7 +442,7 @@
 % `open(publish('guide1'))`.  The formatting may not be exactly 
 % right but it should certainly be intelligible.
 
-%% 1.8  References
+%% 1.9  References
 % [Battles & Trefethen 2004] Z. Battles and L. N. Trefethen, "An extension
 % of MATLAB to continuous functions and operators", _SIAM Journal on
 % Scientific Computing_, 25 (2004), 1743-1770.
