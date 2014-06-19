@@ -104,7 +104,7 @@ L = chebop(@(x,u) diff(u)+diff(u,2),[-1,1])
 
 %%
 % Or we could include boundary conditions:
-L = chebop(@(x,u) diff(u)+diff(u,2),[-1,1],@(u) 0,@(u) diff(u))
+L = chebop(@(x,u) diff(u)+diff(u,2),[-1,1],0,@(u) diff(u))
 
 %%
 % For operators applying to more than one variable (needed for solving systems
@@ -356,8 +356,7 @@ clf, plot(U)
 %%
 % The overloaded `spy` command helps clarify the structure of this operator
 % we just made use of:
-% spy(L) 
-%TODO: Fix linop SPY #803.
+spy(L) 
 %%
 % This image shows that $L$ maps a pair of functions $[u;v]$ to a pair of
 % functions $[w;y]$, where the dependences of $w$ on $u$ and $y$ on $v$ are
@@ -370,13 +369,12 @@ clf, plot(U)
 % The eigenvalue problem $u''=c^2u$
 % with $u=0$ at the boundaries can be written in first order form as $u'=cv$,
 % $v'=cu$.  Here are the first 7 eigenvalues:
-% L = chebop(0,10*pi);
-% L.op = @(x,u,v) [diff(v); diff(u)];
-% L.lbc = @(u,v) u;
-% L.rbc = @(u,v) u;
-% [U, V, D] = eigs(L, 7);
-% eigenvalues = diag(D)
-%TODO: This relates to #872.
+L = chebop(0,10*pi);
+L.op = @(x,u,v) [diff(v); diff(u)];
+L.lbc = @(u,v) u;
+L.rbc = @(u,v) u;
+[eigenfunctions, D] = eigs(L, 7);
+eigenvalues = diag(D)
 %%
 % Notice that two eigenfunction quasimatrices `U` and `V` have been specified
 % among the output variables.  (If just one had been specified, the output
@@ -385,12 +383,12 @@ clf, plot(U)
 % computed by `eigs` are imaginary, so before plotting we divide by $i$ to
 % make them real, and take the real part to filter out rounding errors:
 % eigenfunctions = real(U/1i);
-% plot(eigenfunctions)
+plot(eigenfunctions)
 
 %%
 % The operator in this eigenvalue problem has a simpler structure
 % than before:
-% spy(L)
+spy(L)
 
 %% 7.9 Nonlinear equations by Newton iteration
 % As mentioned at the beginning of this chapter, nonlinear differential
@@ -470,10 +468,6 @@ uT = N\0;
 u = uT{1}; T = uT{2}
 plot(u)
 
-%%
-% Unfortunately, this functionality is not yet available for eigenvalue
-% problems.
-%TODO: Is that still true?
 %% 7.11 References
 %
 % [Birkisson 2014] A. Birkisson, _Numerical
