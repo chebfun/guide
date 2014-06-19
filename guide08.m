@@ -318,7 +318,7 @@ chebfunpref.setDefaults('splitting',false)
 % There is little difference, even in the timing, if
 % we set 'resampling on', so that previously
 % computed values are not reused:
-  tic, f = chebfun(ff,[0 8],'resampling','on'); toc   %%% ?
+  tic, f = chebfun(ff,[0 8],'resampling','on'); toc 
   length(f)
 
 %%
@@ -326,26 +326,25 @@ chebfunpref.setDefaults('splitting',false)
 % introduces some very interesting possibilities.  What if the "function"
 % being sampled is not actually a fixed function, but depends on the grid?
 % For example, consider this prescription:
-  ff = @(x) length(x)*sin(2*x);
+  ff = @(x) length(x)*sin(15*x);
 
 %%
 % The values of $f$ at any particular point will depend on the length of the
 % vector in which it is embedded! What will happen if we try to make a
 % chebfun, disabling the "sampleTest" feature that is usually applied by
-% the constructor as a safety test? The constructor tries the 9-point
-% Chebyshev grid, then the 17-point grid, then the 33-point grid.  On the
+% the constructor as a safety test? The constructor tries the 17-point
+% Chebyshev grid, then the 33-point grid, then the 65-point grid.  On the
 % last of these it finds the Chebyshev coefficients are sufficiently small,
-% and proceeds to truncate to length 18. We end up with a chebfun of length
-% 18 that precisely matches the function $33\sin(2x)$.
-%
-%   f = chebfun(ff,'sampleTest',0,'resampling','on');   %%% ?
-%   length(f)
-%   max(f)
-%   plot(f,'.-')
+% and proceeds to truncate to length 44. We end up with a chebfun of length
+% 44 that precisely matches the function $65\sin(15x)$.
+f = chebfun(ff,'sampleTest',0,'resampling','on'); 
+length(f)
+max(f)
+plot(f,'.-')
 
 %%
 % This rather bizarre example encourages us to play further. What if we
-% change length(x)*sin(2*x) to sin(length(x)*x)? Now there is no
+% change length(x)*sin(15*x) to sin(length(x)*x)? Now there is no
 % convergence, for no matter how fine the grid is, the function is
 % underresolved.
   hh = @(x) sin(length(x)*x);
@@ -353,26 +352,21 @@ chebfunpref.setDefaults('splitting',false)
 
 %%
 % Here is an in-between case where convergence is achieved on the grid of
-% length 65, and the resulting chebfun then trimmed to length 44.
-%    kk = @(x) sin(length(x).^(2/3)*x);                   %%% ?
-%    k = chebfun(kk,'sampleTest',0,'resampling','on');
-%    length(k)
-%    plot(k,'.-')
+% length 65, and the resulting chebfun then trimmed to length 46.
+kk = @(x) sin(length(x).^(2/3)*x);    
+k = chebfun(kk,'sampleTest',0,'resampling','on');
+length(k)
+plot(k,'.-')
 
 %%
 % Are such curious effects of any use?  Yes indeed, they are at the heart
-% of the chebop system.  When the chebop system solves a differential
+% of Chebop.  When the chebop system solves a differential
 % equation by a command like `u = L\f`, for example, the chebfun `u` is
 % determined by a "sampling" process in which a matrix problem obtained by
-% Chebyshev spectral discretization is solved on grids of size $17, 33$ and
-% so on.  The matrices change with the grids, so the sample values for $u$
+% Chebyshev spectral discretization is solved on grids of increasing sizes.
+% The matrices change with the grids, so the sample values for $u$
 % are crucially grid-dependent.  Without resampling, chebops would not
 % work.
-
-%%
-% Besides chebops, are there other practical uses of the Chebfun resampling
-% feature? We do not currently know the answer and would be pleased to hear
-% from users who may have ideas.
 
 %% 8.8 `eps`: Chebfun constructor tolerance
 % One of the controllable preferences is all too tempting: you can weaken
@@ -413,6 +407,10 @@ t = chebkind
 chebkind(1)
 
 %%
+% or
+chebkind 1
+
+%%
 % An equivalent would be the command
 chebfunpref.setDefaults('tech',@chebtech1)
 
@@ -421,8 +419,34 @@ chebfunpref.setDefaults('tech',@chebtech1)
 chebfunpref.setDefaults('factory')
 
 %% 8.10 Rectangular or ultraspherical spectral discretizations
+% Chebfun's factory default for spectral discretizations is
+% rectangular collocation in Chebyshev points of the second kind, which
+% corresponds to 
+cheboppref.setDefaults('discretization','colloc2')
+
+%%
+% To change the preference to first-kind points, one can execute
+cheboppref.setDefaults('discretization','colloc1')
+
+%%
+% and for Olver-Townsend ultraspherical discretizations,
+cheboppref.setDefaults('discretization','ultraspherical')
+
+%%
+% Let us undo these changes:
+cheboppref.setDefaults('factory')
 
 %% 8.11 Chebfun2 preferences
+% The Chebfun2 preference that users may be most interested in
+% is `MaxRank`, which determines the maximum rank of a low-rank
+% approximation used to represent a function on a rectangle.
+% The current factory default is 512, and this can be changed
+% for example with
+chebfunpref.setDefaults({'cheb2Prefs','maxRank'},1024);
+
+%%
+% Let us undo this change:
+chebfunpref.setDefaults('factory')
 
 %% 8.12 Additional preferences
 % Information about additional Chebfun preferences can be found by
