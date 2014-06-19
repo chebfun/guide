@@ -6,7 +6,7 @@
 %%
 guideFiles = dir('guide*.m');
 opt.format = 'latex';
-opt.outputDir = 'latex/color';
+opt.outputDir = '/Users/driscoll/Documents/guideLatex';
 opt.imageFormat = 'epsc'; 
 opt.stylesheet = 'publish2latex.xsl';
 for j = 1:length(guideFiles)
@@ -19,7 +19,7 @@ end
 guideFiles = dir('guide*.m');
 opt.format = 'latex';
 opt.imageFormat = 'eps'; 
-opt.outputDir = 'latex/bw';
+opt.outputDir = '/Users/driscoll/Documents/guideLatex';
 opt.stylesheet = 'publish2latex.xsl';
 for j = 1:length(guideFiles)
     defaultSettings
