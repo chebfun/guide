@@ -189,8 +189,8 @@ plot(u,LW,2), grid on
 
 %%
 % Further examples of Chebfun solutions of differential equations
-% with discontinuous coefficients can be found in the _Demos_ menu
-% of |chebgui|.
+% with discontinuous coefficients can be found in the `Demos` menu
+% of chebgui.
 
 %% 7.5 Eigenvalue problems: `eigs`
 % In MATLAB, |eig| finds all the eigenvalues of a matrix whereas |eigs| finds
@@ -439,14 +439,14 @@ clf, plot(u)
 % Chebfun's "nonlinear backslash" capability, which utilizes automatic
 % differentiation to construct the Frechet derivative automatically.
 % In fact, all you need to type is
-% N = chebop(-1,1);
-% N.op = @(x,u) 0.001*diff(u,2) - u.^3;
-% N.lbc = 1; N.rbc = -1;
-% v = N\0;
+N = chebop(-1,1);
+N.op = @(x,u) 0.001*diff(u,2) - u.^3;
+N.lbc = 1; N.rbc = -1;
+v = N\0;
 
 %%
 % The result is the same as before to many digits of accuracy:
-% norm(u-v)
+norm(u-v)
 
 %% 7.10 BVP systems with unknown parameters
 % Sometimes ODEs or systems of ODEs contain unknown
