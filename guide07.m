@@ -42,7 +42,7 @@
 % A chebop has a domain, an operator, and sometimes boundary conditions. For
 % example, here is the chebop corresponding to the second-derivative operator on
 % $[-1,1]$:
-L = chebop(-1,1);
+L = chebop(-1, 1);
 L.op = @(x,u) diff(u,2);
 
 %%
@@ -51,7 +51,7 @@ L.op = @(x,u) diff(u,2);
 % on $[-1,1]$. For example, taking two derivatives of $\sin(3x)$ multiplies its
 % amplitude by 9:
 u = chebfun('sin(3*x)');
-norm(L(u),inf)
+norm(L(u), inf)
 
 %%
 % Both the notations `L*u` and `L(u)` are allowed, with the same meaning.
@@ -73,7 +73,7 @@ L.rbc = 1;
 % example, the following sequence imposes the conditions $u=0$ at the left
 % boundary and $u'=1$ at the right:
 L.lbc = @(u) u;
-L.rbc = @(u) diff(u)-1;
+L.rbc = @(u) diff(u) - 1;
 
 %%
 % We can see a summary of `L` by typing the name without a semicolon:
@@ -83,28 +83,28 @@ L
 % Boundary conditions are needed for solving differential equations, but they
 % have no effect when a chebop is simply applied to a chebfun. Thus, despite the
 % boundary conditions just specified, `L*u` gives the same answer as before:
-norm(L*u,inf)
+norm(L*u, inf)
 
 %%
 % Here is an example of an integral operator, the operator that maps $u$ defined
 % on $[0,1]$ to its indefinite integral:
-L = chebop(0,1);
+L = chebop(0, 1);
 L.op = @(x,u) cumsum(u);
 
 %%
 % For example, the indefinite integral of $x$ is $x^2/2$:
-x = chebfun('x',[0,1]);
+x = chebfun('x', [0, 1]);
 LW = 'linewidth';
-hold off, plot(L*x,LW,2), grid on
+hold off, plot(L*x, LW, 2), grid on
 
 %%
 % Chebops can be specified in various ways, including all in a single line.  For
 % example we could write
-L = chebop(@(x,u) diff(u)+diff(u,2),[-1,1])
+L = chebop(@(x,u) diff(u) + diff(u,2), [-1, 1])
 
 %%
 % Or we could include boundary conditions:
-L = chebop(@(x,u) diff(u)+diff(u,2),[-1,1],0,@(u) diff(u))
+L = chebop(@(x,u) diff(u) + diff(u,2), [-1, 1], 0, @(u) diff(u))
 
 %%
 % For operators applying to more than one variable (needed for solving systems
@@ -123,27 +123,27 @@ L = chebop(@(x,u) diff(u)+diff(u,2),[-1,1],0,@(u) diff(u))
 % For example, suppose we want to solve the differential equation $u''+x^3u = 1$
 % on the interval $[-3,3]$ with Dirichlet boundary conditions.  Here is a
 % Chebfun solution:
-L = chebop(-3,3);
+L = chebop(-3, 3);
 L.op = @(x,u) diff(u,2) + x.^3.*u;
 L.lbc = 0; L.rbc = 0;
-u = L\1; plot(u,LW,2), grid on
+u = L\1; plot(u, LW, 2), grid on
 
 %%
 % We confirm that the computed $u$ satisfies the differential equation to high
 % accuracy:
-norm(L(u)-1)
+norm(L(u) - 1)
 
 %%
 % Let's change the right-hand boundary condition to $u'=0$ and see how this
 % changes the solution:
 L.rbc = @(u) diff(u);
 u = L\1;
-hold on, plot(u,'r',LW,2)
+hold on, plot(u, 'r', LW, 2)
 
 %%
 % An equivalent to backslash is the `solvebvp` command.
-v = solvebvp(L,1);
-norm(u-v)
+v = solvebvp(L, 1);
+norm(u - v)
 
 %%
 % Periodic boundary conditions can be imposed with the special boundary
@@ -153,33 +153,33 @@ norm(u-v)
 % series, though we hope to introduce this feature before long.
 L.bc = 'periodic';
 u = L\1;
-hold off, plot(u,LW,2), grid on
+hold off, plot(u, LW, 2), grid on
 
 %%
 % A command like `L.bc=100` imposes the corresponding numerical Dirichlet
 % condition at both ends of the domain:
 L.bc = 100;
-plot(L\1,LW,2), grid on
+plot(L\1, LW, 2), grid on
 
 %%
 % Boundary conditions can also be specified in a single line, as noted above:
-L = chebop( @(x,u) diff(u,2)+10000*u, [-1,1], 0, @(u) diff(u) );
+L = chebop( @(x,u) diff(u,2) + 10000*u, [-1,1], 0, @(u) diff(u) );
 
 %%
 % Thus it is possible to set up and solve a differential equation and plot the
 % solution with a single line of Chebfun:
-plot( chebop(@(x,u) diff(u,2)+50*(1+sin(x)).*u,[-20,20],0,0) \ 1 )
+plot( chebop(@(x,u) diff(u,2) + 50*(1 + sin(x)).*u, [-20,20], 0, 0) \ 1 )
 
 %%
 % When Chebfun solves differential or integral equations, the coefficients may
 % be piecewise smooth rather than globally smooth. For example, here is a 2nd
 % order problem involving a coefficient that jumps from $+1$ (oscillation) for
 % $x<0$ to $-1$ (growth/decay) for $x>0$:
-L = chebop(-60,60);
+L = chebop(-60, 60);
 L.op = @(x,u) diff(u,2) - sign(x).*u;
 L.lbc = 1; L.rbc = 0;
 u = L\0;
-plot(u,LW,2), grid on
+plot(u, LW, 2), grid on
 
 %%
 % Further examples of Chebfun solutions of differential equations with
@@ -193,11 +193,11 @@ plot(u,LW,2), grid on
 % finds six eigenvalues by default, together with eigenfunctions if requested.
 % (For details see [Driscoll, Bornemann & Trefethen 2008].) Here is an example
 % involving sine waves.
-L = chebop( @(x,u) diff(u,2), [0,pi] );
+L = chebop( @(x,u) diff(u,2), [0, pi] );
 L.bc = 0;
-[V,D] = eigs(L);
+[V, D] = eigs(L);
 diag(D)
-clf, plot(V(:,1:4),LW,2), ylim([-1 1])
+clf, plot(V(:,1:4), LW, 2), ylim([-1 1])
 
 %%
 % By default, |eigs| tries to find the six eigenvalues whose eigenmodes are
@@ -211,13 +211,13 @@ clf, plot(V(:,1:4),LW,2), ylim([-1 1])
 % 10th corresponding eigenfunctions, known as an elliptic cosine and sine. Note
 % the imposition of periodic boundary conditions.
 q = 10;
-A = chebop(-pi,pi);
+A = chebop(-pi, pi);
 A.op = @(x,u) diff(u,2) - 2*q*cos(2*x).*u;
 A.bc = 'periodic';
-[V,D] = eigs(A,16,'LR');    % eigenvalues with largest real part
-d = diag(D); [d,ii] = sort(d,'descend'); V = V(:,ii');
-subplot(1,2,1), plot(V(:, 9),LW,2), ylim([-.8 .8]), title('elliptic cosine')
-subplot(1,2,2), plot(V(:,10),LW,2), ylim([-.8 .8]), title('elliptic sine')
+[V, D] = eigs(A, 16, 'LR');    % eigenvalues with largest real part
+d = diag(D); [d, ii] = sort(d, 'descend'); V = V(:, ii');
+subplot(1,2,1), plot(V(:, 9), LW, 2), ylim([-.8 .8]), title('elliptic cosine')
+subplot(1,2,2), plot(V(:,10), LW, 2), ylim([-.8 .8]), title('elliptic sine')
 
 %%
 % `eigs` can also solve generalized eigenproblems, that is, problems of the form
@@ -228,15 +228,16 @@ subplot(1,2,2), plot(V(:,10),LW,2), ylim([-.8 .8]), title('elliptic sine')
 % instability [Schmid & Henningson 2001]. This is a fourth-order generalized
 % eigenvalue problem, requiring two conditions at each boundary.
 Re = 5772;           
-B = chebop(-1,1);
+B = chebop(-1, 1);
 B.op = @(x,u) diff(u,2) - u;
-A = chebop(-1,1);
-A.op = @(x,u) (diff(u,4)-2*diff(u,2)+u)/Re - 1i*(2*u+(1-x.^2).*(diff(u,2)-u));
+A = chebop(-1, 1);
+A.op = @(x,u) (diff(u,4) - 2*diff(u, 2) + u)/Re - ...
+    1i*(2*u + (1 - x.^2).*(diff(u, 2) - u));
 A.lbc = @(u) [u; diff(u)];
 A.rbc = @(u) [u; diff(u)];
-lam = eigs(A,B,60,'LR');
+lam = eigs(A, B, 60, 'LR');
 MS = 'markersize';
-clf, plot(lam,'r.',MS,16), grid on, axis equal
+clf, plot(lam, 'r.', MS, 16), grid on, axis equal
 spectral_abscissa = max(real(lam))
 
 %% 7.6 Exponential of a linear operator: `expm`
@@ -246,12 +247,12 @@ spectral_abscissa = max(real(lam))
 % differential equation $u_t = Lu$ has solution $u(t) = E(t)u(0)$. Thus by
 % taking $L$ to be the 2nd derivative operator, for example, we can use `expm`
 % to solve the heat equation $u_t = u_{xx}$:
-A = chebop(@(x,u) diff(u,2),[-1,1],0);  
+A = chebop(@(x,u) diff(u,2), [-1, 1], 0);  
 f = chebfun('exp(-1000*(x+0.3).^6)');
-clf, plot(f,'r',LW,2), hold on, c = [0.8 0 0];
+clf, plot(f, 'r', LW, 2), hold on, c = [0.8 0 0];
 for t = [0.01 0.1 0.5]
-  u = expm(A,t,f);
-  plot(u,'color',c,LW,2), c = 0.5*c;
+  u = expm(A, t, f);
+  plot(u,'color', c, LW, 2), c = 0.5*c;
   ylim([-.1 1.1])
 end
 
@@ -259,15 +260,15 @@ end
 % Here is a more fanciful analogous computation with a complex initial function
 % obtained from the `scribble` command introduced in Chapter 5.
 f = exp(.02i)*scribble('BLUR'); clf
-D = chebop(@(x,u) diff(u,2),[-1 1]);
+D = chebop(@(x,u) diff(u,2), [-1 1]);
 D.bc = 'neumann';
 k = 0;
 for t = [0 .0001 .001]
-  k = k+1; subplot(3,1,k)
-  if t==0, u = f; else u = expm(D,t,f); end
-  plot(u,'linewidth',3,'color',[.6 0 1])
+  k = k + 1; subplot(3,1,k)
+  if t==0, u = f; else u = expm(D, t, f); end
+  plot(u, 'linewidth', 3, 'color', [.6 0 1])
   xlim(1.05*[-1 1]), axis equal
-  text(0.01,.46,sprintf('t = %6.4f',t),'fontsize',10), axis off
+  text(0.01, .46, sprintf('t = %6.4f', t), 'fontsize', 10), axis off
 end
 
 %% 7.7 Algorithms: rectangular collocation vs. ultraspherical
@@ -318,16 +319,16 @@ end
 % more accurate. For example, here we solve a problem whose exact solution is
 % $\cos(x)$ in the rectangular fashion and check the error at $x=5$:
 tic
-u = chebop(@(x,u) diff(u,2)+u,[-10,10],cos(10),cos(10))\0;
+u = chebop(@(x, u) diff(u, 2) + u, [-10,10], cos(10), cos(10))\0;
 toc
 error = u(5) - cos(5)
 
 %%
 % We can switch to ultraspherical mode and run the same experiment again like
 % this:
-cheboppref.setDefaults('discretization',@ultraS)
+cheboppref.setDefaults('discretization', @ultraS)
 tic
-u = chebop(@(x,u) diff(u,2)+u,[-10,10],cos(10),cos(10))\0;
+u = chebop(@(x,u) diff(u,2) + u, [-10,10], cos(10), cos(10))\0;
 toc
 error = u(5) - cos(5)
 cheboppref.setDefaults('factory')   % reset to standard mode
@@ -342,9 +343,9 @@ cheboppref.setDefaults('factory')   % reset to standard mode
 % initial data $u=1$ and $v=0$ on the interval $[0,10\pi]$. (This comes from
 % writing the equation $u''=-u$ in first-order form, with $v=u'$.) We can solve
 % the problem like this:
-L = chebop(0,10*pi);
-L.op = @(x,u,v) [diff(u)-v; diff(v)+u];
-L.lbc = @(u,v) [u-1; v];
+L = chebop(0, 10*pi);
+L.op = @(x, u, v) [diff(u) - v; diff(v) + u];
+L.lbc = @(u, v) [u-1; v];
 rhs = [0; 0];
 U = L\rhs;
 
@@ -369,8 +370,8 @@ spy(L)
 % The eigenvalue problem $u''=c^2u$
 % with $u=0$ at the boundaries can be written in first order form as $u'=cv$,
 % $v'=cu$.  Here are the first 7 eigenvalues:
-L = chebop(0,10*pi);
-L.op = @(x,u,v) [diff(v); diff(u)];
+L = chebop(0, 10*pi);
+L.op = @(x, u, v) [diff(v); diff(u)];
 L.lbc = @(u,v) u;
 L.rbc = @(u,v) u;
 [eigenfunctions, D] = eigs(L, 7);
@@ -384,7 +385,8 @@ eigenvalues = diag(D)
 % make them real, and take the real part to filter out rounding errors:
 % eigenfunctions = real(U/1i);
 plot(eigenfunctions)
-
+%TODO: This is no longer the case. U and V are no longer outputs. We're not
+%dividing anything by 1i.
 %%
 % The operator in this eigenvalue problem has a simpler structure
 % than before:
@@ -400,17 +402,17 @@ spy(L)
 % $$ 0.001u'' - u^3 = 0,\qquad   u(-1)=1,~~ u(1)=-1 $$
 % 
 % could be solved by Newton iteration as follows.
-L = chebop(-1,1);
-L.op = @(x,u) 0.001*diff(u,2);
-J = chebop(-1,1);
+L = chebop(-1, 1);
+L.op = @(x,u) 0.001*diff(u, 2);
+J = chebop(-1, 1);
 x = chebfun('x'); 
 u = -x;  nrmdu = Inf;
 while nrmdu > 1e-10
   r = L*u - u.^3;
-  J.op = @(du) .001*diff(du,2) - 3*u.^2.*du;
+  J.op = @(du) .001*diff(du, 2) - 3*u.^2.*du;
   J.bc = 0;
   du = -(J\r);
-  u = u+du;  nrmdu = norm(du)
+  u = u + du;  nrmdu = norm(du)
 end
 clf, plot(u)
 
@@ -422,14 +424,14 @@ clf, plot(u)
 % whole Newton iteration can be automated by use of Chebfun's "nonlinear
 % backslash" capability, which utilizes automatic differentiation to construct
 % the Frechet derivative automatically. In fact, all you need to type is
-N = chebop(-1,1);
-N.op = @(x,u) 0.001*diff(u,2) - u.^3;
+N = chebop(-1, 1);
+N.op = @(x,u) 0.001*diff(u, 2) - u.^3;
 N.lbc = 1; N.rbc = -1;
 v = N\0;
 
 %%
 % The result is the same as before to many digits of accuracy:
-norm(u-v)
+norm(u - v)
 
 %% 7.10 BVP systems with unknown parameters
 % Sometimes ODEs or systems of ODEs contain unknown parameter values that must
@@ -447,9 +449,9 @@ norm(u-v)
 % linear pendulum with a forcing sine-wave term of an unknown frequency T. The
 % task is to compute the solution for which
 %   $$ u(-pi) = u(pi) = u'(pi) = 1 $$.
-N = chebop(@(x,u,T) diff(u,2) - u - sin(T.*x/pi),[-pi pi]);
-N.lbc = @(u,T) u-1;
-N.rbc = @(u,T) [u-1; diff(u)-1];
+N = chebop(@(x, u , T) diff(u,2) - u - sin(T.*x/pi), [-pi pi]);
+N.lbc = @(u,T) u - 1;
+N.rbc = @(u,T) [u - 1; diff(u) - 1];
 uT = N\0;
 %%
 % Here, the output |uT| is a chebmatrix -- an object that is amongst other
@@ -463,7 +465,7 @@ plot(u)
 % As the system is nonlinear in T, we can expect that there will be more
 % than one solution. Indeed, if we choose a different initial guess for T, 
 % we can converge to one of these.
-N.init = [chebfun(1,[-pi pi]); 4];
+N.init = [chebfun(1, [-pi pi]); 4];
 uT = N\0;
 u = uT{1}; T = uT{2}
 plot(u)
