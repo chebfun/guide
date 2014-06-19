@@ -85,7 +85,7 @@ plot(sinc,'m',LW,1.6,'interval',[-10 10])
 % considerably with the introduction of version 5 in 2014.
 
 %%
-% The use of mappings to simplify an unbounded domain to a bounded one
+% The use of mappings to transform an unbounded domain to a bounded one
 % is an idea that has been employed many times
 % over the years.  One of the references we have benefitted especially from, which
 % also contains pointers to other works in this area, is the book [Boyd 2001].
@@ -163,8 +163,8 @@ sum(w)
 % weight.  For example, here we compute inner products of $x^4 + x^5$
 % against the Chebyshev polynomials $T_0,\dots,T_5$.  (The integrals
 % in these inner products
-% are calculated by Gauss-Jacobi quadrature using methods implemented by
-% Nick Hale; for more on this subject see the command `jacpts`.)
+% are calculated by Gauss-Jacobi quadrature using methods due
+% to Hale and Townsend; for more on this subject see the command `jacpts`.)
 x = chebfun('x');
 T = chebpoly(0:5)';
 f = x.^4 + x.^5;
@@ -172,11 +172,11 @@ chebcoeffs1 = T*(w.*f)
 
 %%
 % Here for comparison are the Chebyshev coefficients as obtained
-% from `chebpoly`:
-chebcoeffs2 = flipud(chebpoly(f)')
+% from `chebcoeffs`:
+chebcoeffs2 = flipud(chebcoeffs(f)')
 
 %%
-% Notice the excellent agreement except for coefficient `a0`.
+% Notice the excellent agreement except for coefficient $a_0$.
 % As mentioned in Section 4.1, in this special case
 % the result from the inner product must be multiplied by $1/2$.
 
@@ -229,7 +229,7 @@ get(f, 'exps')
 % Richardson in collaboration with Rodrigo Platte and Nick Hale.  
 
 %% 9.4 Another approach to singularities
-% Chebfun version 4 offered an alternative "`singmap`" approach to singularities
+% Chebfun version 4 offered an alternative `singmap` approach to singularities
 % based on mappings of the $x$ variable.   This is no longer available
 % in version 5.
 
