@@ -364,7 +364,7 @@ U = L\rhs;
 %%
 % The solution U is an $\infty\times 2$ Chebfun quasimatrix with columns
 % `u=U(:,1)` and `v=U(:,2)`.  Here is a plot:
-close, plot(U)
+clf, plot(U)
 
 %%
 % The overloaded `spy` command helps clarify the structure of this operator
