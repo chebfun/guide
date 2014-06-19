@@ -212,26 +212,34 @@ I = sum(f.*diff(z))/(2i*pi)
 
 %%
 % When Chebfun integrates around a circular contour like this, it does not
-% normally take advantage of the fact that the integrand is periodic.
+% automatically take advantage of the fact that the integrand is periodic.
 % That would
-% be Fourier analysis as opposed to Chebyshev analysis, and a "Fourtech"
-% approach is more efficient for such problems [Davis 1959].  (This
-% can be achieved by calling the Chebfun constructor with the
-% `periodic` flag; an example will be added.)
-% Chebyshev
-% analysis is more flexible, however, since it does not require
-% periodicity, and the loss in efficiency is only about a factor of $\pi/2$
-% [Hale & Trefethen 2008].
+% be Fourier analysis as opposed to Chebyshev analysis, and beginning
+% with Version 5, "Fourfun" approach to such problems has been
+% available, at least when the arguments are smooth (compare [Davis 1959]).
+% For example, we could repeat the above calculation in Fourier mode
+% like this:
+z = chebfun('exp(1i*s)',[0 2*pi],'periodic');
+f = exp(z)./z.^3;
+I = sum(f.*diff(z))/(2i*pi)
+
+%%
+% Chebyshev methods are more flexible, as a rule, but Fourier methods
+% have advantages sometimes of efficiency (up to a factor of $\pi/2$
+% per dimension) and accuracy.  For techniques that recover some of
+% that factor of $\pi/2$ even for nonperiodic problems,
+% see [Hale & Trefethen 2008].
 
 %%
 % The contour does not have to have radius $1$, or be centered at the origin:
-z = chebfun('1+2*exp(1i*s)',[0 2*pi]);
+z = chebfun('1+2*exp(1i*s)',[0 2*pi],'periodic');
 f = exp(z)./z.^3;
 I2 = sum(f.*diff(z))/(2i*pi)
 
 %% 
 % Nor does the contour have to be smooth. Here let us compute the same
-% result by integration over a square:
+% result by integration over a square (reverting to Chebyshev rather
+% than Fourier technology).
 s = chebfun('s',[-1 1]);
 z = join(1+1i*s, 1i-s, -1-1i*s, -1i+s);
 f = exp(z)./z.^3;
@@ -311,7 +319,7 @@ N = (anglef(end)-anglef(0))/(2*pi)
 % $$ r = {1\over 2\pi i} \int  z (df/ds)/f ds $$
 %
 % [McCune 1966].  Here is the zero of the function above in the unit disk:
-z = chebfun('exp(1i*s)',[0 2*pi]);
+z = chebfun('exp(1i*s)',[0 2*pi],'periodic');
 f = sin(z).^3 + cos(z).^3;
 r = sum(z.*(diff(f)./f))/(2i*pi)
 

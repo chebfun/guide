@@ -6,13 +6,17 @@
 % differential equations) by the backslash command.  We will now describe
 % extensions of chebops to nonlinear problems, as well as other methods for
 % nonlinear ODEs:
-%
-%   Initial-value problems:  `ode45`, `ode113`, `ode15s`
-%
-%   Boundary-value problems: `bvp4c`, `bvp5c`
-%
-%   Both kinds of problems via chebops:  nonlinear backslash (=`solvebvp`)
-%
+
+%%
+% o  Initial-value problems:  `ode45`, `ode113`, `ode15s`
+
+%%
+% o  Boundary-value problems: `bvp4c`, `bvp5c`
+
+%%
+% o  Both kinds of problems via chebops:  nonlinear backslash (=`solvebvp`)
+
+%%
 % In this chapter we outline the use of these methods; for fuller details, see
 % the `help` documentation and especially the online Chebfun Examples.  The last
 % of the methods listed, nonlinear backslash or `solvebvp`, represents a "pure
@@ -23,7 +27,7 @@
 
 %%
 % We use the abbreviations IVP for initial-value problem and BVP for
-% boundary-value problem, as well as BC for boundary condition.
+% boundary-value problem.
 
 %%
 % For time-dependent PDEs, try `help pde15s`.
@@ -54,8 +58,7 @@ plot(u,LW,lw)
 %%
 % The first argument to `ode45` defines the equation, the second defines the
 % domain for the independent variable, and the third provides the initial
-% condition.  It is the presence of the domain object that directs MATLAB to use
-% the Chebfun version of `ode45` rather than the MATLAB original.
+% condition.  
 
 %%
 % To find out where the solution takes the value 10, for example, we can write
@@ -96,7 +99,7 @@ minandmax(v(:,1))
 % `ode15s` in "splitting on" mode:
 opts = odeset('abstol',1e-8,'reltol',1e-8);
 fun = @(t,v) [v(2); 1000*(1 - v(1)^2)*v(2) - v(1)];
-chebfunpref.setDefaults('enableBreakpointDetection',true)
+chebfunpref.setDefaults('splitting','on')
 v = chebfun.ode15s(fun, [0 3000], [2 0], opts);
 chebfunpref.setDefaults('factory')
 u = v(:,1); plot(u,LW,lw)
@@ -175,7 +178,8 @@ u = v(:,1); plot(u, LW, lw)
 % This means that with Chebfun, you can explore Newton
 % iterations at the function level. The enabling tool
 % is Chebfun Automatic Differentiation (AD), introduced
-% by Asgeir Birkisson and Toby Driscoll [Birkisson & Driscoll 2011].
+% by Asgeir Birkisson and Toby Driscoll [Birkisson 2014,
+% Birkisson & Driscoll 2011].
 
 %%
 % To illustrate Chebfun AD, consider the sequence of computations
@@ -215,7 +219,7 @@ plot(dvdu*x, LW, lw)
 
 %%
 % Notice that `dvdu` is a multiplication operator, acting on a function just by
-% pointwise multiplication.  (The proper term is _multiplier operator_.)
+% pointwise multiplication.  (The technical term is _multiplier operator_.)
 
 %%
 % What about $dw/du$?  To do this on paper
@@ -351,9 +355,9 @@ u = N\1; plot(u, 'm', LW, lw)
 %%
 % We get a different solution from the one we got before! This one is
 % correct too; the Carrier problem has many solutions.
-% If we multiply this solution by $1.2\sin(x/2)$ and take the result as a new
-% initial guess, we converge to another new solution:
-N.init= 1.2*u.*sin(x/2);
+% If we multiply this solution by $2\sin(x/2)$ and take the result as a new
+% initial guess, we converge to a third solution:
+N.init= u.*sin(pi*x/2);
 [u, info] = solvebvp(N, 1);
 plot(u,'m',LW,lw)
 
@@ -404,6 +408,11 @@ chebgui
 %
 % [Bender & Orszag 1978] C. M. Bender and S. A. Orszag, _Advanced
 % Mathematical Methods for Scientists and Engineers_, McGraw-Hill, 1978.
+%
+% [Birkisson 2014] A. Birkisson, _Numerical
+% Solution of Nonlinear Boundary Value Problems for
+% Ordinary Differential Equations in the Continuous
+% Framework_, D. Phil. thesis, University of Oxford, 2014.
 %
 % [Birkisson & Driscoll 2011] A. Birkisson and T. A. Driscoll,
 % Automatic Frechet differentiation for

@@ -1,4 +1,4 @@
-%% CHEBFUN GUIDE 8: CHEBFUN PREFERENCES
+%% 8. Chebfun Preferences
 % Lloyd N. Trefethen, November 2009, last revised June 2014
 
 %% 8.1  Introduction

@@ -60,7 +60,7 @@ d = [0 2*pi 0 2*pi];
 f = chebfun2(@(s,t) sp(t)-figof8(s),d);  % rootfinding
 r = roots(real(f),imag(f));              % calculate intersections
 spr = sp(r(:,2)); 
-plot(real(spr),imag(spr),'.k',MS,20)
+plot(real(spr),imag(spr),'.k',MS,20), ylim([-1.1 2.1])
 hold off
 
 %%
