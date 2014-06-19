@@ -215,7 +215,7 @@ I = sum(f.*diff(z))/(2i*pi)
 % automatically take advantage of the fact that the integrand is periodic.
 % That would
 % be Fourier analysis as opposed to Chebyshev analysis, and beginning
-% with Version 5, "Fourfun" approach to such problems has been
+% with Version 5, a "Fourfun" approach to such problems has been
 % available, at least when the arguments are smooth (compare [Davis 1959]).
 % For example, we could repeat the above calculation in Fourier mode
 % like this:
