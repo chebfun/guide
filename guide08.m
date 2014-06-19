@@ -36,9 +36,9 @@ f = chebfun('x.^x',[0,1],'splitting','on');
 % In the latter case, however, one must typically turn the preference on and
 % off again.
 x = chebfun('x',[0,1]);
-chebfunpref.setDefaults('enableBreakpointDetection',true)  %%% splitting
+chebfunpref.setDefaults('splitting',true) 
 f = x.^x;
-chebfunpref.setDefaults('enableBreakpointDetection',false) %%% splitting
+chebfunpref.setDefaults('splitting',false) 
 
 %% 8.2  `domain`: the default domain
 % Like Chebyshev polynomials themselves, chebfuns are defined by default on
@@ -153,16 +153,13 @@ chebfunpref.setDefaults('enableBreakpointDetection',false) %%% splitting
 % very convenient that Chebfun can be used so easily to study the
 % properties of pure polynomial representations.
 
-%% 8.4 `splitDegree`: degree limit in splitting on mode 
-%      %%% Is this becoming `splitLength?
-
-%%
+%% 8.4 `splitLength`: degree limit in splitting on mode 
 % When intervals are subdivided in splitting on mode, as just illustrated,
-% the parameter `splitDegree` determines where this will happen.  With the
-% factory value `splitDegree=160`, splitting will take place if a polynomial
+% the parameter `splitLength` determines where this will happen.  With the
+% factory value `splitLength=160`, splitting will take place if a polynomial
 % of degree 160 proves insufficient to resolve a fun. (Actually, when Chebfun
 % uses Chebyshev points of the second kind as it does by default, this number
-% is rounded down to a power of 2.)  Let us confirm for
+% is rounded down to 1 more than a power of 2.)  Let us confirm for
 % the chebfun `f` constructed a moment ago that the degrees of the individual
 % funs are all less than or equal to 160 (actually 128):
   f.funs
@@ -170,7 +167,7 @@ chebfunpref.setDefaults('enableBreakpointDetection',false) %%% splitting
 %%
 % Alternatively, suppose we wish to allow individual funs to have degree up
 % to 512.  We can do that like this:
-  f = chebfun(ff,'splitting','on','splitMaxLength',512); %%% splitDegree %%% BUG
+  f = chebfun(ff,'splitting','on','splitLength',513); %%% splitDegree %%% BUG
   length(f)
   format short, f.ends
   f.funs
@@ -200,7 +197,7 @@ chebfunpref.setDefaults('enableBreakpointDetection',false) %%% splitting
 % default maximum to this number (or more precisely the default degree to
 % one less than this number), giving the same effect
 % though now with another warning message:
-  f = chebfun('sign(x)','maxPoints',49);    %%% maxDegree %%%BUG
+  f = chebfun('sign(x)','maxPoints',49);
   length(f)
 
 %%
@@ -211,7 +208,7 @@ chebfunpref.setDefaults('enableBreakpointDetection',false) %%% splitting
 % smooth enough to be resolved by a global polynomial, provided it is of
 % rather high degree:
   tic
-  f = chebfun('abs(x).^1.5','maxPoints',1e6);     %%% maxDegree
+  f = chebfun('abs(x).^1.5','maxLength',1e6);
   lengthf = length(f)
   format long, sumf = sum(f)
   plot(f)
