@@ -434,7 +434,42 @@ disp([a' exact'])
 % These are called _quasimatrices_, and they are discussed in
 % Chapter 6.
 
-%% 1.8  How this Guide is produced
+%% 1.8  Chebfun features not in this Guide
+% Some of Chebfun's most remarkable features haven't made it
+% into this edition of the Guide.  Here are some of our favorites:
+
+%%
+% o `leg2cheb` and `cheb2leg` for fast Legendre-Chebyshev conversions,
+
+%%
+% o `conv` and `circconv` for convolution,
+
+%%
+% o The `'equi'` flag to the Chebfun constructor for equispaced data,
+
+%%
+% o `polyfit` for least-squares fitting in the continuous context,
+
+%%
+% o `inv` for computing the inverse of a chebfun,
+
+%%
+% o `pde15s` for PDEs in one space and one time variable.
+
+%%
+% To learn about any of these options, try the appropriate `help`
+% command.  Just as a taster, here's a hint of how fast Chebfun
+% can convert a ten-thousand coefficient Chebyshev expansion
+% to Legendre coefficients and back again using an
+% algorithm from [Hale & Townsend 2013]:
+tic
+ccheb = randn(10000,1);
+cleg = cheb2leg(ccheb);
+ccheb2 = leg2cheb(cleg);
+norm(ccheb-ccheb2,inf)
+toc
+
+%% 1.9  How this Guide is produced
 % This guide is produced in MATLAB using the `publish` command with a 
 % style sheet somewhat different from the usual; the output of `publish`
 % is then processed by Markdown.
@@ -443,13 +478,18 @@ disp([a' exact'])
 % `open(publish('guide1'))`.  The formatting may not be exactly 
 % right but it should certainly be intelligible.
 
-%% 1.9  References
+%% 1.10  References
 % [Battles & Trefethen 2004] Z. Battles and L. N. Trefethen, "An extension
 % of MATLAB to continuous functions and operators", _SIAM Journal on
 % Scientific Computing_, 25 (2004), 1743-1770.
 % 
 % [Berrut & Trefethen 2005] J.-P. Berrut and L. N. Trefethen, "Barycentric
 % Lagrange interpolation", _SIAM Review 46_, (2004), 501-517.
+%
+% [Hale & Townsend 2013]  N. Hale and A. Townsend,
+% A fast, simple, and stable Chebyshev--Legendre
+% transform using an asymptotic formula, _SIAM Journal on Scientific
+% Computing_, 36 (2014), A148-A167.
 %
 % [Higham 2004] N. J. Higham, "The numerical stability of barycentric
 % Lagrange interpolation", _IMA Journal of Numerical Analysis_, 24 (2004),
