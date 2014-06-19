@@ -45,7 +45,6 @@ chebfunpref.setDefaults('splitting',true)
 f = x.^x;
 chebfunpref.setDefaults('splitting',false) 
 
-
 %% 8.2  `domain`: the default domain
 % Like Chebyshev polynomials themselves, chebfuns are defined by default on
 % the domain $[-1,1]$ if no other domain is specified.  However, this default
@@ -211,7 +210,7 @@ chebfunpref.setDefaults('splitting',false)
 % Perhaps more often one might wish to adjust this preference to enable use
 % of especially high degrees.  On the machines of 2014, Chebfun is
 % perfectly capable of working with polynomials of degrees in the millions.
-% The function $|x|^{5/4}$ on $[-1,1]$ provides a nice example, for it is
+% The function $|x|^{5/4}$ on $[-1,1]$ provides an example, for it is
 % smooth enough to be resolved by a global polynomial, provided it is of
 % rather high degree:
   tic
@@ -234,7 +233,6 @@ chebfunpref.setDefaults('splitting',false)
 % expansion coefficients will be computed, and 13 of these will be found to
 % be of negligible size and discarded.  So the resulting chebfun is a
 % cubic, even though the constructor never sampled at fewer than 17 points.
-  chebfunpref.setDefaults('factory');
   f = chebfun('x.^3');
   lengthf = length(f)
 
@@ -312,7 +310,6 @@ chebfunpref.setDefaults('splitting',false)
 
 %%
 % For example, here is a chebfun constructed in the usual factory mode:
-  chebfunpref.setDefaults('factory');
   ff = @(x) besselj(x,exp(x))
   tic, f = chebfun(ff,[0 8]); toc
   length(f)
@@ -380,7 +377,7 @@ chebfunpref.setDefaults('splitting',false)
 %% 8.8 `eps`: Chebfun constructor tolerance
 % One of the controllable preferences is all too tempting: you can weaken
 % the tolerance used in constructing a chebfun. The chebfunpref parameter
-% eps is set by default to machine precision:
+% `eps` is set by default to machine precision:
 %
 % chebfunpref().eps
 
@@ -394,51 +391,57 @@ chebfunpref.setDefaults('splitting',false)
 % in certain applications involving differential equations.  (Indeed, the
 % Chebfun differential equations commands have their own tolerance control
 % strategies.) However, Chebfun does such a good job at resolving many
-% functions that the eps-adjustment feature is not as useful as you might
-% imagine, and we recommend that users not change eps unless they are
+% functions that the `eps`-adjustment feature is not as useful as you might
+% imagine, and we recommend that users not change `eps` unless they are
 % having real problems with standard precision.
 
-%% 8.9 Chebyshev points of first or second kind
+%% 8.9 Chebyshev grids of first or second kind
+% Beginning with Version 5, Chebfun includes capabilities for
+% carrying out almost all computations with Chebyshev points of
+% either the first kind ($\cos((j+1/2)\pi/(n+1)),$ $0\le j \le n$, implemented
+% in the `chebtech1` class) or the
+% second kind ($\cos(j\pi/n),$ $0\le j \le n$, implemented
+% in the `chebtech2` class).
+% These capabilities were included to further our research into
+% the pros and cons of different kinds of algorithms, and 
+% most users can ignore this choice entirely.  
+% You can query which kind of Chebyshev points is in use with
+t = chebkind
+
+%%
+% and you can set it with, for example,
+chebkind(1)
+
+%%
+% An equivalent would be the command
+chebfunpref.setDefaults('tech',@chebtech1)
+
+%%
+% Let us return to factory settings:
+chebfunpref.setDefaults('factory')
 
 %% 8.10 Rectangular or ultraspherical spectral discretizations
 
 %% 8.11 Chebfun2 preferences
 
+
 %% 8.12 Additional preferences
 % Information about additional Chebfun preferences can be found by
-% executing
-% `help chebfunpref`.  Here is a quick summary.  In most cases various
-% keywords are permitted such as `'on'` or `1` or `true, `'off'` or `0` or `false`.
+% executing `chebfunpref` or `help chebfunpref`.  In general the most reliable
+% values to use in setting preferences are
+% are `1` or `true' and `0` or `false` (not `'on'` and `'off'`).
 
 %%
+% For example,
 % `'sampleTest'` controls whether a function is evaluated at an extra point
 % as a safety check of convergence.  With the default `'on'` value, this test
 % is indeed carried out.
 
 %%
+% Another example is that
 % `'blowup'` relates to the construction of chebfuns that diverge to
 % infinity, as described in Chapter 9. `blowup=0` is used for no
 % singularities, `blowup=1` if for functions with poles (blowups with a
 % negative integer power) and `blowup=2` for functions with branch points
 % (blowups with an arbitrary power).
 
-%%
-% `'chebkind'` is set by default to 2, but can be changed to 1 to force
-% Chebfun to use Chebyshev points of the first kind (i.e., roots of
-% Chebyshev polynomials) rather than the second kind (extrema). This
-% feature is experimental and may not do what you expect.
-
-%%
-% 'extrapolate" can be turned on to avoid evaluating functions at endpoints
-% if this may lead to trouble with NaN or inf. For example, here we get a
-% warning message because the value is 0 at the x=0 and 1 elsewhere,
-f = chebfun('sign(x)',[0 1]);
-
-%%
-% whereas here there is no difficulty:
-f = chebfun('sign(x)',[0 1],'extrapolate','on');
-
-%%
-% `ADdepth` stands for 'automatic differentiation depth', and limits how
-% deep an automatic differentiation stack can go in order to limit memory
-% use.
