@@ -378,8 +378,8 @@ chebfunpref.setDefaults('splitting',false)
 % One of the controllable preferences is all too tempting: you can weaken
 % the tolerance used in constructing a chebfun. The chebfunpref parameter
 % `eps` is set by default to machine precision:
-%
-% chebfunpref().eps
+p = chebfunpref;
+p.eps
 
 %%
 % However, one can change this with a command like
@@ -423,7 +423,6 @@ chebfunpref.setDefaults('factory')
 %% 8.10 Rectangular or ultraspherical spectral discretizations
 
 %% 8.11 Chebfun2 preferences
-
 
 %% 8.12 Additional preferences
 % Information about additional Chebfun preferences can be found by
