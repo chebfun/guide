@@ -5,8 +5,8 @@
 % A chebfun is a function of one variable defined on an interval $[a,b]$. The
 % syntax for chebfuns is almost exactly the same as the usual MATLAB syntax
 % for vectors, with the familiar MATLAB commands for vectors overloaded in
-% natural ways. Thus, for example, whereas `sum(f)` returns the sum of the
-% entries when `f` is a vector, it returns a definite integral when `f` is a
+% natural ways. Thus, for example, whereas |sum(f)| returns the sum of the
+% entries when |f| is a vector, it returns a definite integral when |f| is a
 % chebfun.
 
 %%
@@ -62,7 +62,7 @@
 % in June 2014.  Chebfun is available at http://www.chebfun.org.
 
 %% 1.2  Constructing simple chebfuns
-% The `chebfun` command constructs a chebfun from a specification such as a
+% The |chebfun| command constructs a chebfun from a specification such as a
 % string or an anonymous function.  If you don't specify an interval, then
 % the default interval $[-1,1]$ is used. For example, the following command
 % makes a chebfun corresponding to $\cos(20x)$ on $[-1,1]$ and plots it.
@@ -70,8 +70,8 @@
   plot(f)
 
 %%
-% From this little experiment, you cannot see that `f` is represented by a
-% polynomial.  One way to see this is to find the length of `f`:
+% From this little experiment, you cannot see that |f| is represented by a
+% polynomial.  One way to see this is to find the length of |f|:
   length(f)
 
 %%
@@ -79,10 +79,10 @@
   f
 
 %%
-% These results tell us that `f` is represented by a polynomial interpolant
+% These results tell us that |f| is represented by a polynomial interpolant
 % through 61 Chebyshev points, i.e., a polynomial of degree 60.  These
 % numbers have been determined by an adaptive process.  We can see the data
-% points by plotting `f`with the `'.-'` option:
+% points by plotting |f|with the |'.-'| option:
   plot(f,'.-')
   
 %%
@@ -153,7 +153,7 @@
 %%
 % Most often we get a chebfun by operating on other chebfuns. For example,
 % here is a sequence that uses plus, times, divide, and power operations on
-% an initial chebfun `x` to produce a famous function of Runge:
+% an initial chebfun |x| to produce a famous function of Runge:
   x = chebfun('x');
   f = 1./(1+25*x.^2);
   length(f)
@@ -161,18 +161,18 @@
 
 %% 1.3  Operations on chebfuns
 % There are more than 200 commands that can be applied to
-% a chebfun.  For a list of many of them you can type `methods`:
+% a chebfun.  For a list of many of them you can type |methods|:
   methods chebfun
 
 %%
-% To find out what a command does, you can use `help`.
+% To find out what a command does, you can use |help|.
   help chebfun/sum
 
 %%
 % Most of the commands in the list above exist in ordinary MATLAB; some
-% exceptions are `domain`, `restrict`, `chebpoly`, and `remez`.
-% We have already seen `length` and `sum` in action.  In fact we have
-% already seen `subsref` too, since that is the MATLAB command for (among
+% exceptions are |domain|, |restrict|, |chebpoly|, and |remez|.
+% We have already seen |length| and |sum| in action.  In fact we have
+% already seen |subsref| too, since that is the MATLAB command for (among
 % other things) evaluating arguments in parentheses.
 %  Here is another example of its use:
   f(0.5)
@@ -182,8 +182,8 @@
   1/(1+25/4)
 
 %% 
-% In this Runge function example, we have also implicitly seen `times`,
-% `plus`, `power`, and `rdivide`, all of which have been overloaded from
+% In this Runge function example, we have also implicitly seen |times|,
+% |plus|, |power|, and |rdivide|, all of which have been overloaded from
 % their usual MATLAB uses to apply to chebfuns.
 
 %%
@@ -214,12 +214,12 @@
   f = chebfun('abs(x-.3)','splitting','on');
 
 %%
-% The `length` command reveals that `f` is defined by four data points,
+% The |length| command reveals that |f| is defined by four data points,
 % two for each linear interval:
   length(f)
 
 %%
-% We can see the structure of `f` in more detail by typing `f` without a
+% We can see the structure of |f| in more detail by typing |f| without a
 % semicolon:
   f
 
@@ -227,8 +227,8 @@
 % This output confirms that f consists of two funs, each defined by two
 % points and two corresponding function values.
 % The functions live on intervals defined by breakpoints at
-% $-1$, $1$, and a number very close to $0.3$.  The `Vscale` field is related to
-% the maximum absolute value of `f` and `Epslevel` gives some rough
+% $-1$, $1$, and a number very close to $0.3$.  The |Vscale| field is related to
+% the maximum absolute value of |f| and |Epslevel| gives some rough
 % information about its relative accuracy.
 
 %%
@@ -241,29 +241,29 @@
   plot(f)
 
 %%
-% We expect `f` to consist of three pieces of lengths 3, 1, and 2, and this
+% We expect |f| to consist of three pieces of lengths 3, 1, and 2, and this
 % is indeed the case:
   f
 
 %%
-% Our eyes see pieces, but to Chebfun, `f` is just another function.  For
+% Our eyes see pieces, but to Chebfun, |f| is just another function.  For
 % example, here is its integral.
   sum(f)
 
 %%
-% Here is an algebraic transformation of `f`, which we plot in another color
+% Here is an algebraic transformation of |f|, which we plot in another color
 % for variety.
   plot(1./(1+f),'r')
 
 %% 
 % Some Chebfun commands naturally introduce breakpoints in a chebfun. For
-% example, the `abs` command first finds zeros of a function and introduces
+% example, the |abs| command first finds zeros of a function and introduces
 % breakpoints there.  Here is a chebfun consisting of 6 funs:
   f = abs(exp(x).*sin(8*x));
   plot(f)
 
 %%
-% And here is an example where breakpoints are introduced by the `max`
+% And here is an example where breakpoints are introduced by the |max|
 % command, leading to a chebfun with 13 pieces:
   f = sin(20*x);
   g = exp(x-1);
@@ -271,7 +271,7 @@
   plot(h)
 
 %%
-% As always, `h` may look complicated to a human, but to Chebfun it is just a
+% As always, |h| may look complicated to a human, but to Chebfun it is just a
 % function.  Here are its mean, standard deviation, minimum, and maximum:
   mean(h)
 
@@ -326,7 +326,7 @@
 
 %%
 % Here is an example of a function that diverges to infinity,
-% which we can capture with the `'exps'` flag; see Chapter 7
+% which we can capture with the |'exps'| flag; see Chapter 7
 % for details:
   h = chebfun('(1/pi)./sqrt(1-x.^2)','exps',[-.5 -.5]);
   plot(h)
@@ -378,7 +378,7 @@ length(f2)
 norm(f-chebfun(f2,[-pi, pi]))
 
 %%
-% Readers may be interested to compare `plotcoeffs` applied
+% Readers may be interested to compare |plotcoeffs| applied
 % to the first and second versions of $f$.  Rather than display
 % that here we shall turn to a simpler example involving a 
 % shorter Fourier series.  Consider the function
@@ -397,7 +397,7 @@ c = fourcoeffs(f)
 %%
 % Bookkeeping of Fourier coefficients can often be a headache. If
 % these examples don't make the patterns clear, details can be found with
-% `help fourcoeffs`.
+% |help fourcoeffs|.
 
 %%
 % For a mathematically less trivial example,
@@ -439,25 +439,25 @@ disp([a' exact'])
 % into this edition of the Guide.  Here are some of our favorites:
 
 %%
-% o `leg2cheb` and `cheb2leg` for fast Legendre-Chebyshev conversions,
+% o |leg2cheb| and |cheb2leg| for fast Legendre-Chebyshev conversions,
 
 %%
-% o `conv` and `circconv` for convolution,
+% o |conv| and |circconv| for convolution,
 
 %%
-% o The `'equi'` flag to the Chebfun constructor for equispaced data,
+% o The |'equi'| flag to the Chebfun constructor for equispaced data,
 
 %%
-% o `polyfit` for least-squares fitting in the continuous context,
+% o |polyfit| for least-squares fitting in the continuous context,
 
 %%
-% o `inv` for computing the inverse of a chebfun,
+% o |inv| for computing the inverse of a chebfun,
 
 %%
-% o `pde15s` for PDEs in one space and one time variable.
+% o |pde15s| for PDEs in one space and one time variable.
 
 %%
-% To learn about any of these options, try the appropriate `help`
+% To learn about any of these options, try the appropriate |help|
 % command.  Just as a taster, here's a hint of how fast Chebfun
 % can convert a ten-thousand coefficient Chebyshev expansion
 % to Legendre coefficients and back again using an
@@ -470,12 +470,12 @@ norm(ccheb-ccheb2,inf)
 toc
 
 %% 1.9  How this Guide is produced
-% This guide is produced in MATLAB using the `publish` command with a 
-% style sheet somewhat different from the usual; the output of `publish`
+% This guide is produced in MATLAB using the |publish| command with a 
+% style sheet somewhat different from the usual; the output of |publish|
 % is then processed by Markdown.
 % To publish a chapter for yourself, make sure the
 % chebfun guide directory is in your path and then type, for example,
-% `open(publish('guide1'))`.  The formatting may not be exactly 
+% |open(publish('guide1'))|.  The formatting may not be exactly 
 % right but it should certainly be intelligible.
 
 %% 1.10  References

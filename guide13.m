@@ -20,13 +20,13 @@ r(:,1)
 % The zero contours of a function are computed by Chebfun2 to plotting
 % accuracy and they are typically not accurate to machine precision. 
 
-%% 13.2 `roots`
+%% 13.2 |roots|
 % Chebfun2 also comes with the capability of finding zeros of bivariate
 % systems, i.e., the solutions to $f(x,y) = g(x,y) = 0$. 
-% If the `roots` command is supplied with one chebfun2, it computes the zero
+% If the |roots| command is supplied with one chebfun2, it computes the zero
 % contours of that function, as in the last
 % section.  However, if it is supplied
-% with two chebfun2 objects, as in `roots(f,g)`, then it 
+% with two chebfun2 objects, as in |roots(f,g)|, then it 
 % computes the roots of the bivariate system. Generically, these are
 % isolated points.
 
@@ -67,7 +67,7 @@ hold off
 % Chebfun2 rootfinding is based on an algorithm described in
 % [Nakatsukasa, Noferini & Townsend 2013].
 
-%% 13.4 Global optimisation: `max2`, `min2`, and `minandmax2`
+%% 13.4 Global optimisation: |max2|, |min2|, and |minandmax2|
 % Chebfun2 also provides functionality for global optimisation. Here is
 % a non-trivial example, where we plot the computed minimum and
 % maximum as black dots.
@@ -81,7 +81,7 @@ zlim([-6 6]), hold off
 
 %% 
 % If both the global maximum and minimum are required, it is roughly twice
-% as fast to compute them at the same time by using the `minandmax2` command.
+% as fast to compute them at the same time by using the |minandmax2| command.
 % For instance, 
 tic; [mn mnloc] = min2(f);  [mx mxloc] = max2(f); t=toc;
 fprintf('min2 and max2 separately = %5.3fs\n',t)
@@ -89,7 +89,7 @@ tic; [Y X] = minandmax2(f); t=toc;
 fprintf('minandmax2 command = %5.3fs\n',t)
 
 %%
-% The commands `min2`, `max2`, and `minandmax2` run faster if
+% The commands |min2|, |max2|, and |minandmax2| run faster if
 % the MATLAB Optimisation Toolbox is available.
 
 %% 13.5 Critical points

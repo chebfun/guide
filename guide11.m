@@ -15,7 +15,7 @@
 % 2D analogue of a chebfun.
 % The syntax for chebfun2 objects is similar to the syntax 
 % for matrices in MATLAB, and Chebfun2 objects have many MATLAB commands
-% overloaded. For instance, `trace(f)` returns the sum of the diagonal entries
+% overloaded. For instance, |trace(f)| returns the sum of the diagonal entries
 % when $f$ is a matrix and the integral of $f(x,x)$ when $f$ is a chebfun2. 
 
 %%
@@ -56,8 +56,8 @@ f = chebfun2(@(x,y) cos(x.*y));
 plot(f), zlim([-2 2])
 
 %% 
-% There are several commands for plotting a chebfun2, including `plot`,
-% `contour`, `surf`, and `mesh`.  Here is a contour plot of $f$:
+% There are several commands for plotting a chebfun2, including |plot|,
+% |contour|, |surf|, and |mesh|.  Here is a contour plot of $f$:
 contour(f), axis square
 
 %%
@@ -111,10 +111,10 @@ fy = diff(f,1,1);
 plot(fy)
 
 %%
-% The syntax for the `diff` command can cause confusion because we are
+% The syntax for the |diff| command can cause confusion because we are
 % following the matrix syntax in MATLAB. Chebfun2 also
-% offers `diffx(f,k)` and 
-% `diffy(f,k)`, which differentiate $f(x,y)$ $k$ times with respect
+% offers |diffx(f,k)| and 
+% |diffy(f,k)|, which differentiate $f(x,y)$ $k$ times with respect
 % to the first first and second variable, respectively.
 
 %%
@@ -128,16 +128,16 @@ methods chebfun2
 
 %% 
 % Most of these commands have been overloaded from MATLAB. 
-% More information about a Chebfun2 command can be found with `help`; 
+% More information about a Chebfun2 command can be found with |help|; 
 % for instance
 help chebfun2/max2
 
 %% 11.6 Object composition
 % So far, in this chapter,
 % chebfun2 objects have been constructed explicitly via a command
-% of the form `chebfun2(...)`. Another way to construct new
+% of the form |chebfun2(...)|. Another way to construct new
 % chebfun2 objects is by composing them together with operations such as 
-% `+`, `-`, `.*`, and `.^`. For instance,
+% |+|, |-|, |.*|, and |.^|. For instance,
 x = chebfun2(@(x,y) x, [-2 3 -4 4]); 
 y = chebfun2(@(x,y) y, [-2 3 -4 4]);   
 

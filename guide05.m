@@ -11,12 +11,12 @@ plot(f,'.')
 axis equal
   
 %%
-% In MATLAB, both the variables `i` and `j` are initialized as $i$, the square
-% root of $-1$, but this code uses `1i` instead (just as one might write, for
-% example, `3+2i` or `2.2-1.1i`).  Writing the imaginary unit in this fashion
+% In MATLAB, both the variables |i| and |j| are initialized as $i$, the square
+% root of $-1$, but this code uses |1i| instead (just as one might write, for
+% example, |3+2i| or |2.2-1.1i|).  Writing the imaginary unit in this fashion
 % is a common trick among MATLAB programmers, for it avoids the risk of
-% surprises caused by `i` or `j` having been overwritten by other values. The
-% `axis equal` command ensures that the real and imaginary axes are scaled
+% surprises caused by |i| or |j| having been overwritten by other values. The
+% |axis equal| command ensures that the real and imaginary axes are scaled
 % equally.
 
 %%
@@ -44,16 +44,16 @@ subplot(1,2,2), plot(exp(h)), axis equal
 %%
 % Such plots make pretty pictures, but as always with Chebfun, the
 % underlying operations involve precise mathematics carried out to many
-% digits of accuracy.  For example, the integral of `g` is $-\pi i/10$,
+% digits of accuracy.  For example, the integral of |g| is $-\pi i/10$,
 sum(g)
 
 %%
-% and the integral of `h` is zero:
+% and the integral of |h| is zero:
 sum(h)
 
 %%
 % Piecewise smooth complex chebfuns are also possible. For example, the
-% following starts from a chebfun `z` defined as $(1+0.5i)s$ for $s$ on the
+% following starts from a chebfun |z| defined as $(1+0.5i)s$ for $s$ on the
 % interval $[0,1]$ and $1+0.5i-2(s-1)$ for $s$ on the interval $[1,2]$.
 z = chebfun({@(s) (1+.5i)*s, @(s) 1+.5i-2*(s-1)},[0 1 2]);
 subplot(1,2,1), plot(z), axis equal, grid on
@@ -61,13 +61,13 @@ subplot(1,2,2), plot(z.^2), axis equal, grid on
 
 %%
 % Actually, this way of constructing a piecewise chebfun is rather clumsy.
-% An easier method is to use the `join` command, in which a
-% construction like `join(f,g,h)` constructs a single chebfun with the same
-% values as `f`, `g`, and `h`, but on a domain concatenated together.  Thus if
-% the domains of `f`, `g`, `h` are $[a,b]$,
-% $[c,d]$, and $[e,f]$, then `join(f,g,h)` has
+% An easier method is to use the |join| command, in which a
+% construction like |join(f,g,h)| constructs a single chebfun with the same
+% values as |f|, |g|, and |h|, but on a domain concatenated together.  Thus if
+% the domains of |f|, |g|, |h| are $[a,b]$,
+% $[c,d]$, and $[e,f]$, then |join(f,g,h)| has
 % three pieces with domains $[a,b]$, $[b,b+(d-c)]$, $[b+(d-c),b+(d-c)+(f-e)]$.
-% Using this trick, we can construct the chebfun `z` above in the following
+% Using this trick, we can construct the chebfun |z| above in the following
 % alternative manner:
   s = chebfun(@(s) s,[0 1]);
   zz = join((1+.5i)*s, 1+.5i-2*s);
@@ -83,9 +83,9 @@ subplot(1,2,2), plot(z.^2), axis equal, grid on
 % infinitesimal region, they preserve angles between intersecting curves.
 
 %%
-% For example, suppose we define `R` to be a chebfun corresponding to the
-% four sides of a rectangle and we define `X` to be another chebfun
-% corresponding to a cross inside `R`.
+% For example, suppose we define |R| to be a chebfun corresponding to the
+% four sides of a rectangle and we define |X| to be another chebfun
+% corresponding to a cross inside |R|.
 s = chebfun('s',[0 1]);
 R = join(1+s, 2+2i*s, 2+2i-s, 1+2i-2i*s);
 LW = 'linewidth'; lw1 = 2; lw2 = 3;
@@ -94,7 +94,7 @@ X = join(1.3+1.5i+.4*s, 1.5+1.3i+.4i*s);
 hold on, plot(X,'r',LW,lw2)
 
 %%
-% Here we see what happens to `R` and `X` under the maps $z^2$ and $\exp(z)$:
+% Here we see what happens to |R| and |X| under the maps $z^2$ and $\exp(z)$:
 clf
 subplot(1,2,1), plot(R.^2,LW,lw1), grid on, axis equal
 hold on, plot(X.^2,'r',LW,lw2)
@@ -147,7 +147,7 @@ hold on, axis equal
 plot((sqrt(5)-1)/2,0,'.k','markersize',4)
 
 %%
-% Here's a prettier version of the same image using the Chebfun `fill`
+% Here's a prettier version of the same image using the Chebfun |fill|
 % command.
 S = join(-.5i+s, 1-.5i+1i*s, 1+.5i-s, .5i-1i*s);
 clf
@@ -273,7 +273,7 @@ B10 = factorial(k)*sum((f./z.^(k+1)).*diff(z))/(2i*pi)
 exact = 5/66
 
 %%
-% Notice that we have taken `z` to be a circle of radius $5$. If the radius is
+% Notice that we have taken |z| to be a circle of radius $5$. If the radius is
 % $1$, the accuracy is a good deal lower:
 z = chebfun('exp(1i*s)',[0 2*pi]);
 f = z./((exp(z)-1));
@@ -307,8 +307,8 @@ N = sum((diff(f)./f))/(2i*pi)
 %%
 % What is really going on here is a calculation of the change of the
 % argument of $f$ as the boundary is traversed.  Another way to find that
-% number is with the Chebfun overloads of the MATLAB commands `angle`
-% and `unwrap`:
+% number is with the Chebfun overloads of the MATLAB commands |angle|
+% and |unwrap|:
 anglef = unwrap(angle(f));
 N = (anglef(end)-anglef(0))/(2*pi)
 
@@ -335,7 +335,7 @@ r = roots(f)
 % see [Austin, Kravanja & Trefethen 2013].
 
 %% 5.5 Alphabet soup
-% The Chebfun command `scribble` returns a piecewise linear complex chebfun
+% The Chebfun command |scribble| returns a piecewise linear complex chebfun
 % corresponding to a word spelled out in capital letters.  For example:
 f = scribble('Oxford University');
 LW = 'linewidth'; lw = 2;

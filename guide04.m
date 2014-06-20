@@ -62,8 +62,8 @@
 % if the data are $f_j = (-1)^{n-j}$, then $p(x)$ is $T_N(x)$,
 % the degree $N$ Chebyshev
 % polynomial, which can also be defined by the formula $T_N(x) = \cos(N
-% \cos^{-1}(x))$.  In Chebfun, the command `chebpoly(N)` returns a chebfun
-% corresponding to $T_N$, and `poly` returns coefficients in the monomial
+% \cos^{-1}(x))$.  In Chebfun, the command |chebpoly(N)| returns a chebfun
+% corresponding to $T_N$, and |poly| returns coefficients in the monomial
 % basis $1,x,x^2,\dots$. Thus we can print the coefficients of the first few
 % Chebyshev polynomials like this:
   for N = 0:8
@@ -71,8 +71,8 @@
   end
 
 %%
-% Note that that output of `poly` follows the pattern for MATLAB's standard
-% `poly` command: it is a row vector, and the high-order coefficients come
+% Note that that output of |poly| follows the pattern for MATLAB's standard
+% |poly| command: it is a row vector, and the high-order coefficients come
 % first. Thus, for example, the fourth row above tells us that $T_3(x) =
 % 4x^3 - 3x$.
 
@@ -119,22 +119,22 @@
 % to the user, and both representations are exploited for various
 % purposes internally in the system.
 
-%% 4.2 `chebcoeffs` and `poly`
-% We have just seen that the command `chebpoly(N)` returns a chebfun
-% corresponding to the Chebyshev polynomial $T_N$.  Conversely, if `f` is a
-% chebfun, then `chebcoeffs(f)` is the vector of its Chebyshev coefficients.
-% (Before Version 5, the command for this was `chebpoly`.)
+%% 4.2 |chebcoeffs| and |poly|
+% We have just seen that the command |chebpoly(N)| returns a chebfun
+% corresponding to the Chebyshev polynomial $T_N$.  Conversely, if |f| is a
+% chebfun, then |chebcoeffs(f)| is the vector of its Chebyshev coefficients.
+% (Before Version 5, the command for this was |chebpoly|.)
 % For example, here are the Chebyshev coefficients of $x^3$:
 x = chebfun(@(x) x);
 c = chebcoeffs(x.^3)
 
 %%
-% Like `poly`, `chebcoeffs` returns a row vector with the high-order coefficients first.
+% Like |poly|, |chebcoeffs| returns a row vector with the high-order coefficients first.
 % Thus this computation reveals the identity
 % $x^3 = (1/4)T_3(x) + (3/4)T_1(x)$.
 
 %%
-% If we apply `chebcoeffs` to a function that is not "really" a polynomial, we
+% If we apply |chebcoeffs| to a function that is not "really" a polynomial, we
 % will usually get a vector whose first entry (i.e., highest order) is just
 % above machine precision. This reflects the adaptive nature of the Chebfun
 % constructor, which always seeks to use a minimal number of points.
@@ -146,7 +146,7 @@ chebcoeffs(sin(x))
 chebcoeffs(1e100*sin(x))
 
 %%
-% By using `poly` we can print the coefficients of such a chebfun in the
+% By using |poly| we can print the coefficients of such a chebfun in the
 % monomial basis.  Here for example are the coefficients of the Chebyshev
 % interpolant of $\exp(x)$ compared with the Taylor series coefficients:
 cchebfun = flipud(chebcoeffs(exp(x))');
@@ -160,11 +160,11 @@ disp([cchebfun ctaylor])
 % better job of approximating than the truncated Taylor series.  If $f$ were
 % a function like $1/(1+25x^2)$, the Taylor series would not converge at all.
 
-%% 4.3 `chebfun(...,N)` and the Gibbs phenomenon
+%% 4.3 |chebfun(...,N)| and the Gibbs phenomenon
 
 %%
 % We can examine the approximation qualities of Chebyshev interpolants by
-% means of a command of the form `chebfun(...,N)`.  When an integer $N$ is
+% means of a command of the form |chebfun(...,N)|.  When an integer $N$ is
 % specified in this manner, it indicates that a Chebyshev interpolant is to
 % be constructed of precisely length $N$ rather than by the usual adaptive
 % process.
@@ -196,7 +196,7 @@ subplot(1,2,2), plot(f,'.-'), grid on, axis([0 .008 .5 1.5])
 
 %%
 % What is the amplitude of the Gibbs overshoot for Chebyshev
-% interpolation of a step function?  We can find out by using `max`:
+% interpolation of a step function?  We can find out by using |max|:
 for N = 2.^(1:8)
   gibbs = max(chebfun('sign(x)',N));
   fprintf('%5d  %13.8f\n', N, gibbs)
@@ -241,7 +241,7 @@ subplot(1,2,2), plot(f1000), ylim([0 1]), grid on
 
 %%
 % Such plots look good to the eye, but they do not achieve machine
-% precision. We can confirm this by using `splitting on` to compute a true
+% precision. We can confirm this by using |splitting on| to compute a true
 % absolute value and then measuring some norms.
 fexact = chebfun('abs(x)','splitting','on');
 err10 = norm(f10-fexact,inf)
@@ -400,7 +400,7 @@ text(45,1e-3,'C^{-N}','color','r','fontsize',16)
 % best (minimax) approximation rather than simply a Chebyshev interpolant.
 % Nevertheless best approximations are a beautiful and well-established
 % idea, and it is certainly interesting to be able to compute them.
-% Chebfun makes this possible with the command `remez`, named after Evgeny
+% Chebfun makes this possible with the command |remez|, named after Evgeny
 % Remez, who devised the standard algorithm for computing these
 % approximations in 1934. This capability is due to Ricardo Pachon; see
 % [Pachon & Trefethen 2009].
@@ -415,7 +415,7 @@ clf, plot(f,'b',p,'r'), grid on
 %%
 % A plot of the error curve $(f-p)(x)$ shows that it equioscillates between
 % $20+2 = 22$ alternating extreme values.  Note that a second output argument
-% from `remez` returns the error as well as the polynomial.
+% from |remez| returns the error as well as the polynomial.
 [p,err] = remez(f,20);
 plot(f-p,'m'), hold on
 plot([0 4],err*[1 1],'--k'), plot([0 4],-err*[1 1],'--k')
@@ -432,10 +432,10 @@ plot(f-pinterp,'b')
 % maximum error, it is a worse approximation for most values of $x$.
 
 %%
-% Chebfun's  `remez` command can compute certain rational best approximants
+% Chebfun's  |remez| command can compute certain rational best approximants
 % too, though it is somewhat fragile. If your function is smooth, a
 % possibly more robust approach to computing best approximations is
-% Caratheodory-Fejer approximation, implemented in the code `cf` due to
+% Caratheodory-Fejer approximation, implemented in the code |cf| due to
 % Joris Van Deun [Van Deun & Trefethen 2011].  For example:
 f = chebfun('exp(x)');
 [p,q] = cf(f,5,5);
@@ -464,7 +464,7 @@ plot([-1 1],lam*[1 1],'--k'), plot([-1 1],-lam*[1 1],'--k')
 % certainly interesting.
 
 %%
-% In Chebfun, we can compute them with the `interp1` command.
+% In Chebfun, we can compute them with the |interp1| command.
 % For example, here is an analytic function and its equispaced interpolant
 % of degree 9:
 f = tanh(10*x);
@@ -482,7 +482,7 @@ plot(f), hold on, plot(p,'r'), grid on, plot(s,p(s),'.r')
 %%
 % Approximation experts will know that one of the tools used in analyzing
 % effects like this is known as the Lebesgue function associated with a
-% given set of interpolation points. Chebfun has a command `lebesgue` for
+% given set of interpolation points. Chebfun has a command |lebesgue| for
 % computing these functions. The problem with interpolation in $20$
 % equispaced points is reflected in a Lebesgue function of size $10^4$ --
 % note the semilog scale:
@@ -511,11 +511,11 @@ length(f)
 plot(f)
 
 %%
-% We can use the command `chebpade`, developed by Ricardo Pachon, to
+% We can use the command |chebpade|, developed by Ricardo Pachon, to
 % compute a Chebyshev-Pade approximant, defined by the condition that the
 % Chebyshev series of $p/q$ should match that of $f$ as far as possible [Baker
 % & Graves-Morris 1996].  (This is the so-called "Clenshaw-Lord"
-% Chebyshev-Pade approximation; if the flag `maehly` is specified the code
+% Chebyshev-Pade approximation; if the flag |maehly| is specified the code
 % alternatively computes the linearized variation known as the "Maehly"
 % approximation.) Chebyshev-Pade approximation is the analogue for
 % functions defined on an interval of Pade approximation for functions
@@ -537,7 +537,7 @@ roots(q,'complex')
 
 %%
 % A similar but perhaps faster and more robust approach to rational
-% interpolation is encoded in the command `ratinterp`, which computes a
+% interpolation is encoded in the command |ratinterp|, which computes a
 % type $(m,n)$ interpolant through $m+n+1$ Chebyshev points (or, optionally, a
 % different set of points). This capability was developed by Ricardo
 % Pachon, Pedro Gonnet and Joris Van Deun [Pachon, Gonnet & Van Deun 2012].
@@ -553,8 +553,8 @@ roots(q,'complex')
 
 %%
 % The third and fourth options for rational approximation, as mentioned in
-% Section 4.6, are best approximants computed by `remez` and
-% Caratheodory-Fejer approximants computed by `cf` [Trefethen & Gutknecht
+% Section 4.6, are best approximants computed by |remez| and
+% Caratheodory-Fejer approximants computed by |cf| [Trefethen & Gutknecht
 % 1983, Van Deun & Trefethen 2011]. As mentioned in Section 4.6, CF
 % approximants often agree with best approximations to machine precision if
 % $f$ is smooth. We explore the same function yet again, and this time obtain

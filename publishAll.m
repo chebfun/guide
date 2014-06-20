@@ -1,13 +1,13 @@
 %%
 % NB that you will have to manuall put a "width=6in" into guide10.tex for
 % the image of the chebgui; otherwise it is much too large.
-
+addpath bookstuff
 
 %%
 guideFiles = dir('guide*.m');
 opt.format = 'latex';
 opt.outputDir = 'latex/color';
-opt.imageFormat = 'epsc'; 
+opt.imageFormat = ''; 
 opt.stylesheet = 'publish2latex.xsl';
 for j = 1:length(guideFiles)
     defaultSettings

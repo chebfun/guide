@@ -1,7 +1,7 @@
 %% 6. Quasimatrices and Least-Squares
 % Lloyd N. Trefethen, November 2009, latest revision June 2014
 
-%% 6.1  Quasimatrices and `spy`
+%% 6.1  Quasimatrices and |spy|
 % A chebfun can have more than one column, or if it is transposed, it can
 % have more than one row.  In these cases we get a
 % *quasimatrix*, a "matrix" in which one of the dimensions is
@@ -12,7 +12,7 @@
 
 %%
 % Here for example is the quasimatrix consisting of the first
-% six powers of $x$ on the interval $[-1,1]$.  The command `size` can be
+% six powers of $x$ on the interval $[-1,1]$.  The command |size| can be
 % used to identify the continuous dimension, and to find the numbers
 % of rows or columns:
   x = chebfun('x');
@@ -44,38 +44,38 @@
 % Chebfun [Battles & Trefethen 2004, Battles 2006].
 
 %%
-% If `f` and `g` are column chebfuns, then `f'*g` is a scalar, their inner product.
+% If |f| and |g| are column chebfuns, then |f'*g| is a scalar, their inner product.
 % For example, here is the inner product of $x^2$ and $x^4$ over $[-1,1]$
 % (equal to $2/7$):
   A(:,3)'*A(:,5)
 
 %%
-% More generally, if `A` and `B` are column quasimatrices with $m$ and $n$
+% More generally, if |A| and |B| are column quasimatrices with $m$ and $n$
 % columns, respectively,
-% then `A'*B` is the $m \times n$ matrix of inner products of those columns.  
+% then |A'*B| is the $m \times n$ matrix of inner products of those columns.  
 % Here is the
 % $6\times 6$ example corresponding to $B=A$:
   format short, A'*A, format long
 
 %%
-% You can get an idea of the shape of a quasimatrix with the overloaded `spy` command
+% You can get an idea of the shape of a quasimatrix with the overloaded |spy| command
   subplot(1,2,1), spy(A), title A
   subplot(1,2,2), spy(A'), title('A''')
 
 %% 6.2 Backslash and least-squares
 
 %%
-% In MATLAB, the command `c = A\b` computes the solution to the system
+% In MATLAB, the command |c = A\b| computes the solution to the system
 % of equations $Ac = b$ if $A$ is a square matrix, whereas if $A$ is rectangular,
 % with more rows than columns, it computes the least squares solution,
 % the vector $c$ that minimizes $\|Ac-b\|$.  A quasimatrix is always rectangular, and
-% `\` has accordingly been overloaded
+% |\| has accordingly been overloaded
 % to carry out the appropriate continuous least-squares computation.
-% (The actual MATLAB command that handles backslash is `mldivide`.)
+% (The actual MATLAB command that handles backslash is |mldivide|.)
 
 %%
-% For example, continuing with the same chebfun `x` and
-% quasimatrix `A` as above, consider the following sequence:
+% For example, continuing with the same chebfun |x| and
+% quasimatrix |A| as above, consider the following sequence:
   f = exp(x).*sin(6*x);
   c = A\f
   
@@ -83,7 +83,7 @@
 % The vector $c$ can be interpreted as the vector of
 % coefficients of the least-squares fit to $f$ by a linear combination
 % of the functions $1, x,\dots, x^5$.  Here is a plot of $f$ (in blue) and
-% the least-squares approximation (in red), which we label `ffit`.
+% the least-squares approximation (in red), which we label |ffit|.
   ffit = A*c;
   clf, plot(f,'b',ffit,'r',LW,1.6), grid on
   error = norm(f-ffit)
@@ -140,14 +140,14 @@
 % "abbreviated", or "condensed"
 % QR factorization, since $Q$ is rectangular rather than square and $R$ is
 % square rather than rectangular.  In MATLAB the syntax for computing such things is
-% `[Q,R] = qr(A,0)`, and the same command has been overloaded for chebfuns.  The
+% |[Q,R] = qr(A,0)|, and the same command has been overloaded for chebfuns.  The
 % computation makes use of a quasimatrix analogue of Householder triangularization
-% [Trefethen 2010].  Alternatively one can simply write `[Q,R] = qr(A)`:
+% [Trefethen 2010].  Alternatively one can simply write |[Q,R] = qr(A)|:
   [Q,R] = qr(A);
   plot(Q,LW,1.6), grid on
 
 %%
-% The `spy` command confirms the shape of these various matrices.
+% The |spy| command confirms the shape of these various matrices.
 % In principle half the dots in the upper-triangle should
 % be zero because of the fact that
 % the columns of $A$ alternate even and odd functions, but rounding
@@ -171,7 +171,7 @@
 
 %%
 % (A slicker way to produce this plot in Chebfun would be
-% to execute `plot(legpoly(0:5))`.)
+% to execute |plot(legpoly(0:5))|.)
   
 %%
 % If $A=QR$, then $A R^{-1} = Q$, and here is $R^{-1}$:
@@ -190,7 +190,7 @@
   [Q2,R2] = qr(A2);
   plot(Q2,LW,1.6)
 
-%% 6.4 `svd`, `norm`, `cond`
+%% 6.4 |svd|, |norm|, |cond|
 
 %%
 % An $m\times n$ matrix $A$ defines a map from $R^n$ to $R^m$, and in
@@ -233,7 +233,7 @@
   norm(A,2)
 
 %%
-% (Note that we must include the argument `2` here: for reasons of speed,
+% (Note that we must include the argument |2| here: for reasons of speed,
 % the default for quasimatrices, unlike the usual MATLAB matrices, is
 % the Frobenius norm rather than the 2-norm.)
 % The SVD enables us to identify exactly what vectors are involved in achieving
@@ -244,8 +244,8 @@
 
 %%
 % We can use spy to confirm the shapes of the matrices.
-% As with `spy( R)` earlier, here
-% `spy(V)` should in principle show a checkerboard,
+% As with |spy( R)| earlier, here
+% |spy(V)| should in principle show a checkerboard,
 % but nonzeros are introduced by rounding errors.
   subplot(1,5,1), spy(A), title A
   subplot(1,5,3), spy(U), title U
@@ -290,7 +290,7 @@
   cond(A)
 
 %%
-% The fact that `cond(A)` is a good deal greater than $1$
+% The fact that |cond(A)| is a good deal greater than $1$
 % reflects the ill-conditioning
 % of the monomials $1,x,\dots ,x^5$ as a basis
 % for degree $5$ polynomials in $[-1,1]$.  The effect
@@ -332,21 +332,21 @@ cond(chebpoly(0:15))
 
 %%
 % The norms of row quasimatrices are analogous, with
-% `norm(A',inf) = norm(A,1)` and `norm(A',1) = norm(A,inf)`.
+% |norm(A',inf) = norm(A,1)| and |norm(A',1) = norm(A,inf)|.
 % Like MATLAB itself applied to a rectangular matrix, Chebfun
-% does not define `cond(A,1)` or `cond(A,inf)` if `A` is a quasimatrix.
+% does not define |cond(A,1)| or |cond(A,inf)| if |A| is a quasimatrix.
 
 %%
 % The Frobenius or Hilbert-Schmidt norm is equal to the square root of the sum of the
 % squares of the singular values:
   norm(A,'fro')
 
-%% 6.6 `rank`, `null`, `orth`, `pinv`
+%% 6.6 |rank|, |null|, |orth|, |pinv|
 
 %%
 % Chebfun also contains overloads for some further
 % MATLAB operations related to orthogonal matrix factorizations.
-% Perhaps the most useful of these is `rank(A)`, which computes the singular
+% Perhaps the most useful of these is |rank(A)|, which computes the singular
 % values of $A$ and makes a judgement as to how many of them are significantly
 % different from zero.  For example, with $x$
 % still defined as before, here is an
@@ -357,19 +357,19 @@ cond(chebpoly(0:15))
 
 %%
 % Since $B$ is rank-deficient, is has a nontrivial nullspace, and the command
-% `null(B)` will find an orthonormal basis for it:
+% |null(B)| will find an orthonormal basis for it:
   null(B)
 
 %%
-% Similarly the command `orth(B)` finds an orthonormal basis for the range of B,
+% Similarly the command |orth(B)| finds an orthonormal basis for the range of B,
 % which in this case has dimension $2$:
   orth(B)
 
 %%
-% If `A` is an $\infty\times n$ column quasimatrix,
-% the command `pinv(A)` computes the pseudoinverse
-% of `A`, an $n \times \infty$ row quasimatrix
-% such that `pinv(A)*c = A\c`. 
+% If |A| is an $\infty\times n$ column quasimatrix,
+% the command |pinv(A)| computes the pseudoinverse
+% of |A|, an $n \times \infty$ row quasimatrix
+% such that |pinv(A)*c = A\c|. 
 
 %%
 % Here is a summary of the dimensions of these objects:

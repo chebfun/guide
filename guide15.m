@@ -21,7 +21,7 @@ surf(F), camlight, axis equal
 % Above, we have formed a chebfun2v with three components by vertical 
 % concatenation of chebfun2 objects. However, for familiar surfaces such as
 % cylinders, spheres, and ellipsoids Chebfun2 has overloads of the commands
-% `cylinder`, `sphere`, and `ellipsoid` to generate these surfaces more easily. 
+% |cylinder|, |sphere|, and |ellipsoid| to generate these surfaces more easily. 
 % For example, a cylinder of radius $1$ and height $5$ can
 % be constructed like this:
 h = 5; 
@@ -32,7 +32,7 @@ surf(F), camlight
 %% 
 % An important class of parametric surfaces are surfaces of revolution,
 % which are formed by revolving a curve in the left half plane about the
-% $z$-axis. The `cylinder` command can be used to generate surfaces of 
+% $z$-axis. The |cylinder| command can be used to generate surfaces of 
 % revolution. For example: 
 f = chebfun(@(t) (sin(pi*t)+1.1).*t.*(t-10),[0 5]);
 F = cylinder(f);
@@ -49,7 +49,7 @@ surf(F), axis equal, camlight
 
 %% 15.2 Surface normals and the divergence theorem
 % Given a chebfun2v representing a surface, the normal can be computed by 
-% the Chebfun2 `normal` command.  Here are the normal vectors of another torus:
+% the Chebfun2 |normal| command.  Here are the normal vectors of another torus:
 r1 = 1; r2 = 1/3;   % inner and outer radius
 d = [0 2*pi 0 2*pi];
 u = chebfun2(@(u,v) u,d);
@@ -83,7 +83,7 @@ exact = 2*pi^2*r1*r2.^2
 %%
 % To finish this section we represent the Klein Bagel. The solid black 
 % line shows the parameterisation seam and is displayed with the syntax 
-% `surf(F,'-')`. See [Platte 2013] for more on parameterised surfaces.
+% |surf(F,'-')|. See [Platte 2013] for more on parameterised surfaces.
 u = chebfun2(@(u,v) u, [0 2*pi 0 2*pi]);
 v = chebfun2(@(u,v) v, [0 2*pi 0 2*pi]);
 x=(3+cos(u/2).*sin(v)-sin(u/2).*sin(2*v)).*cos(u);

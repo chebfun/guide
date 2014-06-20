@@ -85,7 +85,7 @@ help chebfun2v/curl
 
 %%
 % If the chebfun2v $F$ describes a vector velocity field of fluid flow, 
-% for example, then `curl(F)` is the scalar function equal
+% for example, then |curl(F)| is the scalar function equal
 % to twice the angular speed of a particle in the flow at each point. 
 % A particle moving in a gradient field has zero angular speed and hence,
 % the curl of the gradient is zero.  We can check this numerically:
@@ -102,7 +102,7 @@ norm(laplacian(f) - divergence(gradient(f)))
 
 %% 14.4 Line integrals 
 % Given a vector field $F$, we can compute the line integral along a curve
-% with the command `integral`, defined as follows.
+% with the command |integral|, defined as follows.
 help chebfun2v/integral
 
 %%
@@ -119,7 +119,7 @@ abs(v-ends)                                         % gradient theorem
 % A phase diagram is a graphical representation of a system of 
 % trajectories for a two variable autonomous dynamical system.
 % Chebfun2 plots phase 
-% diagrams with `quiver` command, which has been overloaded to 
+% diagrams with |quiver| command, which has been overloaded to 
 % plot the vector field. 
 % Note that there is a potential terminological ambiguity in that a
 % "phase portrait" can also refer to a portrait 
@@ -128,7 +128,7 @@ abs(v-ends)                                         % gradient theorem
 %%
 % In addition, Chebfun2 makes it easy to compute and plot individual 
 % trajectories of a vector field. If $F$ is a chebfun2v, then 
-% `ode45(F,tspan,y0)` computes a trajectory of the
+% |ode45(F,tspan,y0)| computes a trajectory of the
 % autonomous system $dx/dt=f(x,y)$, $dy/dt=g(x,y)$,
 % where $f$ and $g$ are the first and second components of $F$. Given a 
 % prescribed time interval and initial conditions, this command returns a 

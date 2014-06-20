@@ -8,18 +8,18 @@
 % nonlinear ODEs:
 
 %%
-% o  Initial-value problems:  `ode45`, `ode113`, `ode15s`
+% o  Initial-value problems:  |ode45|, |ode113|, |ode15s|
 
 %%
-% o  Boundary-value problems: `bvp4c`, `bvp5c`
+% o  Boundary-value problems: |bvp4c|, |bvp5c|
 
 %%
-% o  Both kinds of problems via chebops:  nonlinear backslash (=`solvebvp`)
+% o  Both kinds of problems via chebops:  nonlinear backslash (=|solvebvp|)
 
 %%
 % In this chapter we outline the use of these methods; for fuller details, see
-% the `help` documentation and especially the online Chebfun Examples.  The last
-% of the methods listed, nonlinear backslash or `solvebvp`, represents a "pure
+% the |help| documentation and especially the online Chebfun Examples.  The last
+% of the methods listed, nonlinear backslash or |solvebvp|, represents a "pure
 % Chebfun" approach in which Newton's method is applied on chebfuns, with the
 % necessary derivative operators calculated by Chebfun's built-in capabilities
 % of Automatic Differentiation (AD).  This is the main Chebfun method
@@ -30,18 +30,18 @@
 % boundary-value problem.
 
 %%
-% For time-dependent PDEs, try `help pde15s`.
+% For time-dependent PDEs, try |help pde15s|.
 
-%% 10.1 `ode45`, `ode15s`, `ode113`
+%% 10.1 |ode45|, |ode15s|, |ode113|
 % MATLAB has a highly successful suite of ODE IVP solvers introduced originally
 % by Shampine and Reichelt [Shampine & Reichelt 1997]. The codes are called
-% `ode23`, `ode45`, `ode113`, `ode15s`, `ode23s`,
-% `ode23t`, and `ode23tb`, and are adapted to
+% |ode23|, |ode45|, |ode113|, |ode15s|, |ode23s|,
+% |ode23t|, and |ode23tb|, and are adapted to
 % various mixes of accuracy requirements and stiffness.
 
 %%
-% Chebfun includes versions of `ode45` (for medium accuracy), `ode113` (for high
-% accuracy), and `ode15s` (for stiff problems) originally
+% Chebfun includes versions of |ode45| (for medium accuracy), |ode113| (for high
+% accuracy), and |ode15s| (for stiff problems) originally
 % created by Toby Driscoll and
 % Rodrigo Platte. These codes operate by calling their MATLAB counterparts, then
 % converting the result to a chebfun. Thanks to the Chebfun framework of dealing
@@ -56,7 +56,7 @@ LW = 'linewidth'; lw = 1.6;
 plot(u,LW,lw)
 
 %%
-% The first argument to `ode45` defines the equation, the second defines the
+% The first argument to |ode45| defines the equation, the second defines the
 % domain for the independent variable, and the third provides the initial
 % condition.  
 
@@ -70,7 +70,7 @@ roots(u-10)
 % whose solutions are sines and cosines.
 % We convert this to first-order form by
 % using a vector $v$ with $v(1)=u$ and $v(2)=u'$
-% and solve the problem again using `ode45`:
+% and solve the problem again using |ode45|:
 fun = @(t, v) [v(2); -v(1)];
 v = chebfun.ode45(fun, [0 10*pi], [1 0]);
 plot(v,LW,lw)
@@ -83,9 +83,9 @@ minandmax(u)
 
 %%
 % Evidently the accuracy is only around five digits.  The reason is that the
-% chebfun `ode45` code uses the same default tolerances as the original `ode45`. We
-% can tighten the tolerance using the standard MATLAB `odeset` command, switching
-% also to `ode113` since it is more efficient for high-accuracy computations:
+% chebfun |ode45| code uses the same default tolerances as the original |ode45|. We
+% can tighten the tolerance using the standard MATLAB |odeset| command, switching
+% also to |ode113| since it is more efficient for high-accuracy computations:
 opts = odeset('abstol',3e-14,'reltol',3e-14);
 v = chebfun.ode113(fun, [0 10*pi], [1 0], opts);
 minandmax(v(:,1))
@@ -96,7 +96,7 @@ minandmax(v(:,1))
 % $u'' = 1000(1-u^2)u'-u$ with initial conditions
 % $u=2$, $u'=0$.  This is a highly
 % stiff problem whose solution contains very rapid transitions, so we use
-% `ode15s` in "splitting on" mode:
+% |ode15s| in "splitting on" mode:
 opts = odeset('abstol',1e-8,'reltol',1e-8);
 fun = @(t,v) [v(2); 1000*(1 - v(1)^2)*v(2) - v(1)];
 chebfunpref.setDefaults('splitting','on')
@@ -116,15 +116,15 @@ plot3(u(:,1), u(:,2), u(:,3)), view(-5,9)
 axis([-30 30 -50 50 5 45])
 xlabel x, ylabel y, zlabel z
 
-%% 10.2 `bvp4c`, `bvp5c`
-% MATLAB also has well-established codes `bvp4c` and `bvp5c` for solving BVPs, and
+%% 10.2 |bvp4c|, |bvp5c|
+% MATLAB also has well-established codes |bvp4c| and |bvp5c| for solving BVPs, and
 % these too have been replicated in Chebfun. Again the Chebfun usage becomes
 % somewhat simpler than the original.  In particular, there is no need to call
-% `bvpinit`; the initial guess and associated mesh are both
+% |bvpinit|; the initial guess and associated mesh are both
 % determined by an input initial guess $u_0$.
 
 %%
-% For example, here is the problem labeled `twoode` in the MATLAB `bvp4c`
+% For example, here is the problem labeled |twoode| in the MATLAB |bvp4c|
 % documentation.  The domain is $[0,4]$,
 % the equation is $u'' + |u| = 0$, and the
 % boundary conditions are $u(0)=0$, $u(4)=-2$.
@@ -152,7 +152,7 @@ u = v(:,1); plot(u,LW,lw)
 % u(-1) = u(1) = 0. $$
 %
 % with $\varepsilon = 0.01$.  Here is a
-% solution with `bvp4c`, just one of many solutions
+% solution with |bvp4c|, just one of many solutions
 % of this problem.
 ep = 0.01;
 ode = @(x,v) [v(2); (1-v(1)^2-2*(1-x^2)*v(1))/ep];
@@ -202,23 +202,23 @@ w = u + diff(v);
 % basis variable for derivative computations, and seed its derivative.  
 % (This procedure has changed with Version 5.)  To
 % compute derivatives with respect to $u$, we convert
-% it to an object known as an `adchebfun` and redo the computations:
+% it to an object known as an |adchebfun| and redo the computations:
 u = adchebfun(u);
 v = exp(x) + u.^3;
 w = u + diff(v);
 
 %%
 % We can now obtain the derivative of $v$ with respect
-% to $u$ by accessing the `.jacobian` field of $v$:
+% to $u$ by accessing the |.jacobian| field of $v$:
 dvdu = v.jacobian;
 
 %%
-% The result `dvdu` is a linear chebop of the kind discussed in Chapter 7.
-% For example, `dvdu*x` is $3x^4$ times $x$, or $3x^5$:
+% The result |dvdu| is a linear chebop of the kind discussed in Chapter 7.
+% For example, |dvdu*x| is $3x^4$ times $x$, or $3x^5$:
 plot(dvdu*x, LW, lw)
 
 %%
-% Notice that `dvdu` is a multiplication operator, acting on a function just by
+% Notice that |dvdu| is a multiplication operator, acting on a function just by
 % pointwise multiplication.  (The technical term is _multiplier operator_.)
 
 %%
@@ -240,16 +240,16 @@ norm(dwdu*x - (x+15*x.^4))
 
 %%
 % We can use use the
-% overloaded `spy` command to see at a glance that the first of our Frechet
+% overloaded |spy| command to see at a glance that the first of our Frechet
 % derivatives is a multiplier operator while the others are non-diagonal:
-subplot(1,2,1), spy(dvdu), title dvdu
-subplot(1,2,2), spy(dwdu), title dwdu
+subplot(1,2,1), spy(linop(dvdu)), title dvdu
+subplot(1,2,2), spy(linop(dwdu)), title dwdu
 
 %%
 % We now look at how AD enables Chebfun users to solve nonlinear ODE
 % problems with backslash, just like the linear ones solved in Chapter 7.
 
-%% 10.4 Nonlinear backslash and `solvebvp`
+%% 10.4 Nonlinear backslash and |solvebvp|
 % In Chapter 7, we realized linear operators as chebops constructed by
 % commands like these:
 L = chebop(-1, 1);
@@ -263,17 +263,17 @@ u = L\0;
 clf, plot(u, 'm', LW, lw)
 
 %%
-% What's going on in such a calculation is that `L` is a prescription for
+% What's going on in such a calculation is that |L| is a prescription for
 % constructing matrices of arbitrary dimensions which are spectral
 % approximations to the operator in question.  When backslash is executed, the
 % problem is solved on successively finer grids until convergence is achieved.
 
 %%
-% The object `L` we have created is a chebop, with these fields:
+% The object |L| we have created is a chebop, with these fields:
 disp(L)
 
 %%
-% Notice that one of the fields is called `init`,
+% Notice that one of the fields is called |init|,
 % which may hold an initial guess
 % for an iteration if one is specified.  If a guess is not specified, then a
 % low-order polynomial function is used that matches the boundary conditions.
@@ -292,7 +292,7 @@ disp(L)
 %
 % However, since the required
 % Jacobian information is now computed by AD, construction of the Jacobian
-% operator $J$ is taken care of by `linearize(L,u)`,
+% operator $J$ is taken care of by |linearize(L,u)|,
 % which returns the derivative of
 % the operator $J$ when it is linearized around the function $u$.
 % Compare the code below to that in Section 7.9.
@@ -311,7 +311,7 @@ clf, plot(u)
 %%
 % However, it is not necessary to construct such Newton iterations by hand! The
 % code above is a much simplified version of what happens under-the-hood when
-% `nonlinear backslash' is called to solve nonlinear differential equations. A
+% |nonlinear backslash' is called to solve nonlinear differential equations. A
 % few examples of this are demonstrated below.
 
 %%
@@ -330,7 +330,7 @@ plot(u,'m',LW,lw)
 %%
 % Next came the linear equation $u''=-u$.  With chebops, there is no need to
 % reformulate the problem as a first-order system.  There are two boundary
-% conditions at the left, which can be imposed by making `N.lbc` a function
+% conditions at the left, which can be imposed by making |N.lbc| a function
 % returning an array.
 N = chebop(0, 10*pi);
 N.op = @(x,u) diff(u,2) + u;
@@ -362,7 +362,7 @@ N.init= u.*sin(pi*x/2);
 plot(u,'m',LW,lw)
 
 %%
-% This time, we called the method `solvebvp` with two output arguments. The
+% This time, we called the method |solvebvp| with two output arguments. The
 % second output is a MATLAB struct, which contains data showing the norms of the
 % updates during the Newton iteration, revealing in this case a troublesome
 % initial phase followed by eventual rapid convergence.
@@ -379,26 +379,26 @@ cheboppref.setDefaults('plotting','on')
 cheboppref.setDefaults('display','iter')
 
 %%
-% Type `help cheboppref` for details.  Here we shall not pursue this option
+% Type |help cheboppref| for details.  Here we shall not pursue this option
 % and thus return the system to its factory state:
 cheboppref.setDefaults('plotting','off')
 cheboppref.setDefaults('display','none')
 
 %%
-% The heading of this section refers to the command `solvebvp`. When you apply
+% The heading of this section refers to the command |solvebvp|. When you apply
 % backslash to a nonlinear chebop, it invokes the overloaded MATLAB command
-% `mldivide`; this in turn calls a command `solvebvp` to do the actual work. By
-% calling `solvebvp` directly, you can control the computation in ways not
+% |mldivide|; this in turn calls a command |solvebvp| to do the actual work. By
+% calling |solvebvp| directly, you can control the computation in ways not
 % accessible through backslash. This situation is just like the relationship in
-% standard MATLAB between `\` and `linsolve`. See the help documentation for
+% standard MATLAB between |\| and |linsolve|. See the help documentation for
 % details.
 
 %% 10.5 Graphical user interface: Chebgui
 % Chebfun includes a GUI (Graphical User Interface) for solving all kinds of
 % ODE, time-dependent PDE, and eigenvalue problems interactively. We will not
-% describe it here, but we encourage the reader to type `chebgui` and give it a try.
-% Be sure to note the `Demo` menu, which contains dozens of preloaded examples,
-% both scalars and systems. Perhaps most important of all is the `Export to
+% describe it here, but we encourage the reader to type |chebgui| and give it a try.
+% Be sure to note the |Demo| menu, which contains dozens of preloaded examples,
+% both scalars and systems. Perhaps most important of all is the |Export to
 % m-file" button, which produces a Chebfun m-file corresponding to whatever
 % problem is loaded into the GUI.  This feature enables one to get going quickly
 % and interactively, then switch to a Chebfun program to adjust the fine points.

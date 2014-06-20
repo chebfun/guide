@@ -28,7 +28,7 @@ sumg = sum(g)
 plot(g,'r',LW,1.6)
 
 %%
-% Where do $f$ and $g$ intersect?  We can find out using `roots`:
+% Where do $f$ and $g$ intersect?  We can find out using |roots|:
 plot(f,'b',g,'r',LW,1.2), hold on
 r = roots(f-g)
 plot(r,f(r),'.k',MS,18)
@@ -44,7 +44,7 @@ clf, plot(g,LW,1.6)
 %%
 % Notice that a function on an infinite domain is by default plotted
 % on an interval like $[0,10]$ or $[-10,10]$.  You can use an extra
-% `'interval'` flag to plot
+% |'interval'| flag to plot
 % on other intervals, as shown by this example of a function
 % of small norm whose largest values are near $x=30$:
 hh = @(x) cos(x)./(1e5+(x-30).^6);
@@ -60,7 +60,7 @@ sumg = sum(g)
 
 %%
 % The cumsum operator applied to this integrand gives us the error function,
-% which matches the MATLAB `erf` function reasonably well:
+% which matches the MATLAB |erf| function reasonably well:
 errorfun = cumsum(g)
 disp('          erf               errorfun')
 for n = 1:6, disp([erf(n) errorfun(n)]), end
@@ -94,9 +94,9 @@ plot(sinc,'m',LW,1.6,'interval',[-10 10])
 % Chebfun can handle certain "vertical" as well as
 % "horizontal" infinities -- especially, functions that blow up according
 % to an integer power, i.e., with a pole.  If you know the nature of the blowup,
-% it is a good idea to specify it using the `'exps'` flag.
+% it is a good idea to specify it using the |'exps'| flag.
 % For example, here's a function with a simple pole at $0$.  We use
-% `'exps'` to tell the constructor that the function looks like $x^{-1}$
+% |'exps'| to tell the constructor that the function looks like $x^{-1}$
 % at the left endpoint and $x^0$ (i.e., smooth) at the right
 % endpoint.
 f = chebfun('sin(50*x) + 1./x',[0 4],'exps',[-1,0]);
@@ -128,7 +128,7 @@ hold off, plot(g,LW,1.6)
 %%
 % If you don't know what singularities your function may
 % have, Chebfun has some ability to find them if the flags
-% `'blowup`' and `'splitting`' are on:
+% |'blowup|' and |'splitting|' are on:
 gam = chebfun('gamma(x)',[-4 4],'splitting','on','blowup',1);
 plot(gam,LW,1.6), ylim([-10 10])
 
@@ -164,7 +164,7 @@ sum(w)
 % against the Chebyshev polynomials $T_0,\dots,T_5$.  (The integrals
 % in these inner products
 % are calculated by Gauss-Jacobi quadrature using methods due
-% to Hale and Townsend; for more on this subject see the command `jacpts`.)
+% to Hale and Townsend; for more on this subject see the command |jacpts|.)
 x = chebfun('x');
 T = chebpoly(0:5)';
 f = x.^4 + x.^5;
@@ -172,7 +172,7 @@ chebcoeffs1 = T*(w.*f)
 
 %%
 % Here for comparison are the Chebyshev coefficients as obtained
-% from `chebcoeffs`:
+% from |chebcoeffs|:
 chebcoeffs2 = flipud(chebcoeffs(f)')
 
 %%
@@ -201,8 +201,8 @@ plot(f,LW,1.6)
 
 %%
 % Under certain circumstances Chebfun will introduce singularities
-% like this of its own accord.  For example, just as `abs(f)` introduces
-% breakpoints at roots of `f`, `sqrt(abs(f))` introduces breakpoints and
+% like this of its own accord.  For example, just as |abs(f)| introduces
+% breakpoints at roots of |f|, |sqrt(abs(f))| introduces breakpoints and
 % also singularities at such roots:
 theta = chebfun('t',[0,4*pi]);
 f = sqrt(abs(sin(theta)))
@@ -213,11 +213,11 @@ sumf = sum(f)
 % If you have a function that blows up but you don't know the
 % nature of the singularities, even whether they are poles or
 % not, Chebfun will try to figure them
-% out automatically if you run in `'blowup 2'` mode.  Here's an example
+% out automatically if you run in |'blowup 2'| mode.  Here's an example
 f = chebfun('x.*(1+x).^(-exp(1)).*(1-x).^(-pi)','blowup',2)
 
 %%
-% Notice that the `'exps'` field shows values close
+% Notice that the |'exps'| field shows values close
 % to $-e$ and $-\pi$, as is confirmed by looking
 % at the numbers to higher precision:
 get(f, 'exps')
@@ -229,7 +229,7 @@ get(f, 'exps')
 % Richardson in collaboration with Rodrigo Platte and Nick Hale.  
 
 %% 9.4 Another approach to singularities
-% Chebfun version 4 offered an alternative `singmap` approach to singularities
+% Chebfun version 4 offered an alternative |singmap| approach to singularities
 % based on mappings of the $x$ variable.   This is no longer available
 % in version 5.
 
