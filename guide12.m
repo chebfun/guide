@@ -1,8 +1,8 @@
 %% 12. Chebfun2: Integration and Differentiation
 % Alex Townsend, March 2013, latest revision June 2014
  
-%% 12.1 `sum` and `sum2`
-% We have already seen the `sum2` command, which returns the definite double
+%% 12.1 |sum| and |sum2|
+% We have already seen the |sum2| command, which returns the definite double
 % integral of a chebfun2 over its domain of definition. The sum command 
 % is a little different and integrates with respect to one variable at a time. For
 % instance, the following commands integrate over the $y$ variable: 
@@ -17,9 +17,9 @@ LW = 'linewidth';
 sum(f,2), plot(sum(f,2),LW,1.6) 
 
 %% 
-% A closer look reveals that `sum(f)` returns a row
-% chebfun while `sum(f,2)` returns a column chebfun. This distinction is 
-% a reminder that `sum(f)` is a function of $x$ while `sum(f,2)` is a function
+% A closer look reveals that |sum(f)| returns a row
+% chebfun while |sum(f,2)| returns a column chebfun. This distinction is 
+% a reminder that |sum(f)| is a function of $x$ while |sum(f,2)| is a function
 % of $y$. If we integrate over $y$ and then $x$ the result
 % is the double integral of $f$.
 sum2(f)
@@ -29,7 +29,7 @@ sum(sum(f))
 % It is interesting to compare the execution times involved for
 % computing the double integral by different commands.  Chebfun2 does very 
 % well for smooth functions. Here we see an example in which it is faster
-% than the MATLAB `quad2d` command.
+% than the MATLAB |quad2d| command.
 F = @(x,y) exp(-(x.^2 + y.^2 + cos(4*x.*y))); 
 tol = 3e-14; 
 tic, I = quad2d(F,-1,1,-1,1,'AbsTol',tol); t = toc;
@@ -47,9 +47,9 @@ fprintf('CHEBFUN2/SUM2:  I = %17.15f  time = %6.4f secs\n',I,t)
 % quadrature by Carvajal, Chapman, and Geddes [Carvajal, Chapman & Geddes
 % 2005].
 
-%% 12.2 `norm`, `mean`, and `mean2`
+%% 12.2 |norm|, |mean|, and |mean2|
 % The $L^2$-norm of a function $f(x,y)$ can be computed as the square root of the 
-% double integral of $f^2$. In Chebfun2 the command `norm(f)`, 
+% double integral of $f^2$. In Chebfun2 the command |norm(f)|, 
 % without any additional arguments, computes this quantity. For example, 
 f = chebfun2('exp(-(x.^2 + y.^2 +4*x.*y))');
 norm(f), sqrt(sum2(f.^2))
@@ -60,7 +60,7 @@ norm(f), sqrt(sum2(f.^2))
 f = chebfun2(@(x,y) exp(-1./( sin(x.*y) + x ).^2));
 norm(f), norm( cos(f) ), norm( f.^5 )
 %% 
-% Just as `sum2` performs double integration, `mean2` computes the 
+% Just as |sum2| performs double integration, |mean2| computes the 
 % average value of $f(x,y)$ over both variables:
 help chebfun2/mean2
 
@@ -71,8 +71,8 @@ plot(runge)
 mean2(runge)
 
 %%
-% The command `mean` computes 
-% the average along one variable.  The output of `mean(f)` is a
+% The command |mean| computes 
+% the average along one variable.  The output of |mean(f)| is a
 % function of one variable represented by a chebfun, and so we can plot it.
 plot(mean(runge),LW,1.6)
 title('Mean value of 2D Runge function wrt y')
@@ -82,13 +82,13 @@ title('Mean value of 2D Runge function wrt y')
 % $x$ variable, we obtain the mean value over the whole domain.
 mean(mean(runge))      % compare with mean2(runge)
 
-%% 12.3 `cumsum` and `cumsum2`
-% The command `cumsum2` computes the double indefinite integral, which is a
+%% 12.3 |cumsum| and |cumsum2|
+% The command |cumsum2| computes the double indefinite integral, which is a
 % function of two variables, and returns a chebfun2. 
 help chebfun2/cumsum2
 
 %% 
-% On the other hand, `cumsum(f)` computes the indefinite integral 
+% On the other hand, |cumsum(f)| computes the indefinite integral 
 % with respect to just one variable, also returning a chebfun2. Again,
 % the indefinite integral in the $y$
 % variable and then the $x$ variable is the same as the double indefinite
@@ -143,8 +143,8 @@ plot3(real(C),imag(C),f(C),'k','linewidth',2)
 % We can compute this by restricting $f$ to the curve and then integrating
 sum(f(C))
 
-%% 12.6 `diff`
-% In MATLAB the `diff` command calculates finite differences of a matrix 
+%% 12.6 |diff|
+% In MATLAB the |diff| command calculates finite differences of a matrix 
 % along its columns (by default) or rows. For a chebfun2 the same syntax 
 % represents partial differentiation $\partial f/\partial y$ (by default) or 
 % $\partial f/\partial x$. This command has the following syntax:
@@ -152,7 +152,7 @@ sum(f(C))
 help chebfun2/diff
 
 %%
-% Here we use `diff` to check that the Cauchy-Riemann equations hold for an 
+% Here we use |diff| to check that the Cauchy-Riemann equations hold for an 
 % analytic function. 
 f = chebfun2(@(x,y) sin(x+1i*y));   % a holomorphic function
 u = real(f); v = imag(f);           % real and imaginary parts
@@ -163,7 +163,7 @@ norm(diff(u,1,2) - diff(v))         % Do the Cauchy-Riemann eqns hold?
 % Chebfun2 also works pretty well for integration in three variables.
 % The idea is to integrate over two of the variables using Chebfun2 and the
 % remaining variable using Chebfun. We have selected a tolerance of $10^{-6}$
-% for this example because the default tolerance in the MATLAB `integral3` 
+% for this example because the default tolerance in the MATLAB |integral3| 
 % command is also $10^{-6}$.
 r = @(x,y,z) sqrt(x.^2 + y.^2 + z.^2); 
 t = @(x,y,z) acos(z./r(x,y,z)); p = @(x,y,z) atan(y./x);

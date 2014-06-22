@@ -9,13 +9,13 @@
 % focus here on the linear case.  We shall see that one can solve a linear
 % two-point boundary value problem to high accuracy by a single backslash
 % command.  Nonlinear extensions are described in Section 7.9 and in Chapter 10,
-% and for PDEs, try `help pde15s`.
+% and for PDEs, try |help pde15s|.
 
 %% 7.2  About linear chebops
 % A chebop represents a differential or integral operator that acts on chebfuns.
 % This chapter focusses on the linear case, though from a user's point of view,
 % linear and nonlinear problems are quite similar. One thing that makes linear
-% operators special is that `eigs` and `expm` can be applied to them, as we
+% operators special is that |eigs| and |expm| can be applied to them, as we
 % shall describe in Sections 7.5 and 7.6.
 
 %%
@@ -46,15 +46,15 @@ L = chebop(-1, 1);
 L.op = @(x,u) diff(u,2);
 
 %%
-% (For scalar operators like this, one may dispense with the `x` and just write
-% `L.op = @(u) diff(u,2)`.) This operator can now be applied to chebfuns defined
+% (For scalar operators like this, one may dispense with the |x| and just write
+% |L.op = @(u) diff(u,2)|.) This operator can now be applied to chebfuns defined
 % on $[-1,1]$. For example, taking two derivatives of $\sin(3x)$ multiplies its
 % amplitude by 9:
 u = chebfun('sin(3*x)');
 norm(L(u), inf)
 
 %%
-% Both the notations `L*u` and `L(u)` are allowed, with the same meaning.
+% Both the notations |L*u| and |L(u)| are allowed, with the same meaning.
 min(L*u)
 
 %%
@@ -76,13 +76,13 @@ L.lbc = @(u) u;
 L.rbc = @(u) diff(u) - 1;
 
 %%
-% We can see a summary of `L` by typing the name without a semicolon:
+% We can see a summary of |L| by typing the name without a semicolon:
 L
 
 %%
 % Boundary conditions are needed for solving differential equations, but they
 % have no effect when a chebop is simply applied to a chebfun. Thus, despite the
-% boundary conditions just specified, `L*u` gives the same answer as before:
+% boundary conditions just specified, |L*u| gives the same answer as before:
 norm(L*u, inf)
 
 %%
@@ -111,11 +111,11 @@ L = chebop(@(x,u) diff(u) + diff(u,2), [-1, 1], 0, @(u) diff(u))
 % of differential equations), see Section 7.8.
 
 %% 7.4 Solving differential and integral equations
-% In MATLAB, if `A` is a square matrix and `b` is a vector, then the command
-% `x=A\b` solves the linear system of equations $Ax=b$.  Similarly in Chebfun,
-% if `L` is a differential operator with appropriate boundary conditions and `f`
-% is a Chebfun, then `u=L\f` solves the differential equation $L(u)=f$.  More
-% generally `L` might be an integral or integro-differential operator.  (Of
+% In MATLAB, if |A| is a square matrix and |b| is a vector, then the command
+% |x=A\b| solves the linear system of equations $Ax=b$.  Similarly in Chebfun,
+% if |L| is a differential operator with appropriate boundary conditions and |f|
+% is a Chebfun, then |u=L\f| solves the differential equation $L(u)=f$.  More
+% generally |L| might be an integral or integro-differential operator.  (Of
 % course, just as you can solve $Ax=b$ only if $A$ is nonsingular, you can solve
 % $L(u)=f$ only if the problem is well-posed.)
 
@@ -141,13 +141,13 @@ u = L\1;
 hold on, plot(u, 'r', LW, 2)
 
 %%
-% An equivalent to backslash is the `solvebvp` command.
+% An equivalent to backslash is the |solvebvp| command.
 v = solvebvp(L, 1);
 norm(u - v)
 
 %%
 % Periodic boundary conditions can be imposed with the special boundary
-% condition string `L.bc='periodic'`, which will find a periodic solution,
+% condition string |L.bc='periodic'|, which will find a periodic solution,
 % provided that the right-side function is also periodic. At the moment Chebfun
 % does not include truly periodic spectral discretizations based on Fourier
 % series, though we hope to introduce this feature before long.
@@ -156,7 +156,7 @@ u = L\1;
 hold off, plot(u, LW, 2), grid on
 
 %%
-% A command like `L.bc=100` imposes the corresponding numerical Dirichlet
+% A command like |L.bc=100| imposes the corresponding numerical Dirichlet
 % condition at both ends of the domain:
 L.bc = 100;
 plot(L\1, LW, 2), grid on
@@ -183,9 +183,9 @@ plot(u, LW, 2), grid on
 
 %%
 % Further examples of Chebfun solutions of differential equations with
-% discontinuous coefficients can be found in the `Demos` menu of chebgui.
+% discontinuous coefficients can be found in the Demos menu of chebgui.
 
-%% 7.5 Eigenvalue problems: `eigs`
+%% 7.5 Eigenvalue problems: |eigs|
 % In MATLAB, |eig| finds all the eigenvalues of a matrix whereas |eigs| finds
 % some of them.  A differential or integral operator normally has infinitely
 % many eigenvalues, so one could not expect an analog of |eig| for chebops.
@@ -220,9 +220,9 @@ subplot(1,2,1), plot(V(:, 9), LW, 2), ylim([-.8 .8]), title('elliptic cosine')
 subplot(1,2,2), plot(V(:,10), LW, 2), ylim([-.8 .8]), title('elliptic sine')
 
 %%
-% `eigs` can also solve generalized eigenproblems, that is, problems of the form
-% $Au = \lambda Bu$.  For these one must specify two linear chebops `A` and `B`,
-% with the boundary conditions all attached to `A`.  Here is an example of
+% |eigs| can also solve generalized eigenproblems, that is, problems of the form
+% $Au = \lambda Bu$.  For these one must specify two linear chebops |A| and |B|,
+% with the boundary conditions all attached to |A|.  Here is an example of
 % eigenvalues of the Orr-Sommerfeld equation of hydrodynamic linear stability
 % theory at a Reynolds number close to the critical value for eigenvalue
 % instability [Schmid & Henningson 2001]. This is a fourth-order generalized
@@ -240,12 +240,12 @@ MS = 'markersize';
 clf, plot(lam, 'r.', MS, 16), grid on, axis equal
 spectral_abscissa = max(real(lam))
 
-%% 7.6 Exponential of a linear operator: `expm`
-% In MATLAB, `expm` computes the exponential of a matrix, and this command has
+%% 7.6 Exponential of a linear operator: |expm|
+% In MATLAB, |expm| computes the exponential of a matrix, and this command has
 % been overloaded in Chebfun to compute the exponential of a linear operator.
 % If $L$ is a linear operator and $E(t) = \exp(tL)$, then the partial
 % differential equation $u_t = Lu$ has solution $u(t) = E(t)u(0)$. Thus by
-% taking $L$ to be the 2nd derivative operator, for example, we can use `expm`
+% taking $L$ to be the 2nd derivative operator, for example, we can use |expm|
 % to solve the heat equation $u_t = u_{xx}$:
 A = chebop(@(x,u) diff(u,2), [-1, 1], 0);  
 f = chebfun('exp(-1000*(x+0.3).^6)');
@@ -258,7 +258,7 @@ end
 
 %%
 % Here is a more fanciful analogous computation with a complex initial function
-% obtained from the `scribble` command introduced in Chapter 5.
+% obtained from the |scribble| command introduced in Chapter 5.
 f = exp(.02i)*scribble('BLUR'); clf
 D = chebop(@(x,u) diff(u,2), [-1 1]);
 D.bc = 'neumann';
@@ -292,8 +292,8 @@ end
 %%
 % One matter you might not guess was challenging is the determination of whether
 % or not an operator is linear!  This is important since if an operator is
-% linear, special actions are possible possible such as application of `eigs`
-% and `expm` and solution of differential equations in a single step without
+% linear, special actions are possible possible such as application of |eigs|
+% and |expm| and solution of differential equations in a single step without
 % iteration.  Chebfun includes special devices to determine whether a chebop is
 % linear so that these effects can be realized [Birkisson 2014].
 
@@ -350,12 +350,12 @@ rhs = [0; 0];
 U = L\rhs;
 
 %%
-% The solution `U` is an $\infty\times 2$ Chebfun quasimatrix with columns
-% `u=U(:,1)` and `v=U(:,2)`.  Here is a plot:
+% The solution |U| is an $\infty\times 2$ Chebfun quasimatrix with columns
+% |u=U(:,1)| and |v=U(:,2)|.  Here is a plot:
 clf, plot(U)
 
 %%
-% The overloaded `spy` command helps clarify the structure of this operator
+% The overloaded |spy| command helps clarify the structure of this operator
 % we just made use of:
 spy(L) 
 %%
@@ -366,31 +366,47 @@ spy(L)
 
 %%
 % To illustrate the solution of an eigenvalue problem involving a block
-% operator, we can take much the same idea.
-% The eigenvalue problem $u''=c^2u$
-% with $u=0$ at the boundaries can be written in first order form as $u'=cv$,
-% $v'=cu$.  Here are the first 7 eigenvalues:
+% operator, we can take much the same idea. The eigenvalue problem
+% $u''=c^2u$ with $u=0$ at the boundaries can be written in first order
+% form as $u'=cv$, $v'=cu$.
 L = chebop(0, 10*pi);
 L.op = @(x, u, v) [diff(v); diff(u)];
 L.lbc = @(u,v) u;
 L.rbc = @(u,v) u;
-[eigenfunctions, D] = eigs(L, 7);
-eigenvalues = diag(D)
-%%
-% Notice that two eigenfunction quasimatrices `U` and `V` have been specified
-% among the output variables.  (If just one had been specified, the output
-% would have been a cell array containing two quasimatrices.) To see the `u`
-% eigenfunctions, we can plot `U`.  As it happens, the eigenfunctions as
-% computed by `eigs` are imaginary, so before plotting we divide by $i$ to
-% make them real, and take the real part to filter out rounding errors:
-% eigenfunctions = real(U/1i);
-plot(eigenfunctions)
-%TODO: This is no longer the case. U and V are no longer outputs. We're not
-%dividing anything by 1i.
+
 %%
 % The operator in this eigenvalue problem has a simpler structure
 % than before:
-spy(L)
+clf, spy(L)
+
+%%
+% Here are the first 7 eigenvalues:
+[eigenfunctions,D] = eigs(L, 7);
+eigenvalues = diag(D)
+%%
+% The |eigenfunctions| result has the first seven eigenfunctions for each
+% of the two variables, u and v:
+eigenfunctions
+
+%%
+% It's often convenient to convert a chebmatrix result to a chebfun. In
+% this case, we want to extract the u and v variables separately:
+U = chebfun( eigenfunctions(1,:) );
+V = chebfun( eigenfunctions(2,:) );
+size(V)
+
+%%
+% Both |U| and |V| are complex, but only due to roundoff:
+normRealU = norm(real(U))
+normImagV = norm(imag(V))
+
+%%
+% This fact makes it easy to plot them.
+subplot(2,1,1)
+plot(imag(U)), ylabel('imag(U)')
+subplot(2,1,2)
+plot(real(V)), ylabel('real(V)')
+
 
 %% 7.9 Nonlinear equations by Newton iteration
 % As mentioned at the beginning of this chapter, nonlinear differential
@@ -418,7 +434,7 @@ clf, plot(u)
 
 %%
 % Note the beautifully fast convergence, as one expects with Newton's method.
-% The chebop `J` defined in the **while** loop is a Jacobian operator (=Frechet
+% The chebop |J| defined in the **while** loop is a Jacobian operator (=Frechet
 % derivative), which we have constructed explicitly by differentiating the
 % nonlinear operator defining the ODE.  In Section 10.4 we shall see that this
 % whole Newton iteration can be automated by use of Chebfun's "nonlinear
@@ -436,7 +452,7 @@ norm(u - v)
 %% 7.10 BVP systems with unknown parameters
 % Sometimes ODEs or systems of ODEs contain unknown parameter values that must
 % be computed for as part of the solution. An example of this is MATLAB's
-% built-in `mat4bvp` example. These parameters can always be included in system
+% built-in |mat4bvp| example. These parameters can always be included in system
 % as unknowns with zero derivatives, but this can be computationally
 % inefficient. Chebfun allows the option of explicit treatment of the
 % parameters. Often the dependence of the solution on these parameters is

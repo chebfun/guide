@@ -1,7 +1,7 @@
 %% 3. Rootfinding and Minima and Maxima
 % Lloyd N. Trefethen, October 2009, latest revision June 2014
 
-%% 3.1 `roots`
+%% 3.1 |roots|
 % Chebfun comes with a global rootfinding capability -- the ability to find
 % all the zeros of a function in its region of definition.  For example,
 % here is a polynomial with two roots in $[-1,1]$:
@@ -17,7 +17,7 @@
 
 %%
 % Of course, one does not need Chebfun to find roots of a polynomial. The
-% MATLAB `roots` command works from a polynomial's coefficients and computes
+% MATLAB |roots| command works from a polynomial's coefficients and computes
 % estimates of all the roots, not just those in a particular interval.
   roots([1 1 -1 0])
 
@@ -93,13 +93,13 @@
   r = roots(f,'nojump');
   plot(r,0*r,'.r',MS,30)
 
-%% 3.2 `min`, `max`, `abs`, `sign`, `round`, `floor`, `ceil`
+%% 3.2 |min|, |max|, |abs|, |sign|, |round|, |floor|, |ceil|
 % Rootfinding is more central to Chebfun than one might at first imagine,
 % because a number of commands, when applied to smooth chebfuns, must
 % produce non-smooth results, and it is rootfinding that tells us where to
-% put the discontinuities. For example, the `abs` command introduces
-% breakpoints wherever the argument goes through zero.  Here we see that `x`
-% consists of a single piece, whereas `abs(x)` consists of two pieces.
+% put the discontinuities. For example, the |abs| command introduces
+% breakpoints wherever the argument goes through zero.  Here we see that |x|
+% consists of a single piece, whereas |abs(x)| consists of two pieces.
   x = chebfun('x')
   absx = abs(x)
   subplot(1,2,1), plot(x,'.-')
@@ -108,14 +108,14 @@
 %%
 % We saw this effect already in Section 1.4.
 % Another similar effect shown in that section occurs with
-% `min(f,g)` or `max(f,g)`.  Here, breakpoints are introduced
-% at points where `f-g` is zero:
+% |min(f,g)| or |max(f,g)|.  Here, breakpoints are introduced
+% at points where |f-g| is zero:
   f = min(x,-x/2), subplot(1,2,1), plot(f,'.-')
   g = max(.6,1-x.^2), subplot(1,2,2), plot(g,'.-'), ylim([.5,1])
 
 %%
-% The function `sign` also introduces breaks, as illustrated in the last
-% section. The commands `round`, `floor`, and `ceil` behave like this too.
+% The function |sign| also introduces breaks, as illustrated in the last
+% section. The commands |round|, |floor|, and |ceil| behave like this too.
 % For example, here is $\exp(x)$ rounded to nearest multiples of $0.5$:
   g = exp(x);
   clf, plot(g)
@@ -140,8 +140,8 @@
 
 %%
 % which returns both interior local extrema and also
-% the endpoints of `f`.
-% Similarly one can type `min(f,'local')` and `max(f,'local')`.
+% the endpoints of |f|.
+% Similarly one can type |min(f,'local')| and |max(f,'local')|.
 
 %%
 % These methods will find non-smooth extrema as well as smooth ones,
@@ -168,18 +168,18 @@
   plot(maxima,h(maxima),'ok',MS,12)
 
 %%
-% Or we could do it implicitly with `local`,
+% Or we could do it implicitly with |local|,
   [maxval,maxpos] = min(h,'local')
   plot(maxpos,maxval,'.k',MS,24)
 
 %% 3.4 Global extrema: max and min
-% If `min` or `max` is applied to a single chebfun, it returns its global
+% If |min| or |max| is applied to a single chebfun, it returns its global
 % minimum or maximum.  For example:
   f = chebfun('1-x.^2/2');
   [min(f) max(f)]
 
 %%
-% Chebfun computes such a result by checking the values of `f` at all
+% Chebfun computes such a result by checking the values of |f| at all
 % endpoints and at zeros of the derivative.
 
 %%
@@ -211,18 +211,18 @@
 %%
 % For larger chebfuns, it is inefficient to compute the global minimum and
 % maximum separately like this -- each one must compute the derivative and
-% find all its zeros. The alternative `minandmax` code mentioned above
+% find all its zeros. The alternative |minandmax| code mentioned above
 % provides a faster alternative:
   [extremevalues,extremepositions] = minandmax(f)
 
-%% 3.5 `norm(f,1)` and `norm(f,inf)`
-% The default, $2$-norm form of the `norm` command was considered in Section
+%% 3.5 |norm(f,1)| and |norm(f,inf)|
+% The default, $2$-norm form of the |norm| command was considered in Section
 % 2.2. In standard MATLAB one can also compute $1$-, $\infty$-, and Frobenius
-% norms with `norm(f,1)`, `norm(f,inf)`, and `norm(f,'fro')`.  These have been
+% norms with |norm(f,1)|, |norm(f,inf)|, and |norm(f,'fro')|.  These have been
 % overloaded in Chebfun, and in the first two cases, rootfinding is part of
 % the implementation.  (The $2$- and Frobenius norms are equal for a single
 % chebfun but differ for quasimatrices; see Chapter 6.) The $1$-norm
-% `norm(f,1)` is the integral of the absolute value, and Chebfun computes
+% |norm(f,1)| is the integral of the absolute value, and Chebfun computes
 % this by adding up segments between zeros, at which $|f(x)|$ will typically
 % have a discontinuous slope. The $\infty$-norm is computed from the
 % formula $\|f\|_\infty = \max(\max(f),-\min(f))$.
@@ -237,9 +237,9 @@
 % Chebfuns live on real intervals, and the funs from which they are made
 % live on real subintervals.  But a polynomial representing a fun may have
 % roots outside the interval of definition, which may be complex.
-% Sometimes we may want to get our hands on these roots, and the `roots`
-% command makes this possible in various ways through the flags `'all'`,
-% `'complex'`, and `'norecursion'`.
+% Sometimes we may want to get our hands on these roots, and the |roots|
+% command makes this possible in various ways through the flags |'all'|,
+% |'complex'|, and |'norecursion'|.
 
 %%
 % The simplest example is a chebfun that is truly intended to
@@ -268,10 +268,10 @@ roots(g)
 roots(g,'all')
 
 %%
-% Most of these are spurious. What has happened is that `g` is represented by
+% Most of these are spurious. What has happened is that |g| is represented by
 % a polynomial chosen for its approximation properties on $[-1,1]$.
 % Inevitably that polynomial will have roots in the complex plane, even if
-% they have little to do with `g`.
+% they have little to do with |g|.
 % (See the discussion of the Walsh and Blatt-Saff theorems
 % in Chapter 18 of [Trefethen 2013].)
 
@@ -281,7 +281,7 @@ roots(g,'all')
 % continuation from the one to the other is well known to be an ill-posed
 % problem.  Nevertheless, Chebfun may do a pretty good job of selecting
 % genuine complex (and real) roots near the interval of definition if you
-% use the `'complex'` flag:
+% use the |'complex'| flag:
 roots(g,'complex')
 
 %%
@@ -295,11 +295,11 @@ roots(g,'complex')
 % the region in the complex plane bounded by the image under the map
 % $(z+1/z)/2$ of the circle $|z|=r$, where $r$ is defined by
 % the condition $r^{-L}=\delta$.  (See
-% Chapter 8 of [Trefethen 2013].)  The command `roots(g,'complex')` first
-% effectively does `roots(g,'all')`, then returns only those roots lying
+% Chapter 8 of [Trefethen 2013].)  The command |roots(g,'complex')| first
+% effectively does |roots(g,'all')|, then returns only those roots lying
 % inside a particular Chebfun ellipse -- we take the one corresponding to
 % delta equal to the square root of the Chebfun tolerance
-% parameter `eps`.
+% parameter |eps|.
 
 %%
 % One must expect complex roots of chebfuns to lose accuracy as one moves
@@ -325,7 +325,7 @@ f = chebfun(F,[-100,100]);
 
 %%
 % If you are dealing with complex roots of complicated chebfuns like this,
-% it may be safer to add a flag `'norecursion'` to the roots call, at the cost
+% it may be safer to add a flag |'norecursion'| to the roots call, at the cost
 % of slowing down the computation. This turns off the Boyd-Battles
 % recursion mentioned above, lowering the chance of missing a few roots
 % near interfaces of the recursion.  If we try that here we find that the

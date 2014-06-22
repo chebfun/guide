@@ -7,16 +7,16 @@
 % maximum number of points at which a function will be sampled before Chebfun
 % gives up trying to resolve it.  Extensive information about
 % these possibilities can be found by executing
-% `help chebfunpref`, or for chebops, as used to solve
+% |help chebfunpref|, or for chebops, as used to solve
 % integral and differential equations,
-% `help cheboppref`.  To see the list of preferences and their current
-% values, execute `chebfunpref` or `cheboppref`:
+% |help cheboppref|.  To see the list of preferences and their current
+% values, execute |chebfunpref| or |cheboppref|:
 chebfunpref
 
 %%
 % More detailed information from further down in the
 % preference structure will come from, for example,
-% `help chebtech/techpref`.
+% |help chebtech/techpref|.
 
 %%
 % To ensure that all preferences are set to their factory values, execute
@@ -45,7 +45,7 @@ chebfunpref.setDefaults('splitting',true)
 f = x.^x;
 chebfunpref.setDefaults('splitting',false) 
 
-%% 8.2  `domain`: the default domain
+%% 8.2  |domain|: the default domain
 % Like Chebyshev polynomials themselves, chebfuns are defined by default on
 % the domain $[-1,1]$ if no other domain is specified.  However, this default
 % choice of the default domain can be modified.  For example, we can work
@@ -55,7 +55,7 @@ chebfunpref.setDefaults('splitting',false)
   g = chebfun(@(t) cos(20*t));
   plot(f,g), axis equal, axis off
 
-%% 8.3 `splitting`: breaking into subintervals or not
+%% 8.3 |splitting|: breaking into subintervals or not
 % Perhaps the preference that users wish to control most often is the
 % choice of splitting off or on.  Splitting off is the factory default.
 
@@ -158,14 +158,14 @@ chebfunpref.setDefaults('splitting',false)
 % very convenient that Chebfun can be used so easily to study the
 % properties of pure polynomial representations even of very high degree.
 
-%% 8.4 `splitLength`: length limit in splitting on mode 
+%% 8.4 |splitLength|: length limit in splitting on mode 
 % When intervals are subdivided in splitting on mode, as just illustrated,
-% the parameter `splitLength` determines where this will happen.  With the
-% factory value `splitLength=160`, splitting will take place if a polynomial
+% the parameter |splitLength| determines where this will happen.  With the
+% factory value |splitLength=160|, splitting will take place if a polynomial
 % of length 160 proves insufficient to resolve a fun. (Actually, when Chebfun
 % uses Chebyshev points of the second kind as it does by default, this number
 % is rounded down to 1 more than a power of 2.)  Let us confirm for
-% the chebfun `f` constructed a moment ago that the lengths of the individual
+% the chebfun |f| constructed a moment ago that the lengths of the individual
 % funs are all less than or equal to 160 (actually 129):
   f.funs
 
@@ -177,11 +177,11 @@ chebfunpref.setDefaults('splitting',false)
   format short, f.ends
   f.funs
 
-%% 8.5  `maxLength`: maximum length
+%% 8.5  |maxLength|: maximum length
 % As just mentioned, in splitting off mode, the constructor tries to make a
 % global chebfun from the given string or anonymous function.  For a
 % function like $|x|$ or $\hbox{sign}(x)$, this will typically not be possible and
-% we must give up somewhere. The parameter `maxLength`,
+% we must give up somewhere. The parameter |maxLength|,
 % set to $2^{16}+1$ in the
 % factory, determines this giving-up point.
 
@@ -224,8 +224,8 @@ chebfunpref.setDefaults('splitting',false)
 % (More efficient ways of resolving this function, by eliminating the
 % singularity, are described in Chapter 9.)
 
-%% 8.6 `minSamples`: minimum number of sample points
-% At the other end of the spectrum, the preference `minSamples` determines the
+%% 8.6 |minSamples|: minimum number of sample points
+% At the other end of the spectrum, the preference |minSamples| determines the
 % minimum number of points at which a function is sampled during the
 % chebfun construction process, and the factory value of this parameter is
 % 17.  This does not mean that all chebfuns have length at least 17.  For
@@ -268,19 +268,19 @@ chebfunpref.setDefaults('splitting',false)
 % try a finer grid.
 
 %%
-% If we increase `minSamples`, the correct chebfun is found:
+% If we increase |minSamples|, the correct chebfun is found:
   f = chebfun('-x -x.^2 + exp(-(30*(x-.48)).^4)','minSamples',33);
   length(f)
   plot(f)
 
 %%
-% Incidentally, if the value of `minSamples` specified is not one greater
+% Incidentally, if the value of |minSamples| specified is not one greater
 % than a power of 2, it is rounded up to the next such value.
 
 %%
-% The factory value `minSamples=17` was chosen as a compromise between
+% The factory value |minSamples=17| was chosen as a compromise between
 % efficiency and reliability.  (Until Version 5, the choice was
-% `minSamples=9'.)  In practice it rarely seems to fail, but
+% |minSamples=9'.)  In practice it rarely seems to fail, but
 % perhaps it is most vulnerable when applied in splitting on mode to
 % functions with narrow spikes.  For example, the following chebfun is
 % missing most of the spikes that should be there:
@@ -289,11 +289,11 @@ chebfunpref.setDefaults('splitting',false)
   plot(f)
 
 %%
-% Increasing `minSamples` fills them in:
+% Increasing |minSamples| fills them in:
   f = chebfun(ff,[0,10],'splitting','on','minsamples',33);
   plot(f)
     
-%% 8.7  `resampling`: exploiting nested grids or not
+%% 8.7  |resampling|: exploiting nested grids or not
 % We now turn to a particularly interesting preference for Chebfun geeks,
 % relating to the very idea of what it means to sample a function.
 
@@ -361,23 +361,23 @@ plot(k,'.-')
 %%
 % Are such curious effects of any use?  Yes indeed, they are at the heart
 % of Chebop.  When the chebop system solves a differential
-% equation by a command like `u = L\f`, for example, the chebfun `u` is
+% equation by a command like |u = L\f|, for example, the chebfun |u| is
 % determined by a "sampling" process in which a matrix problem obtained by
 % Chebyshev spectral discretization is solved on grids of increasing sizes.
 % The matrices change with the grids, so the sample values for $u$
 % are crucially grid-dependent.  Without resampling, chebops would not
 % work.
 
-%% 8.8 `eps`: Chebfun constructor tolerance
+%% 8.8 |eps|: Chebfun constructor tolerance
 % One of the controllable preferences is all too tempting: you can weaken
 % the tolerance used in constructing a chebfun. The chebfunpref parameter
-% `eps` is set by default to machine precision:
+% |eps| is set by default to machine precision:
 p = chebfunpref;
 p.eps
 
 %%
 % However, one can change this with a command like
-% `chebfunpref.setDefaults('eps',1e-6)`.
+% |chebfunpref.setDefaults('eps',1e-6)|.
 
 %%
 % There are cases where weakening the tolerance makes a big
@@ -385,17 +385,17 @@ p.eps
 % in certain applications involving differential equations.  (Indeed, the
 % Chebfun differential equations commands have their own tolerance control
 % strategies.) However, Chebfun does such a good job at resolving many
-% functions that the `eps`-adjustment feature is not as useful as you might
-% imagine, and we recommend that users not change `eps` unless they are
+% functions that the |eps|-adjustment feature is not as useful as you might
+% imagine, and we recommend that users not change |eps| unless they are
 % having real problems with standard precision.
 
 %% 8.9 Chebyshev grids of first or second kind
 % Beginning with Version 5, Chebfun includes capabilities for
 % carrying out almost all computations with Chebyshev points of
 % either the first kind ($\cos((j+1/2)\pi/(n+1)),$ $0\le j \le n$, implemented
-% in the `chebtech1` class) or the
+% in the |chebtech1| class) or the
 % second kind ($\cos(j\pi/n),$ $0\le j \le n$, implemented
-% in the `chebtech2` class).
+% in the |chebtech2| class).
 % These capabilities were included to further our research into
 % the pros and cons of different kinds of algorithms, and 
 % most users can ignore this choice entirely.  
@@ -438,7 +438,7 @@ cheboppref.setDefaults('factory')
 
 %% 8.11 Chebfun2 preferences
 % The Chebfun2 preference that users may be most interested in
-% is `MaxRank`, which determines the maximum rank of a low-rank
+% is |MaxRank|, which determines the maximum rank of a low-rank
 % approximation used to represent a function on a rectangle.
 % The current factory default is 512, and this can be changed
 % for example with
@@ -450,21 +450,21 @@ chebfunpref.setDefaults('factory')
 
 %% 8.12 Additional preferences
 % Information about additional Chebfun preferences can be found by
-% executing `chebfunpref` or `help chebfunpref`.  In general the most reliable
+% executing |chebfunpref| or |help chebfunpref|.  In general the most reliable
 % values to use in setting preferences are
-% are `1` or `true' and `0` or `false` (not `'on'` and `'off'`).
+% are |1| or |true' and |0| or |false| (not |'on'| and |'off'|).
 
 %%
 % For example,
-% `'sampleTest'` controls whether a function is evaluated at an extra point
-% as a safety check of convergence.  With the default `'on'` value, this test
+% |'sampleTest'| controls whether a function is evaluated at an extra point
+% as a safety check of convergence.  With the default |'on'| value, this test
 % is indeed carried out.
 
 %%
 % Another example is that
-% `'blowup'` relates to the construction of chebfuns that diverge to
-% infinity, as described in Chapter 9. `blowup=0` is used for no
-% singularities, `blowup=1` if for functions with poles (blowups with a
-% negative integer power) and `blowup=2` for functions with branch points
+% |'blowup'| relates to the construction of chebfuns that diverge to
+% infinity, as described in Chapter 9. |blowup=0| is used for no
+% singularities, |blowup=1| if for functions with poles (blowups with a
+% negative integer power) and |blowup=2| for functions with branch points
 % (blowups with an arbitrary power).
 

@@ -1,0 +1,31 @@
+#!/bin/sh
+
+for texfile in $(ls *.tex)
+do
+    BASENAME=$(basename "$texfile" .tex)
+    latex $texfile
+    dvips "$BASENAME.dvi"
+    ps2pdf -dPDFSETTINGS=/prepress -dSubsetFonts=true -dEmbedAllFonts=true -dMaxSubsetPct=100 -dCompatabilityLevel=1.4 "$BASENAME.ps"
+done
+
+rm *.aux
+rm *.log
+rm *.dvi
+rm *.ps
+
+for PDFFILE in $(ls guide??.pdf)
+do
+    NUMPAGES=$(/usr/local/bin/pdfinfo $PDFFILE | awk '/Pages/ {print $2}')
+    NEWNAME="foo.pdf"
+    let EVENCHECK="(($NUMPAGES)%2)"
+    if [ "$EVENCHECK" == 0 ]; then
+	echo even
+	cp $PDFFILE $NEWNAME
+    else
+	echo odd
+	PDFconcat --output $NEWNAME $PDFFILE blankpage.pdf 
+    fi
+    cp "$NEWNAME" "$PDFFILE"
+done
+
+PDFconcat --output guide.pdf frontmatter.pdf guide01.pdf guide02.pdf guide03.pdf guide04.pdf guide05.pdf guide06.pdf guide07.pdf guide08.pdf guide09.pdf guide10.pdf PartIIHeader.pdf blankpage.pdf guide11.pdf guide12.pdf guide13.pdf guide14.pdf guide15.pdf
