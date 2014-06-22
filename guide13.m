@@ -41,7 +41,7 @@ plot(r(:,1),r(:,2),'.k',LW,1.6,MS,20)  % point intersections
 axis([-1 1 -1 1]), axis square, hold off
 
 %%
-% The solution to bivariate polynomial systems and intersections of curves, are
+% The solutions to bivariate polynomial systems and intersections of curves are
 % typically computed to full machine precision.
 
 %% 13.3 Intersections of curves
