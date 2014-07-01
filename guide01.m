@@ -346,8 +346,10 @@
 % functions by trigonometric polynomials instead, that is,
 % Fourier series.  Such an object is still called a chebfun, but
 % it is a periodic one.  These features were added by Grady Wright in
-% the first half of 2014, and will undoubtedly be developed further in
-% the future.
+% the first half of 2014, and are in the process of being
+% developed further.  A very interesting project
+% along the same lines has been carried out independently by Kristyn McLeod
+% and Rodrigo Platte at Arizona State University [McLeod 2013].
 
 %%
 % For example, here is a periodic function on $[-\pi,\pi]$ represented
@@ -494,6 +496,10 @@ toc
 % [Higham 2004] N. J. Higham, "The numerical stability of barycentric
 % Lagrange interpolation", _IMA Journal of Numerical Analysis_, 24 (2004),
 % 547-556.
+%
+% [McLeod 2013] K. N. McLeod, "Fourfun: A new system for automatic
+% computations using Fourier expansions," _SIAM Undergraduate Research
+% Online_, to appear.
 %
 % [Pachon, Platte & Trefethen 2010] R. Pachon, R. B. Platte and L. N.
 % Trefethen, "Piecewise-smooth chebfuns", _IMA J. Numer. Anal._, 30 (2010),
