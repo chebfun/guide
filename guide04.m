@@ -129,7 +129,7 @@ x = chebfun(@(x) x);
 c = chebcoeffs(x.^3)
 
 %%
-% Like |poly|, |chebcoeffs| returns a row vector with the high-order coefficients first.
+% Unike |poly|, |chebcoeffs| returns a column vector with the low-order coefficients first.
 % Thus this computation reveals the identity
 % $x^3 = (1/4)T_3(x) + (3/4)T_1(x)$.
 
@@ -149,7 +149,7 @@ chebcoeffs(1e100*sin(x))
 % By using |poly| we can print the coefficients of such a chebfun in the
 % monomial basis.  Here for example are the coefficients of the Chebyshev
 % interpolant of $\exp(x)$ compared with the Taylor series coefficients:
-cchebfun = flipud(chebcoeffs(exp(x))');
+cchebfun = chebcoeffs(exp(x));
 ctaylor = 1./gamma(1:length(cchebfun))';
 disp('        chebfun              Taylor')
 disp([cchebfun ctaylor])
