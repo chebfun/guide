@@ -339,17 +339,15 @@
 % For more on the treatment of infinities in Chebfun, see Chapter 9.
 
 %% 1.6  Periodic functions
-% Until 2014, Chebfun used only nonperiodic representations, 
-% based on Chebyshev polynomials.  Beginning with Version 5, there
-% is a new capability of 
-% representing sufficiently smooth periodic
-% functions by trigonometric polynomials instead, that is,
-% Fourier series.  Such an object is still called a chebfun, but
-% it is a periodic one.  These features were added by Grady Wright in
-% the first half of 2014, and are in the process of being
-% developed further.  A very interesting project
-% along the same lines has been carried out independently by Kristyn McLeod
-% and Rodrigo Platte at Arizona State University [McLeod 2013].
+% Until 2014, Chebfun used only nonperiodic representations, based on
+% Chebyshev polynomials.  Beginning with Version 5, there is a new capability
+% of representing sufficiently smooth periodic functions by trigonometric
+% polynomials instead, that is, Fourier series.  Such an object is still
+% called a chebfun, but it is a periodic one.  These features were added by
+% Grady Wright in the first half of 2014, and are in the process of being
+% developed further.  A very interesting project along the same lines has been
+% carried out independently by Kristyn McLeod and Rodrigo Platte at Arizona
+% State University [McLeod 2013].
 
 %%
 % For example, here is a periodic function on $[-\pi,\pi]$ represented
@@ -370,8 +368,7 @@ max(f2)
 plot(f2,'m')
 
 %%
-% Its length is now only about $100\times 2$ (exactly
-% 201).   This improvement
+% Its length is now only about $100\times 2$ (exactly 201). This improvement
 % by a factor of about $\pi/2$ is typical.
 length(f2)
 
@@ -389,24 +386,24 @@ f = chebfun('7 + sin(t) + exp(1)*cos(2*t)',[-pi,pi],'periodic')
 %%
 % Here are the coefficients of $f$ as an expansion in sines and
 % cosines:
-[a,b] = fourcoeffs(f)
+[a,b] = trigcoeffs(f)
 
 %%
 % Here they are as an expansion in complex
 % exponentials:
-c = fourcoeffs(f)
+c = trigcoeffs(f)
 
 %%
 % Bookkeeping of Fourier coefficients can often be a headache. If
 % these examples don't make the patterns clear, details can be found with
-% |help fourcoeffs|.
+% |help trigcoeffs|.
 
 %%
 % For a mathematically less trivial example,
 % here is the cosine expansion of a function whose Fourier series coefficients
 % are known to be values of a Bessel function:
 f = chebfun('exp(cos(t))',[-pi pi],'periodic');
-[a,b] = fourcoeffs(f);
+[a,b] = trigcoeffs(f);
 n = floor(length(f)/2);
 exact = 2*besseli(0:n,1); exact(1) = exact(1)/2;
 disp('        computed            exact')
