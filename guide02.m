@@ -363,7 +363,7 @@
 
 %%
 % A much better approach for this problem, however, is to use
-% Chebfun2, which is described in Chapters 11-15.
+% Chebfun2, which is described in Chapters 12-16.
 % With this method we can compute the integral quickly,
 tic
 f2 = chebfun2(f,[-2 2 0.5 2.5]);

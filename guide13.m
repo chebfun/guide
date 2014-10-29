@@ -1,130 +1,183 @@
-%% 13. Chebfun2: Rootfinding and Optimisation
+%% 13. Chebfun2: Integration and Differentiation
 % Alex Townsend, March 2013, latest revision June 2014
-
-%% 13.1 Zero contours 
-% Chebfun2 comes with the capability to compute the zero contours of a
-% function of two variables. For example, we can compute a representation
-% of Trott's curve, an example from algebraic geometry [Trott 1997].
-x = chebfun2(@(x,y) x); y = chebfun2(@(x,y) y); 
-trott = 144*(x.^4+y.^4)-225*(x.^2+y.^2) + 350*x.^2.*y.^2+81;
-r = roots(trott);
-LW = 'linewidth'; MS = 'markersize';
-plot(r,LW,1.6), axis([-1 1 -1 1]), axis square
-
-%%
-% The zero curves are represented as complex valued chebfuns (see Chapter 5
-% of the guide). For example, 
-r(:,1)
-
-%%
-% The zero contours of a function are computed by Chebfun2 to plotting
-% accuracy and they are typically not accurate to machine precision. 
-
-%% 13.2 |roots|
-% Chebfun2 also comes with the capability of finding zeros of bivariate
-% systems, i.e., the solutions to $f(x,y) = g(x,y) = 0$. 
-% If the |roots| command is supplied with one chebfun2, it computes the zero
-% contours of that function, as in the last
-% section.  However, if it is supplied
-% with two chebfun2 objects, as in |roots(f,g)|, then it 
-% computes the roots of the bivariate system. Generically, these are
-% isolated points.
-
-%%
-% What points on the Trott's curve intersect with the
-% circle of radius $0.9$?
-g = chebfun2(@(x,y) x.^2 + y.^2 - .9^2);  % circle of radius 0.9
-r = roots(trott,g); 
-plot(roots(trott),'b',LW,1.6), hold on
-plot(roots(g),'r',LW,1.6)
-plot(r(:,1),r(:,2),'.k',LW,1.6,MS,20)  % point intersections
-axis([-1 1 -1 1]), axis square, hold off
-
-%%
-% The solutions to bivariate polynomial systems and intersections of curves are
-% typically computed to full machine precision.
-
-%% 13.3 Intersections of curves
-% The problem of determining the intersections
-% of real parameterised complex curves can be expressed as a
-% bivariate rootfinding problem.  For instance, here are the intersections
-% between the 'splat' curve [Guettel Example 2010] and a 'figure-of-eight'
-% curve. 
-t = chebfun('t',[0,2*pi]);
-sp = exp(1i*t) + (1+1i)*sin(6*t).^2;     % splat curve
-figof8 = cos(t) + 1i*sin(2*t);           % figure of eight curve
-plot(sp,LW,1.6), hold on
-plot(figof8,'r',LW,1.6), axis equal
-
-d = [0 2*pi 0 2*pi];
-f = chebfun2(@(s,t) sp(t)-figof8(s),d);  % rootfinding
-r = roots(real(f),imag(f));              % calculate intersections
-spr = sp(r(:,2)); 
-plot(real(spr),imag(spr),'.k',MS,20), ylim([-1.1 2.1])
-hold off
-
-%%
-% Chebfun2 rootfinding is based on an algorithm described in
-% [Nakatsukasa, Noferini & Townsend 2013].
-
-%% 13.4 Global optimisation: |max2|, |min2|, and |minandmax2|
-% Chebfun2 also provides functionality for global optimisation. Here is
-% a non-trivial example, where we plot the computed minimum and
-% maximum as black dots.
-f = chebfun2(@(x,y) sin(30*x.*y) + sin(10*y.*x.^2) + exp(-x.^2-(y-.8).^2));
-[mn mnloc] = min2(f); 
-[mx mxloc] = max2(f); 
-plot(f), hold on 
-plot3(mnloc(1),mnloc(2),mn,'.k',MS,40)
-plot3(mxloc(1),mxloc(2),mx,'.k',MS,30) 
-zlim([-6 6]), hold off
-
-%% 
-% If both the global maximum and minimum are required, it is roughly twice
-% as fast to compute them at the same time by using the |minandmax2| command.
-% For instance, 
-tic; [mn mnloc] = min2(f);  [mx mxloc] = max2(f); t=toc;
-fprintf('min2 and max2 separately = %5.3fs\n',t)
-tic; [Y X] = minandmax2(f); t=toc;
-fprintf('minandmax2 command = %5.3fs\n',t)
-
-%%
-% The commands |min2|, |max2|, and |minandmax2| run faster if
-% the MATLAB Optimisation Toolbox is available.
-
-%% 13.5 Critical points
-% The critical points of smooth function of two variables can be located 
-% by finding the zeros of $\partial f/ \partial y = \partial f / \partial x = 0$.   
-% This is a rootfinding problem.  For example,
-f = chebfun2(@(x,y) (x.^2-y.^3+1/8).*sin(10*x.*y));
-r = roots(gradient(f));                       % critical points
-plot(roots(diff(f,1,2)),'b',LW,1.6), hold on  % plot zero contours of f_x
-plot(roots(diff(f)),'r')                      % plot zero contours of f_y
-plot(r(:,1),r(:,2),'k.','MarkerSize',30)      % plot extrema
-axis([-1,1,-1,1]), axis square
-
-%% 
-% There is a new command here called gradient that computes the gradient
-% vector and represents it as a chebfun2v object.
-% The roots command then solves for the isolated roots of the bivariate 
-% polynomial system represented in the chebfun2v representing the gradient.  
-% For more information about the gradient command see Chapter 14 of this guide. 
  
-%% 13.6 Infinity norm
-% The $\infty$-norm of a function is the maximum absolute value in its 
-% domain. It can be computed by passing an optional
-% argument to the norm command.  
-f = chebfun2(@(x,y) sin(30*x.*y));
-norm(f,inf)
+%% 13.1 |sum| and |sum2|
+% We have already seen the |sum2| command, which returns the definite double
+% integral of a chebfun2 over its domain of definition. The sum command 
+% is a little different and integrates with respect to one variable at a time. For
+% instance, the following commands integrate over the $y$ variable: 
+f = chebfun2(@(x,y) sin(10*x.*y),[0 pi/4 0 3]); 
+sum(f) 
 
-%% 13.7 References
 %%
-% [Guettel Example 2010] S. Guettel, 
-% http://www2.maths.ox.ac.uk/chebfun/examples/geom/html/Area.shtml
-% 
-% [Nakatsukasa, Noferini & Townsend 2013] Y. Nakatsukasa, V. Noferini
-% and A. Townsend, "Computing the common zeros of two bivariate functions
-% via Bezout resultants", _Numerische Mathematik_, to appear.
+% A chebfun is returned because the result depends on $x$ and hence, is a 
+% function of one variable.  Similarly, we can integrate over the
+% $x$ variable, and plot the result. 
+LW = 'linewidth';
+sum(f,2), plot(sum(f,2),LW,1.6) 
+
+%% 
+% A closer look reveals that |sum(f)| returns a row
+% chebfun while |sum(f,2)| returns a column chebfun. This distinction is 
+% a reminder that |sum(f)| is a function of $x$ while |sum(f,2)| is a function
+% of $y$. If we integrate over $y$ and then $x$ the result
+% is the double integral of $f$.
+sum2(f)
+sum(sum(f))
+
+%% 
+% It is interesting to compare the execution times involved for
+% computing the double integral by different commands.  Chebfun2 does very 
+% well for smooth functions. Here we see an example in which it is faster
+% than the MATLAB |quad2d| command.
+F = @(x,y) exp(-(x.^2 + y.^2 + cos(4*x.*y))); 
+tol = 3e-14; 
+tic, I = quad2d(F,-1,1,-1,1,'AbsTol',tol); t = toc;
+fprintf('QUAD2D:  I = %17.15f  time = %6.4f secs\n',I,t)
+tic, I = sum(sum(chebfun2(F))); t = toc;
+fprintf('CHEBFUN2/SUMSUM:  I = %17.15f  time = %6.4f secs\n',I,t)
+tic, I = sum2(chebfun2(F)); t = toc;
+fprintf('CHEBFUN2/SUM2:  I = %17.15f  time = %6.4f secs\n',I,t)
+
+%% 
+% Chebfun2 is not designed specifically for numerical quadrature (or
+% more properly, "cubature"), and
+% careful comparisons with existing software have not been carried out.
+% Low rank function approximations have been previously used for numerical
+% quadrature by Carvajal, Chapman, and Geddes [Carvajal, Chapman & Geddes
+% 2005].
+
+%% 13.2 |norm|, |mean|, and |mean2|
+% The $L^2$-norm of a function $f(x,y)$ can be computed as the square root of the 
+% double integral of $f^2$. In Chebfun2 the command |norm(f)|, 
+% without any additional arguments, computes this quantity. For example, 
+f = chebfun2('exp(-(x.^2 + y.^2 +4*x.*y))');
+norm(f), sqrt(sum2(f.^2))
+
 %%
-% [Trott 2007] M. Trott, Applying Groebner Basis to Three Problems in
-% Geometry, _Mathematica in Education and Research_, 6 (1997), pp.15-28.
+% Here is another example. This time we compute the norms of $f(x,y)$, 
+% $\cos(f(x,y))$, and $f(x,y)^5$.
+f = chebfun2(@(x,y) exp(-1./( sin(x.*y) + x ).^2));
+norm(f), norm( cos(f) ), norm( f.^5 )
+%% 
+% Just as |sum2| performs double integration, |mean2| computes the 
+% average value of $f(x,y)$ over both variables:
+help chebfun2/mean2
+
+%%
+% For example, here is the average value of a 2D Runge function. 
+runge = chebfun2( @(x,y) 1./( .01 + x.^2 + y.^2 )) ;  
+plot(runge)
+mean2(runge)
+
+%%
+% The command |mean| computes 
+% the average along one variable.  The output of |mean(f)| is a
+% function of one variable represented by a chebfun, and so we can plot it.
+plot(mean(runge),LW,1.6)
+title('Mean value of 2D Runge function wrt y')
+
+%%
+% If we average over the $y$ variable and then the
+% $x$ variable, we obtain the mean value over the whole domain.
+mean(mean(runge))      % compare with mean2(runge)
+
+%% 13.3 |cumsum| and |cumsum2|
+% The command |cumsum2| computes the double indefinite integral, which is a
+% function of two variables, and returns a chebfun2. 
+help chebfun2/cumsum2
+
+%% 
+% On the other hand, |cumsum(f)| computes the indefinite integral 
+% with respect to just one variable, also returning a chebfun2. Again,
+% the indefinite integral in the $y$
+% variable and then the $x$ variable is the same as the double indefinite
+% integral, as we can check numerically. 
+f = chebfun2(@(x,y) exp(-(x.^2 + 3*x.*y+y.^2) ));
+contour(cumsum2(f),'numpts',400), axis equal
+title('Contours of cumsum2(f)'), axis([-1 1 -1 1])
+norm( cumsum(cumsum(f),2) - cumsum2(f) ) 
+
+%% 13.4 Complex encoding
+% As is well known, a pair of real scalar functions $f$ and $g$ can be 
+% encoded as a complex function $f+ig$. This trick can be useful
+% for simplifying many operations, but at the same time may be confusing.
+% For instance, instead of representing the unit circle with two real-valued
+% functions, we can represent it with one complex-valued function:
+c1 = chebfun(@(t) cos(t),[0 2*pi]);          % first real-valued function
+c2 = chebfun(@(t) sin(t),[0 2*pi]);          % second real-valued function 
+c = chebfun(@(t) cos(t)+1i*sin(t),[0 2*pi]); % one complex function
+
+%%
+% Here are two ways to make a plot of a circle.
+subplot(1,2,1), plot(c1,c2,LW,1.6)
+axis equal, title('Two real-valued functions')
+subplot(1,2,2), plot(c,LW,1.6)
+axis equal, title('One complex-valued function')
+
+%%
+% This complex encoding trick is used in a number of places in 
+% Chebfun2. Specifically, it's used to encode the path of integration 
+% for a line integral
+% (see section 13.5, below), to represent zero contours of a chebfun2 
+% (see Chapter 14), and to represent trajectories in vector 
+% fields (see Chapter 15). 
+
+%%
+% We hope users become comfortable with using complex encodings, though 
+% they are not required for the majority of Chebfun2
+% functionality. 
+
+%% 13.5 Integration along curves
+% Chebfun2 can compute the integral of $f(x,y)$ along a curve $(x(t),y(t))$. 
+% It uses the complex encoding trick and encode the curve $(x(t),y(t))$ 
+% as a complex valued chebfun $x(t) + iy(t)$.
+% For instance, what is the area under the following curve? 
+clf
+f = chebfun2(@(x,y) cos(10*x.*y.^2) + exp(-x.^2)); % chebfun2 object
+C = chebfun(@(t) t.*exp(10i*t),[0 1]);             % spiral curve
+plot(f), hold on 
+plot3(real(C),imag(C),f(C),'k','linewidth',2)
+
+%%
+% We can compute this by restricting $f$ to the curve and then integrating
+sum(f(C))
+
+%% 13.6 |diff|
+% In MATLAB the |diff| command calculates finite differences of a matrix 
+% along its columns (by default) or rows. For a chebfun2 the same syntax 
+% represents partial differentiation $\partial f/\partial y$ (by default) or 
+% $\partial f/\partial x$. This command has the following syntax:
+
+help chebfun2/diff
+
+%%
+% Here we use |diff| to check that the Cauchy-Riemann equations hold for an 
+% analytic function. 
+f = chebfun2(@(x,y) sin(x+1i*y));   % a holomorphic function
+u = real(f); v = imag(f);           % real and imaginary parts
+norm(diff(u) - (-diff(v,1,2)))      
+norm(diff(u,1,2) - diff(v))         % Do the Cauchy-Riemann eqns hold?
+
+%% 13.7 Integration in three variables 
+% Chebfun2 also works pretty well for integration in three variables.
+% The idea is to integrate over two of the variables using Chebfun2 and the
+% remaining variable using Chebfun. We have selected a tolerance of $10^{-6}$
+% for this example because the default tolerance in the MATLAB |integral3| 
+% command is also $10^{-6}$.
+r = @(x,y,z) sqrt(x.^2 + y.^2 + z.^2); 
+t = @(x,y,z) acos(z./r(x,y,z)); p = @(x,y,z) atan(y./x);
+f = @(x,y,z) sin(5*(t(x,y,z) - r(x,y,z))) .* sin(p(x,y,z)).^2;
+
+I = @(z) sum2(chebfun2(@(x,y) f(x,y,z),[-2 2 .5 2.5])); % integrate out x,y
+tic, I = sum(chebfun(@(z) I(z),[1 2],'vectorize')); t = toc;
+fprintf(' Chebfun2:  I = %16.14f  time = %5.3f secs\n',I,t)
+tic, I = integral3(f,-2,2,.5,2.5,1,2); t = toc;         % compare with MATLAB
+fprintf('Integral3:  I = %16.14f  time = %5.3f secs\n',I,t)
+
+%% 13.8 References
+%
+% [Carvajal, Chapman & Geddes 2005] O. A. Carvajal, F. W. Chapman and 
+% K. O. Geddes, Hybrid symbolic-numeric integration in multiple dimensions 
+% via tensor-product series, _Proceedings of ISSAC'05_, M. Kauers, ed., 
+% ACM Press, 2005, pp. 84--91.
