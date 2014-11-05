@@ -19,7 +19,7 @@
 % bivariate functions (chebfun2 objects). A chebop2 can be assigned 
 % boundary conditions and the associated PDE solved together with a 
 % right-hand side. The solution is returned as a chebfun2 
-% (see guide chapter 11).
+% (see guide chapter 12).
 %
 % The underlying mathematics is based on a global spectral method. 
 % In particular, it is an extension of the ultraspherical spectral method 
