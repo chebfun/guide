@@ -244,7 +244,7 @@
 
 %%
 % We can use spy to confirm the shapes of the matrices.
-% As with |spy( R)| earlier, here
+% As with |spy(R)| earlier, here
 % |spy(V)| should in principle show a checkerboard,
 % but nonzeros are introduced by rounding errors.
   subplot(1,5,1), spy(A), title A
