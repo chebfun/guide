@@ -1,5 +1,5 @@
 %% 2. Integration and Differentiation
-% Lloyd N. Trefethen, November 2009, latest revision June 2014
+% Lloyd N. Trefethen, November 2009, latest revision December 2014
 
 %% 2.1 |sum|
 % We have seen that the |sum| command returns the definite integral of a
@@ -303,7 +303,8 @@
 
 %%
 % However, one should be cautious about the potential loss of information
-% in repeated differentiation.  For example, if we evaluate this fourth
+% in repeated differentiation of
+% nonperiodic chebfuns.  For example, if we evaluate this fourth
 % derivative at $x=0$ we get an answer that matches the correct value
 % $24$ only to $11$ places:
   g(0)
@@ -376,7 +377,9 @@ contour(f2,-1:.2:1), colorbar, grid on
 
 %% 2.6 Gauss and Gauss-Jacobi quadrature
 % For quadrature experts, Chebfun contains some powerful capabilities
-% due to Nick Hale and Alex Townsend [Hale & Townsend 2013].
+% due to Nick Hale and Alex Townsend [Hale & Townsend 2013]
+% and Ignace Bogaert
+% [Bogaert, Michiels & Fostier 2012, Bogaert 2014].
 % To start with, suppose we
 % wish to carry out $4$-point Gauss quadrature over $[-1,1]$.  The quadrature
 % nodes are the zeros of the degree $4$ Legendre polynomial
@@ -401,18 +404,18 @@ contour(f2,-1:.2:1), colorbar, grid on
   toc
 
 %%
-% Even 100,000 points doesn't take very long:
+% Even a million points doesn't take very long:
   tic
-  [s,w] = legpts(100000); Igauss = w*f(s)
+  [s,w] = legpts(1e6); Igauss = w*f(s)
   toc
 
 %%
 % Traditionally, numerical analysts computed Gauss quadrature nodes
 % and weights by the eigenvalue algorithm of Golub and Welsch [Golub &
-% Welsch 1969]. However, the Hale-Townsend algorithms are both more
-% accurate and much faster [Hale & Townsend 2013].
-% Closely related fast algorithms developed independently are presented
-% in [Bogaert, Michiels & Fostier 2012].
+% Welsch 1969]. However, the Hale-Townsend and Bogaert
+% algorithms are both more
+% accurate and much faster [Hale & Townsend 2013, 
+% Bogaert, Michiels & Fostier 2012, Bogaert 2014].
 
 %%
 % For Legendre polynomials, Legendre points, and Gauss quadrature, use
@@ -434,9 +437,14 @@ contour(f2,-1:.2:1), colorbar, grid on
 % Software_, dissertation, MSc in Mathematical Modelling and Scientific
 % Computing, Oxford University, 2008.
 %
-% [Bogaert, Michiels, and Fostier, "O(1) computation of Legendre
+% [Bogaert 2014] I. Bogaert, "Iteration-free computation of
+% Gauss-Legendre quadrature nodes and weights",
+% _SIAM Journal on Scientific Computing_, 36 (2014), A1008--A1026.
+%
+% [Bogaert, Michiels, & Fostier 2012] I. Bogaert,
+% B. Michiels, and J. Fostier, "O(1) computation of Legendre
 % polynomials and Legendre nodes and weights for parallel computing",
-% _SIAM Journal on Scientific Computing_,34 (2012), C83-C101. 
+% _SIAM Journal on Scientific Computing_, 34 (2012), C83-C101. 
 %
 % [Espelid 2003] T. O. Espelid, "Doubly adaptive quadrature routines
 % based on Newton-Cotes rules", _BIT Numerical Mathematics_, 43 (2003),
