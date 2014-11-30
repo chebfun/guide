@@ -1,5 +1,5 @@
 %% 3. Rootfinding and Minima and Maxima
-% Lloyd N. Trefethen, October 2009, latest revision June 2014
+% Lloyd N. Trefethen, October 2009, latest revision December 2014
 
 %% 3.1 |roots|
 % Chebfun comes with a global rootfinding capability -- the ability to find
@@ -40,7 +40,8 @@
 
 %%
 % Chebfun finds roots by a method due to Boyd and Battles [Boyd 2002,
-% Battles 2006].  If the chebfun is of degree greater than about $50$, it is
+% Boyd 2014, Battles 2006].  If the
+% chebfun is of degree greater than about $50$, it is
 % broken into smaller pieces recursively.  On each small piece zeros are
 % then found as eigenvalues of a "colleague matrix", the analogue for
 % Chebyshev polynomials of a companion matrix for monomials [Specht 1960,
@@ -89,7 +90,7 @@
   
 %%
 % If one prefers only the "genuine" roots, omitting those at jumps, they
-% can be computed like this:
+% can be computed by using the `nojump` flag:
   r = roots(f,'nojump');
   plot(r,0*r,'.r',MS,30)
 
@@ -116,11 +117,11 @@
 %%
 % The function |sign| also introduces breaks, as illustrated in the last
 % section. The commands |round|, |floor|, and |ceil| behave like this too.
-% For example, here is $\exp(x)$ rounded to nearest multiples of $0.5$:
+% For example, here is $\exp(x)$ rounded to nearest multiples of $0.1$:
   g = exp(x);
   clf, plot(g)
-  gh = 0.5*round(2*g);
-  hold on, plot(gh,'r');
+  gh = round(10*g)/10;
+  hold on, plot(gh,'r','jumpline','-r');
   grid on
 
 %% 3.3 Local extrema
@@ -339,13 +340,19 @@ norm(F(r))
 norm(F(r2))
 
 %%
-% To find poles in the complex plane as opposed to zeros, see Section 4.8.
+% To find poles in the complex plane as opposed to zeros, see Section 4.8 
+% and also [Austin, Kravanja & Trefethen 2015].
 % More advanced methods of rootfinding and polefinding are based on
 % rational approximations rather than polynomials, an area where Chebfun
 % has significant capabilities; see the next chapter of this guide,
 % Chapter 28 of [Trefethen 2013], and [Webb 2013].
 
 %% 3.7 References
+%
+% [Austin, Kravanja & Trefethen 2015] A. P. Austin,
+% P. Kravanja, and L. N. Trefethen, "Numerical algorithms
+% based on analytic function values at roots of unity",
+% _SIAM Journal on Numerical Analysis_, to appear.
 %
 % [Battles 2006] Z. Battles, _Numerical Linear Algebra for
 % Continuous Functions_, DPhil thesis, Oxford University
@@ -354,6 +361,10 @@ norm(F(r2))
 % [Boyd 2002] J. A. Boyd, "Computing zeros on a real interval
 % through Chebyshev expansion and polynomial rootfinding",
 % _SIAM Journal on Numerical Analysis_, 40 (2002), 1666-1682.
+%
+% [Boyd 2014] J. A. Boyd, _Solving Transcendental Equations:
+% The Chebyshev Polynomial Proxy and Other Numerical
+% Rootfinders, Perturbation Series, and Oracles_, SIAM, 2014.
 %
 % [Good 1961] I. J. Good, "The colleague matrix, a Chebyshev
 % analogue of the companion matrix", _Quarterly Journal of 
