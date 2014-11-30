@@ -98,23 +98,23 @@
 % The columns correspond to hat functions located at points equally
 % spaced from $-1$ to $1$, and they are realized as piecewise smooth chebfuns.
   A2 = [];
-  for j = 0:8
-    xj = -1 + j/4;
-    A2 = [A2 max(0,1-4*abs(x-xj))];
+  for j = 0:10
+    xj = -1 + j/5;
+    A2 = [A2 max(0,1-5*abs(x-xj))];
   end
   plot(A2)
-  set(gca,'xtick',-1:.25:1)
+  set(gca,'xtick',-1:.2:1)
 
 %%
 % A linear combination of these columns is a piecewise linear function
-% with breakpoints at $-0.75, -0.50,\dots,0.75$.  Here is the least-squares
+% with breakpoints at $-0.8, -0.6,\dots,0.8$.  Here is the least-squares
 % fit by such functions to $f$.  Remember that although we happen to be
 % fitting here by a function with a discrete flavor, all the operations
 % are continuous ones involving integrals, not point evaluations.
   c = A2\f;
   ffit = A2*c;
   plot(f,'b',ffit,'.-r',LW,1.6), grid on
-  set(gca,'xtick',-1:.25:1)
+  set(gca,'xtick',-1:.2:1)
   error = norm(f-ffit)
     
 %% 6.3 QR factorization
@@ -189,6 +189,7 @@
 % Here is what the hat functions look like after orthonormalization:
   [Q2,R2] = qr(A2);
   plot(Q2,LW,1.6)
+  set(gca,'xtick',-1:.2:1)
 
 %% 6.4 |svd|, |norm|, |cond|
 
@@ -196,7 +197,7 @@
 % An $m\times n$ matrix $A$ defines a map from $R^n$ to $R^m$, and in
 % particular, $A$ maps the unit ball in
 % $R^n$ to a hyperellipsoid of dimension $\le n$ in $R^m$.
-% The (reduced, skinny, condensed,...)
+% The (reduced, skinny, condensed$,\dots$)
 % *SVD* or *singular value decomposition* exhibits this
 % map by providing a factorization $AV = US$ or
 % equivalently $A = USV^*$, where $U$ is $m\times n$ with orthonormal
@@ -213,7 +214,7 @@
 %%
 % If A is an $\infty \times n$ quasimatrix, everything is analogous:
 %
-% $$ A = USV', \qquad  A: \infty \times n,~~
+% $$ A = USV^T, \qquad  A: \infty \times n,~~
 % U: \infty \times n, ~~  S: n \times n, ~~  V:  n \times n. $$
 %
 % The image of the unit ball in $R^n$ under $A$
