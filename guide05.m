@@ -1,5 +1,5 @@
 %% 5. Complex Chebfuns
-% Lloyd N. Trefethen, November 2009, latest revision June 2014
+% Lloyd N. Trefethen, November 2009, latest revision December 2014
 
 %% 5.1  Complex functions of a real variable
 % One of the attractive features of MATLAB is that it handles complex
@@ -105,7 +105,8 @@ hold on, plot(exp(X),'r',LW,lw2)
 % We can take the same idea further and construct a grid in the complex
 % plane, each segment of which is a piece of a chebfun that happens to be
 % linear.  In this case we accumulate the various pieces as successive
-% columns of a quasimatrix, i.e., a "matrix" whose columns are chebfuns.
+% columns of a quasimatrix, i.e., a "matrix" whose columns are chebfuns
+% (see Chapter 6).
   x = chebfun(@(x) x);
   S = chebfun;                  % make an empty chebfun
   for d = -1:.2:1
@@ -183,7 +184,7 @@ axis off
 % According to *Cauchy's theorem*, the integral of an analytic function
 % around a closed curve is zero, or equivalently, the integral between two
 % points $z_1$ and $z_2$ is path-independent.
-% To verify this, we can compute the
+% To verify this property, we can compute the
 % same integral over the straight segment going directly from $0$
 % to $-1+0.5i$:
   w = chebfun('(-1+.5i)*s',[0 1]);
@@ -215,11 +216,11 @@ I = sum(f.*diff(z))/(2i*pi)
 % automatically take advantage of the fact that the integrand is periodic.
 % That would
 % be Fourier analysis as opposed to Chebyshev analysis, and beginning
-% with Version 5, a "Fourfun" approach to such problems has been
+% with Version 5, a "trigfun" approach to such problems has been
 % available, at least when the arguments are smooth (compare [Davis 1959]).
 % For example, we could repeat the above calculation in Fourier mode
 % like this:
-z = chebfun('exp(1i*s)',[0 2*pi],'periodic');
+z = chebfun('exp(1i*s)',[0 2*pi],'trig');
 f = exp(z)./z.^3;
 I = sum(f.*diff(z))/(2i*pi)
 
@@ -232,7 +233,7 @@ I = sum(f.*diff(z))/(2i*pi)
 
 %%
 % The contour does not have to have radius $1$, or be centered at the origin:
-z = chebfun('1+2*exp(1i*s)',[0 2*pi],'periodic');
+z = chebfun('1+2*exp(1i*s)',[0 2*pi],'trig');
 f = exp(z)./z.^3;
 I2 = sum(f.*diff(z))/(2i*pi)
 
@@ -267,13 +268,13 @@ Iexact = 4i*pi*log(pi/2)
 % Bernoulli number $B_k$ is $k!$ times the kth Taylor coefficient of
 % $z/((\exp(z)-1)$. Here is $B_{10}$ compared with its exact value $5/66$.
 k = 10;
-z = chebfun('5*exp(1i*s)',[0 2*pi]);
+z = chebfun('4*exp(1i*s)',[0 2*pi]);
 f = z./((exp(z)-1));
 B10 = factorial(k)*sum((f./z.^(k+1)).*diff(z))/(2i*pi)
 exact = 5/66
 
 %%
-% Notice that we have taken |z| to be a circle of radius $5$. If the radius is
+% Notice that we have taken |z| to be a circle of radius $4$. If the radius is
 % $1$, the accuracy is a good deal lower:
 z = chebfun('exp(1i*s)',[0 2*pi]);
 f = z./((exp(z)-1));
@@ -319,7 +320,7 @@ N = (anglef(end)-anglef(0))/(2*pi)
 % $$ r = {1\over 2\pi i} \int  z (df/ds)/f ds $$
 %
 % [McCune 1966].  Here is the zero of the function above in the unit disk:
-z = chebfun('exp(1i*s)',[0 2*pi],'periodic');
+z = chebfun('exp(1i*s)',[0 2*pi],'trig');
 f = sin(z).^3 + cos(z).^3;
 r = sum(z.*(diff(f)./f))/(2i*pi)
 
@@ -385,12 +386,12 @@ axis auto equal off
 
 %%
 % You can find an example "Birthday cards and analytic function" in the
-% Complex Variables section of the Chebfun Examples collection, and further
+% Fun Stuff section of the Chebfun Examples collection, and further
 % related explorations in the Geometry section.
 
 %% 5.6  References
 %
-% [Austin, Kravanja & Trefethen 2013] A. P. Austin, P. Kravanja and
+% [Austin, Kravanja & Trefethen 2014] A. P. Austin, P. Kravanja and
 % L. N. Trefethen, "Numerical algorithms based on analytic function
 % values at roots of unity", _SIAM Journal on Numerical Analysis_, to appear.
 %
