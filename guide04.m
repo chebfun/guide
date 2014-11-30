@@ -1,5 +1,5 @@
 %% 4. Chebfun and Approximation Theory
-% Lloyd N. Trefethen, November 2009, latest revision June 2014
+% Lloyd N. Trefethen, November 2009, latest revision December 2014
 
 %% 4.1  Chebyshev series and interpolants
 % Chebfun is founded on the mathematical subject of approximation theory,
@@ -64,7 +64,7 @@
 % polynomial, which can also be defined by the formula $T_N(x) = \cos(N
 % \cos^{-1}(x))$.  In Chebfun, the command |chebpoly(N)| returns a chebfun
 % corresponding to $T_N$, and |poly| returns coefficients in the monomial
-% basis $1,x,x^2,\dots$. Thus we can print the coefficients of the first few
+% basis $1,x,x^2,\dots.$ Thus we can print the coefficients of the first few
 % Chebyshev polynomials like this:
   for N = 0:8
     disp(poly(chebpoly(N)))
@@ -135,7 +135,7 @@ c = chebcoeffs(x.^3)
 
 %%
 % If we apply |chebcoeffs| to a function that is not "really" a polynomial, we
-% will usually get a vector whose first entry (i.e., highest order) is just
+% will usually get a vector whose last entry (i.e., highest order) is just
 % above machine precision. This reflects the adaptive nature of the Chebfun
 % constructor, which always seeks to use a minimal number of points.
 chebcoeffs(sin(x))
@@ -331,7 +331,7 @@ text(45,1e-3,'C^{-N}','color','r','fontsize',16)
 
 %%
 % This theorem implies that even if $N$ is as large as 100,000, one can lose
-% no more than one digit by using $p$ instead of \\(p^\*\\). Whereas Chebfun
+% no more than one digit by using $p$ instead of $p^*$. Whereas Chebfun
 % will readily compute such a $p$, it is unlikely that anybody has ever
 % computed a nontrivial $p^*$ for a value of $N$ so large.
 
@@ -341,9 +341,9 @@ text(45,1e-3,'C^{-N}','color','r','fontsize',16)
 % $1/N^k$ [Mastroianni & Szabados 1995].
 
 %%
-% *THEOREM 2*.  Let $f, f',\dots , f^{(k-1)}$ be absolutely continuous for
-% some $k \ge 1$, and let $f^{(k)}$ be a function of bounded variation.
-% Then $\|f-p\| = O(N^{-k})$ as $N \to\infty$.
+% *THEOREM 2*.  _Let_ $f, f',\dots , f^{(k-1)}$ _be absolutely continuous for
+% some_ $k \ge 1$, _and let_ $f^{(k)}$ _be a function of bounded variation.
+% Then_ $\|f-p\| = O(N^{-k})$ _as_ $N \to\infty$.
 
 %%
 % Smoother than this would be a $C^\infty$ function, i.e. infinitely
@@ -355,9 +355,9 @@ text(45,1e-3,'C^{-N}','color','r','fontsize',16)
 % appeared in print.
 
 %%
-% *THEOREM 3*.  If $f$ is analytic and bounded in the "Bernstein ellipse" of
-% foci $1$ and $-1$ with semimajor and semiminor axis lengths summing to $r$,
-% then $\|f-p\| = O(r^{-N})$ as $N \to\infty$.
+% *THEOREM 3*.  _If_ $f$ _is analytic and bounded in the "Bernstein ellipse" of
+% foci_ $1$ _and_ $-1$ _with semimajor and semiminor axis lengths summing to_ $r$,
+% _then_ $\|f-p\| = O(r^{-N})$ _as_ $N \to\infty$.
 
 %%
 % More precisely, if $|f(z)|\le  M$ in the ellipse, then the bound on the
@@ -386,7 +386,7 @@ text(45,1e-3,'C^{-N}','color','r','fontsize',16)
 % subject appeared in [Rack & Reimer 1982].
 
 %%
-% *THEOREM 5*.  The barycentric formula of Theorem 4 is numerically stable.
+% *THEOREM 5*.  _The barycentric formula of Theorem_ 4 _is numerically stable._
 
 %%
 % This stability result may seem surprising when one notes that for $x$ close
@@ -454,6 +454,10 @@ f = abs(x-.3);
 clf, plot(f-p./q,'c'), hold on
 plot([-1 1],lam*[1 1],'--k'), plot([-1 1],-lam*[1 1],'--k')
 
+%%
+% For a further indication of the power of this approach, see
+% the Chebfun example "Digital filters via CF approximation".
+
 %% 4.7  The Runge phenomenon
 % Chebfun is based on polynomial interpolants in Chebyshev points, not
 % equispaced points.   It has been known for over a century that the latter
@@ -481,7 +485,7 @@ plot(f), hold on, plot(p,'r'), grid on, plot(s,p(s),'.r')
 
 %%
 % Approximation experts will know that one of the tools used in analyzing
-% effects like this is known as the Lebesgue function associated with a
+% effects like this is known as the *Lebesgue function* associated with a
 % given set of interpolation points. Chebfun has a command |lebesgue| for
 % computing these functions. The problem with interpolation in $20$
 % equispaced points is reflected in a Lebesgue function of size $10^4$ --
@@ -496,7 +500,9 @@ semilogy(lebesgue(linspace(-1,1,40)))
 % As the degree increases, polynomial interpolants in equispaced points
 % diverge exponentially, and no other method of approximation based on
 % equispaced data can completely get around this problem [Platte, Trefethen
-% & Kuijlaars 2011].
+% & Kuijlaars 2011].  (Equispaced points are perfect for trigonometric
+% interpolation of periodic functions, of course, accessible in
+% Chebfun with the `trig` flag.)
 
 %% 4.8  Rational approximations
 % Chebfun contains four different programs, at present, for computing
@@ -573,7 +579,7 @@ roots(q,'complex')
 % what accuracy can be obtained for them.  But rational approximation and
 % analytic continuation are very big subjects and we shall resist the
 % temptation.  See Chapter 28 of [Trefethen 2013] and
-% [Webb, Trefethen & Gonnet 2012].
+% [Webb 2013].
 
 %% 4.9  References
 % 
@@ -672,6 +678,7 @@ roots(q,'complex')
 % implementation of the Caratheodory-Fejer method for rational approximation,
 % _BIT Numerical Mathematics_, 51 (2011), 1039-1050.
 %
-% [Webb, Trefethen & Gonnet 2012] M. Webb, L. N. Trefethen, and P. Gonnet,
-% "Stability of barycentric interpolation formulas for extrapolation",
-% _SIAM Journal on Scientific Computing_, 34 (2013), A3009-A3015.
+% [Webb 2013] M. Webb, "Computing complex singularities of
+% differential equations with Chebfun",
+% _SIAM Undergraduate Research Online_, 6 (2013), 
+% http://dx.doi.org/10.1137/12S011520.

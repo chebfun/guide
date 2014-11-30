@@ -376,7 +376,7 @@ norm(F(r2))
 % [Trefethen 2013] L. N. Trefethen, _Approximation Theory and
 % Approximation Practice_, SIAM, 2013.
 %
-% [Webb 2011] M. Webb, "Computing complex singularities of
+% [Webb 2013] M. Webb, "Computing complex singularities of
 % differential equations with Chebfun",
 % _SIAM Undergraduate Research Online_, 6 (2013), 
 % http://dx.doi.org/10.1137/12S011520.
