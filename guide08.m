@@ -1,5 +1,5 @@
 %% 8. Chebfun Preferences
-% Lloyd N. Trefethen, November 2009, last revised June 2014
+% Lloyd N. Trefethen, November 2009, last revised December 2014
 
 %% 8.1  Introduction
 % Like any software package, Chebfun is based on certain design
@@ -26,8 +26,8 @@ chebfunpref.setDefaults('factory')
 % In this chapter we explore some of these adjustable
 % preferences, showing how special effects can be achieved by modifying
 % them.  Besides showing off some useful techniques, this review will also
-% serve to deepen the user's understanding of Chebfun by poking about a
-% bit at its edges.
+% serve to deepen the user's understanding of Chebfun by poking
+% around a bit at its edges.
 
 %%
 % A general point to be emphasized is the distinction between creating a
@@ -50,7 +50,7 @@ chebfunpref.setDefaults('splitting',false)
 % the domain $[-1,1]$ if no other domain is specified.  However, this default
 % choice of the default domain can be modified.  For example, we can work
 % with trigonometric functions on $[0,2\pi]$ conveniently like this:
-  chebfunpref.setDefaults('domain',[0 2*pi])
+  chebfunpref.setDefaults('domain',[0 2*pi],'tech',@trigtech)
   f = chebfun(@(t) sin(19*t));
   g = chebfun(@(t) cos(20*t));
   plot(f,g), axis equal, axis off
@@ -187,7 +187,7 @@ chebfunpref.setDefaults('splitting',false)
 
 %%
 % For example, here's what happens normally if we try to make a chebfun for
-% sign(x).
+% $\hbox{sign}(x)$.
   f = chebfun('sign(x)');
 
 %%
@@ -200,8 +200,7 @@ chebfunpref.setDefaults('splitting',false)
 %%
 % Notice that no warning message is produced since we have asked explicitly
 % for exactly 50 points.  On the other hand we could also change the
-% default maximum to this number (or more precisely the default degree to
-% one less than this number), giving the same effect
+% default maximum to this number, giving the same effect
 % though now with another warning message:
   f = chebfun('sign(x)','maxLength',50);
   length(f)
@@ -280,7 +279,7 @@ chebfunpref.setDefaults('splitting',false)
 %%
 % The factory value |minSamples=17| was chosen as a compromise between
 % efficiency and reliability.  (Until Version 5, the choice was
-% |minSamples=9'.)  In practice it rarely seems to fail, but
+% |minSamples=9|.)  In practice it rarely seems to fail, but
 % perhaps it is most vulnerable when applied in splitting on mode to
 % functions with narrow spikes.  For example, the following chebfun is
 % missing most of the spikes that should be there:
@@ -344,7 +343,7 @@ plot(f,'.-')
 
 %%
 % This rather bizarre example encourages us to play further. What if we
-% change length(x)*sin(15*x) to sin(length(x)*x)? Now there is no
+% change `length(x)*sin(15*x)` to `sin(length(x)*x)`? Now there is no
 % convergence, for no matter how fine the grid is, the function is
 % underresolved.
   hh = @(x) sin(length(x)*x);
@@ -387,7 +386,8 @@ p.eps
 % strategies.) However, Chebfun does such a good job at resolving many
 % functions that the |eps|-adjustment feature is not as useful as you might
 % imagine, and we recommend that users not change |eps| unless they are
-% having real problems with standard precision.
+% having real problems with standard precision or are working with
+% noisy data.
 
 %% 8.9 Chebyshev grids of first or second kind
 % Beginning with Version 5, Chebfun includes capabilities for
@@ -422,11 +422,11 @@ chebfunpref.setDefaults('factory')
 % Chebfun's factory default for spectral discretizations is
 % rectangular collocation in Chebyshev points of the second kind, which
 % corresponds to 
-cheboppref.setDefaults('discretization','colloc2')
+cheboppref.setDefaults('discretization','chebcolloc2')
 
 %%
 % To change the preference to first-kind points, one can execute
-cheboppref.setDefaults('discretization','colloc1')
+cheboppref.setDefaults('discretization','chebcolloc1')
 
 %%
 % and for Olver-Townsend ultraspherical discretizations,
@@ -452,7 +452,7 @@ chebfunpref.setDefaults('factory')
 % Information about additional Chebfun preferences can be found by
 % executing |chebfunpref| or |help chebfunpref|.  In general the most reliable
 % values to use in setting preferences are
-% are |1| or |true' and |0| or |false| (not |'on'| and |'off'|).
+% are |1| or |true| and |0| or |false| (not |'on'| and |'off'|).
 
 %%
 % For example,
