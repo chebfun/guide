@@ -1,5 +1,5 @@
 %% 7. Linear Differential Operators and Equations
-% Tobin A. Driscoll, November 2009, latest revision June 2014
+% Tobin A. Driscoll, November 2009, latest revision December 2014
 
 %% 7.1  Introduction
 % Chebfun has powerful capabilities for solving ordinary differential equations
@@ -10,6 +10,14 @@
 % two-point boundary value problem to high accuracy by a single backslash
 % command.  Nonlinear extensions are described in Section 7.9 and in Chapter 10,
 % and for PDEs, try |help pde15s|.
+
+%%
+% Although one or two examples of initial-value problems for ODEs are
+% presented in this chapter, the emphasis is on boundary-value problems.
+% Beginning with Version 5.1 in December 2014, Chebfun switched to
+% time-stepping methods as the default for initial value problems, a big
+% improvement in speed and robustness in the nonlinear case.
+% See Chapter 10.
 
 %% 7.2  About linear chebops
 % A chebop represents a differential or integral operator that acts on chebfuns.
@@ -22,8 +30,8 @@
 % Like chebfuns, chebops start from premise of approximation by piecewise
 % polynomial interpolants; in the context of differential equations, such
 % techniques are called spectral collocation methods. As with chebfuns, the
-% discretizations are chosen automatically to achieve the maximum possible
-% accuracy available from double precision arithmetic.  In fact, beginning with
+% discretizations are chosen automatically to achieve high accuracy.
+% In fact, beginning with
 % version 5, Chebfun actually offers two different methods for solving these
 % problems, which go by the names of rectangular collocation (or Driscoll-Hale)
 % spectral methods and ultraspherical (or Olver-Townsend) spectral methods. See
@@ -32,8 +40,9 @@
 %%
 % The linear part of the chebop package was conceived at Oxford by Bornemann,
 % Driscoll, and Trefethen [Driscoll, Bornemann & Trefethen 2008], and the
-% implementation is due to Driscoll, Hale, and Birkisson [Birkisson & Driscoll
-% 2011, Driscoll & Hale 2014] . Much of the functionality of linear chebops is
+% original implementation was due to Driscoll,
+% Hale, and Birkisson [Birkisson & Driscoll
+% 2011, Driscoll & Hale 2014]. Much of the functionality of linear chebops is
 % actually implemented in various classes built around the idea of what we call
 % a "linop", but users generally do not deal with linops and related structures
 % directly.
@@ -59,7 +68,7 @@ min(L*u)
 
 %%
 % Mathematicians
-% generally prefer $Lu$ if $L$ is linear and $L(u)$ if it is nonlinear.
+% generally prefer to write $Lu$ if $L$ is linear and $L(u)$ if it is nonlinear.
 
 %%
 % A chebop can also have left and/or right boundary conditions.  For a Dirichlet
@@ -145,30 +154,21 @@ hold on, plot(u, 'r', LW, 2)
 v = solvebvp(L, 1);
 norm(u - v)
 
-%%
-% Periodic boundary conditions can be imposed with the special boundary
-% condition string |L.bc='periodic'|, which will find a periodic solution,
-% provided that the right-side function is also periodic. At the moment Chebfun
-% does not include truly periodic spectral discretizations based on Fourier
-% series, though we hope to introduce this feature before long.
-L.bc = 'periodic';
-u = L\1;
-hold off, plot(u, LW, 2), grid on
 
 %%
 % A command like |L.bc=100| imposes the corresponding numerical Dirichlet
 % condition at both ends of the domain:
 L.bc = 100;
-plot(L\1, LW, 2), grid on
+hold off, plot(L\1, LW, 2), grid on
 
 %%
 % Boundary conditions can also be specified in a single line, as noted above:
-L = chebop( @(x,u) diff(u,2) + 10000*u, [-1,1], 0, @(u) diff(u) );
+L = chebop( @(x,u) diff(u,2)+10000*u, [-1,1], 0, @(u) diff(u) );
 
 %%
 % Thus it is possible to set up and solve a differential equation and plot the
 % solution with a single line of Chebfun:
-plot( chebop(@(x,u) diff(u,2) + 50*(1 + sin(x)).*u, [-20,20], 0, 0) \ 1 )
+plot( chebop(@(x,u) diff(u,2)+50*(1+sin(x)).*u,[-20,20],0,0)\1 )
 
 %%
 % When Chebfun solves differential or integral equations, the coefficients may
@@ -184,6 +184,24 @@ plot(u, LW, 2), grid on
 %%
 % Further examples of Chebfun solutions of differential equations with
 % discontinuous coefficients can be found in the Demos menu of chebgui.
+
+%%
+% Finally, what about periodic boundary conditions?
+% If the boundary
+% condition |L.bc='periodic'| is specified, Chebfun will
+% discretize the problem by Fourier methods, seeking to
+% find a periodic solution,
+% provided that the right-side function is also periodic.
+% Here is an example:
+L = chebop(-pi,pi);
+L.op = @(x,u) diff(u,2) + diff(u) + 600*(1+sin(x)).*u;
+L.bc = 'periodic';
+u = L\1;
+hold off, plot(u, LW, 2), grid on
+
+%%
+% This is a new feature (introduced late in 2014) and as of
+% this writing has not been tested very much.
 
 %% 7.5 Eigenvalue problems: |eigs|
 % In MATLAB, |eig| finds all the eigenvalues of a matrix whereas |eigs| finds
@@ -216,8 +234,10 @@ A.op = @(x,u) diff(u,2) - 2*q*cos(2*x).*u;
 A.bc = 'periodic';
 [V, D] = eigs(A, 16, 'LR');    % eigenvalues with largest real part
 d = diag(D); [d, ii] = sort(d, 'descend'); V = V(:, ii');
-subplot(1,2,1), plot(V(:, 9), LW, 2), ylim([-.8 .8]), title('elliptic cosine')
-subplot(1,2,2), plot(V(:,10), LW, 2), ylim([-.8 .8]), title('elliptic sine')
+subplot(1,2,1), plot(V(:, 9), LW, 2)
+ylim([-.8 .8]), title('elliptic cosine')
+subplot(1,2,2), plot(V(:,10), LW, 2)
+ylim([-.8 .8]), title('elliptic sine')
 
 %%
 % |eigs| can also solve generalized eigenproblems, that is, problems of the form
@@ -235,7 +255,7 @@ A.op = @(x,u) (diff(u,4) - 2*diff(u, 2) + u)/Re - ...
     1i*(2*u + (1 - x.^2).*(diff(u, 2) - u));
 A.lbc = @(u) [u; diff(u)];
 A.rbc = @(u) [u; diff(u)];
-lam = eigs(A, B, 60, 'LR');
+lam = eigs(A, B, 50);
 MS = 'markersize';
 clf, plot(lam, 'r.', MS, 16), grid on, axis equal
 spectral_abscissa = max(real(lam))
@@ -279,7 +299,8 @@ end
 % automatically chosen grids.  The general ideas are presented in [Trefethen
 % 2000], [Driscoll, Bornemann & Trefethen 2008], and [Driscoll 2010], but
 % Chebfun actually uses modifications of these methods described in [Driscoll &
-% Hale 2014] involving a novel mix of Chebyshev grids of the first and second
+% Hale 2014] and [Xu & Hale 2014]
+% involving a novel mix of Chebyshev grids of the first and second
 % kinds.  These *rectangular collocation* or *Driscoll-Hale* spectral
 % discretizations start from the idea that a differential operator is
 % discretized as a rectangular matrix that maps from one grid to another with
@@ -315,7 +336,8 @@ end
 % differential operator. This leads to better conditioned matrices that are also
 % sparser, especially for linear problems with constant or smooth coefficients.
 % By default, Chebfun uses rectangular collocation discretizations, but most
-% problems can equally be solved in ultraspherical mode, and the results may be
+% problems can equally be solved in ultraspherical mode, and the results 
+% will sometimes be
 % more accurate. For example, here we solve a problem whose exact solution is
 % $\cos(x)$ in the rectangular fashion and check the error at $x=5$:
 tic
@@ -390,13 +412,13 @@ eigenfunctions
 
 %%
 % It's often convenient to convert a chebmatrix result to a chebfun. In
-% this case, we want to extract the u and v variables separately:
+% this case, we want to extract the $u$ and $v$ variables separately:
 U = chebfun( eigenfunctions(1,:) );
 V = chebfun( eigenfunctions(2,:) );
 size(V)
 
 %%
-% Both |U| and |V| are complex, but only due to roundoff:
+% Both |U| and |V| are complex, but only because of roundoff:
 normRealU = norm(real(U))
 normImagV = norm(imag(V))
 
@@ -434,7 +456,7 @@ clf, plot(u)
 
 %%
 % Note the beautifully fast convergence, as one expects with Newton's method.
-% The chebop |J| defined in the **while** loop is a Jacobian operator (=Frechet
+% The chebop |J| defined in the *while* loop is a Jacobian operator (=Frechet
 % derivative), which we have constructed explicitly by differentiating the
 % nonlinear operator defining the ODE.  In Section 10.4 we shall see that this
 % whole Newton iteration can be automated by use of Chebfun's "nonlinear
@@ -451,7 +473,7 @@ norm(u - v)
 
 %% 7.10 BVP systems with unknown parameters
 % Sometimes ODEs or systems of ODEs contain unknown parameter values that must
-% be computed for as part of the solution. An example of this is MATLAB's
+% be computed as part of the solution. An example of this is MATLAB's
 % built-in |mat4bvp| example. These parameters can always be included in system
 % as unknowns with zero derivatives, but this can be computationally
 % inefficient. Chebfun allows the option of explicit treatment of the
@@ -461,10 +483,12 @@ norm(u - v)
 % difference in this case, we include it here.
 
 %% 
-% Below is an example of such a parameterised problem, which is represents a
-% linear pendulum with a forcing sine-wave term of an unknown frequency T. The
+% Below is an example of such a parameterised problem, which represents a
+% linear pendulum with a forcing
+% sine-wave term of an unknown frequency $T$. The
 % task is to compute the solution for which
-%   $$ u(-pi) = u(pi) = u'(pi) = 1 $$.
+%
+% $$ u(-\pi) = u(\pi) = u'(\pi) = 1. $$
 N = chebop(@(x, u , T) diff(u,2) - u - sin(T.*x/pi), [-pi pi]);
 N.lbc = @(u,T) u - 1;
 N.rbc = @(u,T) [u - 1; diff(u) - 1];
@@ -472,18 +496,26 @@ uT = N\0;
 %%
 % Here, the output |uT| is a chebmatrix -- an object that is amongst other
 % features able to vertically concatenate chebfuns and scalar. The first entry
-% corresponds to the chebfun |u| while the second is the scalar |T|. We can
-% access the elements of |uT| via curly-brackets syntax as follows:
-u = uT{1}; T = uT{2}
+% corresponds to the variable $u$ while
+% the second is the scalar $T$. We could
+% access the elements of |uT| via curly-brackets syntax,
+u = uT{1}; T = uT{2};
+
+%%
+% but a more elegant method is to use Chebfun's overloaded `deal`
+% command:
+[u,T] = deal(uT);
+T
 plot(u)
 
 %%
-% As the system is nonlinear in T, we can expect that there will be more
-% than one solution. Indeed, if we choose a different initial guess for T, 
-% we can converge to one of these.
+% As the system is nonlinear in $T$, we can expect that there will be more
+% than one solution. Indeed, if we choose
+% a different initial guess for $T$, we can converge to one of these.
 N.init = [chebfun(1, [-pi pi]); 4];
 uT = N\0;
-u = uT{1}; T = uT{2}
+[u,T] = deal(uT);
+T = T(1)
 plot(u)
 
 %% 7.11 References
@@ -493,29 +525,33 @@ plot(u)
 % Ordinary Differential Equations in the Continuous
 % Framework_, D. Phil. thesis, University of Oxford, 2014.
 %
-% [Birkisson & Driscoll 2011] A. Birkisson and T. A. Driscoll, Automatic
+% [Birkisson & Driscoll 2011] A. Birkisson and T. A. Driscoll, "Automatic
 % Frechet differentiation for the numerical solution of boundary-value
-% problems, _ACM Transactions on Mathematical Software_, 38 (2012), 1-26.
+% problems", _ACM Transactions on Mathematical Software_, 38 (2012), 1-26.
 %
-% [Driscoll 2010] T. A. Driscoll, Automatic spectral collocation for
+% [Driscoll 2010] T. A. Driscoll, "Automatic spectral collocation for
 % integral, integro-differential, and integrally reformulated differential
-% equations, _Journal of Computational Physics_, 229 (2010), 5980-5998.
+% equations", _Journal of Computational Physics_, 229 (2010), 5980-5998.
 %
 % [Driscoll, Bornemann & Trefethen 2008] T. A. Driscoll, F. Bornemann, and
 % L. N. Trefethen, "The chebop system for automatic solution of
 % differential equations", _BIT Numerical Mathematics_, 46 (2008), 701-723.
 %
-% [Driscoll & Hale 2014] T. A. Driscoll and N. Hale, Rectangular
-% spectral collocation, manuscript, 2014.
+% [Driscoll & Hale 2014] T. A. Driscoll and N. Hale, "Rectangular
+% spectral collocation", submitted, 2014.
 %
 % [Fornberg 1996] B. Fornberg, _A Practical Guide to Pseudospectral Methods_,
 % Cambridge University Press, 1996.
 %
-% [Olver & Townsend 2013] S. Olver and A. Townsend, A fast
-% and well-conditioned spectral method, _SIAM Review_, 55
+% [Olver & Townsend 2013] S. Olver and A. Townsend, "A fast
+% and well-conditioned spectral method," _SIAM Review_, 55
 % (2013), 462-489.
 %
 % [Schmid & Henningson 2001] P. J. Schmid and D. S. Henningson, _Stability
 % and Transition in Shear Flows_, Springer, 2001.
 %
 % [Trefethen 2000] L. N. Trefethen, _Spectral Methods in MATLAB_, SIAM, 2000.
+%
+% [Xu & Hale 2014] K. Xu and N. Hale, "Explicit construction
+% of rectangular differentiation matrices", submitted, 2014.
+%
