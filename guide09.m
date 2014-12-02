@@ -1,5 +1,5 @@
 %% 9. Infinite Intervals, Infinite Function Values, and Singularities
-% Lloyd N. Trefethen, November 2009, latest revision June 2014
+% Lloyd N. Trefethen, November 2009, latest revision December 2014
 
 %%
 % This chapter presents some features of
@@ -15,7 +15,7 @@
 %% 9.1 Infinite intervals
 % If a function converges reasonably rapidly to a constant at $\infty$,
 % you can define a corresponding chebfun.  Here are a couple of
-% examples on $[0,\infty]$.  First we plot a function and find its maximum:
+% examples on $[0,\infty)$.  First we plot a function and find its maximum:
 f = chebfun('0.75 + sin(10*x)./exp(x)',[0 inf]);
 LW = 'linewidth'; MS = 'markersize';
 plot(f,LW,1.6)
@@ -79,8 +79,8 @@ sinc = chebfun('sin(pi*x)./(pi*x)',[-inf inf]);
 plot(sinc,'m',LW,1.6,'interval',[-10 10])
 
 %%
-% Chebfun's capability of handling infinite intervals was introduced by
-% Rodrigo Platte in 2008-09.  The details of
+% Chebfun's capability of handling infinite intervals was introduced
+% originally by Rodrigo Platte in 2008-09.  The details of
 % the implementation then changed
 % considerably with the introduction of version 5 in 2014.
 
@@ -173,7 +173,7 @@ chebcoeffs1 = T*(w.*f)
 %%
 % Here for comparison are the Chebyshev coefficients as obtained
 % from |chebcoeffs|:
-chebcoeffs2 = flipud(chebcoeffs(f)')
+chebcoeffs2 = chebcoeffs(f)
 
 %%
 % Notice the excellent agreement except for coefficient $a_0$.
@@ -226,7 +226,9 @@ get(f, 'exps')
 % The treatment of blowups in Chebfun
 % was initiated by Mark Richardson in an MSc thesis at
 % Oxford [Richardson 2009], then further developed by
-% Richardson in collaboration with Rodrigo Platte and Nick Hale.  
+% Richardson in collaboration with Rodrigo Platte and Nick Hale,
+% then developed again by Kuan Xu and others in
+% the creation of Chebfun version 5.
 
 %% 9.4 Another approach to singularities
 % Chebfun version 4 offered an alternative |singmap| approach to singularities
