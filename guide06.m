@@ -127,13 +127,9 @@
 
 %%
 % A quasimatrix QR factorization takes this form:
-%
 % $$ A = QR, $$
-%
 % with
-%
 % $$ A:~ \infty\times n, \quad Q: ~ \infty\times n, \quad R: ~ n\times n.  $$
-%
 % The columns of $A$ are arbitrary, the columns of $Q$ are orthonormal, and
 % $R$ is an $n\times n$ upper-triangular matrix.  This factorization corresponds
 % to what is known in various texts as the "reduced", "economy size", "skinny",
@@ -213,10 +209,8 @@
 
 %%
 % If A is an $\infty \times n$ quasimatrix, everything is analogous:
-%
 % $$ A = USV^T, \qquad  A: \infty \times n,~~
 % U: \infty \times n, ~~  S: n \times n, ~~  V:  n \times n. $$
-%
 % The image of the unit ball in $R^n$ under $A$
 % is still a hyperellipsoid of dimension $\le n$, which now
 % lies within an infinite-dimensional function space.

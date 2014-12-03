@@ -49,9 +49,7 @@
 %%
 % By *Chebyshev points* we shall mean the set of points in
 % $[-1,1]$ defined by
-%
 % $$ x_j = -\cos(j \pi/N), ~~   0 \le j \le N, $$
-%
 % where $N\ge 1 $ is an integer.  (If $N=0$, we take $x_0=0$.)   A fuller
 % name is that these are *Chebyshev points of the second kind*.
 % (Chebfun also enables computations based on Chebyshev points
@@ -85,31 +83,22 @@
 
 %%
 % A *Chebyshev series* is an expansion
-%
 % $$ f(x) = \sum_{k=0}^\infty a_k T_k(x), $$
-%
 % and the $a_k$ are known as *Chebyshev coefficients*.  So long as $f$ is
 % continuous and at least a little bit smooth (Lipschitz continuity is
 % enough), it has a unique expansion of this form, which converges
 % absolutely and uniformly, and the coefficients are given by the integral
-%
 % $$ a_k = {2\over \pi} \int_{-1}^1 {f(x) T_k(x) dx \over \sqrt{1-x^2}} $$
-%
 % except that for $k=0$, the constant changes from $2/\pi$ to $1/\pi$.
 % One way to approximate a function is to form 
 % the polynomials obtained by truncating its Chebyshev expansion,
-%
 % $$ f_N(x) = \sum_{k=0}^N a_k T_k(x). $$
-
-%%
 % This isn't quite what Chebfun does, however, since it does not compute
 % exact Chebyshev coefficients.   Instead Chebfun constructs its
 % approximations via Chebyshev
 % interpolants, which can also be regarded as finite series in Chebyshev
 % polynomials for some coefficients $c_k$:
-%
 % $$  p_N(x) = \sum_{k=0}^N c_k T_k(x). $$ 
-%
 % Each coefficient $c_k$ will converge to $a_k$ as $N\to\infty$
 % (apart from the effects of rounding errors),
 % but for finite $N$, $c_k$ and $a_k$ are different.
@@ -371,7 +360,6 @@ text(45,1e-3,'C^{-N}','color','r','fontsize',16)
 
 %%
 % *THEOREM 4*.
-%
 % $$ p(x) = \sum_{k=0}^N \mbox{''} {(-1)^k f(x_k)\over x-x_k} \left/
 % \sum_{k=0}^N \mbox{''}{(-1)^k\over x-x_k}. \right. $$
 

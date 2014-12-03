@@ -95,9 +95,7 @@
   
 %%
 % The formula for $N+1$ Chebyshev points in $[-1,1]$ is
-%
 % $$ x(j) = -\cos(j \pi/N), \quad  j = 0:N, $$
-%
 % and in the figure we can see that the points are clustered accordingly
 % near $1$ and $-1$. Note that in the middle of the grid, there are about 5
 % points per wavelength, which is evidently what it takes to represent this

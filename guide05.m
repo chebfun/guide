@@ -162,9 +162,7 @@ axis off
 %% 5.3 Contour integrals
 % If $s$ is a real parameter and $z(s)$ is a complex function of $s$,
 % then we can define a contour integral in the complex plane like this:
-%
 % $$ \int f(z(s)) z'(s) ds . $$
-%
 % The contour in question is the curve described by $z(s)$ as $s$ varies over
 % its range.
 
@@ -290,14 +288,10 @@ B10 = factorial(k)*sum((f./z.^(k+1)).*diff(z))/(2i*pi)
 % Another use of Cauchy integrals is to count zeros or poles of functions
 % in specified regions.  According to the *principle of the argument*, the
 % number of zeros minus the number of poles of $f$ in a region is
-%
 % $$ N = {1\over 2\pi i} \int { f'(z) \over f(z)} dz, $$
-%
 % where the integral is taken over the boundary.  Since $f' = df/dz =
 % (df/ds)(ds/dz)$, we can rewrite this as
-%
 % $$ N = {1\over 2\pi i} \int {1\over f} {df\over ds} ds. $$
-%
 % For example, the function $f(z) = \sin(z)^3 + \cos(z)^3$ clearly has no
 % poles; how many zeros does it have in the disk about $0$ of radius $2$? The
 % following calculation shows that the answer is $3$:
@@ -316,9 +310,7 @@ N = (anglef(end)-anglef(0))/(2*pi)
 %%
 % Variations on this idea enable one to locate zeros and poles as well as
 % count them.  For example, we can locate a single zero with the formula
-%
 % $$ r = {1\over 2\pi i} \int  z (df/ds)/f ds $$
-%
 % [McCune 1966].  Here is the zero of the function above in the unit disk:
 z = chebfun('exp(1i*s)',[0 2*pi],'trig');
 f = sin(z).^3 + cos(z).^3;

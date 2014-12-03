@@ -436,9 +436,7 @@ plot(real(V)), ylabel('real(V)')
 % possibilities, however, we now illustrate how a sequence of linear
 % problems may be useful in solving nonlinear problems. For example, the
 % nonlinear BVP
-% 
 % $$ 0.001u'' - u^3 = 0,\qquad   u(-1)=1,~~ u(1)=-1 $$
-% 
 % could be solved by Newton iteration as follows.
 L = chebop(-1, 1);
 L.op = @(x,u) 0.001*diff(u, 2);
@@ -487,7 +485,6 @@ norm(u - v)
 % linear pendulum with a forcing
 % sine-wave term of an unknown frequency $T$. The
 % task is to compute the solution for which
-%
 % $$ u(-\pi) = u(\pi) = u'(\pi) = 1. $$
 N = chebop(@(x, u , T) diff(u,2) - u - sin(T.*x/pi), [-pi pi]);
 N.lbc = @(u,T) u - 1;
