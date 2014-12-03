@@ -483,7 +483,55 @@ ccheb2 = leg2cheb(cleg);
 norm(ccheb-ccheb2,inf)
 toc
 
-%% 1.9  How this Guide is produced
+%% 1.9  Chebfun example galleries
+% MATLAB has long had a `gallery` command to generate interesting
+% matrices, and with version 5.1, Chebfun has introduced an analogous
+% `gallery` command to generate interesting functions.
+
+%%
+% Here is what is currently available:
+help cheb.gallery
+
+%%
+% For example, here is a chebfun representing the Airy function,
+plot(cheb.gallery('airy')), ylim([-.8 .8])
+title('Airy function')
+
+%%
+% In this instance the underlying code fits in a line,
+fa = @airy; p = chebfun(fa, [-40,40]); 
+
+%%
+% Some examples make use of more complicated code, like this 
+% approximation to a Daubechies wavelet scaling function
+% (accurate to about 3 digits of accuracy; the underlying
+% function is a fractal):
+plot(cheb.gallery('daubechies')), ylim([-0.5 1.5])
+title('Daubechies scaling function')
+
+%%
+% To find out how a gallery example was generated, take a look
+% at the code with `type +cheb/gallery` or `edit +cheb/gallery`.
+
+%%
+% The Chebfun team enjoys this example from the appendix to
+% [Trefethen 2013], "Six myths of polynomial interpolation and
+% quadrature":
+plot(cheb.gallery('zigzag')), ylim([-.12 .09])
+title('A polynomial of degree 10,000')
+
+%%
+% This function looks piecewise linear, but in fact, it is a 
+% polynomial of degree 10000.  This serves no purpose from
+% an approximation point of view -- one would never represent
+% this function in this manner -- but it illustrates the robustness of
+% high-degree polynomial approximation.
+
+%%
+% Other collections worth exploring are `cheb.gallerytrig` for
+% periodic functions and `cheb.gallery2` for 2D functions.
+
+%% 1.10  How this Guide is produced
 % This guide is produced in MATLAB using the |publish| command with a 
 % style sheet somewhat different from the usual; the output of |publish|
 % is then processed by Markdown.
@@ -492,7 +540,7 @@ toc
 % |open(publish('guide1'))|.  The formatting may not be exactly 
 % right but it should certainly be intelligible.
 
-%% 1.10  References
+%% 1.11  References
 % [Battles & Trefethen 2004] Z. Battles and L. N. Trefethen, "An extension
 % of MATLAB to continuous functions and operators", _SIAM Journal on
 % Scientific Computing_, 25 (2004), 1743-1770.
