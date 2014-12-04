@@ -253,7 +253,7 @@ N = chebop(0, 10);
 N.op = @(t,u) diff(u) + sin(t) + 10000*(u-cos(t));
 N.lbc = 1;
 pref = cheboppref; pref.ivpSolver = 'ode15s';
-tic, u = solveIVP(N,0,pref); toc
+tic, u = solveivp(N,0,pref); toc
 plot(u, LW, lw), ylim([-1.5 1.5])
 
 %%
