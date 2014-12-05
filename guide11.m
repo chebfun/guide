@@ -10,8 +10,8 @@
 % the `'trig'` (or `'periodic'`) flag in the Chebfun constructor.  For
 % example, the function $f(t) = \tanh(3\sin t)-\sin(t+1/2)$ on
 % $[-\pi,\pi]$ can be constructed and plotted as follows:
-LW = 'LineWidth'; lw = 1.6; MS = 'MarkerSize'; ms = 10;
-FS = 'FontSize';
+LW = 'LineWidth'; MS = 'MarkerSize'; FS = 'FontSize';
+lw = 1.6; ms = 10;
 f = chebfun(@(t) tanh(3*sin(t))-sin(t+1/2), [-pi pi], 'trig')
 plot(f, LW, lw)
 
@@ -37,7 +37,7 @@ plot(f, LW, lw)
 % sense for this to be the default domain for trigfuns, but in
 % Chebfun the default is always $[-1,1]$, whether the representation
 % is trigonometric or not.  It is possible to change the default
-% domain to $[\pi,\pi]$, and indeed to change the default
+% domain to $[-\pi,\pi]$, and indeed to change the default
 % function representation to trigonometric; see Section 8.2.
 % To avoid confusion, however, we have not changed any defaults
 % in this chapter.
@@ -107,7 +107,7 @@ plot(f, LW, lw)
 %
 % In general the coefficients $a_k$ are not known exactly.
 % Let us imagine that we use the trapezoidal
-% quadrature formula to approximate them [Trefethen & Weideman 2014]
+% quadrature formula to approximate them [Trefethen & Weideman 2014].
 % Defining the *trigonometric points* by 
 % $$ t_j = -\pi + 2\pi j/N, \qquad j=0,\ldots,N-1 \eqno (7) $$
 % (Chebfun: `trigpts(N,[-pi,pi])`) gives the approximation
@@ -129,9 +129,9 @@ plot(f, LW, lw)
 
 %%
 % The discrete Fourier series $p_N$ has the property that it
-% interpolates $u$ in the gridpoints (7).
+% interpolates $u$ at the gridpoints (7).
 % The coefficients $c_k$ can be computed in $O(N\log N)$ operations
-% using the fast Fourier transform [Van Loan 1992] and the computation is
+% with the fast Fourier transform [Van Loan 1992], and the computation is
 % numerically stable [Henrici 1986].
 % The approximation properties of the interpolants are very similar to
 % those of the truncated trigonometric series approximation of a function
@@ -147,10 +147,10 @@ plot(f, LW, lw)
 % of $a_k$, which we know depends on the smoothness of $u$.  Furthermore, it
 % follows that if $u$ is sufficiently smooth (e.g. continuous with one
 % derivative of bounded variation), each $c_k$ converges to $a_k$ as
-% $N\to\infty$ (up to rounding errors). 
+% $N\to\infty$. 
 
 %%
-% To illustrate these ideas numerically, consider $u(t) = |\sin t|^3$:
+% To illustrate some of these ideas numerically, consider $u(t) = |\sin t|^3$:
 uu = @(t) abs(sin(t)).^3;
 u = chebfun(uu, [-pi,pi], 'trig');
 
@@ -166,7 +166,8 @@ p11 = chebfun(uu, [-pi,pi], 11, 'trig');
 %%
 % The error curves for the two approximations are similar:
 plot(q11-u, 'b-', p11-u, 'r-', LW, lw)
-legend('projection error', 'interpolation error', 'location', 'southeast')
+legend('projection error', 'interpolation error',...
+    'location', 'southeast')
 
 %%
 % The difference between truncation of a trigonometric series
@@ -182,7 +183,7 @@ g = chebfun(@(t) sin(t), [-pi pi], 'trig');
 f = tanh(cos(1+2*g).^2) +g/3 - 0.5
 
 %%
-% The operations $+$, $*$, and so on are all carried by appropriate
+% The operations $+$, $*$, and so on are all carried out by appropriate
 % manipulation of trigonometric representations.
 % Here we compute and plot the maximum, minimum, and roots of $f$:
 [maxval, maxpos] = max(f);
@@ -246,12 +247,12 @@ g = @(sigma) chebfun(@(t) gaussian(t, sigma), [-pi pi], 'trig');
 %% 
 % (This function will be numerically periodic when the
 % standard deviation $\sigma$ is small.)
-% Here we take the Gaussian with $\sigma = 0.1$ and
+% Here we take $\sigma = 0.1$ and
 % superimpose the smoothed curve on top of the noisy one:
 h = circconv(f, g(0.1));
 hold on, plot(h, 'r', LW, lw), hold off
 
-%% 11.6 trigfuns vs. chebfuns
+%% 11.6 Trigfuns vs. chebfuns
 % Trigonometric interpolants have a resolution power of 2 points per 
 % wavelength, whereas Chebyshev interpolants require approximately $\pi$
 % points per wavelength (averaged over the grid).
@@ -279,12 +280,12 @@ f = chebfun(@(t) cos(10*sin(t)), [-pi pi], 'trig');
 
 %%
 % All odd derivatives of $f$ vanish at $\pm \pi$.  Here is what
-% the trigfun finds for the 3rd derivative $f'''(\pi)$:
+% the trigfun finds for $f'''(\pi)$:
 df3 = diff(f, 3);
 df3(pi)
 
 %%
-% This is essentially full precision since the size of
+% This is essentially full precision since the scale of
 % $f'''$ is about $1000$.
 % By contrast, we lose six digits of accuracy if we
 % use a non-trigonometric chebfun:
@@ -295,7 +296,7 @@ df3_cheb(pi)
 %%
 % Trying to construct a trigfun from a function
 % that is not smoothly periodic will 
-% will typically result in a warning, as illustrated by
+% typically result in a warning, as illustrated by
 % this result for $t^2$:
 f = chebfun(@(t) t.^2, [-pi pi], 'trig')
 
@@ -306,7 +307,7 @@ f = chebfun(@(t) t.^2, [-pi pi], 'trig')
 %% 11.7 Trigonometric coefficients
 % Trigfuns provide an easy tool for computing Fourier coefficients via
 % the command `trigcoeffs`.
-% Here is an example for $u(t) = 1 - 4\cos t + 6\sin(2t)$:
+% Here as an example is $u(t) = 1 - 4\cos t + 6\sin(2t)$:
 u = chebfun(@(t) 1-4*cos(t)+6*sin(2*t), [-pi pi], 'trig');
 trigcoeffs(u)
 
@@ -334,13 +335,13 @@ b
 % For the entire function $\exp(\sin t)$ (i.e., analytic throughout
 % the complex plane), the coefficients decrease faster than geometrically:
 f = chebfun('exp(sin(t))', [-pi pi], 'trig');
-plotcoeffs(f,'.-')
+plotcoeffs(f,'.-',LW,1,MS,ms)
 
 %%
 % For $f(t) = 1/(2-\cos t)$, which is analytic
 % on $[-\pi,\pi]$ but not entire, the decrease is perfectly geometric:
 f = chebfun('1./(2-cos(t))', [-pi pi], 'trig');
-plotcoeffs(f,'.-')
+plotcoeffs(f,'.-',LW,1,MS,ms)
 
 %%
 % A function with a finite number of derivatives gives
@@ -350,7 +351,7 @@ plotcoeffs(f)
 
 %%
 % The `loglog` option enables one more easily
-% to quantify the decay rate (in the
+% to quantify the decay rate (showing the
 % coefficients of index $k>0$):
 plotcoeffs(f,'loglog')
 hold on, loglog(3*[3 300],[3 300].^-6,'--r',LW,1.6), hold off
@@ -359,11 +360,12 @@ text(110,4e-9,'N^{-6}',FS,18,'color','r')
 %% 11.8 Truncated trigonometric series approximations
 % The `trigcoeffs` function can also be used to compute a prescribed
 % number of trigonometric coefficients of a function that
-% may not be smooth; this is done by numerical evaluation of
+% may not be smooth enough for resolution to
+% machine precision; this is done by accurate numerical evaluation of
 % the integral (2).  For example, here is a non-smooth function,
 % a square wave, represented as a chebfun.
 % Superimposed on the square wave is its approximation by
-% by a trigonometric sum of degree $15$:
+% a trigonometric sum of degree $15$:
 sq_wave = @(t) sign(sin((t)));
 u = chebfun(sq_wave, [-pi pi], 'splitting', 'on');
 plot(u,LW,lw), ylim([-1.5 1.5])
@@ -392,7 +394,7 @@ hold on, plot(u_trunc, 'r', LW, lw)
 % [Hesthaven et al. 2007] J. S. Hesthaven, S. Gottlieb, and D. Gottlieb, 
 % _Spectral Methods for Time-Dependent Problems_, Cambridge U. Press, 2007.
 %
-% [McLeod 2014] K. McLeod, "FOURFUN: A new system for
+% [McLeod 2014] K. McLeod, "Fourfun: A new system for
 % automatic computations using Fourier expansions", submitted, 2014.
 % See also `http://uk.mathworks.com/matlabcentral/fileexchange/46999-fourfun`.
 %

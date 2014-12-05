@@ -3,7 +3,9 @@
 
 %% 4.1  Chebyshev series and interpolants
 % Chebfun is founded on the mathematical subject of approximation theory,
-% and in particular, on Chebyshev series and interpolants. Conversely, it
+% and in particular, on Chebyshev series and interpolants.  (For
+% periodic analogues and trigonometric approximations, see
+% Chapter 11.) Conversely, it
 % provides a simple environment in which to demonstrate these approximants
 % and other approximation ideas.
 
@@ -76,10 +78,10 @@
 
 %%
 % Here are plots of $T_2$, $T_3$, $T_{15}$, and $T_{50}$.
-  subplot(2,2,1), plot(chebpoly(2))
-  subplot(2,2,2), plot(chebpoly(3))
-  subplot(2,2,3), plot(chebpoly(15))
-  subplot(2,2,4), plot(chebpoly(50))
+  subplot(2,2,1), plot(chebpoly(2)), ylim([-1.5 1.5])
+  subplot(2,2,2), plot(chebpoly(3)), ylim([-1.5 1.5])
+  subplot(2,2,3), plot(chebpoly(15)), ylim([-1.5 1.5])
+  subplot(2,2,4), plot(chebpoly(50)), ylim([-1.5 1.5])
 
 %%
 % A *Chebyshev series* is an expansion
@@ -351,6 +353,17 @@ text(45,1e-3,'C^{-N}','color','r','fontsize',16)
 %%
 % More precisely, if $|f(z)|\le  M$ in the ellipse, then the bound on the
 % right can be taken as $4Mr^{-n}/(r-1)$.
+
+%%
+% For a startling illustration of the implications of this theory,
+% consider these two functions from the Chebfun gallery.
+% Theorem 3 can be used to explain why their lengths are so different.
+f1 = cheb.gallery('sinefun1');
+subplot(2,1,1), plot(f1), grid on, ylim([0 4])
+title(['Length ' int2str(length(f1))])
+f2 = cheb.gallery('sinefun2');
+subplot(2,1,2), plot(f2), grid on, ylim([0 4])
+title(['Length ' int2str(length(f2))])
 
 %%
 % The next theorem asserts that Chebyshev interpolants can be computed by

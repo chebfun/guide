@@ -67,6 +67,14 @@
   fprintf('%22.13f\n',r(end-4:end))
 
 %%
+% Here are the 130 roots from the "fish fillet" example in
+% the Chebfun gallery:
+f = cheb.gallery('fishfillet');
+hold off, plot(f)
+tic, r = roots(f); toc
+hold on, plot(r,f(r),'.r'), hold off
+
+%%
 % With the ability to find zeros, we can solve a variety of nonlinear
 % problems.  For example, where do the curves $x$ and $\cos(x)$ intersect?  Here
 % is the answer.

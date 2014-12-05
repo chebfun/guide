@@ -350,7 +350,7 @@
 % polynomials instead, that is, Fourier series.  Such an object is still
 % called a chebfun, but it is a periodic one,
 % and the signal to invoke such capabilities is the string |`trig`|.
-% For abbreviation, we often call a periodic chebfun a ``trigfun''.
+% For abbreviation, we call a periodic chebfun a ``trigfun''.
 % This section gives a quick introduction, and more details can be
 % found in Chapter 11.
 
@@ -558,6 +558,7 @@ title('A polynomial of degree 10,000')
 % [McLeod 2013] K. N. McLeod, "Fourfun: A new system for automatic
 % computations using Fourier expansions," _SIAM Undergraduate Research
 % Online_, to appear.
+% See also `http://uk.mathworks.com/matlabcentral/fileexchange/46999-fourfun`.
 %
 % [Pachon, Platte & Trefethen 2010] R. Pachon, R. B. Platte and L. N.
 % Trefethen, "Piecewise-smooth chebfuns", _IMA J. Numer. Anal._, 30 (2010),

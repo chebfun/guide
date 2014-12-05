@@ -92,9 +92,11 @@
 
 %%
 % For another example of a definite integral we turn to an integrand given
-% as example |F21F| in [Kahaner 1971].  We treat it first in the default mode
+% as example |F21F| in [Kahaner 1971] (see also
+% `cheb.gallery('kahaner')`).  We treat it first in the default mode
 % of splitting off:
-  ff = @(x) sech(10*(x-0.2)).^2 + sech(100*(x-0.4)).^4 + sech(1000*(x-0.6)).^6;
+  ff = @(x) sech(10*(x-0.2)).^2 + sech(100*(x-0.4)).^4 + ...
+            sech(1000*(x-0.6)).^6;
   f = chebfun(ff,[0,1])
 
 %%
