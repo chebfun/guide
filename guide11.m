@@ -133,6 +133,11 @@ plot(f, LW, lw)
 % there is no contribution of this mode to the coefficient $c_{N/2}$.
 
 %%
+% The *degree* of a trigonometric sum is the degree of its
+% highest order term.  Thus (6) and (13) are of degree $(N-1)/2$,
+% and (7) and (14) are of degree $N$.
+
+%%
 % The discrete Fourier series $p_N$ of (14)-(15)
 % has the property that it
 % interpolates $u$ at the gridpoints (11).
@@ -309,7 +314,9 @@ f = chebfun(@(t) t.^2, [-pi pi], 'trig')
 
 %% 11.7 Trigonometric coefficients
 % Trigfuns provide an easy tool for computing Fourier coefficients via
-% the command `trigcoeffs`.
+% the command `trigcoeffs`.  
+% (See the end of this section for an important fine
+% point concerning $[-\pi,\pi]$ vs. $[0,2\pi]$.)
 % Here as an example is $u(t) = 1 - 4\cos t + 6\sin(2t)$:
 u = chebfun(@(t) 1-4*cos(t)+6*sin(2*t), [-pi pi], 'trig');
 trigcoeffs(u)
@@ -317,8 +324,7 @@ trigcoeffs(u)
 %%
 % Note that in this default mode, `trigcoeffs` returns the coefficients
 % in complex exponential form as in (1) and (2),
-% from lowest degree to highest.
-% The equivalent coefficients in
+% from lowest degree to highest.  The equivalent coefficients in
 % terms of cosines and sines as in (3)-(5) can be obtained by 
 % specifying two output arguments:
 [a, b] = trigcoeffs(u);
@@ -362,6 +368,56 @@ plotcoeffs(f,'loglog')
 hold on, loglog(3*[3 300],[3 300].^-6,'--r',LW,1.6), hold off
 text(110,4e-9,'N^{-6}',FS,18,'color','r')
 
+%%
+% At the beginning of this section, we alluded to
+% an important fine point concerning
+% $[-\pi,\pi]$ vs. $[0,2\pi]$ --- or more generally, the
+% transplantation from one domain $[a,b]$ to another.
+% We now explain this.
+
+%%
+% Consider, say, the function $f(x) = \cos x = (e^{ix}+e^{-ix})/2$.
+% Obviously its Fourier coefficients (2) in the exponential basis
+% are $1/2, 0, 1/2$:
+f = chebfun(@cos,[-pi,pi], 'trig'); trigcoeffs(f)
+
+%%
+% Naturally we expect the same result on $[0,2\pi]$:
+f = chebfun(@cos,[0,2*pi], 'trig'); trigcoeffs(f)
+
+%%
+% In fact, we expect these coefficients on any interval of
+% length $2\pi$:
+f = chebfun(@cos,[7,7+2*pi], 'trig'); trigcoeffs(f)
+
+%%
+% This all seems so natural that one can easily overlook
+% that something of substance is going on.  To work on an
+% interval like $[7,7+2\pi]$, Chebfun first transplants
+% the problem to $[-\pi,\pi]$.  The transplanted
+% function is not $\cos x$ at all --- it is $\cos(x+8)$.
+% Now $\cos(x+8)$ has a perfectly good Fourier expansion, but
+% the last thing a user would expect `trigcoeffs` to return would
+% be those coefficients.  We can say it precisely like this:
+% the coefficients returned by `trigcoeffs` for expansion on
+% any interval $[a,b]$ correspond to the basis 
+% $\{\exp(i\alpha k x)\}$ with $\alpha = 2\pi/(b-a)$, _not_
+% to the basis $\{\exp(i\alpha k (x- (b+a)/2))\}$.
+
+%%
+% Note that this is a point where the analogy between
+% trigfuns and chebfuns breaks down.
+% If you call `chebcoeffs(f)` for a chebfun on $[a,b]$, the resulting
+% coefficients correspond to expansion in Chebyshev polynomials
+% of the transplant of $f$.
+% If you call `trigcoeffs(f)` for a trigfun on $[a,b]$, the resulting
+% coefficients correspond to expansion in complex exponentials that
+% are _not_ transplanted to $[-\pi,\pi]$.  If you truly want
+% the latter coefficients, at the time of this writing you
+% can get them with `f.coeffs`, though we are not sure if this may
+% change in the future.)
+
+
 %% 11.8 Truncated trigonometric series approximations
 % The `trigcoeffs` function can also be used to compute a prescribed
 % number of trigonometric coefficients of a function that
@@ -374,13 +430,14 @@ text(110,4e-9,'N^{-6}',FS,18,'color','r')
 sq_wave = @(t) sign(sin((t)));
 u = chebfun(sq_wave, [-pi pi], 'splitting', 'on');
 plot(u,LW,lw), ylim([-1.5 1.5])
-numModes = 15;
-a = trigcoeffs(u, 2*numModes+1);
+degree = 15;
+a = trigcoeffs(u, 2*degree+1);
 u_trunc = chebfun(a, [-pi pi], 'trig', 'coeffs');
 hold on, plot(u_trunc, 'r', LW, lw)
 
 %%
-% This represents the best 15-mode trigonometric approximation to the square
+% This represents the best degree 15
+% trigonometric approximation to the square
 % wave over $[-\pi,\pi]$ in the $L^2$ sense. The oscillations
 % show the famous Gibbs phenomenon.
 
