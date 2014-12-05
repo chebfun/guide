@@ -1,5 +1,5 @@
 %% 11. Periodic Chebfuns
-% Grady B. Wright, December 2014
+% Grady B. Wright and Lloyd N. Trefethen, December 2014
 
 
 %% 11.1 Introduction
@@ -19,9 +19,9 @@ plot(f, LW, lw)
 % The text `'trig'` in the display
 % indicates that $f$ is represented by trigonometric functions,
 % as discussed in the next section.
-% For now we note that the length of 131 means that it is resolved to
+% For now we note that the length of 131 means that $f$ is resolved to
 % machine precision using a trigonometric interpolant through 131 equally
-% spaced samples of $f$ over $[-\pi,\pi)$, or equivalently, 65
+% spaced samples over $[-\pi,\pi)$, or equivalently, 65
 % trigonometric (= Fourier) modes.
 
 %%
@@ -33,14 +33,18 @@ plot(f, LW, lw)
 %%
 % Throughout our discussion, the trigfuns we construct live on
 % the interval $[-\pi,\pi]$, which we specify explicitly in
-% each call to the constructor.  Mathematically, it might make
+% each call to the constructor.  Mathematically, it might have made
 % sense for this to be the default domain for trigfuns, but in
-% Chebfun the default is always $[-1,1]$, whether the representation
+% Chebfun the factory default is always $[-1,1]$, whether the representation
 % is trigonometric or not.  It is possible to change the default
 % domain to $[-\pi,\pi]$, and indeed to change the default
 % function representation to trigonometric; see Section 8.2.
 % To avoid confusion, however, we have not changed any defaults
 % in this chapter.
+
+%%
+% For examples of Chebfun solution of periodic ODEs, see Chapter 7, and for
+% periodic functions of two variables, see Chapters 12-16.
 
 %%
 % (_Editors' note._  Periodic chebfuns were created by Grady Wright
@@ -81,55 +85,57 @@ plot(f, LW, lw)
 % The convergence of the trigonometric series depends on the
 % smoothness of $u$ on $[-\pi,\pi]$ and its periodic extension. Let $q_N$
 % be the truncated series
-% $$ q_N(t) = \sum_{k=-(N-1)/2}^{(N-1)/2} a_k e^{ikt} $$
+% $$ q_N(t) = \sum_{k=-(N-1)/2}^{(N-1)/2} a_k e^{ikt} \eqno (6) $$
 % when $N$ is odd and 
-% $$ q_N(t) = \sum_{k=-N/2}^{N/2} a_k e^{ikt} $$
+% $$ q_N(t) = \sum_{k=-N/2}^{N/2} a_k e^{ikt} \eqno (7) $$
 % when $N$ is even. If $u$ is periodic, continuous,
 % and of bounded variation on 
 % $[-\pi,\pi]$, then as $N\rightarrow \infty$,
 % $$ \| u - q_N \| \rightarrow 0, $$
 % where $\|\cdot\|$ is the maximum norm. From (1) it is clear
 % that the error is bounded by
-% $$ \| u - q_N \| \leq \sum_{|k| > \lfloor N/2 \rfloor} |a_k|. \eqno (6) $$
+% $$ \| u - q_N \| \leq \sum_{|k| > \lfloor N/2 \rfloor} |a_k|. \eqno (8) $$
 % The decay rate of the coefficients $a_k$ depends on the smoothness
 % of $u$ and can be estimated by integration by parts.  A classical
 % result says that if $u$ is $(\ell-1)$-times continuously differentiable
 % on $[-\pi,\pi]$, with each of these derivatives being periodic, and 
 % the derivative of order $\ell$ is of bounded variation on $[-\pi,\pi]$, then 
-% $$ |a_k| = O(|k|^{-\ell}),\; k=\pm 1, \pm 2,\dots. $$
-% With (6) this gives us
-% $$ \| u - q_N \| \leq O(N^{-\ell})  $$
-% as $N\to\infty$.  If $u$ and its periodic
+% $$ |a_k| = O(|k|^{-\ell-1}),\; k=\pm 1, \pm 2,\dots. \eqno (9) $$
+% With (8), adding up the tail, this gives us
+% $$ \| u - q_N \| \leq O(N^{-\ell}) \eqno (10) $$
+% as $N\to\infty$, assuming $\ell\ge 1$.  If $u$ and its periodic
 % extension are $C^{\infty}$, then $q_N$ converges to $u$ faster than any
 % inverse power of $N$.  If $u$ is analytic on
-% $[-\pi,\pi]$ then the convergence rate is exponential, i.e. 
+% $[-\pi,\pi]$ then the convergence rate is exponential, i.e.,
 % $\| u - q_N \| = O(b^N)$ for some $b < 1$.
 %
 % In general the coefficients $a_k$ are not known exactly.
 % Let us imagine that we use the trapezoidal
 % quadrature formula to approximate them [Trefethen & Weideman 2014].
 % Defining the *trigonometric points* by 
-% $$ t_j = -\pi + 2\pi j/N, \qquad j=0,\ldots,N-1 \eqno (7) $$
+% $$ t_j = -\pi + 2\pi j/N, \qquad j=0,\ldots,N-1 \eqno (11) $$
 % (Chebfun: `trigpts(N,[-pi,pi])`) gives the approximation
 % $$ a_k \approx c_k := \frac{1}{N} \sum_{j=0}^{N-1}
-% u(t_j) e^{-i k t_j}. \eqno (8) $$
+% u(t_j) e^{-i k t_j}. \eqno (12) $$
 % The coefficients $c_k$ are referred to as the _Discrete Fourier Coefficients,_ and when
 % they are replaced by $a_k$ in the truncated trigonometric series $q_N$, the resulting
 % series is called the _discrete Fourier series_ of $u$.  The form of this series 
 % depends on the parity of $N$.  For odd $N$ we have
-% $$ p_N(t) = \sum_{k=-(N-1)/2}^{(N-1)/2} c_k e^{ikt}. $$
+% $$ p_N(t) = \sum_{k=-(N-1)/2}^{(N-1)/2} c_k e^{ikt}. \eqno (13) $$
 % When $N$ is even we have 
-% $$ p_N(t) = \sum_{k=-N/2+1}^{N/2-1} c_k e^{ikt}\,+ c_{N/2} \cos(N/2 t), $$
+% $$ p_N(t) = \sum_{k=-N/2+1}^{N/2-1} c_k e^{ikt}\,+
+% c_{N/2} \cos(N/2 t),\eqno (14)  $$
 % which is often rewritten as
-% $$ p_N(t) = {\sum_{k=-N/2}^{N/2}} {}'  c_k e^{ikt}, $$
+% $$ p_N(t) = {\sum_{k=-N/2}^{N/2}} {}'  c_k e^{ikt}, \eqno (15) $$
 % where $c_{-N/2} = c_{N/2}$ and the prime means the first and
 % last terms in the sum are halved.  The reason the $\sin(N/2 t)$ term is
 % missing is that this function vanishes when evaluated at $t_j$, so that
 % there is no contribution of this mode to the coefficient $c_{N/2}$.
 
 %%
-% The discrete Fourier series $p_N$ has the property that it
-% interpolates $u$ at the gridpoints (7).
+% The discrete Fourier series $p_N$ of (14)-(15)
+% has the property that it
+% interpolates $u$ at the gridpoints (11).
 % The coefficients $c_k$ can be computed in $O(N\log N)$ operations
 % with the fast Fourier transform [Van Loan 1992], and the computation is
 % numerically stable [Henrici 1986].
@@ -140,27 +146,25 @@ plot(f, LW, lw)
 % Analysis of this relationship relies on the *Poisson summation formula*
 % (or aliasing formula), which relates the interpolation coefficients 
 % $c_k$ to the trigonometric series coefficients $a_k$:
-% $$ c_k = a_k + \sum_{\ell=1}^{\infty}
-% \left(a_{k+\ell N} + a_{k-\ell N}\right). \eqno (9)  $$
-% This formula implies that the decay rate of $c_k$ is
+% $$ c_k = a_k + \sum_{m=1}^{\infty}
+% \left(a_{k+m N} + a_{k-m N}\right). \eqno (16)  $$
+% This formula implies that if $\ell\ge 1$ in (9), the decay rate of $c_k$ is
 % essentially the same as that 
-% of $a_k$, which we know depends on the smoothness of $u$.  Furthermore, it
-% follows that if $u$ is sufficiently smooth (e.g. continuous with one
-% derivative of bounded variation), each $c_k$ converges to $a_k$ as
-% $N\to\infty$. 
+% of $a_k$, with $c_k\to a_k$ as $N\to\infty$. 
 
 %%
-% To illustrate some of these ideas numerically, consider $u(t) = |\sin t|^3$:
+% To illustrate some of these ideas numerically, consider $u(t) = |\sin t|^3$,
+% a function with $\ell = 3$.
 uu = @(t) abs(sin(t)).^3;
 u = chebfun(uu, [-pi,pi], 'trig');
 
 %%
-% We can construct the truncated trigonometric series approximation with
-% $N=11$ terms using the "`trunc'" option:
+% We can construct the truncated trigonometric series approximation (6) with
+% $N=11$ using the "`trunc'" option:
 q11 = chebfun(uu, [-pi,pi], 'trunc', 11, 'trig');
 
 %%
-% For comparison, here is the 11-point trigonometric interpolant:
+% For comparison, here is the 11-point trigonometric interpolant (13):
 p11 = chebfun(uu, [-pi,pi], 11, 'trig');
 
 %%
@@ -245,8 +249,7 @@ gaussian = @(t, sigma) 1/(sigma*sqrt(2*pi))*exp(-0.5*(t/sigma).^2);
 g = @(sigma) chebfun(@(t) gaussian(t, sigma), [-pi pi], 'trig');
 
 %% 
-% (This function will be numerically periodic when the
-% standard deviation $\sigma$ is small.)
+% This function is numerically periodic for $\sigma\le 0.35$.
 % Here we take $\sigma = 0.1$ and
 % superimpose the smoothed curve on top of the noisy one:
 h = circconv(f, g(0.1));
@@ -352,7 +355,9 @@ plotcoeffs(f)
 %%
 % The `loglog` option enables one more easily
 % to quantify the decay rate (showing the
-% coefficients of index $k>0$):
+% coefficients of index $k>0$).  This function has $\ell =6$ for
+% the estimates (9) and (10), so by (9), the decay rate of coefficients
+% is $a_k = O(|k|^{-6})$. 
 plotcoeffs(f,'loglog')
 hold on, loglog(3*[3 300],[3 300].^-6,'--r',LW,1.6), hold off
 text(110,4e-9,'N^{-6}',FS,18,'color','r')
