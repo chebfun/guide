@@ -415,8 +415,7 @@ f = chebfun(@cos,[7,7+2*pi], 'trig'); trigcoeffs(f)
 % are _not_ transplanted to $[-\pi,\pi]$.  If you truly want
 % the latter coefficients, at the time of this writing you
 % can get them with `f.coeffs`, though we are not sure if this may
-% change in the future.)
-
+% change in the future.
 
 %% 11.8 Truncated trigonometric series approximations
 % The `trigcoeffs` function can also be used to compute a prescribed

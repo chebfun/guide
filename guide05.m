@@ -377,9 +377,10 @@ hold on, plot(g(ellipse),'b',LW,lw)
 axis auto equal off
 
 %%
-% You can find an example "Birthday cards and analytic function" in the
+% You can find an example "Birthday cards and analytic functions" in the
 % Fun Stuff section of the Chebfun Examples collection, and further
-% related explorations in the Geometry section.
+% related explorations in the Geometry section.  Also check
+% out `cheb.gallery('motto')`.
 
 %% 5.6  References
 %

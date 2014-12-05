@@ -137,6 +137,21 @@ plot(gam,LW,1.6), ylim([-10 10])
 gam = chebfun('gamma(x)',[-4:0 4],'exps',[-1 -1 -1 -1 -1 0]);
 
 %%
+% This is essentially the same result you will get if you execute
+%
+% plot(cheb.gallery('gamma'))
+
+%%
+% Can you explain the following three results?
+sum(gam)
+
+%%
+sum(abs(gam))
+
+%%
+sum(abs(gam).^.9)
+
+%%
 % It's also possible to have poles of different strengths
 % on two sides of a singularity.  In this case, you specify two
 % exponents at each internal breakpoint rather than one:
