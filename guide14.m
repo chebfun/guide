@@ -12,7 +12,7 @@ LW = 'linewidth'; MS = 'markersize';
 plot(r,LW,1.6), axis([-1 1 -1 1]), axis square
 
 %%
-% The zero curves are represented as complex valued chebfuns (see Chapter 5).
+% The zero curves are represented as complex-valued chebfuns (see Chapter 5).
 % For example, 
 r(:,1)
 

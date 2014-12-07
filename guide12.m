@@ -20,7 +20,7 @@ peaks
 % The same function is available as a chebfun2 in the
 % Chebfun2 gallery:
 f = cheb.gallery2('peaks');
-plot(f), axis tight
+plot(f), axis tight, title('Chebfun2 Peaks')
 
 %%
 % Of course in Chebfun we can do all sorts of things with
@@ -43,30 +43,14 @@ max2(f)
 %%
 % Chebfun2 builds on Chebfun's univariate representations and
 % algorithms.  Algorithmic details
-% are given in [Townsend & Trefethen 2013b], and the interpretation
-% of our construction process as a continuous analogue of Gaussian
-% elimination with complete pivoting is treated mathematically
-% in [Townsend & Trefethen 2014].
-
-%%
-% The implementation of Chebfun2 exploits the observation that many
-% functions of two variables can be well approximated by low rank approximants.
-% A rank $1$ function, also known as _separable_,
-% is of the form $u(y)v(x)$, and a rank $k$ function can be
-% written as the sum of $k$ rank $1$ functions. Smooth functions tend to be 
-% well approximated by functions of low rank.  
-% Chebfun2 determines low rank function approximations automatically
-% by means of an algorithm that 
-% can be viewed as an iterative application of Gaussian elimination with 
-% complete pivoting [Townsend & Trefethen 2013]. 
-% The underlying function representations are related to work by Carvajal, 
-% Chapman and Geddes [Carvajal, Chapman, & Geddes 2008] and others including
-% Bebendorf [Bebendorf 2008], Hackbusch, Khoromskij, Oseledets, and Tyrtyshnikov.
+% are given in [Townsend & Trefethen 2013b] and mathematical
+% underpinnings in [Townsend & Trefethen 2014].
+% For more information, see Section 12.8.
 
 %% 12.2 What is a chebfun2v?
-% Chebfun2 can represent scalar valued functions, such as $\exp(x+y)$, and
-% vector valued functions, such as $[\exp(x+y);\cos(x-y)]$. 
-% A vector valued function is called a chebfun2v, and chebfun2v objects
+% Chebfun2 can represent scalar-valued functions, such as $\exp(x+y)$, and
+% vector-valued functions, such as $[\exp(x+y);\cos(x-y)]$. 
+% A vector-valued function is called a chebfun2v, and chebfun2v objects
 % are useful for
 % computations of vector calculus. For information about
 % chebfun2v objects and vector calculus, see Chapters 15 and 16 of this
@@ -77,18 +61,18 @@ max2(f)
 % function handle or string. The default rectangular domain is 
 % $[-1,1]\times [-1,1]$. (An example showing how to specify a different domain is 
 % given at the end of this chapter.) For example, here we construct and
-% plot a chebfun2 representing $\cos(xy)$ on $[-1,1]\times[-1,1]$.
+% plot a chebfun2 representing $\cos(2\pi xy)$ on $[-1,1]\times[-1,1]$.
 f = chebfun2(@(x,y) cos(2*pi*x.*y)); 
 plot(f), zlim([-2 2])
 
 %% 
 % There are several commands for plotting a chebfun2, including |plot|,
-% |contour|, |surf|, and |mesh|.  Here is a contour plot of $f$:
+% |contour|, and |surf|.  Here is a contour plot of $f$:
 contour(f), axis square
 
 %%
-% One way to find the rank of the approximant used to represent $f$
-% is like this:
+% One way to find the rank of the approximant used to represent $f$, 
+% discussed in Section 8.8, is like this:
 length(f)
 
 %%
@@ -109,7 +93,7 @@ sum2(f)
 
 %%
 % This matches well the exact answer obtained by calculus,
-% which is $(2/\pi)\hbox{Si}(2\pi):
+% which is $(2/\pi)\hbox{Si}(2\pi)$:
 exact = 0.9028233335802806267957003779
 
 %%
@@ -140,7 +124,7 @@ plot(fy)
 %%
 % The syntax for the |diff| command can cause confusion because we are
 % following the matrix syntax in MATLAB. Chebfun2 also
-% offers |diffx(f,k)| and 
+% offers the more easily remembered |diffx(f,k)| and 
 % |diffy(f,k)|, which differentiate $f(x,y)$ $k$ times with respect
 % to the first first and second variable, respectively.
 
@@ -201,29 +185,74 @@ plot(f)
 % For functions with branch points or essential singularities, it is currently
 % not possible in Chebfun2 to draw phase plots.
 
-%% 12.8 References 
+%% 12.8 Chebfun2 low rank approximations
+% Chebfun2 exploits the observation that many
+% functions of two variables can be well approximated by low rank approximants.
+% A rank $1$ function, also known as _separable_,
+% is of the form $u(y)v(x)$, and a rank $k$ function is one that can be
+% written as the sum of $k$ rank $1$ functions. Smooth functions tend to be 
+% well approximated by functions of low rank.  
+% Chebfun2 determines low rank function approximations automatically
+% by means of an algorithm that 
+% can be viewed as an iterative application of Gaussian elimination with 
+% complete pivoting [Townsend & Trefethen 2013]. 
+% The underlying function representations are related to work by Carvajal, 
+% Chapman and Geddes [Carvajal, Chapman, & Geddes 2008] and others including
+% Bebendorf [Bebendorf 2008], Hackbusch, Khoromskij, Oseledets, and Tyrtyshnikov.
+%%
+% Here is an exampled adapted from
+% [Townsend & Trefethen 2013] and `cheb.gallery2('smokering')`.
+% The function 
+% $$ f(x,y) = \exp( -40(x^2-xy+2y^2 - 1/2)^2) $$
+% has the shape of an elliptical ring in the unit square, 
+% and Chebfun2 represents it by an approximation of reasonably
+% high rank:
+ff = @(x,y) exp(-40*(x.^2 - x.*y + 2*y.^2 - 1/2).^2);
+f = chebfun2(ff);
+levels = 0.1:0.1:0.9;
+contour(f,levels)
+title(['rank ' int2str(length(f))],'fontsize',12)
+
+%%
+% To illustrate the nature of low-rank approximations, rather
+% than letting Chebfun2 determine the rank adaptively, we
+% can force it to take ranks $1,2,\dots ,9$.  Here are the results,
+% plotted with black level curves at heights $0.2,0.4,0.6,0.8$:
+levels = 0.2:0.2:0.8;
+clf
+for k = 1:9
+    axes('position',[.03+.33*mod(k-1,3) .67-.3*floor((k-1)/3) .28 .28])
+    contour(chebfun2(ff,k),levels,'k'), axis off
+end
+
+%%
+% For this function, "plotting accuracy" is achieved approximately
+% at rank 16; the remaining terms are then required to get from
+% 2-3 digits to 15.
+
+%% 12.9 References 
 % 
 % [Bebendorf 2008] M. Bebendorf, _Hierarchical Matrices: A Means to 
 % Efficiently Solve Elliptic Boundary Value Problems_, Springer, 2008.
 %
 % [Carvajal, Chapman, & Geddes 2008] O. A. Carvajal, F. W. Chapman and 
-% K. O. Geddes, Hybrid symbolic-numeric integration in multiple dimensions 
-% via tensor-product series, _Proceedings of ISSAC'05_, M. Kauers, ed., 
-% ACM Press, 2005, pp.84-91.
+% K. O. Geddes, "Hybrid symbolic-numeric integration in multiple dimensions 
+% via tensor-product series", _Proceedings of ISSAC'05_, M. Kauers, ed., 
+% ACM Press, 2005, 84-91.
 % 
-% [Townsend & Trefethen 2013] A. Townsend and L. N. Trefethen, Gaussian
-% elimination as an iterative algorithm, _SIAM News_, March 2013.
+% [Townsend & Trefethen 2013] A. Townsend and L. N. Trefethen, "Gaussian
+% elimination as an iterative algorithm", _SIAM News_, March 2013.
 %
-% [Townsend & Trefethen 2013b] A. Townsend and L. N. Trefethen, An extension
-% of Chebfun to two dimensions, _SIAM Journal on Scientific Computing_, 35
+% [Townsend & Trefethen 2013b] A. Townsend and L. N. Trefethen, "An extension
+% of Chebfun to two dimensions", _SIAM Journal on Scientific Computing_, 35
 % (2013), C495-C518.
 %
-% [Townsend & Trefethen 2014] A. Townsend and L. N. Trefethen, Continuous
-% analogues of matrix factorizations,
+% [Townsend & Trefethen 2014] A. Townsend and L. N. Trefethen, "Continuous
+% analogues of matrix factorizations",
 % _Proceedings of the Royal Society A_ 471 (2014) 20140585.
 %
-% [Trefethen 2013] L. N. Trefethen, Phase Portraits for functions with poles, 
-% http://www2.maths.ox.ac.uk/chebfun/examples/complex/html/PortraitsWithPoles.shtml
+% [Trefethen 2013] L. N. Trefethen, "Phase Portraits for functions with poles", 
+% `www.chebfun.org/examples/complex/PortraitsWithPoles.html`.
 %
 % [Wegert 2012] E. Wegert, _Visual Complex Functions: An Introduction with
 % Phase Portraits_, Birkhauser/Springer, 2012.
