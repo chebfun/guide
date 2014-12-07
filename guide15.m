@@ -1,5 +1,5 @@
 %% 15. Chebfun2: Vector Calculus
-% Alex Townsend, March 2013, latest revision June 2014
+% Alex Townsend, March 2013, latest revision December 2014
 
 %% 15.1 What is a chebfun2v? 
 % Chebfun2 objects represent vector-valued functions. We use a lower case
@@ -8,16 +8,17 @@
 
 %%
 % Chebfun2 represents a vector-valued function $F(x,y) = (f(x,y);g(x,y))$ 
-% by approximating each component by a low rank approximant. 
+% by approximating each component by a low rank approximant, as described
+% in Section 12.8.
 % There are two ways to form a chebfun2v: either by explicitly 
 % calling the constructor, or by
 % vertical concatenation of two chebfun2 objects. 
 % Here are these two alternatives:
 d = [0 1 0 2];
-F = chebfun2v(@(x,y) sin(x.*y), @(x,y) cos(y), d);  % calling the constructor
+F = chebfun2v(@(x,y) sin(x.*y), @(x,y) cos(y), d);
 f = chebfun2(@(x,y) sin(x.*y), d);
 g = chebfun2(@(x,y) cos(y), d);
-G = [f;g]                                           % vertical concatenation
+G = [f;g]      
 
 %% 
 % Note that displaying a chebfun2v shows that it is a vector of two chebfun2
@@ -43,8 +44,8 @@ fprintf('Parallelogram law holds with error = %10.5e\n',plaw)
 %%
 % The dot product combines two vector functions into a scalar function. 
 % If the dot product of two chebfun2v objects takes the value 
-% zero at some (x,y), then the vector-valued functions are orthogonal at 
-% (x,y).  For example, the following code segment determines a curve along
+% zero at some $(x,y)$, then the vector-valued functions are orthogonal 
+% there.  For example, the following code segment determines a curve along
 % which two vector-valued functions are orthogonal:
 LW = 'linewidth';
 F = chebfun2v(@(x,y) sin(x.*y), @(x,y) cos(y),d);
@@ -63,7 +64,7 @@ help chebfun2v/cross
 
 %%
 % The gradient of a chebfun2 representing a scalar function $f(x,y)$
-% is, geometrically, the direction and magnitude 
+% represents, geometrically, the direction and magnitude 
 % of steepest ascent of $f$. If the gradient of $f$ is $0$ at
 % $(x,y)$, then $f$ has a critical point at $(x,y)$. Here are the
 % critical points of a sum of Gaussian bumps:
@@ -76,7 +77,7 @@ end
 plot(f), hold on 
 r = roots(gradient(f));
 plot3(r(:,1),r(:,2),f(r(:,1),r(:,2)),'k.','markersize',20)
-zlim([0 4]), hold off
+zlim([0 4]), hold off, colormap(pink)
 
 %%
 % The curl of 2D vector function is a scalar function defined as
@@ -117,13 +118,13 @@ abs(v-ends)                                         % gradient theorem
 
 %% 15.5 Phase diagram
 % A phase diagram is a graphical representation of a system of 
-% trajectories for a two variable autonomous dynamical system.
+% trajectories for a two-variable autonomous dynamical system.
 % Chebfun2 plots phase 
 % diagrams with |quiver| command, which has been overloaded to 
 % plot the vector field. 
 % Note that there is a potential terminological ambiguity in that a
 % "phase portrait" can also refer to a portrait 
-% of a complex-valued function (see section 12.7 of the guide).
+% of a complex-valued function (see section 12.7).
 
 %%
 % In addition, Chebfun2 makes it easy to compute and plot individual 

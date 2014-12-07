@@ -1,5 +1,5 @@
 %% 16. Chebfun2: 2D Surfaces in 3D Space
-% Alex Townsend, March 2013, latest revision June 2014
+% Alex Townsend, March 2013, latest revision December 2014
 
 %% 16.1 Representing parametric surfaces
 % In Chapter 15, we explored chebfun2v objects with two components, but
@@ -15,13 +15,13 @@ y = sin(th).*sin(phi);
 z = cos(th); 
 
 F = [x;y;z]; 
-surf(F), camlight, axis equal
+surf(F), colormap('default'), camlight, axis equal
 
 %%
 % Above, we have formed a chebfun2v with three components by vertical 
-% concatenation of chebfun2 objects. However, for familiar surfaces such as
-% cylinders, spheres, and ellipsoids Chebfun2 has overloads of the commands
-% |cylinder|, |sphere|, and |ellipsoid| to generate these surfaces more easily. 
+% concatenation of chebfun2 objects. However, for the familiar surfaces 
+% cylinders, spheres, and ellipsoids, Chebfun2 has overloads of the commands
+% |cylinder|, |sphere|, and |ellipsoid| to make things simpler.
 % For example, a cylinder of radius $1$ and height $5$ can
 % be constructed like this:
 h = 5; 
@@ -50,7 +50,7 @@ surf(F), axis equal, camlight
 %% 16.2 Surface normals and the divergence theorem
 % Given a chebfun2v representing a surface, the normal can be computed by 
 % the Chebfun2 |normal| command.  Here are the normal vectors of another torus:
-r1 = 1; r2 = 1/3;   % inner and outer radius
+r1 = 1; r2 = 1/3;       % inner and outer radius
 d = [0 2*pi 0 2*pi];
 u = chebfun2(@(u,v) u,d);
 v = chebfun2(@(u,v) v,d);
@@ -64,9 +64,9 @@ axis equal, hold off
 % Once we have the surface normal vectors we can compute, for instance, 
 % the volume of the torus by applying the divergence theorem:
 %
-% $$ \int\int_V\int div(G) dV = \int_S\int G\cdot d\mathbf{S}, $$
+% $$ \int\int_V\int \hbox{div}(G) dV = \int_S\int G\cdot d\mathbf{S}, $$
 %
-% where $div(G)=1$. Instead of integrating over the 3D volume, which is 
+% where $\hbox{div}(G)=1$. Instead of integrating over the 3D volume, which is 
 % currently not possible in Chebfun2, we integrate over the 2D surface:
 G = F./3;  % full 3D divergence of G is 1 because F = [x;y;z]. 
 integral2(dot(G,normal(F)))
@@ -94,5 +94,5 @@ axis tight equal off
 
 %% 16.3 References
 %
-% [Platte 2013] R. Platte, Parameterizable surfaces, Chebfun2
-% Example: http://www.chebfun.org/examples/geom/ParametricSurfaces.html
+% [Platte 2013] R. Platte, "Parameterizable surfaces,"
+% `www.chebfun.org/examples/geom/ParametricSurfaces.html`.
