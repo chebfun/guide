@@ -3,9 +3,11 @@
  
 %% 13.1 |sum| and |sum2|
 % We have already seen the |sum2| command, which returns the definite double
-% integral of a chebfun2 over its domain of definition. The sum command 
-% is a little different and integrates with respect to one variable at a time. For
-% instance, the following commands integrate over the $y$ variable: 
+% integral of a chebfun2 over its domain of definition. The |sum| command 
+% is a little different and integrates with respect to one variable
+% at a time following the MATLAB analogy. For
+% instance, the following commands integrate $\sin(10xy)$
+% with respect to $y$: 
 f = chebfun2(@(x,y) sin(10*x.*y),[0 pi/4 0 3]); 
 sum(f) 
 
@@ -45,7 +47,8 @@ fprintf('CHEBFUN2/SUM2:  I = %17.15f  time = %6.4f secs\n',I,t)
 % careful comparisons with existing software have not been carried out.
 % Low rank function approximations have been previously used for numerical
 % quadrature by Carvajal, Chapman, and Geddes [Carvajal, Chapman & Geddes
-% 2005].
+% 2005].  A cubature package based on Chebyshev approximations
+% called CHEBINT has been produced by Poppe and Cools [Poppe & Cools 2011].
 
 %% 13.2 |norm|, |mean|, and |mean2|
 % The $L^2$-norm of a function $f(x,y)$ can be computed as the square root of the 
@@ -60,8 +63,8 @@ norm(f), sqrt(sum2(f.^2))
 f = chebfun2(@(x,y) exp(-1./( sin(x.*y) + x ).^2));
 norm(f), norm( cos(f) ), norm( f.^5 )
 %% 
-% Just as |sum2| performs double integration, |mean2| computes the 
-% average value of $f(x,y)$ over both variables:
+% The command |mean2| scales the result of \sum2| to return
+% the mean value of $f$ over the rectangle of definition:
 help chebfun2/mean2
 
 %%
@@ -72,14 +75,15 @@ mean2(runge)
 
 %%
 % The command |mean| computes 
-% the average along one variable.  The output of |mean(f)| is a
+% the average along one variable.  The output is a
 % function of one variable represented by a chebfun, and so we can plot it.
 plot(mean(runge),LW,1.6)
 title('Mean value of 2D Runge function wrt y')
 
 %%
 % If we average over the $y$ variable and then the
-% $x$ variable, we obtain the mean value over the whole domain.
+% $x$ variable, we obtain the mean value over the whole domain,
+% matching the earlier result.
 mean(mean(runge))      % compare with mean2(runge)
 
 %% 13.3 |cumsum| and |cumsum2|
@@ -93,7 +97,7 @@ help chebfun2/cumsum2
 % the indefinite integral in the $y$
 % variable and then the $x$ variable is the same as the double indefinite
 % integral, as we can check numerically. 
-f = chebfun2(@(x,y) exp(-(x.^2 + 3*x.*y+y.^2) ));
+f = chebfun2(@(x,y) sin(3*((x+1).^2+(y+1).^2)));
 contour(cumsum2(f),'numpts',400), axis equal
 title('Contours of cumsum2(f)'), axis([-1 1 -1 1])
 norm( cumsum(cumsum(f),2) - cumsum2(f) ) 
@@ -101,12 +105,13 @@ norm( cumsum(cumsum(f),2) - cumsum2(f) )
 %% 13.4 Complex encoding
 % As is well known, a pair of real scalar functions $f$ and $g$ can be 
 % encoded as a complex function $f+ig$. This trick can be useful
-% for simplifying many operations, but at the same time may be confusing.
-% For instance, instead of representing the unit circle with two real-valued
-% functions, we can represent it with one complex-valued function:
-c1 = chebfun(@(t) cos(t),[0 2*pi]);          % first real-valued function
-c2 = chebfun(@(t) sin(t),[0 2*pi]);          % second real-valued function 
-c = chebfun(@(t) cos(t)+1i*sin(t),[0 2*pi]); % one complex function
+% for simplifying many operations, but at the same time it may be confusing.
+% For instance, instead of representing the unit circle by two real-valued
+% functions, we can represent it by one complex-valued function:
+d = [0 2*pi];
+c1 = chebfun(@(t) cos(t),d);           % first real-valued function
+c2 = chebfun(@(t) sin(t),d);           % second real-valued function 
+c = chebfun(@(t) cos(t)+1i*sin(t),d);  % one complex function
 
 %%
 % Here are two ways to make a plot of a circle.
@@ -119,9 +124,9 @@ axis equal, title('One complex-valued function')
 % This complex encoding trick is used in a number of places in 
 % Chebfun2. Specifically, it's used to encode the path of integration 
 % for a line integral
-% (see section 13.5, below), to represent zero contours of a chebfun2 
-% (see Chapter 14), and to represent trajectories in vector 
-% fields (see Chapter 15). 
+% (see next section), to represent zero contours of a chebfun2 
+% (Chapter 14), and to represent trajectories in vector 
+% fields (Chapter 15). 
 
 %%
 % We hope users become comfortable with using complex encodings, though 
@@ -132,16 +137,30 @@ axis equal, title('One complex-valued function')
 % Chebfun2 can compute the integral of $f(x,y)$ along a curve $(x(t),y(t))$. 
 % It uses the complex encoding trick and encode the curve $(x(t),y(t))$ 
 % as a complex valued chebfun $x(t) + iy(t)$.
-% For instance, what is the area under the following curve? 
-clf
-f = chebfun2(@(x,y) cos(10*x.*y.^2) + exp(-x.^2)); % chebfun2 object
-C = chebfun(@(t) t.*exp(10i*t),[0 1]);             % spiral curve
-plot(f), hold on 
-plot3(real(C),imag(C),f(C),'k','linewidth',2)
 
 %%
-% We can compute this by restricting $f$ to the curve and then integrating
+% For example, here is the curve 
+% in the unit square defined by $\exp(10 ti)$, $t\in[0,1]$? 
+clf
+C = chebfun(@(t) t.*exp(10i*t),[0 1]);         
+plot(C,'k',LW,2), axis([-1 1 -1 1]), axis square
+
+%%
+% Here is the function 
+% $f(x,y) = \cos(10xy^2) + exp(-x^2))$ on the square,
+% with the values of $f(x,y)$ on the curve $C$ shown in black:
+f = chebfun2(@(x,y) cos(10*x.*y.^2) + exp(-x.^2));
+plot(f), hold on 
+plot3(real(C),imag(C),f(C),'k',LW,2)
+
+%%
+% The object $|f(C)|$ is just a real-valued function defined
+% on $[0,1]$, whose integral we can readily compute: 
 sum(f(C))
+
+%%
+% This number can be interpreted as the integral of $f(x,y)$ along
+% the curve $C$.
 
 %% 13.6 |diff|
 % In MATLAB the |diff| command calculates finite differences of a matrix 
@@ -181,3 +200,8 @@ fprintf('Integral3:  I = %16.14f  time = %5.3f secs\n',I,t)
 % K. O. Geddes, Hybrid symbolic-numeric integration in multiple dimensions 
 % via tensor-product series, _Proceedings of ISSAC'05_, M. Kauers, ed., 
 % ACM Press, 2005, pp. 84--91.
+%
+% [Cools & Poppe 2011] R. Cools and K. Poppe, CHEBINT: operations
+% on multivariate Chebyshev approximations,
+% `http://nines.cs.kuleuven.be/software/CHEBINT/`.
+% a unifying framewo

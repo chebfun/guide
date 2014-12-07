@@ -266,7 +266,7 @@ Iexact = 4i*pi*log(pi/2)
 % Bernoulli number $B_k$ is $k!$ times the kth Taylor coefficient of
 % $z/((\exp(z)-1)$. Here is $B_{10}$ compared with its exact value $5/66$.
 k = 10;
-z = chebfun('4*exp(1i*s)',[0 2*pi]);
+z = chebfun('4*exp(1i*s)',[0 2*pi],'trig');
 f = z./((exp(z)-1));
 B10 = factorial(k)*sum((f./z.^(k+1)).*diff(z))/(2i*pi)
 exact = 5/66
@@ -274,7 +274,7 @@ exact = 5/66
 %%
 % Notice that we have taken |z| to be a circle of radius $4$. If the radius is
 % $1$, the accuracy is a good deal lower:
-z = chebfun('exp(1i*s)',[0 2*pi]);
+z = chebfun('exp(1i*s)',[0 2*pi],'trig');
 f = z./((exp(z)-1));
 B10 = factorial(k)*sum((f./z.^(k+1)).*diff(z))/(2i*pi)
 

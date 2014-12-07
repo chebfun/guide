@@ -1,5 +1,5 @@
 %% 12. Chebfun2: Getting Started
-% Alex Townsend, March 2013, latest revision June 2014
+% Alex Townsend, March 2013, latest revision December 2014
 
 %% 12.1  What is a chebfun2?
 % Chebfun2 is the part of Chebfun that deals with functions of
@@ -7,26 +7,52 @@
 % Just like Chebfun in 1D, it is an extremely convenient tool
 % for all kinds of computations including algebraic 
 % manipulation, optimization, integration, and rootfinding.
-% It also extends to vector-valued functions of two variable, so
+% It also extends to vector-valued functions of two variables, so
 % that one can perform vector calculus. 
+
+%%
+% For example, here is a test function that has been part of
+% MATLAB for many years.  MATLAB represents the "peaks" function
+% by a $49\times 49$ matrix:
+peaks
+
+%%
+% The same function is available as a chebfun2 in the
+% Chebfun2 gallery:
+f = cheb.gallery2('peaks');
+plot(f), axis tight
+
+%%
+% Of course in Chebfun we can do all sorts of things with
+% functions to high accuracy, such as evaluate them
+f(0.5,0.5)
+
+%%
+% or compute their maxima,
+max2(f)
 
 %%
 % A chebfun2, with a lower-case "c", is a MATLAB object, the
 % 2D analogue of a chebfun.
 % The syntax for chebfun2 objects is similar to the syntax 
 % for matrices in MATLAB, and Chebfun2 objects have many MATLAB commands
-% overloaded. For instance, |trace(f)| returns the sum of the diagonal entries
-% when $f$ is a matrix and the integral of $f(x,x)$ when $f$ is a chebfun2. 
+% overloaded. For instance, |trace(A)| returns the sum of the diagonal entries
+% of a matrix $A$ and |trace(f)| returns the integral of
+% $f(x,x)$ when $f$ is a chebfun2. 
 
 %%
 % Chebfun2 builds on Chebfun's univariate representations and
 % algorithms.  Algorithmic details
-% are given in [Townsend & Trefethen 2013b].
+% are given in [Townsend & Trefethen 2013b], and the interpretation
+% of our construction process as a continuous analogue of Gaussian
+% elimination with complete pivoting is treated mathematically
+% in [Townsend & Trefethen 2014].
 
 %%
 % The implementation of Chebfun2 exploits the observation that many
 % functions of two variables can be well approximated by low rank approximants.
-% A rank $1$ function is of the form $u(y)v(x)$, and a rank $k$ function can be
+% A rank $1$ function, also known as _separable_,
+% is of the form $u(y)v(x)$, and a rank $k$ function can be
 % written as the sum of $k$ rank $1$ functions. Smooth functions tend to be 
 % well approximated by functions of low rank.  
 % Chebfun2 determines low rank function approximations automatically
@@ -52,7 +78,7 @@
 % $[-1,1]\times [-1,1]$. (An example showing how to specify a different domain is 
 % given at the end of this chapter.) For example, here we construct and
 % plot a chebfun2 representing $\cos(xy)$ on $[-1,1]\times[-1,1]$.
-f = chebfun2(@(x,y) cos(x.*y)); 
+f = chebfun2(@(x,y) cos(2*pi*x.*y)); 
 plot(f), zlim([-2 2])
 
 %% 
@@ -82,8 +108,9 @@ f
 sum2(f)
 
 %%
-% This matches well the exact answer obtained by calculus:
-exact = 3.784332281468732
+% This matches well the exact answer obtained by calculus,
+% which is $(2/\pi)\hbox{Si}(2\pi):
+exact = 0.9028233335802806267957003779
 
 %%
 % We can also evaluate a chebfun2 at a point $(x,y)$, or along a line.
@@ -118,7 +145,7 @@ plot(fy)
 % to the first first and second variable, respectively.
 
 %%
-% What is the mean value of $f(x,y)$ on $[-1,1]\times[-1,1]$? 
+% What is the mean value of $f$ on $[-1,1]\times[-1,1]$? 
 mean2(f) 
 
 %% 12.5 Chebfun2 methods
@@ -128,16 +155,15 @@ methods chebfun2
 
 %% 
 % Most of these commands have been overloaded from MATLAB. 
-% More information about a Chebfun2 command can be found with |help|; 
-% for instance
+% More information about a Chebfun2 command can be found with |help|:
 help chebfun2/max2
 
-%% 12.6 Object composition
+%% 12.6 Composition of chebfun2 objects
 % So far, in this chapter,
 % chebfun2 objects have been constructed explicitly via a command
 % of the form |chebfun2(...)|. Another way to construct new
 % chebfun2 objects is by composing them together with operations such as 
-% |+|, |-|, |.*|, and |.^|. For instance,
+% |+|, |-|, |.*|, and |.^|. For example,
 x = chebfun2(@(x,y) x, [-2 3 -4 4]); 
 y = chebfun2(@(x,y) y, [-2 3 -4 4]);   
 
@@ -145,7 +171,7 @@ f = 1./( 2 + cos(.25 + x.^2.*y + y.^2) );
 contour(f), axis square
 
 %% 12.7 Analytic functions
-% An analytic function $f(z)$ can be thought of as a complex valued 
+% An analytic function $f(z)$ can be thought of as a complex-valued 
 % function of two real variables, $f(x,y) = f(x+iy)$. If the Chebfun2 
 % constructor is given an anonymous function with one argument, 
 % it assumes that argument is a complex variable. For instance, 
@@ -165,7 +191,8 @@ plot(f)
 %% 
 % Many properties of analytic functions can be visualised by these types
 % of plots, such as the location of zeros and their multiplicities.
-% Can you work out the multiplicity of the root at z=0 from this plot?
+% Can you work out the multiplicity of the root at $z=0$ from this plot?
+% For another example, try `cheb.gallery2('airycomplex')`.
 
 %%
 % At present, since Chebfun2 only represents smooth functions, a trick is
@@ -190,6 +217,10 @@ plot(f)
 % [Townsend & Trefethen 2013b] A. Townsend and L. N. Trefethen, An extension
 % of Chebfun to two dimensions, _SIAM Journal on Scientific Computing_, 35
 % (2013), C495-C518.
+%
+% [Townsend & Trefethen 2014] A. Townsend and L. N. Trefethen, Continuous
+% analogues of matrix factorizations,
+% _Proceedings of the Royal Society A_ 471 (2014) 20140585.
 %
 % [Trefethen 2013] L. N. Trefethen, Phase Portraits for functions with poles, 
 % http://www2.maths.ox.ac.uk/chebfun/examples/complex/html/PortraitsWithPoles.shtml

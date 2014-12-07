@@ -12,13 +12,13 @@ LW = 'linewidth'; MS = 'markersize';
 plot(r,LW,1.6), axis([-1 1 -1 1]), axis square
 
 %%
-% The zero curves are represented as complex valued chebfuns (see Chapter 5
-% of the guide). For example, 
+% The zero curves are represented as complex valued chebfuns (see Chapter 5).
+% For example, 
 r(:,1)
 
 %%
 % The zero contours of a function are computed by Chebfun2 to plotting
-% accuracy and they are typically not accurate to machine precision. 
+% accuracy: they are typically not accurate to machine precision. 
 
 %% 14.2 |roots|
 % Chebfun2 also comes with the capability of finding zeros of bivariate
@@ -48,7 +48,7 @@ axis([-1 1 -1 1]), axis square, hold off
 % The problem of determining the intersections
 % of real parameterised complex curves can be expressed as a
 % bivariate rootfinding problem.  For instance, here are the intersections
-% between the 'splat' curve [Guettel Example 2010] and a 'figure-of-eight'
+% between the 'splat' curve [Guettel 2010] and a 'figure-of-eight'
 % curve. 
 t = chebfun('t',[0,2*pi]);
 sp = exp(1i*t) + (1+1i)*sin(6*t).^2;     % splat curve
@@ -69,8 +69,7 @@ hold off
 
 %% 14.4 Global optimisation: |max2|, |min2|, and |minandmax2|
 % Chebfun2 also provides functionality for global optimisation. Here is
-% a non-trivial example, where we plot the computed minimum and
-% maximum as black dots.
+% an example, where we plot the minimum and maximum as black dots.
 f = chebfun2(@(x,y) sin(30*x.*y) + sin(10*y.*x.^2) + exp(-x.^2-(y-.8).^2));
 [mn mnloc] = min2(f); 
 [mx mxloc] = max2(f); 
@@ -89,8 +88,24 @@ tic; [Y X] = minandmax2(f); t=toc;
 fprintf('minandmax2 command = %5.3fs\n',t)
 
 %%
-% The commands |min2|, |max2|, and |minandmax2| run faster if
-% the MATLAB Optimisation Toolbox is available.
+% Here is a complicated function from the 2002 SIAM 100-Dollar,
+% 100-Digit Challenge.  Chebfun2 computes its global minimum
+% in a few seconds:
+tic
+f = cheb.gallery2('challenge');
+[minval,minpos] = min2(f);
+toc
+
+%%
+% The result closely matches the correct solution, computed
+% to 10,000 digits by the authors of [Bornemann et al. 2004]:
+exact = -3.306868647475237280076113
+
+%%
+% Here is a contour plot of this wiggly function, with the
+% minimum circled in black: 
+contour(f), hold on
+plot(minpos(1),minpos(2),'ok',MS,14,LW,3), hold off
 
 %% 14.5 Critical points
 % The critical points of smooth function of two variables can be located 
@@ -100,15 +115,15 @@ f = chebfun2(@(x,y) (x.^2-y.^3+1/8).*sin(10*x.*y));
 r = roots(gradient(f));                       % critical points
 plot(roots(diff(f,1,2)),'b',LW,1.6), hold on  % plot zero contours of f_x
 plot(roots(diff(f)),'r')                      % plot zero contours of f_y
-plot(r(:,1),r(:,2),'k.','MarkerSize',30)      % plot extrema
+plot(r(:,1),r(:,2),'k.',MS,24)                % plot extrema
 axis([-1,1,-1,1]), axis square
 
 %% 
-% There is a new command here called gradient that computes the gradient
+% There is a new command here called |gradient| that computes the gradient
 % vector and represents it as a chebfun2v object.
-% The roots command then solves for the isolated roots of the bivariate 
+% The |roots| command then solves for the isolated roots of the bivariate 
 % polynomial system represented in the chebfun2v representing the gradient.  
-% For more information about the gradient command see Chapter 14 of this guide. 
+% For more information about |gradient|, see Chapter 15. 
  
 %% 14.6 Infinity norm
 % The $\infty$-norm of a function is the maximum absolute value in its 
@@ -118,13 +133,18 @@ f = chebfun2(@(x,y) sin(30*x.*y));
 norm(f,inf)
 
 %% 14.7 References
-%%
-% [Guettel Example 2010] S. Guettel, 
-% http://www2.maths.ox.ac.uk/chebfun/examples/geom/html/Area.shtml
+%
+% [Bornemann et al. 2004] F. Bornemann, D. Laurie, S. Wagon and
+% J. Waldvogel, _The SIAM 100-Digit Challenge: A Study in
+% High-Accuracy Nuemrical Computing_, SIAM 2004.
+%
+% [Guettel 2010] S. Guettel, 
+% "Area and centroid of a 2D region", 
+% `www.chebfun.org/examples/geom/Area.html`.
 % 
 % [Nakatsukasa, Noferini & Townsend 2013] Y. Nakatsukasa, V. Noferini
 % and A. Townsend, "Computing the common zeros of two bivariate functions
 % via Bezout resultants", _Numerische Mathematik_, to appear.
 %%
-% [Trott 2007] M. Trott, Applying Groebner Basis to Three Problems in
-% Geometry, _Mathematica in Education and Research_, 6 (1997), pp.15-28.
+% [Trott 2007] M. Trott, "Applying GroebnerBasis to three problems in
+% geometry", _Mathematica in Education and Research_, 6 (1997), 15-28.
