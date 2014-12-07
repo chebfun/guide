@@ -1,9 +1,9 @@
 %% 14. Chebfun2: Rootfinding and Optimisation
-% Alex Townsend, March 2013, latest revision June 2014
+% Alex Townsend, March 2013, latest revision December 2014
 
 %% 14.1 Zero contours 
 % Chebfun2 comes with the capability to compute the zero contours of a
-% function of two variables. For example, we can compute a representation
+% function of two variables. For example, here we compute a representation
 % of Trott's curve, an example from algebraic geometry [Trott 1997].
 x = chebfun2(@(x,y) x); y = chebfun2(@(x,y) y); 
 trott = 144*(x.^4+y.^4)-225*(x.^2+y.^2) + 350*x.^2.*y.^2+81;
@@ -12,8 +12,8 @@ LW = 'linewidth'; MS = 'markersize';
 plot(r,LW,1.6), axis([-1 1 -1 1]), axis square
 
 %%
-% The zero curves are represented as complex-valued chebfuns (see Chapter 5).
-% For example, 
+% The zero curves are represented as complex-valued chebfuns
+% (see Section 13.4).   For example, 
 r(:,1)
 
 %%
@@ -31,13 +31,12 @@ r(:,1)
 % isolated points.
 
 %%
-% What points on the Trott's curve intersect with the
-% circle of radius $0.9$?
-g = chebfun2(@(x,y) x.^2 + y.^2 - .9^2);  % circle of radius 0.9
+% What points on Trott's curve intersect the circle of radius $0.9$?
+g = chebfun2(@(x,y) x.^2 + y.^2 - .9^2);
 r = roots(trott,g); 
 plot(roots(trott),'b',LW,1.6), hold on
 plot(roots(g),'r',LW,1.6)
-plot(r(:,1),r(:,2),'.k',LW,1.6,MS,20)  % point intersections
+plot(r(:,1),r(:,2),'.k',LW,1.6,MS,20)
 axis([-1 1 -1 1]), axis square, hold off
 
 %%
@@ -65,7 +64,7 @@ hold off
 
 %%
 % Chebfun2 rootfinding is based on an algorithm described in
-% [Nakatsukasa, Noferini & Townsend 2013].
+% [Nakatsukasa, Noferini & Townsend 2014].
 
 %% 14.4 Global optimisation: |max2|, |min2|, and |minandmax2|
 % Chebfun2 also provides functionality for global optimisation. Here is
@@ -74,9 +73,9 @@ f = chebfun2(@(x,y) sin(30*x.*y) + sin(10*y.*x.^2) + exp(-x.^2-(y-.8).^2));
 [mn mnloc] = min2(f); 
 [mx mxloc] = max2(f); 
 plot(f), hold on 
-plot3(mnloc(1),mnloc(2),mn,'.k',MS,40)
-plot3(mxloc(1),mxloc(2),mx,'.k',MS,30) 
-zlim([-6 6]), hold off
+plot3(mnloc(1),mnloc(2),mn,'.r',MS,40)
+plot3(mxloc(1),mxloc(2),mx,'.r',MS,30) 
+zlim([-6 6]), colormap('bone'), hold off
 
 %% 
 % If both the global maximum and minimum are required, it is roughly twice
@@ -94,28 +93,29 @@ fprintf('minandmax2 command = %5.3fs\n',t)
 tic
 f = cheb.gallery2('challenge');
 [minval,minpos] = min2(f);
+minval
 toc
 
 %%
 % The result closely matches the correct solution, computed
-% to 10,000 digits by the authors of [Bornemann et al. 2004]:
+% to 10,000 digits Bornemann et al. [2004]:
 exact = -3.306868647475237280076113
 
 %%
 % Here is a contour plot of this wiggly function, with the
 % minimum circled in black: 
-contour(f), hold on
-plot(minpos(1),minpos(2),'ok',MS,14,LW,3), hold off
+colormap('default'), contour(f), hold on
+plot(minpos(1),minpos(2),'ok',MS,20,LW,3), hold off
 
 %% 14.5 Critical points
-% The critical points of smooth function of two variables can be located 
+% The critical points of a smooth function of two variables can be located 
 % by finding the zeros of $\partial f/ \partial y = \partial f / \partial x = 0$.   
 % This is a rootfinding problem.  For example,
 f = chebfun2(@(x,y) (x.^2-y.^3+1/8).*sin(10*x.*y));
 r = roots(gradient(f));                       % critical points
-plot(roots(diff(f,1,2)),'b',LW,1.6), hold on  % plot zero contours of f_x
-plot(roots(diff(f)),'r')                      % plot zero contours of f_y
-plot(r(:,1),r(:,2),'k.',MS,24)                % plot extrema
+plot(roots(diff(f,1,2)),'b',LW,1.2), hold on  % zero contours of f_x
+plot(roots(diff(f)),'r',LW,1.2)               % zero contours of f_y
+plot(r(:,1),r(:,2),'k.',MS,24)                % extrema
 axis([-1,1,-1,1]), axis square
 
 %% 
@@ -127,8 +127,8 @@ axis([-1,1,-1,1]), axis square
  
 %% 14.6 Infinity norm
 % The $\infty$-norm of a function is the maximum absolute value in its 
-% domain. It can be computed by passing an optional
-% argument to the norm command.  
+% domain. It can be computed by passing the 
+% argument |inf| to the |norm| command.  
 f = chebfun2(@(x,y) sin(30*x.*y));
 norm(f,inf)
 
@@ -142,7 +142,7 @@ norm(f,inf)
 % "Area and centroid of a 2D region", 
 % `www.chebfun.org/examples/geom/Area.html`.
 % 
-% [Nakatsukasa, Noferini & Townsend 2013] Y. Nakatsukasa, V. Noferini
+% [Nakatsukasa, Noferini & Townsend 2014] Y. Nakatsukasa, V. Noferini
 % and A. Townsend, "Computing the common zeros of two bivariate functions
 % via Bezout resultants", _Numerische Mathematik_, to appear.
 %%
