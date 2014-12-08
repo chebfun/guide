@@ -512,11 +512,13 @@ title('Daubechies scaling function')
 % at the code with `type +cheb/gallery` or `edit +cheb/gallery`.
 
 %%
-% The Chebfun team enjoys this example from the appendix to
+% Like the MATLAB `gallery` command, `cheb.gallery` produces a
+% plot if you call it without specifying output variables.
+% To illustrate, let us finish with an example the
+% Chebfun team enjoys from the appendix to
 % [Trefethen 2013], "Six myths of polynomial interpolation and
 % quadrature":
-plot(cheb.gallery('zigzag')), ylim([-.12 .09])
-title('A polynomial of degree 10,000')
+cheb.gallery('zigzag')
 
 %%
 % This function looks piecewise linear, but in fact, it is a 
@@ -524,6 +526,10 @@ title('A polynomial of degree 10,000')
 % an approximation point of view -- one would never represent
 % this function in this manner -- but it illustrates the robustness of
 % high-degree polynomial approximation.
+
+%%
+% If you call `gallery` without any input arguments, it selects
+% a gallery function at random.
 
 %%
 % Other collections worth exploring are `cheb.gallerytrig` for

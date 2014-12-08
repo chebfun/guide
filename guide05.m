@@ -370,7 +370,7 @@ plot(tan(f),LW,lw), axis equal, axis off
 f = scribble('Happy Birthday Pafnuty!');
 L = f.ends(end);
 g = @(z) exp(-2.2i+(2.5i+.4)*z);
-clf, plot(g(f),'r',LW,lw), axis equal, axis off
+clf, plot(g(f),'r',LW,lw)
 circle = 1.12*chebfun(@(x) exp(2i*pi*x/L),[0 L]);
 ellipse = 1.2*(circle + 1./circle)/2 + 1i*mean(imag(f));
 hold on, plot(g(ellipse),'b',LW,lw)
@@ -379,8 +379,10 @@ axis auto equal off
 %%
 % You can find an example "Birthday cards and analytic functions" in the
 % Fun Stuff section of the Chebfun Examples collection, and further
-% related explorations in the Geometry section.  Also check
-% out `cheb.gallery('motto')`.
+% related explorations in the Geometry section.  And here's another
+% complex scribble:
+clf
+cheb.gallery('motto')
 
 %% 5.6  References
 %

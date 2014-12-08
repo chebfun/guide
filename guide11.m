@@ -202,7 +202,6 @@ plot(f, LW, lw), grid on, hold on
 plot(r, f(r), '.r', MS, 18)
 plot(maxpos, maxval, 'ok', MS, 8, LW, 2)
 plot(minpos, minval, 'ok', MS, 8, LW, 2)
-hold off
 
 %%
 % The derivative of a trigfun can be computed with `diff`, and the
@@ -213,8 +212,15 @@ sum(f)
 % Other operations should generally proceed as expected.  Sometimes,
 % if an operation breaks the smoothness needed for
 % a trig representation, the result of a
-% trigfun computation will be a chebfun.  If you combine a
-% trigfun and a chebfun, the result will be a chebfun.
+% trigfun computation will be a chebfun.  
+% For example, the absolute value of the function
+% above is a chebfun, not a trigfun:
+g = abs(f);
+plot(g, 'k', LW, lw)
+hold off
+
+%%
+% If you combine a trigfun and a chebfun, the result will be a chebfun.
 
 %% 11.4 Complex-valued functions and contour integrals
 % Like other chebfuns, trigfuns can take complex values, and this feature
@@ -226,9 +232,7 @@ sum(f)
 %%
 % A pretty example of a periodic complex-valued chebfun
 % can be generated with the commands
-%  
-%   f = cheb.gallerytrig('starburst'); 
-%   plot(f, 'color', [0 .8 0]), axis equal off
+cheb.gallerytrig('starburst')
 
 %% 11.5 Circular convolution
 % The circular or periodic convolution of two functions

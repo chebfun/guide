@@ -358,12 +358,8 @@ text(45,1e-3,'C^{-N}','color','r','fontsize',16)
 % For a startling illustration of the implications of this theory,
 % consider these two functions from the Chebfun gallery.
 % Theorem 3 can be used to explain why their lengths are so different.
-f1 = cheb.gallery('sinefun1');
-subplot(2,1,1), plot(f1), grid on, ylim([0 4])
-title(['Length ' int2str(length(f1))])
-f2 = cheb.gallery('sinefun2');
-subplot(2,1,2), plot(f2), grid on, ylim([0 4])
-title(['Length ' int2str(length(f2))])
+subplot(2,1,1), cheb.gallery('sinefun1'), ylim([0 3.5])
+subplot(2,1,2), cheb.gallery('sinefun2'), ylim([0 3.5])
 
 %%
 % The next theorem asserts that Chebyshev interpolants can be computed by
