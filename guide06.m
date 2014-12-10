@@ -214,7 +214,7 @@
 % The image of the unit ball in $R^n$ under $A$
 % is still a hyperellipsoid of dimension $\le n$, which now
 % lies within an infinite-dimensional function space.
-% The columns of $Q$ are orthonormal functions and $S$
+% The columns of $U$ are orthonormal functions and $S$
 % and $V$ have the same properties as in the matrix case.
 
 %%

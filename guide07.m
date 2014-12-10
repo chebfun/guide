@@ -472,7 +472,7 @@ norm(u - v)
 %% 7.10 BVP systems with unknown parameters
 % Sometimes ODEs or systems of ODEs contain unknown parameter values that must
 % be computed as part of the solution. An example of this is MATLAB's
-% built-in |mat4bvp| example. These parameters can always be included in system
+% built-in |mat4bvp| example. These parameters can always be included in a system
 % as unknowns with zero derivatives, but this can be computationally
 % inefficient. Chebfun allows the option of explicit treatment of the
 % parameters. Often the dependence of the solution on these parameters is

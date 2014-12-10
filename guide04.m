@@ -18,7 +18,7 @@
 % do the same for a smooth nonperiodic function.  A number of excellent
 % textbooks and monographs have been published on approximation theory,
 % including [Davis 1963], [Cheney 1966], [Meinardus 1967], [Lorentz 1986],
-% and Powell [Powell, 1981], and in addition there are books devoted
+% and [Powell, 1981], and in addition there are books devoted
 % entirely to Chebyshev polynomials, including [Rivlin 1974] and [Mason &
 % Handscomb 2003]. A Chebfun-based book on approximation theory and its
 % computational applications is particularly relevant for Chebfun users
@@ -71,7 +71,7 @@
   end
 
 %%
-% Note that that output of |poly| follows the pattern for MATLAB's standard
+% Note that the output of |poly| follows the pattern for MATLAB's standard
 % |poly| command: it is a row vector, and the high-order coefficients come
 % first. Thus, for example, the fourth row above tells us that $T_3(x) =
 % 4x^3 - 3x$.

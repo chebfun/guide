@@ -43,8 +43,7 @@ plot(f, LW, lw)
 % in this chapter.
 
 %%
-% For examples of Chebfun solution of periodic ODEs, see Chapter 7, and for
-% periodic functions of two variables, see Chapters 12-16.
+% For examples of Chebfun solution of periodic ODEs, see Chapter 7.
 
 %%
 % (_Editors' note._  Periodic chebfuns were created by Grady Wright
@@ -365,12 +364,12 @@ plotcoeffs(f)
 %%
 % The `loglog` option enables one more easily
 % to quantify the decay rate (showing the
-% coefficients of index $k>0$).  This function has $\ell =6$ for
+% coefficients of index $k>0$).  This function has $\ell =5$ for
 % the estimates (9) and (10), so by (9), the decay rate of coefficients
 % is $a_k = O(|k|^{-6})$. 
 plotcoeffs(f,'loglog')
 hold on, loglog(3*[3 300],[3 300].^-6,'--r',LW,1.6), hold off
-text(110,4e-9,'N^{-6}',FS,18,'color','r')
+text(110,4e-9,'k^{-6}',FS,18,'color','r')
 
 %%
 % At the beginning of this section, we alluded to
@@ -472,4 +471,4 @@ hold on, plot(u_trunc, 'r', LW, lw)
 % [Van Loan 1992] C. Van Loan, _Computational Frameworks for the Fast
 % Fourier Transform_, SIAM, 1992.
 %
-% [Zygmund 1959] A. Zygmund, _Trignometric Series_, Cambridge U. Press, 1959.
+% [Zygmund 1959] A. Zygmund, _Trigonometric Series_, Cambridge U. Press, 1959.
