@@ -322,9 +322,9 @@ text(45,1e-3,'C^{-N}','color','r','fontsize',16)
 
 %%
 % This theorem implies that even if $N$ is as large as 100,000, one can lose
-% no more than one digit by using $p$ instead of $p^*$. Whereas Chebfun
+% no more than one digit by using $p$ instead of $p^\*$. Whereas Chebfun
 % will readily compute such a $p$, it is unlikely that anybody has ever
-% computed a nontrivial $p^*$ for a value of $N$ so large.
+% computed a nontrivial $p^\*$ for a value of $N$ so large.
 
 %%
 % The next theorem asserts that if $f$ is $k$ times differentiable, roughly

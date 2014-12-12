@@ -68,7 +68,7 @@ hold off
 
 %% 14.4 Global optimisation: |max2|, |min2|, and |minandmax2|
 % Chebfun2 also provides functionality for global optimisation. Here is
-% an example, where we plot the minimum and maximum as black dots.
+% an example, where we plot the minimum and maximum as red dots.
 f = chebfun2(@(x,y) sin(30*x.*y) + sin(10*y.*x.^2) + exp(-x.^2-(y-.8).^2));
 [mn mnloc] = min2(f); 
 [mx mxloc] = max2(f); 
@@ -140,7 +140,7 @@ norm(f,inf)
 %
 % [Guettel 2010] S. Guettel, 
 % "Area and centroid of a 2D region", 
-% `www.chebfun.org/examples/geom/Area.html`.
+% http://www.chebfun.org/examples/geom/Area.html.
 % 
 % [Nakatsukasa, Noferini & Townsend 2014] Y. Nakatsukasa, V. Noferini
 % and A. Townsend, "Computing the common zeros of two bivariate functions

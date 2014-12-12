@@ -57,7 +57,7 @@
 % October 2014 brough new arrivals Jared Aurentz, Behnam
 % Hashemi, and Mikael Slevinsky.
 % Further information about Chebfun history is available at the Chebfun
-% web site, http://www.chebfun.org
+% web site, [http://www.chebfun.org](http://www.chebfun.org),
 % where one can also find a discussion of other software projects related
 % to Chebfun.
 % This Guide is based on Chebfun Version 5.1, released
@@ -350,7 +350,7 @@
 % polynomials instead, that is, Fourier series.  Such an object is still
 % called a chebfun, but it is a periodic one,
 % and the signal to invoke such capabilities is the string |`trig`|.
-% For abbreviation, we call a periodic chebfun a ``trigfun''.
+% For abbreviation, we call a periodic chebfun a "trigfun".
 % This section gives a quick introduction, and more details can be
 % found in Chapter 11.
 
@@ -374,7 +374,7 @@ length(f)
 
 %%
 % Here is the same function represented by a Fourier series:
-f2 = chebfun(ff,[-pi,pi],'trig')
+f2 = chebfun(ff,[-pi,pi],'trig');
 max(f2)
 plot(f2,'m')
 
@@ -449,24 +449,18 @@ disp([a exact'])
 %% 1.8  Chebfun features not in this Guide
 % Some of Chebfun's most remarkable features haven't made it
 % into this edition of the Guide.  Here are some of our favorites:
-
-%%
-% o |leg2cheb| and |cheb2leg| for fast Legendre-Chebyshev conversions,
-
-%%
-% o |conv| and |circconv| for convolution,
-
-%%
-% o The |'equi'| flag to the Chebfun constructor for equispaced data,
-
-%%
-% o |polyfit| for least-squares fitting in the continuous context,
-
-%%
-% o |inv| for computing the inverse of a chebfun,
-
-%%
-% o |pde15s| for PDEs in one space and one time variable.
+%
+% - |leg2cheb| and |cheb2leg| for fast Legendre-Chebyshev conversions,
+%
+% - |conv| and |circconv| for convolution,
+%
+% - The |'equi'| flag to the Chebfun constructor for equispaced data,
+%
+% - |polyfit| for least-squares fitting in the continuous context,
+%
+% - |inv| for computing the inverse of a chebfun,
+%
+% - |pde15s| for PDEs in one space and one time variable.
 
 %%
 % To learn about any of these options, try the appropriate |help|
@@ -564,7 +558,7 @@ cheb.gallery('zigzag')
 % [McLeod 2013] K. N. McLeod, "Fourfun: A new system for automatic
 % computations using Fourier expansions," _SIAM Undergraduate Research
 % Online_, to appear.
-% See also `http://uk.mathworks.com/matlabcentral/fileexchange/46999-fourfun`.
+% See also http://uk.mathworks.com/matlabcentral/fileexchange/46999-fourfun.
 %
 % [Pachon, Platte & Trefethen 2010] R. Pachon, R. B. Platte and L. N.
 % Trefethen, "Piecewise-smooth chebfuns", _IMA J. Numer. Anal._, 30 (2010),

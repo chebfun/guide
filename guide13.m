@@ -95,7 +95,7 @@ help chebfun2/cumsum2
 % On the other hand, |cumsum(f)| computes the indefinite integral 
 % with respect to just one variable, also returning a chebfun2.
 % The indefinite integral with respect to $y$ and then
-% $xvariable is the same as the double indefinite
+% $x$ is the same as the double indefinite
 % integral, as we can check numerically. 
 f = chebfun2(@(x,y) sin(3*((x+1).^2+(y+1).^2)));
 contour(cumsum2(f),'numpts',400), axis equal
@@ -210,4 +210,4 @@ fprintf('  MATLAB integral3:  I = %16.14f  time = %5.3f secs\n',I,t)
 %
 % [Poppe & Cools 2011] K. Poppe and R. Cools, "CHEBINT: operations
 % on multivariate Chebyshev approximations",
-% `http://nines.cs.kuleuven.be/software/CHEBINT/`.
+% http://nines.cs.kuleuven.be/software/CHEBINT/.

@@ -252,7 +252,7 @@ end
 % _Proceedings of the Royal Society A_ 471 (2014) 20140585.
 %
 % [Trefethen 2013] L. N. Trefethen, "Phase Portraits for functions with poles", 
-% `www.chebfun.org/examples/complex/PortraitsWithPoles.html`.
+% http://www.chebfun.org/examples/complex/PortraitsWithPoles.html.
 %
 % [Wegert 2012] E. Wegert, _Visual Complex Functions: An Introduction with
 % Phase Portraits_, Birkhauser/Springer, 2012.

@@ -36,7 +36,7 @@ surf(F), camlight
 % revolution. For example: 
 f = chebfun(@(t) (sin(pi*t)+1.1).*t.*(t-10),[0 5]);
 F = cylinder(f);
-surf(F), camlight
+surf(F), axis([-70 70 -70 70 -2 6]), camlight
 
 %%
 % Here as another example is a torus with a gap in it.
@@ -95,4 +95,4 @@ axis tight equal off
 %% 16.3 References
 %
 % [Platte 2013] R. Platte, "Parameterizable surfaces,"
-% `www.chebfun.org/examples/geom/ParametricSurfaces.html`.
+% http://www.chebfun.org/examples/geom/ParametricSurfaces.html.

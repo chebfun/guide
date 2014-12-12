@@ -139,7 +139,7 @@ gam = chebfun('gamma(x)',[-4:0 4],'exps',[-1 -1 -1 -1 -1 0]);
 %%
 % This is essentially the same result you will get if you execute
 %
-% plot(cheb.gallery('gamma'))
+%    plot(cheb.gallery('gamma'))
 
 %%
 % Can you explain the following three results?
