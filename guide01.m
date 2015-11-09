@@ -1,5 +1,5 @@
 %% 1. Getting Started with Chebfun
-% Lloyd N. Trefethen, October 2009, latest revision December 2014
+% Lloyd N. Trefethen, October 2009, latest revision December 2015
 
 %% 1.1  What is a chebfun?
 % A chebfun is a function of one variable defined on an interval $[a,b]$. The
@@ -60,8 +60,8 @@
 % web site, http://www.chebfun.org
 % where one can also find a discussion of other software projects related
 % to Chebfun.
-% This Guide is based on Chebfun Version 5.1, released
-% in December 2014.
+% This Guide is based on Chebfun Version 5.3, released
+% in December 2015.
 
 %% 1.2  Constructing simple chebfuns
 % The |chebfun| command constructs a chebfun from a specification such as a
@@ -81,14 +81,8 @@
   f
 
 %%
-% The |Vscale| field shown here is related to
-% the maximum absolute value of |f|, and |Epslevel| gives some rough
-% information about its relative accuracy.  (|Epslevel| estimates are
-% under development and will be discussed further with a future release.)
-
-%%
 % These results tell us that |f| is represented by a polynomial interpolant
-% through 61 Chebyshev points, i.e., a polynomial of degree 60.  These
+% through 51 Chebyshev points, i.e., a polynomial of degree 50.  These
 % numbers have been determined by an adaptive process.  We can see the data
 % points by plotting |f| with the |'.-'| option:
   plot(f,'.-'), ylim([-1.2 1.2])
@@ -103,11 +97,14 @@
 % appropriate Chebyshev points are obtained by a linear scaling.
 
 %%
-% The curve between the data points is the polynomial interpolant, which is
+% The curve between the data points is the polynomial interpolant, which 
+% can be
 % evaluated by the barycentric formula introduced by Salzer [Berrut &
 % Trefethen 2004, Salzer 1972].  This method of evaluating polynomial
 % interpolants is stable and efficient even if the degree is in the
-% millions [Higham 2004].
+% millions [Higham 2004].  In recent years Chebfun actually evaluates
+% polynomials from their Chebyshev series rather than by barycentric
+% interpolation; the difference in the two methods is little.
 
 %%
 % What is the integral of $f$ from $-1$ to $1$?  Here it is:
@@ -355,10 +352,11 @@
 % found in Chapter 11.
 
 %%
-% Trigfuns were initiated by Grady Wright in the first half of 2014.
-% A very interesting project along the same lines has been
+% Trigfuns were initiated by Grady Wright in the first half of 2014
+% [Wright et al. 2015].
+% A very interesting project along the same lines was
 % carried out independently by Kristyn McLeod and Rodrigo Platte at Arizona
-% State University [McLeod 2013].
+% State University [McLeod 2014].
 
 %%
 % For example, here is a periodic function on $[-\pi,\pi]$ represented
@@ -451,7 +449,8 @@ disp([a exact'])
 % into this edition of the Guide.  Here are some of our favorites:
 
 %%
-% o |leg2cheb| and |cheb2leg| for fast Legendre-Chebyshev conversions,
+% o |leg2cheb| and |cheb2leg| for fast Legendre-Chebyshev conversions (also
+% |legvals2chebcoeffs|, |chebcoeffs2legpts|, and ten more)
 
 %%
 % o |conv| and |circconv| for convolution,
@@ -528,7 +527,7 @@ cheb.gallery('zigzag')
 % high-degree polynomial approximation.
 
 %%
-% If you call `gallery` without any input arguments, it selects
+% If you call `cheb.gallery` without any input arguments, it selects
 % a gallery function at random.
 
 %%
@@ -561,10 +560,9 @@ cheb.gallery('zigzag')
 % Lagrange interpolation", _IMA Journal of Numerical Analysis_, 24 (2004),
 % 547-556.
 %
-% [McLeod 2013] K. N. McLeod, "Fourfun: A new system for automatic
+% [McLeod 2014] K. N. McLeod, "Fourfun: A new system for automatic
 % computations using Fourier expansions," _SIAM Undergraduate Research
-% Online_, to appear.
-% See also `http://uk.mathworks.com/matlabcentral/fileexchange/46999-fourfun`.
+% Online_, 7 (2014), `http://dx.doi.org/10.1137/14S013238`.
 %
 % [Pachon, Platte & Trefethen 2010] R. Pachon, R. B. Platte and L. N.
 % Trefethen, "Piecewise-smooth chebfuns", _IMA J. Numer. Anal._, 30 (2010),
@@ -576,7 +574,12 @@ cheb.gallery('zigzag')
 %
 % [Trefethen 2007] L. N. Trefethen, "Computing numerically with functions
 % instead of numbers", _Mathematics in Computer Science_ 1 (2007), 9-19.
-% Revised and reprinted in _Communications of the ACM_ (2014).
+% Revised and reprinted in _Communications of the ACM_ 58 (2014),
+% 91-97.
 %
 % [Trefethen 2013] L. N. Trefethen, _Approximation Theory and
 % Approximation Practice_, SIAM, 2013.
+% 
+% [Wright et al. 2015] G. B. Wright, M. Javed, H. Montanelli, and
+% L. N. Trefethen, Extension of Chebfun to periodic functions,
+% _SIAM J. Sci. Comp._, to appear.
