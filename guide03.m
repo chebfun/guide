@@ -269,7 +269,7 @@ roots(f,'all')
 g = exp(x).*f(x);
 
 %% 
-% also has no roots in [-1,1],
+% also has no roots in $[-1,1]$,
 roots(g)
 
 %%

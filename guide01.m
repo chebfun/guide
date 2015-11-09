@@ -57,7 +57,7 @@
 % October 2014 brough new arrivals Jared Aurentz, Behnam
 % Hashemi, and Mikael Slevinsky.
 % Further information about Chebfun history is available at the Chebfun
-% web site, http://www.chebfun.org
+% web site, [http://www.chebfun.org](http://www.chebfun.org),
 % where one can also find a discussion of other software projects related
 % to Chebfun.
 % This Guide is based on Chebfun Version 5.3, released
@@ -347,7 +347,7 @@
 % polynomials instead, that is, Fourier series.  Such an object is still
 % called a chebfun, but it is a periodic one,
 % and the signal to invoke such capabilities is the string |`trig`|.
-% For abbreviation, we call a periodic chebfun a ``trigfun''.
+% For abbreviation, we call a periodic chebfun a "trigfun".
 % This section gives a quick introduction, and more details can be
 % found in Chapter 11.
 
@@ -372,7 +372,7 @@ length(f)
 
 %%
 % Here is the same function represented by a Fourier series:
-f2 = chebfun(ff,[-pi,pi],'trig')
+f2 = chebfun(ff,[-pi,pi],'trig');
 max(f2)
 plot(f2,'m')
 

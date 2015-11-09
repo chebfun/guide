@@ -55,17 +55,17 @@ plot(f, LW, lw)
 %% 11.2  Trigonometric series and interpolants
 % The classical trigonometric series of a periodic function
 % $u$ defined on $[-\pi,\pi]$ is given as
-% $$ \mathcal{F}[u] = \sum_{k=-\infty}^{\infty} a_k e^{ikt} \eqno (1) $$
+% $$ \mathcal{F}[u] = \sum_{k=-\infty}^{\infty} a_k e^{ikt} \tag{1} $$
 % with coefficients
-% $$ a_k = \frac{1}{2\pi} \int_{-\pi}^{\pi} u(t)e^{-ikt} dt. \eqno (2) $$
+% $$ a_k = \frac{1}{2\pi} \int_{-\pi}^{\pi} u(t)e^{-ikt} dt. \tag{2} $$
 % Alternatively, we can express the series in terms of sines and cosines,
 % $$ \mathcal{F}[u] = \sum_{k=0}^{\infty} a_k \cos(k t) +
-% \sum_{k=1}^{\infty} b_k \sin(k t) \eqno (3) $$
+% \sum_{k=1}^{\infty} b_k \sin(k t) \tag{3} $$
 % with 
 % $$ a_k = \frac{1}{\pi} \int_{-\pi}^{\pi} f(t)\cos(kt) dt, \quad
-% b_k = \frac{1}{\pi} \int_{-\pi}^{\pi} f(t)\sin(kt) dt, \eqno (4) $$
+% b_k = \frac{1}{\pi} \int_{-\pi}^{\pi} f(t)\sin(kt) dt, \tag{4} $$
 % for $k>0$ and
-% $$ a_0 = \frac{1}{2\pi} \int_{-\pi}^{\pi} f(t) dt. \eqno (5) $$
+% $$ a_0 = \frac{1}{2\pi} \int_{-\pi}^{\pi} f(t) dt. \tag{5} $$
 % In what follows we will use the complex exponential form of the series.
 
 %%
@@ -84,24 +84,24 @@ plot(f, LW, lw)
 % The convergence of the trigonometric series depends on the
 % smoothness of $u$ on $[-\pi,\pi]$ and its periodic extension. Let $q_N$
 % be the truncated series
-% $$ q_N(t) = \sum_{k=-(N-1)/2}^{(N-1)/2} a_k e^{ikt} \eqno (6) $$
+% $$ q_N(t) = \sum_{k=-(N-1)/2}^{(N-1)/2} a_k e^{ikt} \tag{6} $$
 % when $N$ is odd and 
-% $$ q_N(t) = \sum_{k=-N/2}^{N/2} a_k e^{ikt} \eqno (7) $$
+% $$ q_N(t) = \sum_{k=-N/2}^{N/2} a_k e^{ikt} \tag{7} $$
 % when $N$ is even. If $u$ is periodic, continuous,
 % and of bounded variation on 
 % $[-\pi,\pi]$, then as $N\rightarrow \infty$,
 % $$ \| u - q_N \| \rightarrow 0, $$
 % where $\|\cdot\|$ is the maximum norm. From (1) it is clear
 % that the error is bounded by
-% $$ \| u - q_N \| \leq \sum_{|k| > \lfloor N/2 \rfloor} |a_k|. \eqno (8) $$
+% $$ \| u - q_N \| \leq \sum_{|k| > \lfloor N/2 \rfloor} |a_k|. \tag{8} $$
 % The decay rate of the coefficients $a_k$ depends on the smoothness
 % of $u$ and can be estimated by integration by parts.  A classical
 % result says that if $u$ is $(\ell-1)$-times continuously differentiable
 % on $[-\pi,\pi]$, with each of these derivatives being periodic, and 
 % the derivative of order $\ell$ is of bounded variation on $[-\pi,\pi]$, then 
-% $$ |a_k| = O(|k|^{-\ell-1}),\; k=\pm 1, \pm 2,\dots. \eqno (9) $$
+% $$ |a_k| = O(|k|^{-\ell-1}),\; k=\pm 1, \pm 2,\dots. \tag{9} $$
 % With (8), adding up the tail, this gives us
-% $$ \| u - q_N \| \leq O(N^{-\ell}) \eqno (10) $$
+% $$ \| u - q_N \| \leq O(N^{-\ell}) \tag{10} $$
 % as $N\to\infty$, assuming $\ell\ge 1$.  If $u$ and its periodic
 % extension are $C^{\infty}$, then $q_N$ converges to $u$ faster than any
 % inverse power of $N$.  If $u$ is analytic on
@@ -112,20 +112,20 @@ plot(f, LW, lw)
 % Let us imagine that we use the trapezoidal
 % quadrature formula to approximate them [Trefethen & Weideman 2014].
 % Defining the *trigonometric points* by 
-% $$ t_j = -\pi + 2\pi j/N, \qquad j=0,\ldots,N-1 \eqno (11) $$
+% $$ t_j = -\pi + 2\pi j/N, \qquad j=0,\ldots,N-1 \tag{11} $$
 % (Chebfun: `trigpts(N,[-pi,pi])`) gives the approximation
 % $$ a_k \approx c_k := \frac{1}{N} \sum_{j=0}^{N-1}
-% u(t_j) e^{-i k t_j}. \eqno (12) $$
+% u(t_j) e^{-i k t_j}. \tag{12} $$
 % The coefficients $c_k$ are referred to as the _Discrete Fourier Coefficients,_ and when
 % they are replaced by $a_k$ in the truncated trigonometric series $q_N$, the resulting
 % series is called the _discrete Fourier series_ of $u$.  The form of this series 
 % depends on the parity of $N$.  For odd $N$ we have
-% $$ p_N(t) = \sum_{k=-(N-1)/2}^{(N-1)/2} c_k e^{ikt}. \eqno (13) $$
+% $$ p_N(t) = \sum_{k=-(N-1)/2}^{(N-1)/2} c_k e^{ikt}. \tag{13} $$
 % When $N$ is even we have 
 % $$ p_N(t) = \sum_{k=-N/2+1}^{N/2-1} c_k e^{ikt}\,+
-% c_{N/2} \cos(N/2 t),\eqno (14)  $$
+% c_{N/2} \cos(N/2 t),\tag{14}  $$
 % which is often rewritten as
-% $$ p_N(t) = {\sum_{k=-N/2}^{N/2}} {}'  c_k e^{ikt}, \eqno (15) $$
+% $$ p_N(t) = {\sum_{k=-N/2}^{N/2}} {}'  c_k e^{ikt}, \tag{15} $$
 % where $c_{-N/2} = c_{N/2}$ and the prime means the first and
 % last terms in the sum are halved.  The reason the $\sin(N/2 t)$ term is
 % missing is that this function vanishes when evaluated at $t_j$, so that
@@ -151,7 +151,7 @@ plot(f, LW, lw)
 % (or aliasing formula), which relates the interpolation coefficients 
 % $c_k$ to the trigonometric series coefficients $a_k$:
 % $$ c_k = a_k + \sum_{m=1}^{\infty}
-% \left(a_{k+m N} + a_{k-m N}\right). \eqno (16)  $$
+% \left(a_{k+m N} + a_{k-m N}\right). \tag{16}  $$
 % This formula implies that if $\ell\ge 1$ in (9), the decay rate of $c_k$ is
 % essentially the same as that 
 % of $a_k$, with $c_k\to a_k$ as $N\to\infty$. 
@@ -164,7 +164,7 @@ u = chebfun(uu, [-pi,pi], 'trig');
 
 %%
 % We can construct the truncated trigonometric series approximation (6) with
-% $N=11$ using the "`trunc'" option:
+% $N=11$ using the "trunc" option:
 q11 = chebfun(uu, [-pi,pi], 'trunc', 11, 'trig');
 
 %%
@@ -460,7 +460,7 @@ hold on, plot(u_trunc, 'r', LW, lw)
 %
 % [McLeod 2014] K. McLeod, "Fourfun: A new system for
 % automatic computations using Fourier expansions", submitted, 2014.
-% See also `http://uk.mathworks.com/matlabcentral/fileexchange/46999-fourfun`.
+% See also http://uk.mathworks.com/matlabcentral/fileexchange/46999-fourfun.
 %
 % [Trefethen 2000] L. N. Trefethen, _Spectral Methods in MATLAB_, SIAM, 2000.
 %

@@ -187,7 +187,7 @@
   plot(Q2,LW,1.6)
   set(gca,'xtick',-1:.2:1)
 
-%% 6.4 |svd|, |norm|, |cond|
+%% 6.4 `svd`, `norm`, `cond`
 
 %%
 % An $m\times n$ matrix $A$ defines a map from $R^n$ to $R^m$, and in
@@ -196,7 +196,7 @@
 % The (reduced, skinny, condensed$,\dots$)
 % *SVD* or *singular value decomposition* exhibits this
 % map by providing a factorization $AV = US$ or
-% equivalently $A = USV^*$, where $U$ is $m\times n$ with orthonormal
+% equivalently $A = USV^\*$, where $U$ is $m\times n$ with orthonormal
 % columns, $S$ is diagonal with
 % nonincreasing nonnegative diagonal entries known as the *singular values*,
 % and $V$ is $n\times n$ and orthogonal.
@@ -228,7 +228,7 @@
   norm(A,2)
 
 %%
-% (Note that we must include the argument |2| here: for reasons of speed,
+% (Note that we must include the argument `2` here: for reasons of speed,
 % the default for quasimatrices, unlike the usual MATLAB matrices, is
 % the Frobenius norm rather than the 2-norm.)
 % The SVD enables us to identify exactly what vectors are involved in achieving
@@ -239,8 +239,8 @@
 
 %%
 % We can use spy to confirm the shapes of the matrices.
-% As with |spy(R)| earlier, here
-% |spy(V)| should in principle show a checkerboard,
+% As with `spy(R)` earlier, here
+% `spy(V)` should in principle show a checkerboard,
 % but nonzeros are introduced by rounding errors.
   subplot(1,5,1), spy(A), title A
   subplot(1,5,3), spy(U), title U

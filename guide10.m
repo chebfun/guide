@@ -2,7 +2,7 @@
 % Lloyd N. Trefethen, November 2009, latest revision December 2014
 
 %%
-% Chapter 7 described Chebfun's ``chebop'' capabilities
+% Chapter 7 described Chebfun's "chebop" capabilities
 % for solving linear ordinary
 % differential equations by the backslash command.  We will now describe
 % extensions of chebops to nonlinear problems, as well as special
@@ -74,7 +74,7 @@ clf, plot(u)
 % How does Chebfun solve such problems?  That is a long story, which we shall
 % not tell properly here.  In brief,
 % a Newton iteration (sometimes a damped Newton iteration) 
-% is carried out in ``continuous mode'', that is,
+% is carried out in "continuous mode", that is,
 % in a space of functions rather than vectors.  Recall that to find a zero
 % of a scalar function, Newton's method requires a
 % derivative at each iterative step,
