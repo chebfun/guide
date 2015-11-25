@@ -1,5 +1,5 @@
 %% 7. Linear Differential Operators and Equations
-% Tobin A. Driscoll, November 2009, latest revision December 2014
+% Tobin A. Driscoll, November 2009, latest revision December 2015
 
 %% 7.1  Introduction
 % Chebfun has powerful capabilities for solving ordinary differential equations
@@ -10,6 +10,10 @@
 % two-point boundary value problem to high accuracy by a single backslash
 % command.  Nonlinear extensions are described in Section 7.9 and in Chapter 10,
 % and for PDEs, try |help pde15s|.
+
+%%
+% A book about ODEs in Chebfun is in preparation
+% [Trefethen, Birkisson & Driscoll 2016].
 
 %%
 % Although one or two examples of initial-value problems for ODEs are
@@ -90,9 +94,19 @@ L
 
 %%
 % Boundary conditions are needed for solving differential equations, but they
-% have no effect when a chebop is simply applied to a chebfun. Thus, despite the
+% have no effect when a chebop is simply applied to a chebfun.
+% Thus, despite the 
 % boundary conditions just specified, |L*u| gives the same answer as before:
 norm(L*u, inf)
+
+%%
+% When values and derivatives are both to be specified at a single
+% boundary for a scalar ODE, a simpler syntax is also available: instead of
+% writing, say,
+L.lbc = @(u) [u-2, diff(u)-3];
+%%
+% one can write
+L.lbc = [2; 3];
 
 %%
 % Here is an example of an integral operator, the operator that maps $u$ defined
@@ -192,16 +206,13 @@ plot(u, LW, 2), grid on
 % discretize the problem by Fourier methods, seeking to
 % find a periodic solution,
 % provided that the right-side function is also periodic.
+% (This feature was introduced in 2014.)
 % Here is an example:
 L = chebop(-pi,pi);
 L.op = @(x,u) diff(u,2) + diff(u) + 600*(1+sin(x)).*u;
 L.bc = 'periodic';
 u = L\1;
 hold off, plot(u, LW, 2), grid on
-
-%%
-% This is a new feature (introduced late in 2014) and as of
-% this writing has not been tested very much.
 
 %% 7.5 Eigenvalue problems: |eigs|
 % In MATLAB, |eig| finds all the eigenvalues of a matrix whereas |eigs| finds
@@ -253,12 +264,16 @@ B.op = @(x,u) diff(u,2) - u;
 A = chebop(-1, 1);
 A.op = @(x,u) (diff(u,4) - 2*diff(u, 2) + u)/Re - ...
     1i*(2*u + (1 - x.^2).*(diff(u, 2) - u));
-A.lbc = @(u) [u; diff(u)];
-A.rbc = @(u) [u; diff(u)];
+A.lbc = [0; 0];
+A.rbc = [0; 0];
 lam = eigs(A, B, 50);
 MS = 'markersize';
 clf, plot(lam, 'r.', MS, 16), grid on, axis equal
 spectral_abscissa = max(real(lam))
+
+%%
+% For eigenvalue problems of the 1D Schrodinger equation,
+% try |help quantumstates|.
 
 %% 7.6 Exponential of a linear operator: |expm|
 % In MATLAB, |expm| computes the exponential of a matrix, and this command has
@@ -499,9 +514,13 @@ uT = N\0;
 u = uT{1}; T = uT{2};
 
 %%
-% but a more elegant method is to use Chebfun's overloaded `deal`
-% command:
+% and another method is to use Chebfun's overloaded `deal` command:
 [u,T] = deal(uT);
+
+%%
+% Better still, one can solve the problem originally with
+% multiple outputs, like this:
+[u,T] = N\0;
 T
 plot(u)
 
@@ -510,8 +529,7 @@ plot(u)
 % than one solution. Indeed, if we choose
 % a different initial guess for $T$, we can converge to one of these.
 N.init = [chebfun(1, [-pi pi]); 4];
-uT = N\0;
-[u,T] = deal(uT);
+[u,T] = N\0;
 T = T(1)
 plot(u)
 
@@ -535,7 +553,7 @@ plot(u)
 % differential equations", _BIT Numerical Mathematics_, 46 (2008), 701-723.
 %
 % [Driscoll & Hale 2014] T. A. Driscoll and N. Hale, "Rectangular
-% spectral collocation", submitted, 2014.
+% spectral collocation", _IMA Journal of Numerical Analysis_, to appear.
 %
 % [Fornberg 1996] B. Fornberg, _A Practical Guide to Pseudospectral Methods_,
 % Cambridge University Press, 1996.
@@ -549,6 +567,10 @@ plot(u)
 %
 % [Trefethen 2000] L. N. Trefethen, _Spectral Methods in MATLAB_, SIAM, 2000.
 %
-% [Xu & Hale 2014] K. Xu and N. Hale, "Explicit construction
-% of rectangular differentiation matrices", submitted, 2014.
+% [Trefethen, Birkisson & Driscoll 2016] L. N. Trefethen, A. Birkisson,
+% and T. A. Driscoll, _Exploring ODEs_, textbook in preparation.
+%
+% [Xu & Hale 2015] K. Xu and N. Hale, "Explicit construction
+% of rectangular differentiation matrices", _IMA Journal of
+% Numerical Analysis_, to appear.
 %
