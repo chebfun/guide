@@ -1,5 +1,5 @@
 %% 10. Nonlinear ODEs, IVPs, and Chebgui
-% Lloyd N. Trefethen, November 2009, latest revision December 2014
+% Lloyd N. Trefethen, November 2009, latest revision December 2015
 
 %%
 % Chapter 7 described Chebfun's "chebop" capabilities
@@ -200,12 +200,9 @@ norm(u-u2)
 %%
 % Here is an example of an IVP with two components; the
 % equation happens to be linear.
-% To impose two boundary
-% conditions at the left, we make |N.lbc| a function
-% returning an array.
 N = chebop(0, 100);
 N.op = @(t,u) diff(u,2) + u;
-N.lbc = @(u) [u-1; diff(u)];
+N.lbc = [1; 0];
 u = N\0;
 plot(u, 'm', diff(u), 'c', LW, lw), ylim([-1.5 1.5])
 
@@ -217,7 +214,7 @@ plot(u, 'm', diff(u), 'c', LW, lw), ylim([-1.5 1.5])
 % Here is a solution with $\varepsilon = 0.05$:
 N = chebop(0,20);
 N.op = @(t,u) 0.05*diff(u,2) - (1-u.^2).*diff(u) + u;
-N.lbc = @(u) [u-3; diff(u)];
+N.lbc = [3; 0];
 u = N\0;
 plot(u), shg
 
@@ -230,14 +227,7 @@ N.op = @(t,u,v,w) [diff(u)-10.*(v-u);
                    diff(v)-u.*(28-w)+v;
                    diff(w)-u.*v+8./3.*w];
 N.lbc = @(u,v,w) [u+14; v+15; w-20];
-U = N\0;
-
-%%
-% The solution $U$ has three components, which we could
-% extract with `u = U{1}`, `v = U{2}`, and `w = U{3}`.  However, a more
-% elegant extraction method is to use the overloaded `deal` command.
-% Here we suppress the axes to make a pretty picture.
-[u,v,w] = deal(U);
+[u,v,w] = N\0;
 plot3(u,v,w,LW,1), view(-5,9), axis off
 
 %% 10.3 Stiff IVPs
