@@ -1,5 +1,5 @@
-%% Spherefun 
-% Alex Townsend, Heather Wilber, and Grady B. Wright; November 27, 2015.
+%% 17. Spherefun 
+% Alex Townsend, Heather Wilber, and Grady B. Wright, December 3, 2015.
 
 %%
 LW = 'LineWidth'; MS = 'MarkerSize'; FS = 'FontSize'; format long
