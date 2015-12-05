@@ -134,7 +134,7 @@ plot(f, LW, lw)
 %%
 % The *degree* of a trigonometric sum is the degree of its
 % highest order term.  Thus (6) and (13) are of degree $(N-1)/2$,
-% and (7) and (14) are of degree $N$.
+% and (7) and (14) are of degree $N/2$.
 
 %%
 % The discrete Fourier series $p_N$ of (14)-(15)
