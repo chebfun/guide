@@ -306,7 +306,8 @@ figure( 2 ), snapnow, close all
 % </latex>
 X = coeffs2( f );
 [ m, n ] = length( f );
-surf( -n/2:n/2-1, -m/2:m/2-1, log10( abs( X ) ) ), axis tight
+[mm, nn] = meshgrid( -floor(m/2):ceil(m/2)-1, -floor(n/2):ceil(n/2)-1);
+surf( mm, nn, log10( abs( X ) ) ), axis tight
 title('Bivariate Fourier coefficients', FS, 16) 
 xlabel('k', FS, 16), ylabel('j', FS, 16)
 
