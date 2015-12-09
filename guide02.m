@@ -1,5 +1,5 @@
 %% 2. Integration and Differentiation
-% Lloyd N. Trefethen, November 2009, latest revision December 2014
+% Lloyd N. Trefethen, November 2009, latest revision December 2015
 
 %% 2.1 |sum|
 % We have seen that the |sum| command returns the definite integral of a
@@ -110,24 +110,23 @@
   sum(f)
   
 %%
-% With splitting on, Chebfun misses the narrowest spike, and
-% the integral comes out too small:
+% With splitting on, Chebfun also gets the right answer,
+% and note that the length of
+% the chebfun is much smaller than before:
   f = chebfun(ff,[0,1],'splitting','on');
   length(f)
   sum(f)
 
 %%
-% We can fix the problem by forcing finer initial sampling in the
-% Chebfun constructor with the |minSamples| flag:
+% Earlier versions of Chebfun used to get this wrong, in which
+% case the problem could be fixed by 
+% forcing finer initial sampling in the
+% Chebfun constructor with the |minSamples| flag.
+% For more about |minSamples|, see Section 8.6.
   f = chebfun(ff,[0,1],'splitting','on','minSamples',100);
   length(f)
   sum(f)
 
-%%
-% Now the integral is correct again, and note that the length of
-% the chebfun is much smaller than with the original
-% global representation.  For more about |minSamples|, see
-% Section 8.6.
 
 %%
 % As mentioned in Chapter 1 and described in more detail in Chapter 9,
@@ -187,7 +186,9 @@
 %%
 % The continuous analogue of this operation is indefinite integration.
 % If |f|
-% is a fun of length $n$, then |cumsum(f)| is a fun of length $n+1$.  For a
+% is a fun of length $n$, then |cumsum(f)| is a fun of length $n+1$ or
+% less (becauase of Chebfun's rounding of functions to machine
+% precision).  For a
 % chebfun consisting of several funs, the integration is performed on each
 % piece.
 
@@ -224,7 +225,7 @@
 % less than or equal to $x$.  To
 % avoid the singularity at $x=0$ we begin our integral at the point
 % $\mu = 1.451...$ where $Li(x)$ is zero, known as Soldner's constant.
-% The test value $Li(2)$ is correct except in the last digit:
+% The test value $Li(2)$ is correct except in the last few digits:
   mu = 1.45136923488338105;      % Soldner's constant
   xmax = 400;
   Li = cumsum(chebfun(@(x) 1./log(x),[mu xmax]));
@@ -428,6 +429,7 @@ contour(f2,-1:.2:1), colorbar, grid on
 % |jacpoly| and |jacpts|. These arise in integration of functions with
 % singularities at one or both endpoints, and are used internally by
 % Chebfun for integration of chebfuns with singularities (Chapter 9).
+% See also |hermpts| and |lagpts|.
 
 %%
 % As explained in the help texts, all of these operators

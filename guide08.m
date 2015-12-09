@@ -1,5 +1,5 @@
 %% 8. Chebfun Preferences
-% Lloyd N. Trefethen, November 2009, last revised December 2014
+% Lloyd N. Trefethen, November 2009, latest revision December 2015
 
 %% 8.1  Introduction
 % Like any software package, Chebfun is based on certain design
@@ -191,23 +191,23 @@ chebfunpref.setDefaults('splitting',false)
   f = chebfun('sign(x)');
 
 %%
-% Suppose we wish to examine the interpolant to this function through 50
+% Suppose we wish to examine the interpolant to this function through 65
 % points instead of 65537.  One way is like this:
-  f = chebfun('sign(x)',50);
+  f = chebfun('sign(x)',65);
   length(f)
   plot(f)
 
 %%
 % Notice that no warning message is produced since we have asked explicitly
-% for exactly 50 points.  On the other hand we could also change the
-% default maximum to this number, giving the same effect
+% for exactly 65 points.  On the other hand we could also change the
+% default maximum to this number, giving another short chebfun
 % though now with another warning message:
-  f = chebfun('sign(x)','maxLength',50);
+  f = chebfun('sign(x)','maxLength',65);
   length(f)
 
 %%
 % Perhaps more often one might wish to adjust this preference to enable use
-% of especially high degrees.  On the machines of 2014, Chebfun is
+% of especially high degrees.  On the machines of 2015, Chebfun is
 % perfectly capable of working with polynomials of degrees in the millions.
 % The function $|x|^{5/4}$ on $[-1,1]$ provides an example, for it is
 % smooth enough to be resolved by a global polynomial, provided it is of
@@ -275,6 +275,7 @@ chebfunpref.setDefaults('splitting',false)
 %%
 % Incidentally, if the value of |minSamples| specified is not one greater
 % than a power of 2, it is rounded up to the next such value.
+% Values less than 17 will be treated as if the value were 17.
 
 %%
 % The factory value |minSamples=17| was chosen as a compromise between
@@ -314,8 +315,7 @@ chebfunpref.setDefaults('splitting',false)
   length(f)
 
 %%
-% There is little difference, even in the timing, if
-% we set 'resampling on', so that previously
+% There is a little if we set 'resampling on', so that previously
 % computed values are not reused:
   tic, f = chebfun(ff,[0 8],'resampling','on'); toc 
   length(f)
@@ -359,8 +359,8 @@ plot(k,'.-')
 
 %%
 % Are such curious effects of any use?  Yes indeed, they are at the heart
-% of Chebop.  When the chebop system solves a differential
-% equation by a command like |u = L\f|, for example, the chebfun |u| is
+% of Chebop.  When Chebfun solves an ODE boundary-value problem
+% by a command like |u = L\f|, the chebfun |u| is
 % determined by a "sampling" process in which a matrix problem obtained by
 % Chebyshev spectral discretization is solved on grids of increasing sizes.
 % The matrices change with the grids, so the sample values for $u$
@@ -448,7 +448,7 @@ chebfunpref.setDefaults({'cheb2Prefs','maxRank'},1024);
 % Let us undo this change:
 chebfunpref.setDefaults('factory')
 
-%% 8.12 Additional preferences
+%% 8.12 Additional preferences and further information
 % Information about additional Chebfun preferences can be found by
 % executing |chebfunpref| or |help chebfunpref|.  In general the most reliable
 % values to use in setting preferences are
@@ -467,4 +467,14 @@ chebfunpref.setDefaults('factory')
 % singularities, |blowup=1| if for functions with poles (blowups with a
 % negative integer power) and |blowup=2| for functions with branch points
 % (blowups with an arbitrary power).
+
+%%
+% For more information about the details of the
+% Chebfun function construction process, see [1].
+
+%% 8.13 References
+%
+% [Aurentz & Trefethen 2015] J. L. Aurentz and L. N. Trefethen,
+% Chopping a Chebyshev series, `http://arxiv.org/abs/1512.01803`.
+
 
