@@ -210,8 +210,8 @@ spin('ks', spinpref('dt', 5e-2, 'N', 300));
 % [8] A.-K. Kassam and L. N. Trefethen, _Fourth-order time-stepping for stiff
 %     PDEs_, 26 (2005), pp. 1214--1233.
 %
-% [9] V. T. Luan and A. Ostermann, Explicit exponential Runge-Kutta methods of
-%     high order for parabolic problems, J. Comput. Appl. Math., 256 (2014),
+% [9] V. T. Luan and A. Ostermann, _Explicit exponential Runge-Kutta methods of
+%     high order for parabolic problems_, J. Comput. Appl. Math., 256 (2014),
 %     pp. 168-179.
 %
 % [10] B.V. Minchev and W. M. Wright, _A review of exponential integrators for 
