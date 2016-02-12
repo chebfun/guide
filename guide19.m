@@ -75,7 +75,7 @@ pause off, spin('kdv')
 % (later we will also see `spinop2` and `spinop3`).  For example, to see the KdV
 % operator we have just worked with, which works on the domain $[-\pi,\pi]$, we 
 % can type
-S = spinop('kdv', [-pi,pi])
+S = spinop('kdv')
 
 %% 
 % (To find what initial condition ws used, type `help spin`.)
@@ -89,10 +89,9 @@ spin('ac');
 spin('ac', [0 100]);
 
 %%
-% The domain used for this example is $[0,2\pi]$. To specify a different domain 
-% or initial condition, you can provide a chebfun as another argument. For 
-% example, here we use a simpler initial condition on $[-\pi,\pi]$: 
-u0 = chebfun(@(x) -1 + 4*exp(-19*x.^2), [-pi,pi], 'trig')
+% To specify a different initial condition, you can provide a chebfun as another 
+% argument. For example, here we use a simpler initial condition:
+u0 = chebfun(@(x) -1 + 4*exp(-19*(x-pi).^2), [0 2*pi], 'trig')
 spin('ac', [0 100], u0);
 
 %%
@@ -113,13 +112,15 @@ waterfall(U), xlabel x, ylabel t
 
 %%
 % Of course, `spin` is not restricted to preloaded differential operators. 
-% Suppose we wanted to run a problem on the domain $d = [0,5]$ involving the 
-% linear operator $L:u\mapsto .3u''$ and the nonlinear operator 
-% $N:u\mapsto u^2-1$. We could do it like this:
-d = [0 5];
-S = spinop(d);
+% Suppose we wanted to run a problem on the domain $d = [0,5]$, from $t=0$ to 
+% $t=10$, with initial condition u0(x) = cos(x) and involving the linear 
+% operator $L:u\mapsto .3u''$ and the nonlinear operator $N:u\mapsto u^2-1$. We 
+% could do it like this:
+dom = [0 5]; tspan = [0 10];
+S = spinop(dom, tspan);
 S.linearPart = @(u) .3*diff(u,2);
 S.nonlinearPart = @(u) u.^2 - 1;
+S.init = chebfun(@(x) cos(x), dom);
 
 %% 19.3 Computations in 2D and 3D with `spin2` and `spin3`
 % `spin`/`spin2`/`spin3` have been written at the same time as Chebfun3 has been 
