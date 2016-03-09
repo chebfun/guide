@@ -325,7 +325,7 @@ I_spiral = integral(F,curve)
 ends = f(5*pi*cos(5*pi), 5*pi*sin(5*pi), 5*pi) - f(0, 0, 0)
 
 %% 
-% We can determine if a given vector field is conservative using 'curl':
+% We can determine if a given vector field is conservative using `curl`:
 norm( curl(F) )
 
 %%
