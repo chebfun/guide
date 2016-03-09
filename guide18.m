@@ -20,7 +20,6 @@
 % can carry out a wide range of computations on functions and in particular
 % is good at integration, differentiation, and computation of minima and
 % maxima.  
-FS = 'fontsize'; fs = 18;
 
 %%
 % For a simple starting example, here is a 3D Runge function:
@@ -103,7 +102,7 @@ clf, isosurface(f)
 % three quasimatrices are combined in a product with coefficients
 % specified by an $r_1\times r_2\times r_3$ _core tensor_ called `core`.  
 % In short, we write:
-% $$ f(x,y,z) \approx `core` \times_1 c(x) \times_2 r(y) \times_3
+% $$ f(x,y,z) \approx core \times_1 c(x) \times_2 r(y) \times_3
 % t(z), $$ or more fully:
 %
 % $$ f(x,y,z) \approx \sum_{i=1}^{r_1} \sum_{j=1}^{r_2} 
@@ -209,7 +208,7 @@ plot(sum2(exp(g+2*f)))
 %%
 % Here is a line integral over a 3D spiral
 curve = chebfun(@(t) [cos(t) sin(t) t/(8*pi)], [0, 8*pi]);
-close all, plot3(curve(:,1), curve(:,2), curve(:,3) ), title('Helix',FS,fs)
+close all, plot3(curve(:,1), curve(:,2), curve(:,3) ), title('Helix')
 f = chebfun3(@(x,y,z) x+y.*z );
 I = integral( f, curve )
 exact = -sqrt(1+(8*pi)^2)/(8*pi)
@@ -294,14 +293,14 @@ norm(Lf - div(grad(f)))
 %
 % $$F(x,y,z) = (f(x,y,z); g(x,y,z); h(x,y,z)).$$ 
 %
-% We can represent such functions using `chebfun3v'. Similar to `chebfun2v', 
+% We can represent such functions using `chebfun3v`. Similar to `chebfun2v`, 
 % we can construct a chebfun3v object, either by explicitly calling the 
 % constructor or by vertical concatenation of chebfun3 objects. We already
 % hinted at this by using `grad(f)' in the last subsection. Let's check its size:
 size(grad(f))
 
 %%
-% Chebfun can plot 3D vector fields using the `quiver3' command, which 
+% Chebfun can plot 3D vector fields using the `quiver3` command, which 
 % draws a bunch of arrows. It first sets up a grid of points for 
 % which to plot arrows and then draws the vector field. Suppose we wish
 % to plot the vector field $F(x,y,z) = -yi + xj + zk$. To do this we type
@@ -321,7 +320,7 @@ f = chebfun3(@(x,y,z) sin(x+20*y+z.^2).*exp(-(3+y.^2)) , [-5*pi, 5*pi, -5*pi, 5*
 F = grad(f);
 curve = chebfun(@(t) [t.*cos(t) t.*sin(t) t], [0, 5*pi]); 
 plot3(curve(:,1), curve(:,2), curve(:,3),'b'), 
-title('Conical spiral',FS,fs), shg
+title('Conical spiral'), shg
 I_spiral = integral(F,curve)
 ends = f(5*pi*cos(5*pi), 5*pi*sin(5*pi), 5*pi) - f(0, 0, 0)
 
