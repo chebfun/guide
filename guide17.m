@@ -4,7 +4,7 @@
 %%
 LW = 'LineWidth'; MS = 'MarkerSize'; FS = 'FontSize'; format long
 
-%% Introduction
+%% 17.1 Introduction
 % Spherefun is a new part of Chebfun for computing with functions
 % defined on the surface of the unit sphere. It was created by Alex
 % Townsend, Heather Wilber, and Grady Wright and will be released 
@@ -95,7 +95,7 @@ plot(fslice)
 % Using object-oriented programming in MATLAB there are about one hundred
 % commands that one can now perform on spherefuns. 
 
-%% Basic operations
+%% 17.2 Basic operations
 % <latex> \vskip .1em
 % Once we have a spherefun, we can execute a whole collection of commands.
 % For example, the surface integral of 
@@ -222,7 +222,7 @@ plot( h ), title('f x g', FS, 16), snapnow
 % operation for functions on the sphere?'' We certainly do not have all the
 % answers yet.
 
-%% Low rank function approximation 
+%% 17.3 Low rank function approximation 
 % <latex>
 % The initial plan for Spherefun was to apply the iterative Gaussian
 % elimination algorithm  for constructing low rank function approximations
@@ -367,7 +367,7 @@ clf, surf(XX, YY, ZZ, 1+0*XX, 'FaceColor', [1 1 0.8], 'EdgeColor', [0 0 1])
 view([0 -90]), axis([-1 1 -1 1 -1 1]), axis equal, 
 title('Tensor product function samples', FS, 16)
 
-%% Spherical harmonics 
+%% 17.4 Spherical harmonics 
 % <latex>
 % A natural question that may come to mind is ``Why not use spherical
 % harmonic expansions?'' One may think that
@@ -410,7 +410,7 @@ sum2( spherefun( @(x,y,z) cos(10*x).*sin(10*y.*z) ).*Y )
 % Spherical harmonics of other degrees and orders can similarly be
 % constructed and manipulated.
 
-%% Poisson's equation
+%% 17.5 Poisson's equation
 % <latex>
 % Spherefun also has a command for solving Poisson's equation on the
 % sphere. For example, to solve 
@@ -443,9 +443,9 @@ plot( u )
 % See [Townsend, Wilber, & Wright 2015] for a description of the fast 
 % algorithm used for solving Poisson's equation.
 
-%% Filtering
+%% 17.6 Filtering
 % Low-pass isotropic filtering for functions on the sphere can be performed
-% using |filter|.  For example, consider the spherefun constructed from
+% using |smooth|.  For example, consider the spherefun constructed from
 % random data on the sphere, given on a $101$-by-$200$ equally spaced grid 
 % of points in spherical coordinates
 rng(71)
@@ -454,18 +454,18 @@ f = spherefun(F);
 plot(f), colorbar
 
 %%
-% We can filter |f| as follows:
-ff = filter(f, 0.01);
+% We can smooth |f| as follows:
+ff = smooth(f, 0.01);
 plot(ff), colorbar
 
 %%
-% Mathematically, the filter amounts to convolving |f| with a Gaussian
+% Mathematically, the |smooth| command amounts to convolving |f| with a Gaussian
 % kernel.  This is implemented by numerically solving the diffusion
 % equation on the sphere with |f| as the initial condition. The second
-% input argument of |filter| is the final time to solve the diffusion
+% input argument of |smooth| is the final time to solve the diffusion
 % equation to. The coefficient of diffusion is set to 1.
 
-%% Vector-valued functions: Spherefunv
+%% 17.7 Vector-valued functions: Spherefunv
 % Vector valued functions on the sphere and _surface_ vector calculus
 % operations are supported through Spherefunv.  For example, the surface
 % gradient of a spherefun returns a spherefunv object:
