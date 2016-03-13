@@ -55,7 +55,7 @@ norm( f - g, inf )
 f
 
 %%
-% The output shows that $f$ is numerically of rank 20 (see the discussion
+% The output shows that $f$ is numerically of rank 21 (see the discussion
 % below for what this means) and its vertical scale (an approximation
 % to its maximum absolute value) is 1. 
 
@@ -70,7 +70,10 @@ f
 
 %%
 % If the evaluation point is specified in Cartesian coordinates and does
-% not lie on the sphere, then an error is reported.
+% not lie on the sphere (to within a small tolerance), then an error is 
+% reported.  If the evaluation point is numerically close to the sphere (up
+% to rounding errors), then the evaluation point is projected on to the
+% unit sphere. 
 
 %%
 % Slices of the function along the coordinate planes intersecting the
@@ -326,7 +329,7 @@ title('Skeleton used for constructing f', FS, 16), snapnow, clf
 % $\tilde{f}$
 % </latex>
 plotcoeffs( f ), snapnow, clf
-
+ylim([1e-20 1e2])
 %%
 % <latex>
 % An approximation to the bivariate Fourier coefficients in the double
@@ -430,7 +433,7 @@ norm( u - -(1/42)*f, inf )
 
 %%
 % <latex>
-% Provided that the right hand side $f$ satisfies the compatibility condition
+% Provided that the right-hand side $f$ satisfies the compatibility condition
 % $\int_{\mathbb{S}^2} f\, d\Omega  = 0$, the solution to the above Poisson
 % problem is unique. Here is a second
 % example using a discretization size of $1000\times 1000$: 
@@ -445,7 +448,7 @@ plot( u )
 
 %% 17.6 Filtering
 % Low-pass isotropic filtering for functions on the sphere can be performed
-% using |smooth|.  For example, consider the spherefun constructed from
+% using the command |smooth|.  For example, consider the spherefun constructed from
 % random data on the sphere, given on a $101$-by-$200$ equally spaced grid 
 % of points in spherical coordinates
 rng(71)
