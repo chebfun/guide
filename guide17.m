@@ -12,7 +12,7 @@ LW = 'LineWidth'; MS = 'MarkerSize'; FS = 'FontSize'; format long
 
 %%
 % <latex>
-% In what follows ``the sphere'' is more precisely the surface of the unit 
+% In what follows "the sphere" is more precisely the surface of the unit 
 % 2-sphere in 3 dimensions, $\mathbb{S}^2$.
 % </latex>
 
@@ -38,14 +38,14 @@ f = spherefun( @(x,y,z) 1./(1 + (x+1/sqrt(2)).^2 + z.^2) );
 plot( f )
 
 %%
-% <latex> \vskip .1em
+% <latex>
 % Or, equivalently, the function can be constructed in spherical coordinates as
 % </latex> 
 g = spherefun( @(lam,theta) 1./(1 + (cos(lam).*sin(theta)+1/sqrt(2)).^2 +...
                 cos(theta).^2) );
             
 %%
-% <latex> \vskip .1em 
+% <latex>
 % The result is the same up to machine precision:
 % </latex>
 norm( f - g, inf ) 
@@ -99,7 +99,7 @@ plot(fslice)
 % commands that one can now perform on spherefuns. 
 
 %% 17.2 Basic operations
-% <latex> \vskip .1em
+% <latex>
 % Once we have a spherefun, we can execute a whole collection of commands.
 % For example, the surface integral of 
 % $$ f(x,y,z) = 1 + x + y^2 + x^2 y + x^4 + y^5 + (xyz)^2 $$
@@ -109,7 +109,7 @@ f = spherefun( @(x,y,z) 1+x+y.^2+x.^2.*y+x.^4+y.^5+(x.*y.*z).^2 );
 sum2( f )
 
 %%
-% <latex> \vskip .1em
+% <latex>
 % This matches the exact value of $216\pi/35$ to 16 digits
 % </latex>
 abs( sum2( f ) - 216*pi/35 )
@@ -119,7 +119,7 @@ abs( sum2( f ) - 216*pi/35 )
 mean2( f )
 
 %%
-% <latex> \vskip .1em
+% <latex>
 % Since the surface area of the sphere is $4\pi$, the exact value of the 
 % mean of $f$ is 
 % </latex>
@@ -147,7 +147,7 @@ min2(f)
 r = roots( f-0.5 );
 
 %%
-% <latex> \vskip .1em
+% <latex>
 % Here is a plot of these contours on the surface of the sphere together with the 
 % function $f$
 % </latex>
@@ -158,7 +158,7 @@ end
 hold off
 
 %%
-% <latex> \vskip .1em
+% <latex>
 % Contours of a function can also be visualized on the sphere using the 
 % \texttt{contour} function.  Here are the contours of $f$ from $-2$ to $2$ in
 % increments of $0.25$
@@ -166,7 +166,7 @@ hold off
 contour(f,-2:0.25:2)
 
 %%
-% <latex> \vskip .1em
+% <latex>
 % The landmasses of earth can be added to this, or any other plot of a 
 % spherefun, as follows:
 % </latex>
@@ -219,10 +219,10 @@ plot( h ), title('f x g', FS, 16), snapnow
 
 %%
 % For a complete list of methods available for spherefuns type `methods
-% spherefun'.  Many of these are directly inherited from the abstract
+% spherefun`.  Many of these are directly inherited from the abstract
 % |separableApprox| class that was introduced in Chebfun version 5.3. It is
-% fascinating to go through these commands and ask: ``What is the analogous
-% operation for functions on the sphere?'' We certainly do not have all the
+% fascinating to go through these commands and ask: "What is the analogous
+% operation for functions on the sphere?" We certainly do not have all the
 % answers yet.
 
 %% 17.3 Low rank function approximation 
@@ -296,7 +296,7 @@ plot( h ), title('f x g', FS, 16), snapnow
 % precision. This is fundamental for making operations such as 
 % differentiaion well-posed and numerically stable. The functions
 % $r_j(\lambda)$ and $c_j(\theta)$ are constructed from samples of 
-% $\tilde{f}$ along horizontal and vertical ``slices'', respectively, of
+% $\tilde{f}$ along horizontal and vertical "slices", respectively, of
 % the rectangular domain $[-\pi,\pi]\times[-\pi,\pi]$.  Since $\tilde{f}$
 % is periodic along these slices, $r_j(\lambda)$ and $c_j(\theta)$ are
 % represented by trigonometric interpolants 
@@ -319,16 +319,16 @@ f = spherefun( @(x,y,z) cos(cosh(5*x.*z)-10*y) )
 % using
 % </latex>
 plot( f ), title('f', FS, 16), view([-105 10]), snapnow, clf
-plot( f, '.-', MS, 20 ), view([-105 10]),
-title('Skeleton used for constructing f', FS, 16), snapnow, clf
+plot( f, '.-', MS, 20 ), view([-105 10])
+title('Skeleton used for constructing f', FS, 16)
 
 %%
-% <latex> \vskip .1em
+% <latex>
 % Here are the trigonometric coefficients for the  rows $r_j(\lambda)$
 % and columns $c_j(\theta)$ quasimatrices making up the approximation of 
 % $\tilde{f}$
 % </latex>
-plotcoeffs( f ), snapnow, clf
+plotcoeffs( f )
 ylim([1e-20 1e2])
 %%
 % <latex>
@@ -339,7 +339,7 @@ ylim([1e-20 1e2])
 X = coeffs2( f );
 [ m, n ] = length( f );
 [mm, nn] = meshgrid( -floor(m/2):ceil(m/2)-1, -floor(n/2):ceil(n/2)-1);
-surf( mm, nn, log10( abs( X ) ) ), axis tight
+clf, surf( mm, nn, log10( abs( X ) ) ), axis tight
 title('Bivariate Fourier coefficients', FS, 16) 
 xlabel('k', FS, 16), ylabel('j', FS, 16)
 
@@ -372,8 +372,8 @@ title('Tensor product function samples', FS, 16)
 
 %% 17.4 Spherical harmonics 
 % <latex>
-% A natural question that may come to mind is ``Why not use spherical
-% harmonic expansions?'' One may think that
+% A natural question that may come to mind is "Why not use spherical
+% harmonic expansions?" One may think that
 % spherical harmonic expansions are the right mathematical tool as
 % they are the spherical analog of Fourier series. Yet, Spherefun does not
 % use them at all. This is because of the difficulty of computing a
@@ -493,7 +493,7 @@ g
 %%
 % Many of the operations for vector valued functions are supported.  For
 % example, suppose $\psi$ is the following stream function for flow field
-% (known as the Rosby-Haurwitz ``wave number 4'' stream function)
+% (known as the Rosby-Haurwitz "wave number 4" stream function)
 psi = spherefun( @(lam,th) -cos(th) + cos(th).*sin(th).^4.*cos(4*lam) );
 
 %%
@@ -517,7 +517,7 @@ norm( delta, inf )
 
 %%
 % For a complete list of methods available in Spherefunv type `methods
-% spherefunv'.
+% spherefunv`.
 
 %% References
 % <latex>
