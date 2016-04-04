@@ -1,5 +1,5 @@
 %% 17. Spherefun 
-% Alex Townsend, Heather Wilber, and Grady B. Wright, February 22, 2016.
+% Alex Townsend, Heather Wilber, and Grady B. Wright, February 2016
 
 %%
 LW = 'LineWidth'; MS = 'MarkerSize'; FS = 'FontSize'; format long
@@ -520,17 +520,18 @@ norm( delta, inf )
 % spherefunv`.
 
 %% References
-% <latex>
+%
 % [Merilees 1973] P. E. Merilees, The pseudospectral approximation applied
-% to the shallow water equations on a sphere, \emph{Atmosphere}, 11 (1973),
-% pp. 13-20. \newline
-% [Townsend \& Trefethen 2013] A. Townsend and L. N. Trefethen, An
-% extension of Chebfun to two dimensions, \emph{SIAM J. Sci. Comp}, 35
-% (2013), pp. C495-C518. \newline
-% [Townsend, Wilber, \& Wright 2015] A. Townsend, H. Wilber, and G. Wright,
+% to the shallow water equations on a sphere, _Atmosphere_, 11 (1973),
+% pp. 13-20.
+%
+% [Townsend & Trefethen 2013] A. Townsend and L. N. Trefethen, An
+% extension of Chebfun to two dimensions, _SIAM J. Sci. Comp_, 35
+% (2013), pp. C495-C518.
+%
+% [Townsend, Wilber, & Wright 2015] A. Townsend, H. Wilber, and G. Wright,
 % Computing with functions in spherical and polar geometries I. The sphere.
-% Submitted 2015. \newline
-% [Yee 1980] S. Y. K. Yee, Studies on Fourier series on spheres, \emph{Mon. Wea. Rev.},
-% 108 (1980), pp. 676-678.
-% </latex>
-
+% Submitted 2015.
+%
+% [Yee 1980] S. Y. K. Yee, Studies on Fourier series on spheres, _Mon. Wea.
+% Rev._, 108 (1980), pp. 676-678.
