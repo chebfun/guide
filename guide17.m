@@ -1,5 +1,5 @@
 %% 17. Spherefun 
-% Alex Townsend, Heather Wilber, and Grady B. Wright, December 3, 2015.
+% Alex Townsend, Heather Wilber, and Grady B. Wright, December 2015.
 
 %%
 LW = 'LineWidth'; MS = 'MarkerSize'; FS = 'FontSize'; format long
@@ -146,7 +146,7 @@ hold off
 % $f(\lambda,\theta) = \cos\theta$ (or $f(x,y,z) = z$) is smooth on the
 % sphere, but the $\theta$-derivative, $\sin\theta$, is not smooth at
 % either pole. This issue arises because the unit vector in the polar
-% direction of the spherical coordinate system has a discontinuity at the
+% direction of the spherical coordinate system has discontinuities at the
 % north and south poles. To bypass this problem, we have chosen in
 % Spherefun to define derivatives on the sphere in terms of the components
 % that make up the surface gradient with respect to the Cartesian
@@ -181,7 +181,7 @@ subplot(2, 2, 2), plot( h ), title('f+g', FS, 16)
 h = f - g;
 subplot(2, 2, 3), plot( h ), title('f-g', FS, 16)
 h = f.*g;
-subplot(2, 2, 4), plot( h ), title('fxg', FS, 16)
+subplot(2, 2, 4), plot( h ), title('f*g', FS, 16)
 
 %%
 % For a complete list of methods available for spherefuns type `methods
@@ -210,7 +210,7 @@ subplot(2, 2, 4), plot( h ), title('fxg', FS, 16)
 
 %%
 % <latex>
-% The surface of the sphere has no boundary and 
+% The surface of the sphere has no boundary, and 
 % functions defined on the sphere are periodic.  When transforming 
 % functions on the sphere to spherical coordinates $(\lambda,\theta)$ 
 % (see \eqref{eq:sphCoords}), they become $2\pi$-periodic in $\lambda$, but
@@ -260,7 +260,7 @@ subplot(2, 2, 4), plot( h ), title('fxg', FS, 16)
 % where each rank 1 function $c_j(\theta)r_j(\lambda)$ satisfies the 
 % symmetry of the DFS extension \eqref{eq:BMCsphere} to infinite 
 % precision. This is fundamental for making operations such as 
-% differentiaion well-posed and numerically stable. The functions
+% differentiation well-posed and numerically stable. The functions
 % $r_j(\lambda)$ and $c_j(\theta)$ are constructed from samples of 
 % $\tilde{f}$ along horizontal and vertical ``slices'', respectively, of
 % the rectangular domain $[-\pi,\pi]\times[-\pi,\pi]$.  Since $\tilde{f}$
@@ -362,8 +362,8 @@ Y = spherefun.sphharm(6, -3);
 
 %%
 % <latex>
-% Here $Y$ is represented to machine precsion as a rank 1 function using
-% the DFS method desribed above.  It can now be used in any subsequent
+% Here $Y$ is represented to machine precision as a rank 1 function using
+% the DFS method described above.  It can now be used in any subsequent
 % computations.  For example, we can verify that it is indeed an eigenfunction
 % of the surface Laplacian (in this case with eigenvalue $-6\times 7 =
 % -42$)
@@ -411,7 +411,7 @@ u = spherefun.Poisson(f, 0, 1000, 1000);     % fast Poisson solver
 plot( u )
 
 %%
-% See [Townsend, Wilber, & Wright 2015] for a description of the fast 
+% See [Townsend, Wilber, \& Wright 2015] for a description of the fast 
 % algorithm used for solving Poisson's equation.
 
 %% Vector-valued functions: Spherefunv
