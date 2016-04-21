@@ -73,8 +73,7 @@ pause off, spin('kdv')
 % As we said above, the output is a `chebfun` at the final time.
 % `spin` makes these things happen with the aid of a class called a `spinop` 
 % (later we will also see `spinop2` and `spinop3`).  For example, to see the KdV
-% operator we have just worked with, which works on the domain $[-\pi,\pi]$, we 
-% can type
+% operator we have just worked with, we can type
 S = spinop('kdv')
 
 %% 
@@ -84,7 +83,7 @@ S = spinop('kdv')
 spin('ac');
 
 %%
-% The computation we just performed was on the time interval $[0,300]$. If we 
+% The computation we just performed was on the time interval $[0,500]$. If we 
 % had wanted the interval $[0,100]$, we could have specified it like this:
 spin('ac', [0 100]);
 
@@ -134,10 +133,10 @@ S.init = chebfun(@(x) cos(x), dom);
 %%
 % For example, here are the Ginzburg-Landau equations:
 %
-% $$  u_t = \Delta u + u - (1+1.3i)u\vert u\vert^2, $$
+% $$  u_t = \Delta u + u - (1+1.5i)u\vert u\vert^2, $$
 %
-% The built-in demo in 2D solves the PDE on $[0,200]^2$ and produces a movie to 
-% time $t=150$. Here are stills at times $0,10,20,30$:
+% The built-in demo in 2D solves the PDE on $[0,100]^2$ and produces a movie to 
+% time $t=100$. Here are stills at times $0,10,20,30$:
 U = spin2('gl2',0:10:30);
 clf reset
 for k = 1:4
@@ -145,8 +144,8 @@ for k = 1:4
 end
 
 %%
-% In 3D, the demo `spin3('gl3')` solves the PDE on $[0 100]^3$ and produces a 
-% movie to time $t=200$.
+% In 3D, the demo `spin3('gl3')` solves the PDE on $[0,100]^3$ and produces a 
+% movie to time $t=70$.
 
 %% 19.4 Using different exponential integrators and managing preferences with `spinpref`
 % The `spin`/`spin2`/`spin3` codes use the classes `spinpref`, `spinpre2 and
