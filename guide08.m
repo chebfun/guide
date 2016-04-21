@@ -367,26 +367,27 @@ plot(k,'.-')
 % are crucially grid-dependent.  Without resampling, chebops would not
 % work.
 
-%% 8.8 |eps|: Chebfun constructor tolerance
+%% 8.8 |chebfuneps|: Chebfun constructor tolerance
 % One of the controllable preferences is all too tempting: you can weaken
 % the tolerance used in constructing a chebfun. The chebfunpref parameter
-% |eps| is set by default to machine precision:
+% |chebfuneps| is set by default to machine precision:
 p = chebfunpref;
-p.eps
+p.chebfuneps
 
 %%
 % However, one can change this with a command like
-% |chebfunpref.setDefaults('eps',1e-6)|.
+% |chebfunpref.setDefaults('chebfuneps',1e-6)|.
 
 %%
+
 % There are cases where weakening the tolerance makes a big
 % difference. For example, this happens in certain applications in 2D and
 % in certain applications involving differential equations.  (Indeed, the
 % Chebfun differential equations commands have their own tolerance control
 % strategies.) However, Chebfun does such a good job at resolving many
-% functions that the |eps|-adjustment feature is not as useful as you might
-% imagine, and we recommend that users not change |eps| unless they are
-% having real problems with standard precision or are working with
+% functions that the |chebfuneps|-adjustment feature is not as useful as you
+% might imagine, and we recommend that users not change |chebfuneps| unless
+% they are having real problems with standard precision or are working with
 % noisy data.
 
 %% 8.9 Chebyshev grids of first or second kind
