@@ -423,7 +423,7 @@ sum2( spherefun( @(x,y,z) cos(10*x).*sin(10*y.*z) ).*Y )
 % where $f = Y_{6}^{3}$, one can use these Spherefun commands:
 % </latex>
 f = spherefun.sphharm(6, 3);              % forcing term 
-u = spherefun.Poisson(f, 0, 100, 100);     % fast Poisson solver 
+u = spherefun.poisson(f, 0, 100, 100);     % fast Poisson solver 
 
 %% 
 % Here Poisson's equation was solved with a discretization size of 
@@ -439,7 +439,7 @@ norm( u - -(1/42)*f, inf )
 % example using a discretization size of $1000\times 1000$: 
 % </latex>
 f = spherefun( @(x,y,z) sin(100*x.*y.*z) );  % forcing term
-u = spherefun.Poisson(f, 0, 1000, 1000);     % fast Poisson solver 
+u = spherefun.poisson(f, 0, 1000, 1000);     % fast Poisson solver 
 plot( u )
 
 %%
