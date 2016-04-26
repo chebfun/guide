@@ -572,5 +572,5 @@ plot(u)
 %
 % [Xu & Hale 2015] K. Xu and N. Hale, "Explicit construction
 % of rectangular differentiation matrices", _IMA Journal of
-% Numerical Analysis_, to appear.
+% Numerical Analysis_ 36 (2016), 618-632.
 %
