@@ -375,7 +375,7 @@ title('Tensor product function samples', FS, 16)
 % The Spherefun constructor accepts a few optional inputs that allow one
 % to experiment with low rank approximants.  The rank of the
 % approximant that results from the Gaussian elimination algorithm can be
-% fixed a specifed value.  For example, we can construct a rank 20
+% fixed at a specifed value.  For example, we can construct a rank 18
 % approximant of $f(x,y,z) = \cos(\cosh(5x z) - 10y)$, instead of a rank 37
 % approximant as
 % </latex>
@@ -501,7 +501,7 @@ plot(f), colorbar
 
 %%
 % We can smooth |f| as follows:
-ff = smooth(f, 5);
+ff = smooth(f, 180*pi/180);
 plot(ff), colorbar
 
 %%
@@ -510,7 +510,9 @@ plot(ff), colorbar
 % equation on the sphere with |f| as the initial condition. The second
 % input argument of |smooth| is an optional parameter $\sigma$ that
 % determines the length scale (as measured in radians at the equator of the
-% unit sphere) at which the smoothing occurs.
+% unit sphere) at which the smoothing occurs.  In the above example, this
+% is set to $10\pi/180$, which corresponds to smoothing at a scale of 10
+% degrees.
 
 %% 17.7 Vector-valued functions: Spherefunv
 % Vector valued functions on the sphere and _surface_ vector calculus
@@ -575,7 +577,7 @@ norm( delta, inf )
 %
 % [Townsend, Wilber, & Wright 2015] A. Townsend, H. Wilber, and G. Wright,
 % Computing with functions in spherical and polar geometries I. The sphere.
-% Submitted 2015.
+% SIAM J. Sci. Comput., Accepted, 2016.
 %
 % [Yee 1980] S. Y. K. Yee, Studies on Fourier series on spheres, _Mon. Wea.
 % Rev._, 108 (1980), pp. 676-678.
