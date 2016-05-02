@@ -1,5 +1,5 @@
 %% 17. Spherefun 
-% Alex Townsend, Heather Wilber, and Grady B. Wright, February 2016
+% Alex Townsend, Heather Wilber, and Grady B. Wright, May 2016
 
 %%
 LW = 'LineWidth'; MS = 'MarkerSize'; FS = 'FontSize'; format long
@@ -7,8 +7,7 @@ LW = 'LineWidth'; MS = 'MarkerSize'; FS = 'FontSize'; format long
 %% 17.1 Introduction
 % Spherefun is a new part of Chebfun for computing with functions
 % defined on the surface of the unit sphere. It was created by Alex
-% Townsend, Heather Wilber, and Grady Wright and will be released 
-% in 2016.  
+% Townsend, Heather Wilber, and Grady Wright.
 
 %%
 % <latex>
@@ -89,7 +88,7 @@ fslice = f(0.25,:,:)
 plot(fslice)
 
 %% 
-% In the spirit of Chebfun one can compute with spherefuns without worrying
+% In the spirit of Chebfun, one can compute with spherefuns without worrying
 % about the underlying discretization or how a particular algorithm is
 % implemented. At every step we aim to achieve close to machine precision
 % calculations, while compressing representations whenever possible.
@@ -294,7 +293,7 @@ plot( h ), title('f x g', FS, 16), snapnow
 % where each rank 1 function $c_j(\theta)r_j(\lambda)$ satisfies the 
 % symmetry of the DFS extension \eqref{eq:BMCsphere} to infinite 
 % precision. This is fundamental for making operations such as 
-% differentiaion well-posed and numerically stable. The functions
+% differentiation well-posed and numerically stable. The functions
 % $r_j(\lambda)$ and $c_j(\theta)$ are constructed from samples of 
 % $\tilde{f}$ along horizontal and vertical "slices", respectively, of
 % the rectangular domain $[-\pi,\pi]\times[-\pi,\pi]$.  Since $\tilde{f}$
@@ -420,7 +419,7 @@ g = spherefun( @(x,y,z) cos(cosh(5*x.*z)-10*y), 'eps', 1e-8 )
 % use them at all. This is because of the difficulty of computing a
 % spherical harmonic expansion of a function, despite three decades of
 % research on fast algorithms. The current state-of-the-art algorithms have
-% a huge precomputational cost that makes highly adaptive discretizations
+% a huge precomputation cost that makes highly adaptive discretizations
 % computationally infeasible.
 % </latex>
 
@@ -435,8 +434,8 @@ Y = spherefun.sphharm(6, -3);
 
 %%
 % <latex>
-% Here $Y$ is represented to machine precsion as a rank 1 function using
-% the DFS method desribed above.  It can now be used in any subsequent
+% Here $Y$ is represented to machine precision as a rank 1 function using
+% the DFS method described above.  It can now be used in any subsequent
 % computations.  For example, we can verify that it is indeed an eigenfunction
 % of the surface Laplacian (in this case with eigenvalue $-6\times 7 =
 % -42$)
