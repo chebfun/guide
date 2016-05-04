@@ -500,7 +500,7 @@ plot(f), colorbar
 
 %%
 % We can smooth |f| as follows:
-ff = smooth(f, 180*pi/180);
+ff = gaussfilt(f, 180*pi/180);
 plot(ff), colorbar
 
 %%
