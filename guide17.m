@@ -158,8 +158,8 @@ hold off
 
 %%
 % <latex>
-% Contours of a function can also be visualized on the sphere using the 
-% \texttt{contour} function.  Here are the contours of $f$ from $-2$ to $2$ in
+% Contours of a function can also be visualized on the sphere using the
+% `contour` function.  Here are the contours of $f$ from $-2$ to $2$ in
 % increments of $0.25$
 % </latex>
 contour(f,-2:0.25:2)
@@ -333,7 +333,7 @@ ylim([1e-20 1e2])
 % <latex>
 % An approximation to the bivariate Fourier coefficients in the double
 % trigonometric expansion \eqref{eq:2DFourierExpansion} can also be 
-% computed rapidly from \texttt{f}:
+% computed rapidly from `f`:
 % </latex>
 X = coeffs2( f );
 [ m, n ] = length( f );
@@ -457,9 +457,9 @@ sum2( spherefun( @(x,y,z) cos(10*x).*sin(10*y.*z) ).*Y )
 % <latex>
 % Spherefun also has a command for solving Poisson's equation on the
 % sphere. For example, to solve 
-% \[
+% $$
 %   \nabla^2 u = f, \qquad \int_{\mathbb{S}^2} u\,d\Omega  = 0, 
-% \]
+% $$
 % where $f = Y_{6}^{3}$, one can use these Spherefun commands:
 % </latex>
 f = spherefun.sphharm(6, 3);              % forcing term 
@@ -476,7 +476,7 @@ norm( u - -(1/42)*f, inf )
 % Provided that the right-hand side $f$ satisfies the compatibility condition
 % $\int_{\mathbb{S}^2} f\, d\Omega  = 0$, the solution to the above Poisson
 % problem is unique up to a constant. One specifies the value of this 
-% constant as the second input argument to \texttt{poisson}. Here is a second
+% constant as the second input argument to `poisson`. Here is a second
 % example using a discretization size of $1000\times 1000$ and a value of
 % 1 for this constant. 
 % </latex>
