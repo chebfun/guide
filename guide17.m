@@ -1,5 +1,5 @@
 %% 17. Spherefun 
-% Alex Townsend, Heather Wilber, and Grady B. Wright, February 2016
+% Alex Townsend, Heather Wilber, and Grady B. Wright, May 2016
 
 %%
 LW = 'LineWidth'; MS = 'MarkerSize'; FS = 'FontSize'; format long
@@ -7,8 +7,7 @@ LW = 'LineWidth'; MS = 'MarkerSize'; FS = 'FontSize'; format long
 %% 17.1 Introduction
 % Spherefun is a new part of Chebfun for computing with functions
 % defined on the surface of the unit sphere. It was created by Alex
-% Townsend, Heather Wilber, and Grady Wright and will be released 
-% in 2016.  
+% Townsend, Heather Wilber, and Grady Wright.
 
 %%
 % <latex>
@@ -89,7 +88,7 @@ fslice = f(0.25,:,:)
 plot(fslice)
 
 %% 
-% In the spirit of Chebfun one can compute with spherefuns without worrying
+% In the spirit of Chebfun, one can compute with spherefuns without worrying
 % about the underlying discretization or how a particular algorithm is
 % implemented. At every step we aim to achieve close to machine precision
 % calculations, while compressing representations whenever possible.
@@ -206,7 +205,7 @@ lapf = laplacian( f );
 clf, plot( lapf )
 
 %%
-% Finally, as with chebfun and chebfun2 objects we can also add, subtract,
+% Finally, as with chebfun and chebfun2 objects, we can add, subtract,
 % and multiply simple spherefuns together to build more complicated ones.
 g = spherefun( @(l,t) 2*cos(10*cos(l-0.25).*cos(l).*(sin(t).*cos(t)).^2) ); 
 plot( g ), title('g', FS, 16), snapnow
@@ -294,7 +293,7 @@ plot( h ), title('f x g', FS, 16), snapnow
 % where each rank 1 function $c_j(\theta)r_j(\lambda)$ satisfies the 
 % symmetry of the DFS extension \eqref{eq:BMCsphere} to infinite 
 % precision. This is fundamental for making operations such as 
-% differentiaion well-posed and numerically stable. The functions
+% differentiation well-posed and numerically stable. The functions
 % $r_j(\lambda)$ and $c_j(\theta)$ are constructed from samples of 
 % $\tilde{f}$ along horizontal and vertical "slices", respectively, of
 % the rectangular domain $[-\pi,\pi]\times[-\pi,\pi]$.  Since $\tilde{f}$
@@ -370,6 +369,47 @@ clf, surf(XX, YY, ZZ, 1+0*XX, 'FaceColor', [1 1 0.8], 'EdgeColor', [0 0 1])
 view([0 -90]), axis([-1 1 -1 1 -1 1]), axis equal, 
 title('Tensor product function samples', FS, 16)
 
+%%
+% <latex>
+% The Spherefun constructor accepts a few optional inputs that allow one
+% to experiment with low rank approximants.  The rank of the
+% approximant that results from the Gaussian elimination algorithm can be
+% fixed at a specifed value.  For example, we can construct a rank 18
+% approximant of $f(x,y,z) = \cos(\cosh(5x z) - 10y)$, instead of a rank 37
+% approximant as
+% </latex>
+f18 = spherefun( @(x,y,z) cos(cosh(5*x.*z)-10*y), 18 )
+plot(f18)
+
+%%
+% Visually, this representation is identical to $f$, but this approximant
+% is only accurate to about 3 digits.
+norm(f-f18)
+
+%%
+% <latex>
+% Additionally, the tolerances used during the construction process can 
+% loosened from machine epsilon to achieve achieve a more compressed
+% representation of the function, albeit at the cost of a less accurate
+% approximation.  For example, we can loosen the tolerances in the
+% construction of $f$ defined above to $10^{-8}$ as follows:
+% </latex>
+g = spherefun( @(x,y,z) cos(cosh(5*x.*z)-10*y), 'eps', 1e-8 )
+
+%%
+% This gives a rank 22 approximant.  The lengths of the rows and columns
+% of this approximant (i.e. the number of trigonometric coefficients used
+% in the approximation) compared to the original are
+[mf,nf] = length(f);
+[mg,ng] = length(g);
+[mf mg]
+[nf ng]
+
+%%
+% These modifications to the rank of the approximant and tolerances used
+% seem to have more dramatic effects on the compression achieved when the 
+% functions are smooth.
+
 %% 17.4 Spherical harmonics 
 % <latex>
 % A natural question that may come to mind is "Why not use spherical
@@ -379,7 +419,7 @@ title('Tensor product function samples', FS, 16)
 % use them at all. This is because of the difficulty of computing a
 % spherical harmonic expansion of a function, despite three decades of
 % research on fast algorithms. The current state-of-the-art algorithms have
-% a huge precomputational cost that makes highly adaptive discretizations
+% a huge precomputation cost that makes highly adaptive discretizations
 % computationally infeasible.
 % </latex>
 
@@ -394,8 +434,8 @@ Y = spherefun.sphharm(6, -3);
 
 %%
 % <latex>
-% Here $Y$ is represented to machine precsion as a rank 1 function using
-% the DFS method desribed above.  It can now be used in any subsequent
+% Here $Y$ is represented to machine precision as a rank 1 function using
+% the DFS method described above.  It can now be used in any subsequent
 % computations.  For example, we can verify that it is indeed an eigenfunction
 % of the surface Laplacian (in this case with eigenvalue $-6\times 7 =
 % -42$)
@@ -435,11 +475,13 @@ norm( u - -(1/42)*f, inf )
 % <latex>
 % Provided that the right-hand side $f$ satisfies the compatibility condition
 % $\int_{\mathbb{S}^2} f\, d\Omega  = 0$, the solution to the above Poisson
-% problem is unique. Here is a second
-% example using a discretization size of $1000\times 1000$: 
+% problem is unique up to a constant. One specifies the value of this 
+% constant as the second input argument to \texttt{poisson}. Here is a second
+% example using a discretization size of $1000\times 1000$ and a value of
+% 1 for this constant. 
 % </latex>
 f = spherefun( @(x,y,z) sin(100*x.*y.*z) );  % forcing term
-u = spherefun.poisson(f, 0, 1000, 1000);     % fast Poisson solver 
+u = spherefun.poisson(f, 1, 1000, 1000);     % fast Poisson solver 
 plot( u )
 
 %%
@@ -448,25 +490,30 @@ plot( u )
 
 %% 17.6 Filtering
 % Low-pass isotropic filtering for functions on the sphere can be performed
-% using the command |smooth|.  For example, consider the spherefun constructed from
+% using the command |gaussfilt|.
+% For example, consider the spherefun constructed from
 % random data on the sphere, given on a $101$-by-$200$ equally spaced grid 
 % of points in spherical coordinates
 rng(71)
-F = 1-2*rand(101,200); F(1,:) = mean(F(1,:)); F(101,:) = mean(F(101,:));
+F = randn(101,200); F(1,:) = mean(F(1,:)); F(101,:) = mean(F(101,:));
 f = spherefun(F);
 plot(f), colorbar
 
 %%
 % We can smooth |f| as follows:
-ff = smooth(f, 0.01);
+ff = gaussfilt(f, 180*pi/180);
 plot(ff), colorbar
 
 %%
-% Mathematically, the |smooth| command amounts to convolving |f| with a Gaussian
+% Mathematically, the |gaussfilt| command amounts
+% to convolving |f| with a Gaussian
 % kernel.  This is implemented by numerically solving the diffusion
 % equation on the sphere with |f| as the initial condition. The second
-% input argument of |smooth| is the final time to solve the diffusion
-% equation to. The coefficient of diffusion is set to 1.
+% input argument of |gaussfilt| is an optional parameter $\sigma$ that
+% determines the length scale (as measured in radians at the equator of the
+% unit sphere) at which the smoothing occurs.  In the above example, this
+% is set to $10\pi/180$, which corresponds to smoothing at a scale of 10
+% degrees.
 
 %% 17.7 Vector-valued functions: Spherefunv
 % Vector valued functions on the sphere and _surface_ vector calculus
@@ -531,7 +578,7 @@ norm( delta, inf )
 %
 % [Townsend, Wilber, & Wright 2015] A. Townsend, H. Wilber, and G. Wright,
 % Computing with functions in spherical and polar geometries I. The sphere.
-% Submitted 2015.
+% SIAM J. Sci. Comput., Accepted, 2016.
 %
 % [Yee 1980] S. Y. K. Yee, Studies on Fourier series on spheres, _Mon. Wea.
 % Rev._, 108 (1980), pp. 676-678.

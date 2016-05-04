@@ -9,7 +9,7 @@
 % By a stiff PDE, we mean a partial differential equation of
 % the form
 %
-% $$ u_t = S(u) = Lu + N(u) \quad (1) $$
+% $$ u_t = S(u) = Lu + N(u) \quad\quad (1) $$
 %
 % where $L$ is a constant-coefficient linear differential operator on a domain
 % in one, two, or three space dimensions and $N$ is a constant-coefficient
@@ -17,7 +17,7 @@
 % same domain.  In applications, PDEs of this kind typically arise when two or 
 % more different physical processes are combined, and many PDEs of interest in
 % science and engineering take this form. For example, the viscous Burgers
-% equations couple second-order linear diffusion with first-order convection, 
+% equation couples second-order linear diffusion with first-order convection, 
 % and the Allen-Cahn equation couples second-order linear diffusion with a
 % nondifferentiated cubic reaction term. Often a system of equations rather than 
 % a single scalar equation is involved, for example in the Gray-Scott and 
@@ -59,10 +59,10 @@
 
 %% 19.2 Computations in 1D with `spin`
 % The simplest way to see `spin` in action is to type simply `spin('ks')` or 
-% `spin('kdv')` or another similar string to invoke a example computation 
+% `spin('kdv')` or another similar string to invoke an example computation 
 % involving a preloaded initial condition and time interval. 
-% (Other choices include `ac`, `burg`, `bz`, `ch`, `gs`, `niko`, `nls`, 
-% and `ok`.) In interactive computing, this is all you need. `spin` will plot 
+% (Other choices include `ac`, `burg`, `bz`, `ch`, `gs`, `niko`, and `nls`.) 
+% In interactive computing, this is all you need. `spin` will plot 
 % the initial condition and then pause, waiting for user input to start the 
 % time-integration, and then plot a movie of the solution. Here in a chapter of 
 % the guide, we override this behavior with `pause off` and a `spinpref` object
@@ -131,7 +131,8 @@ S.nonlinearPart = @(u) u.^2 - 1;
 S.init = chebfun(@(x) cos(x), dom);
 
 %% 19.3 Computations in 2D and 3D with `spin2` and `spin3`
-% `spin`/`spin2`/`spin3` have been written at the same time as Chebfun3 has been 
+% `spin`/`spin2`/`spin3` have been written
+% at the same time as Chebfun3 has been being
 % developed, so naturally enough, our aim has been to make them operate in as 
 % nearly similar fashions as possible in 1D, 2D, or 3D. There are classes 
 % `spinop2` and `spinop3` parallel to `spinop`, invoked by drivers `spin2` 
@@ -157,7 +158,7 @@ end
 % movie to time $t=70$.
 
 %% 19.4 Using different exponential integrators and managing preferences with `spinpref`
-% The `spin`/`spin2`/`spin3` codes use the classes `spinpref`, `spinpre2 and
+% The `spin`/`spin2`/`spin3` codes use the classes `spinpref`, `spinpref2` and
 % `spinpref3` to manage preferences, including the choice of the exponential 
 % integrator for the time-stepping, the value of the time-step, the number of 
 % grid points and various other options. See `help spinpref`/`spinpref2`/
@@ -184,7 +185,7 @@ u = spin('ks', spinpref('dt', 5e-2, 'N', 300, 'plot', 'off'))
 % how effective such methods can be also for PDEs in 2D and 3D. A software 
 % package for such computations called EXPINT was produced by Berland, 
 % Skaflestad and Wright in 2007 [1]. A comprehensive theoretical understanding 
-% of these schemes has been led by Hochbruck and Ostermann in a number
+% of these schemes has been presented by Hochbruck and Ostermann in a number
 % of papers, including [6]. The practical business of comparing many different 
 % schemes has been carried out by Minchev and Wright [9], then Bootland [2] and
 % Montanelli and Bootland [10]. Both of these latter projects were motivated by 
@@ -193,6 +194,10 @@ u = spin('ks', spinpref('dt', 5e-2, 'N', 300, 'plot', 'off'))
 % would be best; but in the end we have been unable to find a method that
 % outperforms ETDRK4 by a significant enough factor to be worth the added 
 % complexity. The `spin` package was written by Montanelli.
+
+%%
+% We return Matlab to its usual state:
+pause on
 
 %% References
 % [1] H. Berland and B. Skaflestad and W. M. Wright, _EXPINT--A MATLAB package 
@@ -216,10 +221,10 @@ u = spin('ks', spinpref('dt', 5e-2, 'N', 300, 'plot', 'off'))
 %     19 (2010), pp. 209--286.
 %
 % [7] A.-K. Kassam, _Solving reaction-diffusion equations 10 times faster_, 
-%     Tech. Rep. 1192, University of Oxford, 2003.
+%     Tech. Rep. 1192, Numerical Analysis Group, University of Oxford, 2003.
 %
 % [8] A.-K. Kassam and L. N. Trefethen, _Fourth-order time-stepping for stiff
-%     PDEs_, 26 (2005), pp. 1214--1233.
+%     PDEs_, SIAM J. Sci. Comp., 26 (2005), pp. 1214--1233.
 %
 % [9] V. T. Luan and A. Ostermann, _Explicit exponential Runge-Kutta methods of
 %     high order for parabolic problems_, J. Comput. Appl. Math., 256 (2014),
@@ -230,7 +235,7 @@ u = spin('ks', spinpref('dt', 5e-2, 'N', 300, 'plot', 'off'))
 %      University of Science and Technology, 2005.
 %
 % [11] H. Montanelli and N. J. Bootland, _Solving stiff PDEs in 1D, 2D and 3D
-%      with exponential integrators_, submitted.
+%      with exponential integrators_, manuscript, April 2016.
 %
-% [12] A. M. Turing, _The chemical basis of morphogenesis_, Phil. Trans. of the
-%      Royal Society of London (Ser. B), 237 (1952), pp. 37--72.
+% [12] A. M. Turing, _The chemical basis of morphogenesis_, Phil. Trans.
+%      Roy. Soc. Lond. B, 237 (1952), pp. 37--72.
