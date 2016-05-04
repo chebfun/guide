@@ -65,12 +65,11 @@
 % In interactive computing, this is all you need. `spin` will plot 
 % the initial condition and then pause, waiting for user input to start the 
 % time-integration, and then plot a movie of the solution. Here in a chapter of 
-% the guide, we override this behavior with `pause off` and a `spinpref` object
-% with `plot off`. (See section 19.4 to learn how to manage preferences with
-% `spinpref`.) Here we solve the KdV (Korteweg-de Vries equation) 
-% $u_t = -uu_x - u_{xxx}$: 
+% the guide, we override this behavior with `pause off` and `plot off`. (See 
+% section 19.4 to learn how to manage preferences.) Here we solve the KdV 
+% (Korteweg-de Vries equation) $u_t = -uu_x - u_{xxx}$: 
 pause off
-u = spin('kdv', spinpref('plot', 'off'));
+u = spin('kdv', 'plot', 'off');
 
 %%
 % The output `u` is a `chebfun` at the final time:
@@ -86,25 +85,25 @@ S = spinop('kdv')
 % (To find what initial condition ws used, type `help spin`.)
 % As a second example of a stiff PDE in 1D, here is the Allen-Cahn equation
 % $u_t = 0.005u_{xx} + u - u^3$:
-u = spin('ac', spinpref('plot', 'off'));
+u = spin('ac', 'plot', 'off');
 figure, plot(u, 'linewidth', 2)
 
 %%
 % The computation we just performed was on the time interval $[0,500]$. If we 
 % had wanted the interval $[0,100]$, we could have specified it like this:
-u = spin('ac', [0 100], spinpref('plot', 'off'));
+u = spin('ac', [0 100], 'plot', 'off');
 figure, plot(u, 'linewidth', 2)
 
 %%
 % To specify a different initial condition, you can provide a chebfun as another 
 % argument. For example, here we use a simpler initial condition:
 u0 = chebfun(@(x) -1 + 4*exp(-19*(x-pi).^2), [0 2*pi], 'trig');
-u = spin('ac', [0 100], u0, spinpref('plot', 'off'));
+u = spin('ac', [0 100], u0, 'plot', 'off');
 figure, plot(u, 'linewidth', 2)
 
 %%
 % Suppose we want Chebfun output at times $0,1,\dots, 30$. We could do this:
-U = spin('ac',0:1:30, u0, spinpref('plot', 'off'));
+U = spin('ac', 0:1:30, u0, 'plot', 'off');
 
 %%
 % The output `U` from this command is a chebmatrix. Here for example is the 
@@ -147,7 +146,7 @@ S.init = chebfun(@(x) cos(x), dom);
 %
 % The built-in demo in 2D solves the PDE on $[0,100]^2$ and produces a movie to 
 % time $t=100$. Here are stills at times $0,10,20,30$:
-U = spin2('gl2',0:10:30,spinpref2('plot', 'off'));
+U = spin2('gl2', 0:10:30, 'plot', 'off');
 clf reset
 for k = 1:4
    plot(real(U{k})), view(0,90), snapnow
@@ -167,14 +166,28 @@ end
 %% 
 % For example, to solve the Kuramoto-Sivashinsky (KS) equation using the
 % EXPRK5S8 scheme of Luan and Ostermann [9], one can type:
-u = spin('ks', spinpref('scheme', 'exprk5s8', 'plot', 'off'))
+pref = spinpref('scheme', 'exprk5s8', 'plot', 'off');
+u = spin('ks', pref)
+
+%%
+% Alternatively, one can type:
+u = spin('ks','scheme', 'exprk5s8', 'plot', 'off')
 
 %%
 % For a complete list of available schemes, type `help spinscheme`.
 % By default, `spin` automatically chooses a time-step $dt$ and a number of grid
 % points $N$ to reach an accuracy of $10^{-6}$. If one wants to use specific 
 % values for $dt$ and $N$, say $dt=5e-2$ and $N=300$, one can type:
-u = spin('ks', spinpref('dt', 5e-2, 'N', 300, 'plot', 'off'))
+u = spin('ks', 'dt', 5e-2, 'N', 300, 'plot', 'off')
+
+%%
+% Preferences in 2D and 3D use `spinpref2` and `spinpref3`, e.g.,
+pref = spinpref2('plot', 'off', 'N', 100);
+u = spin2('gl2', pref)
+
+%%
+% or simply
+u = spin2('gl2', 'plot', 'off', 'N', 100)
 
 %% 19.5 A quick note on history
 % The history of exponential integrators for ODEs goes back at least to Hersch 
@@ -235,7 +248,7 @@ pause on
 %      University of Science and Technology, 2005.
 %
 % [11] H. Montanelli and N. J. Bootland, _Solving stiff PDEs in 1D, 2D and 3D
-%      with exponential integrators_, manuscript, April 2016.
+%      with exponential integrators_, submitted, 2016.
 %
 % [12] A. M. Turing, _The chemical basis of morphogenesis_, Phil. Trans.
 %      Roy. Soc. Lond. B, 237 (1952), pp. 37--72.
