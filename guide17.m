@@ -490,7 +490,8 @@ plot( u )
 
 %% 17.6 Filtering
 % Low-pass isotropic filtering for functions on the sphere can be performed
-% using the command |smooth|.  For example, consider the spherefun constructed from
+% using the command |gaussfilt|.
+% For example, consider the spherefun constructed from
 % random data on the sphere, given on a $101$-by-$200$ equally spaced grid 
 % of points in spherical coordinates
 rng(71)
@@ -504,10 +505,11 @@ ff = gaussfilt(f, 180*pi/180);
 plot(ff), colorbar
 
 %%
-% Mathematically, the |smooth| command amounts to convolving |f| with a Gaussian
+% Mathematically, the |gaussfilt| command amounts
+% to convolving |f| with a Gaussian
 % kernel.  This is implemented by numerically solving the diffusion
 % equation on the sphere with |f| as the initial condition. The second
-% input argument of |smooth| is an optional parameter $\sigma$ that
+% input argument of |gaussfilt| is an optional parameter $\sigma$ that
 % determines the length scale (as measured in radians at the equator of the
 % unit sphere) at which the smoothing occurs.  In the above example, this
 % is set to $10\pi/180$, which corresponds to smoothing at a scale of 10
