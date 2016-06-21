@@ -160,7 +160,7 @@ format short, f.core
 %%
 % Here are plots of the coefficients of the three
 % quasimatrices:
-clf, plotcoeffs(f, '-.')
+clf, plotcoeffs(f, '.-')
 
 %%
 % These explorations give an idea of what a chebfun3 looks like.
@@ -237,11 +237,11 @@ plot(g.tubes)
 %%
 % A plot of the coefficients of $g$ (all three sets, with 
 % respect to $x$, $y$, and $z$) looks like this.
-plotcoeffs(g,'-.')
+plotcoeffs(g,'.-')
 
 %%
 % We can look at the coefficients of just, say, the columns like this:
-clf, plotcoeffs(g.cols,'-.')
+clf, plotcoeffs(g.cols,'.-')
 
 %% 18.5.  Periodic chebfun3 objects 
 % Chebfun3 can use trigonometric functions instead of polynomials for 
@@ -259,7 +259,7 @@ f = chebfun3(ff, dom, 'trig')
 % Note the text 'trig' in the display. Here is the length of $f$ and a plot of
 % its coefficients:
 [m, n, p] = length(f)
-plotcoeffs(f, '-.')
+plotcoeffs(f, '.-')
 
 %%
 % As we see, $f$ is resolved to machine precision using trigonometric 
@@ -346,7 +346,7 @@ norm(curl(F))
 % field is independent of path. Let's compare the numerical values of the line 
 % integrals of our vector field over two paths with the same endpoints:
 curve2 = chebfun(@(t) [t*cos(5*pi) t*sin(5*pi) t], [0, 5*pi]);
-hold on, plot3(curve2(:,1), curve2(:,2), curve2(:,3),'r-.'), hold off, shg
+hold on, plot3(curve2(:,1), curve2(:,2), curve2(:,3),'r'), hold off, shg
 I_line = integral(F,curve2), error = I_line - I_spiral
 
 %% 18.8. Higher-order SVD
