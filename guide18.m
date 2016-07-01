@@ -129,13 +129,14 @@ f = chebfun3(@(x,y,z) exp(x))
 % To be precise, the core tensor in this case only needs to
 % be a $1\times 1\times 1$ scalar, and the same would apply
 % for any function that depends on just one of $x$, $y$, and $z$.
-% To find out what degree polynomial is used to capture the
-% dependences in the three directions we can use `length`:
+% The "length" field of the output tells us what degree polynomial
+% is used to capture the dependencies in the three directions; this
+% information can also be obtained by calling the `length` method:
 [m, n, p] = length(f)
 
 %%
-% Similarly here is what it looks like if the function is
-% $\exp(y)$ instead of $\exp(x)$:
+% Here is what it looks like if the function is $\exp(y)$ instead of
+% $\exp(x)$:
 [m, n, p] = length(chebfun3(@(x,y,z) exp(y)))
 
 %%
