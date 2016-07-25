@@ -1,7 +1,7 @@
 %% 20.  Diskfun
 % Heather Wilber, June 2016
 
-%% Constructing a Diskfun
+%% 
 % Diskfun is a new part of Chebfun designed for computing with 
 % bivariate functions defined on the unit disk. 
 % When working with functions on the disk, it is often convenient to
@@ -104,33 +104,6 @@ sum2(f)
 % $-3/2$: 
 %%
 mean2(f)
-%% 
-% It is also possible to integrate over a portion of the disk. 
-% (add code for this)
-%%
-% We can also integrate along a contour line parametrized as a
-% complex-valued chebfun. For example, consider the following diskfun 
-% and contour line: 
-%%
-
-f = diskfun(@(x,y) sin(3*x.*y)); 
-c1 = chebfun(@(x) .5.*exp(i*x).*cos(2*x),[0 2*pi]); 
-
-plot(f-50)
-hold on
-plot(c1, 'k', 'Linewidth', 1.5)
-hold off
-%%
-% The integral along the contour line should be zero. 
-
-%%
-
-integral(f, c1)
-
-% The contour integral of $f$ along the unit circle should also be zero. 
-% We can compute this quickly using the 'unitcircle' flag. 
-%%
-integral(f, 'unitcircle')
 
 
 %%
@@ -148,8 +121,8 @@ integral(f, 'unitcircle')
  hold off
  
  %%
- % We can also return the location of the maximum in polar
- % coordinates if preferred: 
+ % If it is preferred, the location of the maximum can be returned in polar
+ % coordinates: 
  
  [jp, kp] = max2(f, 'polar');
  
@@ -326,10 +299,10 @@ u = grad(f)
 
 
 %%
-% The vector-valued function $u(x,y)$ consists of two components, ordered 
-% as $x$ and $y$, respectively. Each of these is stored as 
-% a diskfun object. We use the Cartesian coordinate system because it is 
-% common to do so in application, and also because this ensures that
+% The vector-valued function $\vec{u}(x,y)$ consists of two components, 
+% ordered as $x$ and $y$, respectively. Each of these is stored as 
+% a diskfun. The Cartesian coordinate system is used because it is 
+% common to do so in application, and this ensures that
 % each component is a smooth function on the disk. The unit vectors 
 % in the polar and radial directions are discontinuous at the origin of 
 % the disk, and working with them can lead to singularities.
@@ -351,24 +324,21 @@ hold off
  
 %% 
  % Several vector calculus operations are available.
- % For example, since $u$ is a gradient field, we expect that it has zero 
- % curl and that any line integral on a closed contour will compute to zero:
+ % For example, since $\vec{u}$ is a gradient field, we expect 
+ %$\Delta \cross \vec{u} =  0$
  
  curl(u)
- norm(C)
+ norm(u) % wow not actually so good. 
  
- %%
- % TO DO: ADD CODE FOR THIS IN DISKFUNV
- %integral(u, 'unitcircle') 
- 
+
  %%
  % We can perform a variety of algebraic and
  % calculus-based operations using diskfunvs. For a complete listing of the
  % available operations, type { \tt methods diskfunv}.
  
 
-%% What is a diskfun?
-% The underlying algorithm for constructing diskfuns adaptively selects and 
+%% Constructing a diskfun
+% The underlying algorithm for constructing a diskfun adaptively selects and 
 % stores a collection of 1D circular and radial ``slices" of a function $f$
 % on the unit disk to create a compressed representation of $f$. 
 % We compute this representation using a method of low rank approximation.
