@@ -179,6 +179,32 @@ for j = 1:length(r)
     plot(rj(:,1), rj(:,2), '-k', 'Linewidth', 2)
 end
 hold off
+%%
+% As with chebfun, we can add, subtract, or multiply diskfuns 
+% together. 
+
+f = diskfun(@(th, r) -10*cos(((sin(pi*r).*cos(th) +...
+    10*sin(2*pi*r).*sin(th)))/4), 'polar');
+g = diskfun(@(x,y) exp(-10*( (x-.3).^2+y.^2)));
+plot(g)
+axis square
+view(2), snapnow
+
+h = g+ f;
+plot(h)
+axis square
+view(2), snapnow
+
+h = g - f;
+plot(h)
+axis square
+view(2), snapnow
+ 
+h = g.*f; 
+plot(h)
+axis square 
+view(2)
+
  
 %%
 % Differentiation on the disk with respect to the polar variable $\rho$
@@ -258,41 +284,30 @@ title('u, the solution to Poisson''s equation'), snapnow
 %%
 % The accuracy of the solver can be examined by considering the
 % {\em cylindrical harmonic functions}\footnote{strictly speaking, we
-% consider the cylindrical harmonic functions with a fixed radial parameter},
+% consider the cylindrical harmonic functions with a fixed height},
 % which are the eigenfunctions of
 % Laplace's equation on the disk. These functions form an orthogonal 
 % basis that is analogous to the trigonometric basis for 1D functions on
-% the unit circle. Cylindrical harmonic functions are defined by two 
-% parameters; they are of the form $V_n^\ell = $ 
+% the unit circle. Cylindrical harmonic functions with a fixed height are 
+% defined by two parameters; they are of the form 
+% \[V_n^\ell(\theta, \rho) = $A_n^\ell J_n(\omega_\ell \rho)e^{in\theta}\], 
+% where $A_n^\ell$ is a normalization constant, $J_n$ is an $n$th order 
+% Bessel function, and $\omega_\ell$ is the $\ell$th zero of $J_n$.
 % They are easily constructed in Diskfun: 
 
 %%
-% f = diskfun.harmonic(
+f = diskfun.harmonic(3, 7); % n = 3, ell = 7
 
-%% Algebra on diskfuns
-% We can add, subtract, or multiply several diskfuns together to create new
-% diskfuns. 
+plot(f)
 
-f = diskfun(@(th, r) -10*cos(((sin(pi*r).*cos(th) + 10*sin(2*pi*r).*sin(th)))/4), 'polar')
-g = diskfun(@(x,y) exp(-10*( (x-.3).^2+y.^2)));
-plot(g)
-axis square
-view(2), snapnow
+%%
+% The exact solution to $\Delta^2u = f$ with homogeneous Dirichlet boundary 
+% conditions is (TODO: normalize in code, use normalization to get correct
+% constant in exact solution). 
 
-h = g+ f;
-plot(h)
-axis square
-view(2), snapnow
+%C= eigenvalue;
+norm(u -C*f)
 
-h = g - f;
-plot(h)
-axis square
-view(2), snapnow
- 
-h = g.*f; 
-plot(h)
-axis square 
-view(2)
 
 
 %% Vector Calculus
@@ -334,7 +349,7 @@ hold off
  quiver(u, 'k')
  hold off
  
- 
+%% 
  % Several vector calculus operations are available.
  % For example, since $u$ is a gradient field, we expect that it has zero 
  % curl and that any line integral on a closed contour will compute to zero:
@@ -343,8 +358,8 @@ hold off
  norm(C)
  
  %%
- 
- integral(u, 'unitcircle')
+ % TO DO: ADD CODE FOR THIS IN DISKFUNV
+ %integral(u, 'unitcircle') 
  
  %%
  % We can perform a variety of algebraic and
@@ -353,10 +368,12 @@ hold off
  
 
 %% What is a diskfun?
-% The underlying algorithm for constructing diskfuns adaptively selects and stores a
-% collection of 1D circular and radial ``slices" of a function $f$ on the unit disk to create a representation of f$ that is
-% compressed, low rank approximation to $f$. The idea used to construct
-% this low rank approximation is similar to what is used in Chebfun2.
+% The underlying algorithm for constructing diskfuns adaptively selects and 
+% stores a collection of 1D circular and radial ``slices" of a function $f$
+% on the unit disk to create a compressed representation of $f$. 
+% We compute this representation using a method of low rank approximation.
+
+%%
 % These slice are formed through the selection of pivot values sampled from
 % the function, and rely on symmetry features that enforce smoothness over the pole of the
 % disk [1]. The numerical rank of a diskfun corresponds to the number of slices it is composed of. We can view the slices and pivots using the plot command. 
