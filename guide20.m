@@ -236,15 +236,38 @@ plot(laplacian(f))
 title('Scalar laplacian of f')
 snapnow
 
-%% Solving Poisson's equation
+%% Poisson's equation and the cylindrical harmonic functions
 % We can use Diskfun to find solutions to Poisson's equation on the disk. 
 % In this example, we find $u(\theta, \rho)$ in 
 % \[ \Delta^2 u = f, \qquad f(\theta, 1) = 1, \]
 % where $(\theta, \rho) \in [-\pi, \pi, 0, 1]$ and 
 % $f = sin\left( 21 \pi \left(1 + \cos(\pi \rho)
-% \right) \rho^2-2\rho^5\cos \left( 5(t-.11)\right) \right)$.
+% \right) \rho^2-2\rho^5\cos \left( 5(t-.11)\right) \right. 
 %%
+f = @(t,r) sin(21*pi*(1+cos(pi*r)).*(r.^2-2*r.^5.*cos(5*(t-0.11))));
+rhs = diskfun(f, 'polar') % rhs 
+bc = @(t) 0*t+1  %boundary condition
+u = diskfun.poisson(f, bc, 512) % solve for u with 512 x 512 degrees of freedom
 
+plot(rhs)
+title('f, the forcing term'), snapnow
+
+plot(u)
+title('u, the solution to Poisson''s equation'), snapnow
+
+%%
+% The accuracy of the solver can be examined by considering the
+% {\em cylindrical harmonic functions}\footnote{strictly speaking, we
+% consider the cylindrical harmonic functions with a fixed radial parameter},
+% which are the eigenfunctions of
+% Laplace's equation on the disk. These functions form an orthogonal 
+% basis that is analogous to the trigonometric basis for 1D functions on
+% the unit circle. Cylindrical harmonic functions are defined by two 
+% parameters; they are of the form $V_n^\ell = $ 
+% They are easily constructed in Diskfun: 
+
+%%
+% f = diskfun.harmonic(
 
 %% Algebra on diskfuns
 % We can add, subtract, or multiply several diskfuns together to create new
