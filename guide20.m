@@ -117,7 +117,7 @@ mean2(f)
  plot(f)
  colorbar 
  hold on
- plot3( k(1),k(2),j, 'r.', 'Markersize', 30);
+ plot3( k(1),k(2),j, 'k.', 'Markersize', 30);
  hold off
  
  %%
