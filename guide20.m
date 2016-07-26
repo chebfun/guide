@@ -264,7 +264,7 @@ title('u'), snapnow
 % They are easily constructed in Diskfun: 
 
 %%
-f = diskfun.diskharm(5, 6); % n = 5, ell = 6
+f = diskfun.diskharm(5, 6); % n = 5, ell = 6 % will rename as diskfun.harmonic or something 
 
 plot(f)
 
@@ -335,30 +335,100 @@ hold off
  
 
 %% Constructing a diskfun
-% The underlying algorithm for constructing a diskfun adaptively selects and 
-% stores a collection of 1D circular and radial ``slices" of a function $f$
-% on the unit disk to create a compressed representation of $f$. 
-% We compute this representation using a method of low rank approximation.
+% The underlying algorithm for constructing a diskfun from a function $f$
+% adaptively selects and stores a collection of 
+% 1D circular and radial ``slices".  Each 
+% circular slice, a univariate function in $\theta$, is represented as a trigfun. 
+% Each radial slice, a univariate function in $\rho$, is represented as a
+% chebfun. These slices are used to form a
+% compressed representation of $f$. To understand this more clearly, we begin with
+% ``unwrapping" $f$ from the disk and viewing it as a rectangular function
+% on $(\theta, \rho)$ \in [-pi, pi, -1, 1]$. 
+%%
+ %should we add a disk2chebfun2 or disk2rect function?  Or allow for
+ %chebfun2 to accept diskfuns?
+ 
+ f = @(th, r) -cos(((sin(pi*r).*cos(th) + sin(2*pi*r).*sin(th)))/4);
+ 
+ g = chebfun2(f, [-pi pi -1 1]);
+ plot(g)
+ title('f in polar coordinates')
+ xlabel('theta: angular variable')
+ ylabel('rho: radial variable')
+ 
+ %%
+ % By choosing $\rho \in [-1, 1]$ instead of $\rho \in [0, 1]$ ,  
+ % the origin of the disk is not treated as a boundary while we work in the 
+ % rectangular domain prescribed by the polar coordinate transformation.
+ % Additionally, the { \em extended} function $\tilde{f}(\theta, \rho)$, 
+ % $(\theta, \rho) \in [-\pi, \pi, -1, 1]$ has a particular structure.  
+ % By constructing approximants to $\tilde{f}$ that
+ % preserve this structure, we ensure that the approximant is continuous and 
+ % smooth on the disk. For this reason, we typically always work with
+ % $\tilde{f}$ within Diskfun, and use this to get results for the original
+ % function $f$. 
+ %%
+ % Looking at $\tilde{f}$, we see that radial slices are column slices,
+ % and the angular slices are row slices. We can access and examine the 
+ % radial and angular slices used to approximate $f$ as a diskfun. 
+ 
+ %%
+ h = diskfun(f, 'polar')
+ plot(h.cols)
+ snapnow
+ plot(h.rows)
+ snapnow
+ 
+ %%
+ % The radial slices are stored as a quasimatrix of chebfuns (h.cols), and
+ % the angular slices are a quasimatrix of trigfuns(h.rows). Many of the 
+ % algorithms in Diskfun work by applying 1D algorithms to the 
+ % univariate functions stored in these quasimatrices. The number of slices
+ % required in each dimension to represent $f$ at machine precision 
+ % is referrred to as the { \em rank} of the diskfun. 
+ % In this instance, the rank is $9$. 
+ 
+ %%
+ % How are the slices selected and constructed? This is done through a
+ % structure-preserving Gaussian elimination (GE) procedure described in
+ % (). Analogous to ideas applied in Chebfun2 (), this
+ % method uses a complete pivoting strategy to perform GE and thereby select
+ % appropriate row and column slices for approximating $f$.  We find in 
+ % practice that structure preserving GE constructs 
+ % approximants that converge to $f$ at a rate asympotically identical to 
+ % singular value decomposition, which is known to be optimal in 
+ % $\mathcal{L}_2$.(cite) 
+ % Here, we plot the value of the pivots that were selected for $f$. Like
+ % singular values, they decay as they increase in index:
+ %%
+ 
+ %%
+ % We can understand how the diskfun representing $f$ was constructed by 
+ % examining the location of the slices and pivots. This can be done with
+ % the {\tt plot} command:
+ %%
+ plot(f, '.-', 'Markersize', 15)
+ 
+%%
+% The dots show the location of the pivots; there are $18$ instead of $9$ 
+% because, in order to preserve structure, the approximation method uses 
+% two pivot locations at each GE step (see () for details). By adaptively 
+% sampling the function $f$ along the slices, we form an approximant that is 
+% accurate to machine precision. 
+
+%% 
+% Another way to approximate $f$ is by sampling it on a Fourier-Chebyshev
+% tensor product grid. Here, we show the grid required to approximate $f$
+% to machine precision. It is clear that in this case, the low rank
+% approximant constructed via GE has compressed the function significantly.
+% We also note that low rank approximation via GE alleviates the issue of
+% unneccessary oversampling near the origin of the disk, which is induced
+% by the tensor product grid. 
 
 %%
-% These slice are formed through the selection of pivot values sampled from
-% the function, and rely on symmetry features that enforce smoothness over the pole of the
-% disk [1]. The numerical rank of a diskfun corresponds to the number of slices it is composed of. We can view the slices and pivots using the plot command. 
+%
 
-%%
-g
-plot(g)
-snapnow
-clf
-plot(g, 'k.-', 'Linewidth', 1.5, 'Markersize', 15)
 
-%%
-% There are 9 circular slices and 9 radial slices. The astersiks
-% represent the pivot values. There are twice as many pivots because they
-% are sampled symmetrically to ensure smoothness. 
-% TO DO: explain how slices relate to numerical rank, plot column and row
-% slices, give Fourier-Chebyshev series and show coeffs2...reference BMC
-% and spherefun. 
 %% References
 % [1] A. Townsend, H. Wilber, and G. Wright, Numerical computation with 
 % functions defined on the sphere (and disk), submitted, 2016.
