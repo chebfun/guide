@@ -64,7 +64,7 @@ f.coords
 %%
 f.coords = 'cart'
 
-f(sqrt(2)/4, sqrt(2), 4)
+f(sqrt(2)/4, sqrt(2)/4)
 %%
 % We can also evaluate a univariate 'slice' of $f$, either radial or 
 % angular. The result is returned as a chebfun, 
@@ -111,7 +111,7 @@ mean2(f)
 % along with its maximum value.
 
 %%
- f = @(x,y) cos(15*((x-.2).^2+(y-.2).^2)).*exp(-((x-.2))^2-((y-.2)).^2);
+ f = @(x,y) cos(15*((x-.2).^2+(y-.2).^2)).*exp(-((x-.2)).^2-((y-.2)).^2);
  f = diskfun(f);
  [j, k] = max2(f) 
  plot(f)
@@ -126,7 +126,7 @@ mean2(f)
  
  [jp, kp] = max2(f, 'polar');
  
- [kp*cos(jp) kp*sin(jp)]
+ [kp(2)*cos(kp(1)) kp(2)*sin(kp(1))]
  
 %%
 % We can visualize a diskfun in many ways.  Here is a contour plot,
@@ -144,41 +144,36 @@ hold off
 % a cell array of chebfuns. Each cell consists of two chebfuns 
 % that parametrize the contour. 
 %%
-r = roots(f);
+r = roots(f);   %note: these look pretty terrible right now. Need to figure out
+                % how to fix the gap
+                % it may be that we just need to pick a different function
 plot(f)
 hold on
 for j = 1:length(r)
     rj = r{j}; 
-    plot(rj(:,1), rj(:,2), '-k', 'Linewidth', 2)
+    plot(r{j}(:,1), r{j}(:,2), '-k', 'Linewidth', 2)
 end
 hold off
 %%
 % As with chebfun, we can add, subtract, or multiply diskfuns 
 % together. 
 
-f = diskfun(@(th, r) -10*cos(((sin(pi*r).*cos(th) +...
-    10*sin(2*pi*r).*sin(th)))/4), 'polar');
-g = diskfun(@(x,y) exp(-10*( (x-.3).^2+y.^2)));
+g = diskfun(@(th, r) -40*(cos(((sin(pi*r).*cos(th)...
+    + sin(2*pi*r).*sin(th)))/4))+39.5, 'polar');
 plot(g)
-axis square
-view(2), snapnow
+snapnow
 
 h = g+ f;
 plot(h)
-axis square
-view(2), snapnow
+snapnow
 
 h = g - f;
 plot(h)
-axis square
-view(2), snapnow
+snapnow
  
-h = g.*f; 
-plot(h)
-axis square 
-view(2)
+%h = g.*f; %something not working here (probably related to coordsetting and feval) 
+%plot(h)
 
- 
 %%
 % Differentiation on the disk with respect to the polar variable $\rho$
 % can lead to singularities, even for smooth functions. 
@@ -244,15 +239,15 @@ snapnow
 % \right) \rho^2-2\rho^5\cos \left( 5(t-.11)\right) \right. 
 %%
 f = @(t,r) sin(21*pi*(1+cos(pi*r)).*(r.^2-2*r.^5.*cos(5*(t-0.11))));
-rhs = diskfun(f, 'polar') % rhs 
-bc = @(t) 0*t+1  %boundary condition
+rhs = diskfun(f, 'polar'); % rhs 
+bc = @(t) 0*t+1;  %boundary condition
 u = diskfun.poisson(f, bc, 512) % solve for u with 512 x 512 degrees of freedom
 
 plot(rhs)
-title('f, the forcing term'), snapnow
+title('f'), snapnow
 
 plot(u)
-title('u, the solution to Poisson''s equation'), snapnow
+title('u'), snapnow
 
 %%
 % The accuracy of the solver can be examined by considering the
@@ -269,17 +264,19 @@ title('u, the solution to Poisson''s equation'), snapnow
 % They are easily constructed in Diskfun: 
 
 %%
-f = diskfun.harmonic(3, 7); % n = 3, ell = 7
+f = diskfun.diskharm(5, 6); % n = 5, ell = 6
 
 plot(f)
 
+
 %%
 % The exact solution to $\Delta^2u = f$ with homogeneous Dirichlet boundary 
-% conditions is (TODO: normalize in code, use normalization to get correct
-% constant in exact solution). 
+% conditions is (get correct eigenvalue C) $Cf$. 
 
+%%
+% TO DO
 %C= eigenvalue;
-norm(u -C*f)
+%norm(u -C*f)
 
 
 
@@ -306,7 +303,7 @@ u = grad(f)
 % each component is a smooth function on the disk. The unit vectors 
 % in the polar and radial directions are discontinuous at the origin of 
 % the disk, and working with them can lead to singularities.
-
+%%
 plot(f)
 hold on
 quiver(u, 'k')
@@ -326,9 +323,9 @@ hold off
  % Several vector calculus operations are available.
  % For example, since $\vec{u}$ is a gradient field, we expect 
  %$\Delta \cross \vec{u} =  0$
- 
- curl(u)
- norm(u) % wow not actually so good. 
+ %%
+ v = curl(u);
+ norm(v) % wow not actually so good. 
  
 
  %%
@@ -349,16 +346,19 @@ hold off
 % disk [1]. The numerical rank of a diskfun corresponds to the number of slices it is composed of. We can view the slices and pivots using the plot command. 
 
 %%
-g =diskfun(@(th, r) -cos(((sin(pi*r).*cos(th) + sin(2*pi*r).*sin(th)))/4), 'polar');
+g
 plot(g)
-hold on
-plot(g, 'k*-', 'Linewidth', 1.5)
+snapnow
+clf
+plot(g, 'k.-', 'Linewidth', 1.5, 'Markersize', 15)
 
 %%
 % There are 9 circular slices and 9 radial slices. The astersiks
 % represent the pivot values. There are twice as many pivots because they
 % are sampled symmetrically to ensure smoothness. 
-
+% TO DO: explain how slices relate to numerical rank, plot column and row
+% slices, give Fourier-Chebyshev series and show coeffs2...reference BMC
+% and spherefun. 
 %% References
 % [1] A. Townsend, H. Wilber, and G. Wright, Numerical computation with 
 % functions defined on the sphere (and disk), submitted, 2016.
