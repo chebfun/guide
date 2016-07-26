@@ -171,8 +171,8 @@ h = g - f;
 plot(h)
 snapnow
  
-%h = g.*f; %something not working here (probably related to coordsetting and feval) 
-%plot(h)
+h = g.*f; 
+plot(h)
 
 %%
 % Differentiation on the disk with respect to the polar variable $\rho$
