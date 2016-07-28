@@ -1,9 +1,25 @@
 %% 20.  Diskfun
-% Heather Wilber, June 2016
+% Heather Wilber, July 2016
 
 %% 
 % Diskfun is a new part of Chebfun designed for computing with 
-% bivariate functions defined on the unit disk. 
+% 2D scalar and vector-valued functions defined on the unit disk. Conceptually, 
+% it is the extension of Chebfun2 to the polar setting, designed to accurately 
+% and efficiently perform over 100 commands with functions on the disk, 
+% including differentiation, integration, vector calculus, and rootfinding, among
+% many other things. Diskfun was developed in tandem with Spherefun, and
+% the two are conceptually closely related. 
+
+%%
+% 
+% To get started, we simply call the diskfun constructor. In this example,
+% we consider a Gaussian function. 
+%%
+
+g = diskfun(@(x,y) exp(-10*( (x-.3).^2+y.^2)));
+plot(g)
+view(3)
+%%
 % When working with functions on the disk, it is often convenient to
 % express them in terms of polar coordinates: Given a function $f(x,y)$ 
 % expressed in Cartesian coordinates, we apply the following transformation
@@ -15,24 +31,13 @@
 % variable and $\rho$ is the \textit{radial} variable. 
 
 %%
-% We can construct a function in Diskfun using either coordinate system;
-% the default is Cartesian.
-% A function in Cartesian coordinates can be constructed as follows: 
-%%
-g = diskfun(@(x,y) exp(-10*( (x-.3).^2+y.^2)));
-
-
-
-%%
 % To construct the same function using polar coordinates, we include the 
-% flag 'polar' in the construction command. The result using either 
+% flag 'polar'. The result using either 
 % coordinate system is the same up to approximately machine precision: 
 
 %%
 
-f = diskfun(@(t, r) exp(-10*( (r.*cos(t)-.3).^2+(r.*sin(t)).^2)), 'polar');
-plot(f)
-view(3)
+f = diskfun(@(t, r) exp(-10*((r.*cos(t)-.3).^2+(r.*sin(t)).^2)), 'polar');
 norm(f-g)
 
 
@@ -43,27 +48,28 @@ f
 
 
 %% 
-% The output describes the {\em numerical rank} of $f$, as well as the
-% approximate maximum absolute value (the vertical scale).
+% The output describes the {\em numerical rank} of $f$ (discussed below), 
+% as well as the approximate maximum absolute value (the vertical scale).
 
 %%
 % Conveniently, we can evaluate $f$ using points written in either 
-% polar or Cartesian coordinates. This setting is stored as the 'coords' 
-% parameter. Here, it has been set to polar coordinates: 
-%%
-f.coords
-
+% polar or Cartesian coordinates, regardless of how it was constructed. 
 
 %%
-% To evaluate in Cartesian coordinates, we must include the 'cart' flag: 
+% To evaluate $f$ in Cartesian coordinates, we must include the 'cart' flag: 
 
 [   f(sqrt(2)/4, sqrt(2)/4, 'cart')    f(pi/4,1/2)  ]
 
 %%
-% Alternatively, we can change the default `coords' setting:
+% Alternatively, we can change a default parameter associated with {\tt f}:
 %%
-f.coords = 'cart'
+f.coords
 
+f.coords = 'cart';
+
+%%
+% Now, no flag is needed to evaluate in Cartesian coordinates. 
+%%
 f(sqrt(2)/4, sqrt(2)/4)
 %%
 % We can also evaluate a univariate 'slice' of $f$, either radial or 
@@ -82,37 +88,52 @@ plot(f1,'b', f2,'r', f3,'k')
 %%
 % As with the rest of Chebfun, Diskfun is designed to perform operations at
 % essentially machine precision, and using Diskfun requires no special 
-% knowledge concerning the underlying discretization procedures.  
-% Currently, there are more than 100 operations available.
+% knowledge about underlying algorithms or discretization procedures. 
+% Those interested in such details can find an in-depth description of 
+% how Diskfun works in []. 
+
 
 %% Basic operations
-% A suite of commands are available for computing with functions on the 
-% disk. For example, the integral of the function  
-% $g(x,y) = -x^2 -3xy-(y-1)^2$ over the unit disk is 
-% found as follows: 
+% A suite of commands are available in Diskfun, 
+% and here we describe only a few. A complete listing can be found by
+% typing {\tt methods diskfun}. 
 
 %%
-f = diskfun(@(x,y) -x.^2 - 3*x.*y-(y-1).^2)
-sum2(f)
+% We start by adding, subtracting, and multiplying diskfuns together: 
 
-%% 
-% The exact answer is $-3\pi/2$: 
+g = diskfun(@(th, r) -40*(cos(((sin(pi*r).*cos(th)...
+    + sin(2*pi*r).*sin(th)))/4))+39.5, 'polar');
+f = diskfun( @(x,y) cos(15*((x-.2).^2+(y-.2).^2))...
+    .*exp(-((x-.2)).^2-((y-.2)).^2));
+
+plot(g)
+title('g')
+snapnow
+
+plot(f)
+title('f')
+snapnow
+
+h = g+ f;
+plot(h)
+title('g+f')
+snapnow
+
+h = g - f;
+plot(h)
+title('g-f')
+snapnow
+ 
+h = g.*f; 
+plot(h)
+title('g*f')
+
+
 %%
--3*pi/2
-
-% Since the area of the unit disk is $\pi$, the mean of $f$ should be
-% $-3/2$: 
-%%
-mean2(f)
-
+% In addition to alebraic operations, we can also perform global optimzation.  
+% In this example, we use {\tt max2} to plot $f$ along with its maximum value.
 
 %%
-% We can also find global maxima and minima. Here, we plot a function
-% along with its maximum value.
-
-%%
- f = @(x,y) cos(15*((x-.2).^2+(y-.2).^2)).*exp(-((x-.2)).^2-((y-.2)).^2);
- f = diskfun(f);
  [j, k] = max2(f) 
  plot(f)
  colorbar 
@@ -121,16 +142,16 @@ mean2(f)
  hold off
  
  %%
- % If it is preferred, the location of the maximum can be returned in polar
- % coordinates: 
+ % The location of the maximum can also be returned in polar
+ % coordinates. 
  
  [jp, kp] = max2(f, 'polar');
  
  [kp(2)*cos(kp(1)) kp(2)*sin(kp(1))]
  
 %%
-% We can visualize a diskfun in many ways.  Here is a contour plot,
-% with the zero contours displayed in black:
+% There are many ways to visualize a function on the disk. Here is a 
+% contour plot of $f$, with the zero contours displayed in black:
 %% 
 contour(f, 'Linewidth', 1.2)
 colorbar
@@ -155,24 +176,18 @@ for j = 1:length(r)
 end
 hold off
 %%
-% As with chebfun, we can add, subtract, or multiply diskfuns 
-% together. 
+% We can also perform calculus. The integral of the function  
+% $g(x,y) = -x^2 -3xy-(y-1)^2$ over the unit disk is 
+% found using the familiar {\tt sum2} command.  
 
-g = diskfun(@(th, r) -40*(cos(((sin(pi*r).*cos(th)...
-    + sin(2*pi*r).*sin(th)))/4))+39.5, 'polar');
-plot(g)
-snapnow
+%%
+f = diskfun(@(x,y) -x.^2 - 3*x.*y-(y-1).^2)
+sum2(f)
 
-h = g+ f;
-plot(h)
-snapnow
-
-h = g - f;
-plot(h)
-snapnow
- 
-h = g.*f; 
-plot(h)
+%% 
+% The exact answer is $-3\pi/2$. 
+%%
+-3*pi/2
 
 %%
 % Differentiation on the disk with respect to the polar variable $\rho$
@@ -181,62 +196,56 @@ plot(h)
 % on the disk, but $\partial f/ \partial \rho = 2 \rho$ is not 
 % smooth. For this reason, differentiation in
 % diskfun is done with respect to the Cartesian coordinates, $x$ and $y$.
-% TO DO: (pick a better example.)
+
 
 %%
-% Here we examine a  harmonic conjugate pair of functions.
-   u = diskfun(@(x,y) x.*y-x+y);
-   v = diskfun(@(x,y) -1/2*x.^2+1/2*y.^2-x-y);
-%%
+% Here we examine a  harmonic conjugate pair of functions, $u$ and $v$. 
 % We can check that these functions satisfy the Cauchy-Riemann equations. 
-% First, we compute $\partial u / \partial y$: 
  
 %%
-dyu = diffy(u);  
-%%
-% Next, we find $\partial v / \partial x$: 
+u = diskfun(@(x,y) x.*y-x+y);
+v = diskfun(@(x,y) -1/2*x.^2+1/2*y.^2-x-y);
+dyu = diffy(u);  % u_y
+dxv = diffx(v);  % u_x 
  
-dxv = diffx(v); 
- 
-%%
-% It should be true that $u_y +v_x =0$: 
- 
-norm(dyu+dxv)
- 
-%% 
-% Likewise, we check that $\partial u /\partial x$ =\partial v / \partial
-% y$: 
- 
-norm(diffx(u) -diffy(v))
 
- 
+norm(dyu+dxv) % u_y =- v_x  
+norm(diffx(u) -diffy(v)) % u_x=v_y
+
 %%
-% TO DO:(maybe replace with this example instead): 
-% Here, we examine some derivatives of a function involving the Bessel
+% In this example, we examine derivatives of a function involving the Bessel
 % function.
 f = diskfun(@(x,y) besselj(0, 5*y).*besselj(0, 5*(x-.1)).*exp(-x.^2-y.^2));
 plot(f)
+axis off
 snapnow
+title('f')
 
 plot(diffx(f))
+axis off
 title('derivative of f with respect to x')
 snapnow
 
 plot(diffy(f))
+axis off
 title('derivative of f with respect to y')
 snapnow
 
 plot(laplacian(f))
+axis off
 title('Scalar laplacian of f')
 snapnow
 
-%% Poisson's equation and the cylindrical harmonic functions
-% We can use Diskfun to find solutions to Poisson's equation on the disk. 
-% In this example, we find $u(\theta, \rho)$ in 
-% \[ \Delta^2 u = f, \qquad f(\theta, 1) = 1, \]
-% where $(\theta, \rho) \in [-\pi, \pi, 0, 1]$ and 
-% $f = sin\left( 21 \pi \left(1 + \cos(\pi \rho)
-% \right) \rho^2-2\rho^5\cos \left( 5(t-.11)\right) \right. 
+%% Poisson's equation and the cylindrical harmonics
+% We can use Diskfun to compute solutions to Poisson's equation on the disk. 
+% In this example, we compute the solution $u(\theta, \rho)$ for Poisson's 
+% equation with a Dirichlet boundary condition, so that
+% \[ \Delta^2 u = f, \qquad f(\theta, 1) = 1. \]
+% Here, $(\theta, \rho) \in [-\pi, \pi] \times [0, 1]$ and 
+% $f = sin \left( 21 \pi \left( 1 + \cos( \pi \rho)
+% \right) \rho^2-2\rho^5\cos \left( 5(t-.11)\right) \right)$. The solution is
+% returned as a diskfun, so we can immediately plot it, evaluate at a set of points, 
+% find zero contours, or perform other actions. 
 %%
 f = @(t,r) sin(21*pi*(1+cos(pi*r)).*(r.^2-2*r.^5.*cos(5*(t-0.11))));
 rhs = diskfun(f, 'polar'); % rhs 
@@ -244,14 +253,16 @@ bc = @(t) 0*t+1;  %boundary condition
 u = diskfun.poisson(f, bc, 512) % solve for u with 512 x 512 degrees of freedom
 
 plot(rhs)
+axis off
 title('f'), snapnow
 
 plot(u)
+axis off
 title('u'), snapnow
 
 %%
 % The accuracy of the solver can be examined by considering the
-% {\em cylindrical harmonic functions}\footnote{strictly speaking, we
+% {\em cylindrical harmonics}\footnote{Strictly speaking, we
 % consider the cylindrical harmonic functions with a fixed height},
 % which are the eigenfunctions of
 % Laplace's equation on the disk. These functions form an orthogonal 
@@ -264,25 +275,33 @@ title('u'), snapnow
 % They are easily constructed in Diskfun: 
 
 %%
-f = diskfun.diskharm(5, 6); % n = 5, ell = 6 % will rename as diskfun.harmonic or something 
+f = diskfun.diskharm(4, 5); % n = 4, ell = 5 % will rename as diskfun.harmonic or something 
 
 plot(f)
+axis off
 
 
 %%
 % The exact solution to $\Delta^2u = f$ with homogeneous Dirichlet boundary 
-% conditions is (get correct eigenvalue C) $Cf$. 
+% conditions is $-\lambda f$, where $\sqrt{\lambda}$ is the $\ell$th positive root
+% of the Bessel function $J_n(\rho)$. For $(n, \ell) = (4,5)$, 
+% $\sqrt{\lambda} \approx 20.8269329569623$.
 
 %%
-% TO DO
-%C= eigenvalue;
-%norm(u -C*f)
+% bc = @(t) 0*t;
+% lam = 20.8269329569623;
+% u = diskfun.poisson(f,bc, 256);  %need to change poisson to accept
+% diskfuns as input. 
+%
+% v = -lam^2*f; 
+% norm(u-v)
 
 
 
-%% Vector Calculus
+
+%% Vector calculus
 % Vector-valued functions and operations on the disk are performed using 
-% {\em Diskfunv}. Here, we define a diskfun and find its gradient, which is
+%  Diskfunv. Here, we define a diskfun and find its gradient, which is
 % returned as a diskfunv object.
 
 %%
@@ -311,7 +330,7 @@ hold off
 
  %%
  % Once a diskfunv is created, we can apply several operations.  
- % For example, the divergence is given by
+ % For example, here is a contour plot of the divergence. 
  %%
  D = div(u); 
  contour(D, 'Linewidth', 1.5)
@@ -320,30 +339,44 @@ hold off
  hold off
  
 %% 
- % Several vector calculus operations are available.
- % For example, since $\vec{u}$ is a gradient field, we expect 
- %$\Delta \cross \vec{u} =  0$
- %%
+% Since $\vec{u}$ is a gradient field, we expect 
+% $\Delta \cross \vec{u} =  0$. We can check this with the {\tt curl}
+%command.
+
+%%
  v = curl(u);
  norm(v) % wow not actually so good. 
  
 
  %%
- % We can perform a variety of algebraic and
- % calculus-based operations using diskfunvs. For a complete listing of the
- % available operations, type { \tt methods diskfunv}.
+ % A variety of commands are available for diskfunvs. For a complete listing of the
+ % available operations, type {\tt methods diskfunv}.
  
-
-%% Constructing a diskfun
+ %%
+ % While the above sections describe enough to get started with Diskfun,
+ % there is much more to be explored. The next section provides an overview
+ % of how the algorithms in Diskfun work, and can be useful for understanding
+ % various aspects of approximation involving functions on the disk. More
+ % details can be found in (), and also in the Spherefun chapter (Chapter 17)
+ % of the guide.
+ 
+%% Constructing a diskfun (STILL A LOT OF WORK TO BE DONE FROM HERE DOWN)
 % The underlying algorithm for constructing a diskfun from a function $f$
 % adaptively selects and stores a collection of 
 % 1D circular and radial ``slices".  Each 
 % circular slice, a univariate function in $\theta$, is represented as a trigfun. 
 % Each radial slice, a univariate function in $\rho$, is represented as a
-% chebfun. These slices are used to form a
-% compressed representation of $f$. To understand this more clearly, we begin with
+% chebfun. These slices are used to form a low rank,
+% compressed representation of $f$. 
+
+%% 
+% To understand this more clearly, we begin with
 % ``unwrapping" $f$ from the disk and viewing it as a rectangular function
-% on $(\theta, \rho)$ \in [-pi, pi, -1, 1]$. 
+% in polar coordinates. Even though we are interested in approximating 
+% the function $f$, defined on the domain $(\theta, \rho) \in [\-\pi, \pi]\times
+% [0, 1]$, we will consider the related function $\tilde{f}$, which is 
+% the function that results from extending $f$ to the domain 
+% $(\theta, \rho)$ \in [-pi, pi, -1, 1]$. 
 %%
  %should we add a disk2chebfun2 or disk2rect function?  Or allow for
  %chebfun2 to accept diskfuns?
@@ -357,7 +390,7 @@ hold off
  ylabel('rho: radial variable')
  
  %%
- % By choosing $\rho \in [-1, 1]$ instead of $\rho \in [0, 1]$ ,  
+ % By choosing $\rho \in [-1, 1]$ instead of $\rho \in [0, 1]$, 
  % the origin of the disk is not treated as a boundary while we work in the 
  % rectangular domain prescribed by the polar coordinate transformation.
  % Additionally, the { \em extended} function $\tilde{f}(\theta, \rho)$, 
@@ -366,7 +399,7 @@ hold off
  % preserve this structure, we ensure that the approximant is continuous and 
  % smooth on the disk. For this reason, we typically always work with
  % $\tilde{f}$ within Diskfun, and use this to get results for the original
- % function $f$. 
+ % function $f$, defined on $[-\pi, \pi] \times [0, 1]$. 
  %%
  % Looking at $\tilde{f}$, we see that radial slices are column slices,
  % and the angular slices are row slices. We can access and examine the 
@@ -398,16 +431,15 @@ hold off
  % approximants that converge to $f$ at a rate asympotically identical to 
  % singular value decomposition, which is known to be optimal in 
  % $\mathcal{L}_2$.(cite) 
- % Here, we plot the value of the pivots that were selected for $f$. Like
- % singular values, they decay as they increase in index:
+ % Here, we plot the value of the pivots that were selected for $f$. As the
+ % index increases, the value of the pivots decay to zero: 
  %%
- 
+ pivotplot(h, '.-', 'Markersize', 15); 
  %%
- % We can understand how the diskfun representing $f$ was constructed by 
- % examining the location of the slices and pivots. This can be done with
- % the {\tt plot} command:
+ % We can examine the location of the slices and pivots using the {\tt plot} command:
  %%
- plot(f, '.-', 'Markersize', 15)
+ clf
+ plot(h, '.-', 'Markersize', 15)
  
 %%
 % The dots show the location of the pivots; there are $18$ instead of $9$ 
@@ -426,10 +458,14 @@ hold off
 % by the tensor product grid. 
 
 %%
-%
+% 
 
 
 %% References
-% [1] A. Townsend, H. Wilber, and G. Wright, Numerical computation with 
-% functions defined on the sphere (and disk), submitted, 2016.
+% [1] A. Townsend, H. Wilber, and G.B. Wright, Computing with functions in 
+% spherical and polar geometries II. The disk. Submitted (2016).
+% (chebfun 2 paper)
+% (spherefun guide)
+
+
 
