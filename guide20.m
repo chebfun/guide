@@ -369,10 +369,9 @@ norm( V - curl(g) )
 
 f= @(th, r) -cos(((sin(pi*r).*cos(th) + sin(2*pi*r).*sin(th)))/4);
 f = diskfun(f, 'polar');
-%tf = pol2cart(f, 'dfs') %to do: thinking about whether a doubled version
-%should be easily accesible (it just does CDR)
-%plot(tf)
-%title('The BMC function associated with f')
+tf = cart2pol(f, 'dfs') 
+plot(tf)
+title('The BMC function associated with f')
 
 %%
 % A structure-preserving method of Gaussian elimination (GE) (see [3])
