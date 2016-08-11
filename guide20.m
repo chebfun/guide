@@ -125,8 +125,9 @@ title( 'g x f' )
 
 %%
 % In addition to algebraic operations, we can also solve unconstrained 
-% global optimzation problems. In this example, we use the command 
-% {\tt max2} to plot $f$ along with its maximum and minimum values.
+% global optimzation problems. In this example, we use the commands 
+% {\tt max2} and {\tt min2} to plot $f$ along with its maximum and minimum 
+% values.
 
 [jM, kM] = max2( f )
 [jm, km] = min2( f )
@@ -138,7 +139,7 @@ hold off
 
 %%
 % There are many ways to visualize a function on the disk and Diskfun offers
-% several different ways. For example, here is a contour plot of $g$, with 
+% several options. For example, here is a contour plot of $g$, with 
 % the zero contours displayed as black lines:
 
 contour(g, 'Linewidth', 1.2), hold on
@@ -246,40 +247,6 @@ plot( v )
 axis off
 title( 'v' ), snapnow
 
-%%
-% The accuracy of the solver can be examined by considering the
-% {\em cylindrical harmonics}\footnote{Strictly speaking, we
-% consider the cylindrical harmonic functions with a fixed height.},
-% which are the eigenfunctions of Laplace's equation on the disk. These 
-% functions form an orthogonal basis that is analogous to the trigonometric 
-% basis for 1D functions on the unit circle. Cylindrical harmonic functions 
-% with a fixed height are defined by two parameters; they are of the form
-% $$[V_n^\ell(\theta, \rho) = A_n^\ell J_n(\omega_\ell \rho)e^{in\theta}$$,
-% where $A_n^\ell$ is a normalization constant, $J_n$ is an $n$th order
-% Bessel function, and $\omega_\ell$ is the $\ell$th zero of $J_n$.
-% They are easily constructed in Diskfun:
-
-v = diskfun.harmonic(4, 5); % n = 5, ell = 5
-plot(v)
-title('Cylindrical harmonic with parameters (4,5)')
-view([28,53])
-axis off
-
-
-%%
-% Because it is an eigenfunction, $\Nabla^2v = -\lambda v$. The eigenvalues
-% are related to the zeros of the Bessel functions. In this case,
-% $\sqrt{\lambda} \approx 20.8269329569623$.
-
-%%
-bc = @(t) 0*t; %need to look into this
-lam = 20.8269329569623;
-u = diskfun.poisson(-lam^2*v,bc, 100);
-
-%%
-% We expect that $u = v$:
-%%
-norm(u-v)
 
 %% Vector calculus
 % Since the introduction of Chebfun2, Chebfun has supported computation with
@@ -425,6 +392,29 @@ f = diskfun(f, 'polar');
 % during the GE procedure.
 clf
 plot(f, '.-', MS, 20)
+
+%%
+% Writing the approximant as in () allows us to work with it as
+% a continuous analogue of a matrix factorization. The
+% the ``columns" of $f$ are the collection of Chebyshev interpolants
+% $\{ c_j(\rho)\}_{j=1}^n$, and the ``rows" of $f$ are the trigonometric
+% interpolants $\{ r_j(\theta)\}$. Using these ideas, $f$ can be fully 
+% characterized by its Chebyshev and Fourier coefficients. The command 
+% {\tt plotcoeffs} allows us to inspect these details. 
+
+plotcoeffs(f)
+
+%%
+% It is often convenient to work with the Chebyshev-Fourier matrix of 
+% coefficients associated with the diskfun. This is retrieved with the 
+% {\tt coeffs2} command, and can be quickly plotted using {\tt
+% plotcoeffs2}.
+%%
+
+plotcoeffs2(f)
+
+
+
 
 %% References
 %%
