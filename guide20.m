@@ -13,7 +13,7 @@ axis off
 % and efficiently perform over 100 operations with functions on the disk,
 % including differentiation, integration, vector calculus, and rootfinding, among
 % many other things. Diskfun was developed in tandem with Spherefun, and
-% the two are algorithmically closely related.
+% the two are algorithmically closely related [2,3].
 
 %%
 % To get started, we simply call the Diskfun constructor. In this example,
@@ -394,11 +394,11 @@ norm( V - curl(g) )
 % of $f$, denoted by $\tilde{f}$, which is formed by taking $f(\theta, \rho)$ 
 % and letting $\rho$ range over [-1, 1]$, as opposed to $[0, 1]$.
 % This is the disk analogue to the so-called double Fourier sphere method 
-% discussed in Chapter 17. The function $\tilde{f}$ has a special structure, 
-% referred to as a block-mirror-centrosymmetric (BMC) structure.  By 
-% forming approximants that preserve the BMC structure of $\tilde{f}$, 
-% smoothness near the origin is guaranteed. To see the BMC structure, we 
-% construct a diskfun $f$ and use the {\tt pol2cart} command:
+% discussed in Chapter 17. Also, see [1,4]. The function $\tilde{f}$ has a 
+% special structure, referred to as a block-mirror-centrosymmetric (BMC) 
+% structure.  By forming approximants that preserve the BMC structure of 
+% $\tilde{f}$, smoothness near the origin is guaranteed. To see the BMC 
+% structure, we construct a diskfun $f$ and use the {\tt pol2cart} command:
 
 f= @(th, r) -cos(((sin(pi*r).*cos(th) + sin(2*pi*r).*sin(th)))/4);
 f = diskfun(f, 'polar');
@@ -428,7 +428,7 @@ plot(f, '.-', MS, 20)
 
 %% References
 %%
-% [3] B. Fornberg, A Practical Guide to Pseudospectral Methods, 
+% [1] B. Fornberg, A Practical Guide to Pseudospectral Methods, 
 % Cambridge University Press, 1998.
 %%
 % [2] A. Townsend, H. Wilber, and G.B. Wright, Computing with functions in
