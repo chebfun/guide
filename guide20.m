@@ -223,7 +223,7 @@ axis off
 title( 'Scalar laplacian of f' )
 snapnow
 
-%% Poisson's equation and the cylindrical harmonics
+%% Poisson's equation
 % We can use Diskfun to compute solutions to Poisson's equation on the disk.
 % In this example, we compute the solution $v(\theta, \rho)$ for Poisson's
 % equation with a Dirichlet boundary condition, so that
@@ -370,6 +370,7 @@ norm( V - curl(g) )
 f= @(th, r) -cos(((sin(pi*r).*cos(th) + sin(2*pi*r).*sin(th)))/4);
 f = diskfun(f, 'polar');
 tf = cart2pol(f, 'dfs') 
+view(2)
 plot(tf)
 title('The BMC function associated with f')
 
@@ -409,7 +410,7 @@ plotcoeffs(f)
 % {\tt coeffs2} command, and can be quickly plotted using {\tt
 % plotcoeffs2}.
 %%
-
+clf
 plotcoeffs2(f)
 
 
