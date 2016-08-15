@@ -4,6 +4,7 @@
 %%
 LW = 'Linewidth';
 MS = 'Markersize';
+FS = 'Fontsize';
 
 %% 20.1 Introduction
 % Diskfun is a new part of Chebfun designed for computing with
@@ -126,16 +127,13 @@ title( 'g x f' )
 
 %%
 % In addition to algebraic operations, we can also solve unconstrained 
-% global optimzation problems. In this example, we use the commands 
-% |max2| and  |min2| to plot $f$ along with its maximum and minimum 
-% values.
+% global optimzation problems. In this example, we use the command 
+% |max2| to plot $f$ along with its maximum value.
 
 [jM, kM] = max2( f )
-[jm, km] = min2( f )
 plot( f ), hold on
 colorbar
 plot3(kM(1), kM(2), jM, 'k.', MS, 30);
-plot3(km(1), km(2), jm, 'r.', MS, 30);
 hold off
 
 %%
@@ -374,7 +372,7 @@ norm( v - curl(g) )
 % <latex>
 % To construct a diskfun from a function $f$, we consider an extended version
 % of $f$, denoted by $\tilde{f}$, which is formed by taking $f(\theta, \rho)$ 
-% and letting $\rho$ range over [-1, 1]$, as opposed to $[0, 1]$.
+% and letting $\rho$ range over $[-1, 1]$, as opposed to $[0, 1]$.
 % This is the disk analogue to the so-called double Fourier sphere method 
 % discussed in Chapter 17. Also, see [1,4]. The function $\tilde{f}$ has a 
 % special structure, referred to as a block-mirror-centrosymmetric (BMC) 
@@ -385,8 +383,8 @@ norm( v - curl(g) )
 f= @(x,y) sech((cos(2*((2*x).^2+(2*y).^2))+sin(2*y))); 
 f = diskfun(f);
 tf = cart2pol(f, 'cdr') 
-view(2)
 plot(tf)
+view(2)
 title('The BMC function associated with f')
 
 %%
@@ -418,7 +416,7 @@ title('The BMC function associated with f')
 
 clf
 plot(f, '.-', MS, 20)
-title('low rank function samples', FS, 16)
+title('low rank function samples', FS, 16), snapnow
 
 [ m, n ] = length(f);
 r = chebpts(m); 
