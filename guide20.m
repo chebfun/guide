@@ -50,9 +50,10 @@ norm(f-g)
 f
 
 %%
+% <latex>
 % The output describes the {\em numerical rank} of $f$ (discussed below),
 % as well an approximate maximum absolute value of $f$ (the vertical scale).
-
+% </latex>
 %%
 % To evaluate a diskfun, we can use either polar or Cartesian
 % coordinates.  (To evaluate in polar coordinates, we need to include
@@ -104,36 +105,41 @@ f = diskfun( @(x,y) cos(15*((x-.2).^2+(y-.2).^2))...
 
 plot( g )
 title( 'g' )
+axis off
 snapnow
 
 plot( f )
 title( 'f' )
+axis off
 snapnow
 
 h = g + f;
 plot(h)
 title( 'g + f' )
+axis off
 snapnow
 
 h = g - f;
 plot( h )
 title( 'g - f' )
+axis off
 snapnow
 
 h = g.*f;
 plot( h )
 title( 'g x f' )
-
+axis off
 
 %%
 % In addition to algebraic operations, we can also solve unconstrained 
 % global optimzation problems. In this example, we use the command 
 % |max2| to plot $f$ along with its maximum value.
 
-[jM, kM] = max2( f )
+[val, loc] = max2( f )
 plot( f ), hold on
+axis off
 colorbar
-plot3(kM(1), kM(2), jM, 'k.', MS, 30);
+plot3(loc(1), loc(2), val, 'k.', MS, 30);
 hold off
 
 %%
@@ -142,7 +148,7 @@ hold off
 % the zero contours displayed as black lines:
 
 contour(g, 'Linewidth', 1.2), hold on
-colorbar
+axis off
 contour(g, [0 0], '-k', 'Linewidth', 2)
 hold off
 
@@ -157,12 +163,14 @@ for j = 1:length(r)
     rj = r{j};
     plot(r{j}(:,1), r{j}(:,2), '-k', LW, 3)
 end
+colorbar
+axis off
 hold off
 
 %%
 % One can also perform calculus on diskfuns. For instance, the integral of 
 % the function $g(x,y) = -x^2 - 3xy-(y-1)^2$ over the unit disk can be 
-% computed using the  |sum2| command. We know that the exact answer is
+% computed using the |sum2| command. We know that the exact answer is
 % $-3\pi/2$.
 
 f = diskfun(@(x,y) -x.^2 - 3*x.*y-(y-1).^2)
@@ -195,6 +203,7 @@ norm(diffx(u) - diffy(v)) % Check u_x = v_y
 
 contour(u, 30, 'b'), hold on
 contour(v, 30, 'm')
+axis off
 hold off
 title( 'Contour lines for u and v' )
 snapnow
@@ -291,6 +300,7 @@ u = grad( f )
 plot(f)
 hold on
 quiver(u, 'k')
+axis off
 hold off
 
 %%
@@ -303,6 +313,7 @@ hold off
 D = div( u );
 contour(D, 'Linewidth', 1.5), hold on
 quiver(u, 'k')
+axis off
 hold off
 
 %%
@@ -341,11 +352,12 @@ norm(v - [dgy; -dgx])     % equivalent to vertical concatenation
 
 plot( g ), hold on
 quiver(v, 'w')
+axis off
 title( 'The numerical surface curl of g' )
 hold off
 
 %%
-% This construction is equivalent to using the command $|curl|$
+% This construction is equivalent to using the command |curl|
 % on the scalar function $g$:
 
 norm( v - curl(g) )
@@ -379,6 +391,7 @@ norm( v - curl(g) )
 % structure.  By forming approximants that preserve the BMC structure of 
 % $\tilde{f}$, smoothness near the origin is guaranteed. To see the BMC 
 % structure, we construct a diskfun |f| and use the |pol2cart| command:
+% </latex>
 
 f= @(x,y) sech((cos(2*((2*x).^2+(2*y).^2))+sin(2*y))); 
 f = diskfun(f);
@@ -404,6 +417,7 @@ title('The BMC function associated with f')
 % </latex>
 
 %%
+% <latex>
 % The |plot| command can be used to display the ``skeleton" of |f|:
 % the locations of the slices that were adaptively selected and sampled
 % during the GE procedure. Comparing the skeleton of |f| to the tensor
@@ -413,9 +427,11 @@ title('The BMC function associated with f')
 % points near the center and the edges of the disk can be observed in the
 % tensor product grid; low rank methods alleviate this issue in
 % many instances. 
+% </latex>
 
 clf
 plot(f, '.-', MS, 20)
+axis off
 title('low rank function samples', FS, 16), snapnow
 
 [ m, n ] = length(f);
@@ -427,31 +443,41 @@ YY = rr.*sin(tt);
 clf, plot(XX, YY, 'k-')
 hold on 
 plot(XX', YY', 'k-')
-view(2), axis square 
+view(2), axis square, axis off 
 title('Tensor product function samples', FS, 16)
 
 %%
 % <latex>
 % Writing the approximant as in~\eqref{eq:lra} allows us to work with it as
 % a continuous analogue of a matrix factorization. The
-% the ``columns" of $f$ are the collection of Chebyshev interpolants
-% $\{ c_j(\rho)\}_{j=1}^n$, and the ``rows" of $f$ are the trigonometric
-% interpolants $\{ r_j(\theta)\}$. Using these ideas, $f$ can be fully 
-% characterized by its Chebyshev and Fourier coefficients. The command 
-% |plotcoeffs| lets us inspect these details. 
+% the ``column" (radial) slices of $f$ are the collection of Chebyshev 
+% interpolants $\{ c_j(\rho)\}_{j=1}^n$, and the ``rows" of $f$ are the 
+% trigonometric interpolants $\{ r_j(\theta)\}$. These can be plotted; 
+% doing so we observe that each column is either even or odd, and each row 
+% is either $\pi$-periodic or $\pi$-antiperiodic. This is reflective of the 
+% inherent BMC structure of the approximant. 
+% </latex>
+
+clf
+plot(f.cols(:,2:10)) 
+title('8 of the 33 column slices of f')
+snapnow
+
+plot(f.rows(:,5:10))
+title('5 of the 33 row slices of f')
+
+%%
+% In practice, several basis choices can be used for approximation on the 
+% disk (see [Boyd, Yu 2011]). Diskfun uses the Chebyshev--Fourier basis, and 
+% |f| is fully characterized by its Chebyshev and Fourier coefficients. The 
+% command |plotcoeffs| lets us inspect these details. 
+% </latex>
 
 plotcoeffs(f)
 
 %%
-% In practice, several basis choices are effective for approximation on the disk 
-% (see [Boyd]). Diskfun uses the Chebyshev--Fourier basis.  To work directly 
-% with a diskfun's Chebyshev-Fourier coefficients, we retrieve them using  
-% the |coeffs2| command. The matrix of 2D coefficients can be 
-% quickly plotted using |plotcoeffs2|. If the coefficients
-% for a function are known, they can be used to construct a diskfun. 
-
-clf
-plotcoeffs2(f)
+% The Fourier-Chebyshev coefficients are retrieved using the |coeffs2| 
+% command. A coefficient matrix can also be used to construct a diskfun. 
 
 C = coeffs2(f); 
 g = diskfun(C, 'coeffs'); 
@@ -459,13 +485,23 @@ norm(g-f);
 
 %% References
 %%
-% [1] B. Fornberg, A Practical Guide to Pseudospectral Methods, 
+% [Boyd, Yu 2011] Boyd, John P., and Fu Yu, Comparing seven spectral methods 
+% for interpolation and for solving the Poisson equation in a disk: Zernike 
+% polynomials, Logan–Shepp ridge polynomials, Chebyshev–Fourier series, 
+% cylindrical Robert functions, Bessel–Fourier expansions, square-to-disk 
+% conformal mapping and radial basis functions, 
+% J. Comp. Physics, 230.4 (2011), pp. 1408-1438.
+%
+%%
+% [Fornberg 1998] B. Fornberg, A Practical Guide to Pseudospectral Methods, 
 % Cambridge University Press, 1998.
 %%
-% [2] A. Townsend, H. Wilber, and G.B. Wright, Computing with functions in
-% spherical and polar geometries I. The sphere, SISC, to appear, (2016).
+% [Townsend, Wilber & Wright, 2016A] A. Townsend, H. Wilber, and G.B. Wright, 
+% Computing with functions in spherical and polar geometries I. The sphere, 
+% SISC, to appear, (2016).
 %%
-% [3] A. Townsend, H. Wilber, and G.B. Wright, Computing with functions in
-% spherical and polar geometries II. The disk, submitted, (2016).
+% [Townsend, Wilber & Wright, 2016B] A. Townsend, H. Wilber, and G.B. Wright, 
+% Computing with functions in spherical and polar geometries II. The disk, 
+% submitted, (2016).
 %%
-% [4] L. N. Trefethen, Spectral methods in MATLAB, SIAM, 2000. 
+% [Trefethen 2000] L. N. Trefethen, Spectral methods in MATLAB, SIAM, 2000. 
