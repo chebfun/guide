@@ -440,9 +440,9 @@ r = r((m+1)/2: m);
 [ tt, rr ] = meshgrid( linspace(-pi, pi, n), r );
 XX = rr.*cos(tt); 
 YY = rr.*sin(tt); 
-clf, plot(XX, YY, 'k-')
+clf, plot(XX, YY, 'k-', LW, 0.1)
 hold on 
-plot(XX', YY', 'k-')
+plot(XX', YY', 'k-', LW, 0.1)
 view(2), axis square, axis off 
 title('Tensor product function samples', FS, 16)
 
