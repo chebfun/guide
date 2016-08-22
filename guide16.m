@@ -13,7 +13,8 @@ FS = 'Fontsize';
 % and efficiently perform over 100 operations with functions on the disk,
 % including differentiation, integration, vector calculus, and rootfinding, among
 % many other things. Diskfun was developed in tandem with Spherefun, and
-% the two are algorithmically closely related [2,3].
+% the two are algorithmically closely related 
+% [[Townsend, Wilber & Wright, 2016A],[Townsend, Wilber & Wright, 2016B]].
 
 %%
 % To get started, we simply call the Diskfun constructor. In this example,
@@ -45,13 +46,13 @@ f = diskfun(@(t, r) exp(-10*((r.*cos(t)-.3).^2+(r.*sin(t)).^2)), 'polar');
 norm(f-g)
 
 %%
-% The object we have constructed is called a diskfun, with a lower case ``D".
+% The object we have constructed is called a diskfun, with a lower case "d".
 % We can find out more about a diskfun by printing it to the command line.
 f
 
 %%
 % <latex>
-% The output describes the {\em numerical rank} of $f$ (discussed below),
+% The output describes the {\em numerical rank} of $f$,
 % as well an approximate maximum absolute value of $f$ (the vertical scale).
 % </latex>
 %%
@@ -88,7 +89,7 @@ sum( d )
 % essentially machine precision, and using Diskfun requires no special
 % knowledge about the underlying algorithms or discretization procedures.
 % Those interested in such details can find an in-depth description of
-% how Diskfun works in [3].
+% how Diskfun works in [Townsend, Wilber & Wright, 2016B].
 
 %% 16.2 Basic operations
 % A suite of commands are available in Diskfun, and here we describe only 
@@ -155,7 +156,8 @@ hold off
 %%
 % The roots of a function (1D contours) can also be found explicitly and 
 % computed with as functions. The contours are stored as a cell array of 
-% chebfuns. Each cell consists of two chebfuns that parametrize the contour.
+% chebfuns. Each cell consists of an array-valued chebfun that parametrizes 
+% the $x$ and $y$ coordinates of the contour.
 
 r = roots(g);
 plot(g), hold on
@@ -221,12 +223,12 @@ snapnow
 
 plot( diffx( f ) )
 axis off
-title( 'derivative of f with respect to x' )
+title( 'Derivative of f with respect to x' )
 snapnow
 
 plot( diffy( f ) )
 axis off
-title( 'derivative of f with respect to y' )
+title( 'Derivative of f with respect to y' )
 snapnow
 
 plot( laplacian( f ) )
@@ -277,7 +279,7 @@ title( 'v' ), snapnow
 % To get started, we create a diskfun representing a function
 % $f = \psi + \phi$, and then compute its gradient.
 % The result is returned as a vector-valued object called a diskfunv, with 
-% a lower case ``D".
+% a lower case "d".
 
 psi = @(x,y) 10*exp(-10*(x+.3).^2-10*(y+.5).^2)+10*...
     exp(-10*(x+.3).^2-10*(y-.5).^2)+ 10*(1-x.^2-y.^2)-20;
@@ -364,22 +366,22 @@ hold off
 norm( v - curl(g) )
 
 %%
-% To see all the available commands in the vector part of Diskfun, 
+% To see all commands available for vector-valued functions in Diskfun, 
 % type |methods diskfunv| in the MATLAB command line.
 
 %% 16.5 Constructing a diskfun
 % The above sections describe how to use Diskfun, and this section provides 
 % a brief overview of how the algorithms in Diskfun work. This can be useful 
 % for understanding various aspects of approximation involving functions 
-% on the disk. More details can be found in [3], and also in the closely 
-% related Spherefun chapter (Chapter 17) of the guide.
+% on the disk. More details can be found in [Townsend, Wilber & Wright, 2016B], 
+% and also in the closely related Spherefun part(Chapter 17) of the guide.
 
 %%
 % Like Chebfun2 and Spherefun, Diskfun uses a variant of Gaussian
-% elimination (GE) to form low rank approximations to functions. This often results
-% in a compressed representation of the function, and it also facilitates
-% the use of highly efficient algorithms that work primarily on 1D
-% functions.
+% elimination (GE) to form low rank approximations to functions. This often 
+% results in a compressed representation of the function, and it also 
+% facilitates the use of highly efficient algorithms that work primarily 
+% on 1D functions.
 
 %%
 % <latex>
@@ -387,11 +389,12 @@ norm( v - curl(g) )
 % of $f$, denoted by $\tilde{f}$, which is formed by taking $f(\theta, \rho)$ 
 % and letting $\rho$ range over $[-1, 1]$, as opposed to $[0, 1]$.
 % This is the disk analogue to the so-called double Fourier sphere method 
-% discussed in Chapter 17. Also, see [1,4]. The function $\tilde{f}$ has a 
-% special structure, referred to as a block-mirror-centrosymmetric (BMC) 
-% structure.  By forming approximants that preserve the BMC structure of 
-% $\tilde{f}$, smoothness near the origin is guaranteed. To see the BMC 
-% structure, we construct a diskfun |f| and use the |pol2cart| command:
+% discussed in Chapter 17. Also, see [Fornberg, 1998] and [Trefethen, 2000]. 
+% The function $\tilde{f}$ has a special structure, referred to as a block-
+% mirror-centrosymmetric (BMC) structure.  By forming approximants that 
+% preserve the BMC structure of $\tilde{f}$, smoothness near the origin is 
+% guaranteed. To see the BMC structure, we construct a diskfun |f| and use 
+% the |pol2cart| command:
 % </latex>
 
 f= @(x,y) sech((cos(2*((2*x).^2+(2*y).^2))+sin(2*y))); 
@@ -408,7 +411,7 @@ title('The BMC function associated with f')
 
 %%
 % <latex>
-% A structure-preserving method of GE (see [3])
+% A structure-preserving method of GE (see [Townsend, Wilber & Wright, 2016B])
 % adaptively selects a collection of 1D circular and radial
 % ``slices" that are used to approximate $\tilde{f}$. Each circular slice
 % is a periodic function in $\theta$, and is represented by a trigonometric
@@ -438,7 +441,7 @@ title('The BMC function associated with f')
 clf
 plot(f, '.-', MS, 20)
 axis off
-title('low rank function samples', FS, 16), snapnow
+title('Low rank function samples', FS, 16), snapnow
 
 [ m, n ] = length(f);
 r = chebpts(m); 
@@ -474,7 +477,7 @@ title('5 of the 33 row slices of f')
 
 %%
 % In practice, several basis choices can be used for approximation on the 
-% disk (see [Boyd, Yu 2011]). Diskfun uses the Chebyshev--Fourier basis, and 
+% disk (see [Boyd & Yu, 2011]). Diskfun uses the Chebyshev--Fourier basis, and 
 % |f| is fully characterized by its Chebyshev and Fourier coefficients. The 
 % command |plotcoeffs| lets us inspect these details. 
 
@@ -491,7 +494,7 @@ norm(g-f);
 
 %% References
 %%
-% [Boyd, Yu 2011] Boyd, John P., and Fu Yu, Comparing seven spectral methods 
+% [Boyd & Yu, 2011] J.P. Boyd, F. Yu, Comparing seven spectral methods 
 % for interpolation and for solving the Poisson equation in a disk: Zernike 
 % polynomials, LoganShepp ridge polynomials, ChebyshevFourier series, 
 % cylindrical Robert functions, BesselFourier expansions, square-to-disk 
@@ -499,7 +502,7 @@ norm(g-f);
 % J. Comp. Physics, 230.4 (2011), pp. 1408-1438.
 %
 %%
-% [Fornberg 1998] B. Fornberg, A Practical Guide to Pseudospectral Methods, 
+% [Fornberg, 1998] B. Fornberg, A Practical Guide to Pseudospectral Methods, 
 % Cambridge University Press, 1998.
 %%
 % [Townsend, Wilber & Wright, 2016A] A. Townsend, H. Wilber, and G.B. Wright, 
@@ -510,4 +513,4 @@ norm(g-f);
 % Computing with functions in spherical and polar geometries II. The disk, 
 % submitted, (2016).
 %%
-% [Trefethen 2000] L. N. Trefethen, Spectral methods in MATLAB, SIAM, 2000. 
+% [Trefethen, 2000] L. N. Trefethen, Spectral methods in MATLAB, SIAM, 2000. 
