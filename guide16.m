@@ -139,7 +139,7 @@ axis off
 plot( f ), hold on
 axis off
 colorbar
-plot3(loc(1), loc(2), val, 'k.', MS, 30);
+plot3(loc(1), loc(2), val, 'k.', MS, 20);
 hold off
 
 %%
@@ -161,7 +161,7 @@ r = roots(g);
 plot(g), hold on
 for j = 1:length(r)
     rj = r{j};
-    plot(r{j}(:,1), r{j}(:,2), '-k', LW, 3)
+    plot(r{j}(:,1), r{j}(:,2), '-k', LW, 2)
 end
 colorbar
 axis off
@@ -200,7 +200,7 @@ dxv = diffx(v);  % u_x
 
 norm(dyu+dxv)             % Check u_y =- v_x
 norm(diffx(u) - diffy(v)) % Check u_x = v_y
-
+%%
 contour(u, 30, 'b'), hold on
 contour(v, 30, 'm')
 axis off
@@ -215,8 +215,9 @@ snapnow
 f = diskfun(@(x,y) besselj(0, 5*y).*besselj(0, 5*(x-.1)).*exp(-x.^2-y.^2));
 plot( f )
 axis off
-snapnow
 title( 'f' )
+snapnow
+
 
 plot( diffx( f ) )
 axis off
@@ -238,7 +239,7 @@ snapnow
 % We can use Diskfun to compute solutions to Poisson's equation on the disk.
 % In this example, we compute the solution $v(\theta, \rho)$ for Poisson's
 % equation with a Dirichlet boundary condition, so that
-% $$ \Nabla^2 v = f, \qquad f(\theta, 1) = 1. $$
+% $\nabla^2 v = f, \qquad f(\theta, 1) = 1.$
 % Here, $(\theta, \rho) \in [-\pi, \pi] \times [0, 1]$ and
 % $f = \sin \left( 21 \pi \left( 1 + \cos( \pi \rho)
 % \right) \rho^2-2\rho^5\cos \left( 5(t-.11)\right) \right)$. The solution is
@@ -262,7 +263,7 @@ title( 'v' ), snapnow
 
 %% 16.4 Vector calculus
 % Since the introduction of Chebfun2, Chebfun has supported computation with
-% vector-valued functions, including functions in $2D$ (Chebfun2v), $3D$
+% vector-valued functions, including functions in 2D (Chebfun2v), 3D
 % (Chebfun3v), and spherical geometries (Spherefunv). Similarly, Diskfunv
 % allows one to compute with vector-valued functions on the disk.
 % Currently, there are dozens commands available in Diskfunv, including
@@ -319,7 +320,7 @@ hold off
 %%
 % <latex>
 % Since $\mathbf{u}$ is the gradient of $f$, we can verify that
-% $\Nabla \cdot \mathbf{u} = \Nabla^2 f$:
+% $\nabla \cdot \mathbf{u} = \nabla^2 f$:
 % </latex>
 
 norm( div(u) - lap(f) )
@@ -327,7 +328,7 @@ norm( div(u) - lap(f) )
 %%
 % <latex>
 % Additionally, since $\mathbf{u}$ is a gradient field,
-% \Nabla \cross \mathbf{u} =  0$. We can verify this with the |curl|
+% $\nabla \cross \mathbf{u} =  0$. We can verify this with the  |curl|
 % command.
 % </latex>
 
@@ -340,7 +341,7 @@ norm( v )
 % function handles or diskfuns input for each component, or by vertically
 % concatenating two diskfuns. Here, we demonstrate this by forming a 
 % diskfunv $\mathbf{v}$ that represents the numerical surface curl for a 
-% scalar-valued function $g$, i.e, $\Nabla \times [0, 0, g]$.
+% scalar-valued function $g$, i.e, $\nabla \times [0, 0, g]$.
 % </latex>
 
 g = diskfun( @(x,y) cosh(.25.*(cos(5*x)+sin(4*y.^2)))-2 );
@@ -395,6 +396,11 @@ norm( v - curl(g) )
 
 f= @(x,y) sech((cos(2*((2*x).^2+(2*y).^2))+sin(2*y))); 
 f = diskfun(f);
+plot(f)
+axis off
+title 'f'
+snapnow
+
 tf = cart2pol(f, 'cdr') 
 plot(tf)
 view(2)
@@ -410,17 +416,17 @@ title('The BMC function associated with f')
 % $\rho$, is represented as a chebfun.  These slices form a low rank
 % representation of $f$,
 % \begin{equation} \label{eq:lra}
-% f(\theta, \rho) \approx \sum_{j=1}^{n} d_jc_j(\rho)r_j(theta),
+% f(\theta, \rho) \approx \sum_{j=1}^{n} d_jc_j(\rho)r_j(\theta),
 % \end{equation}
-% where $\{d_j\}_{j=1}^{n}$ are pivot values associated with the GE
+% where $\{ d_j \}_{j=1}^{n}$ are pivot values associated with the GE
 % procedure.
 % </latex>
 
 %%
 % <latex>
-% The |plot| command can be used to display the ``skeleton" of |f|:
+% The {\tt plot} command can be used to display the ``skeleton" of {\tt f}:
 % the locations of the slices that were adaptively selected and sampled
-% during the GE procedure. Comparing the skeleton of |f| to the tensor
+% during the GE procedure. Comparing the skeleton of {\tt f} to the tensor
 % product grid required to approximate $\tilde{f}$ to machine precision, we
 % see that $\tilde{f}$ is numerically of low rank, so Diskfun is effectively
 % compressing the representation. The clustering of sample 
@@ -471,7 +477,7 @@ title('5 of the 33 row slices of f')
 % disk (see [Boyd, Yu 2011]). Diskfun uses the Chebyshev--Fourier basis, and 
 % |f| is fully characterized by its Chebyshev and Fourier coefficients. The 
 % command |plotcoeffs| lets us inspect these details. 
-% </latex>
+
 
 plotcoeffs(f)
 
