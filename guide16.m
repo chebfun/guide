@@ -13,8 +13,8 @@ FS = 'Fontsize';
 % and efficiently perform over 100 operations with functions on the disk,
 % including differentiation, integration, vector calculus, and rootfinding, among
 % many other things. Diskfun was developed in tandem with Spherefun, and
-% the two are algorithmically closely related 
-% [[Townsend, Wilber & Wright, 2016A],[Townsend, Wilber & Wright, 2016B]].
+% the two are algorithmically closely related.  For complete details on 
+% the algorithms of both of these classes see [Townsend, Wilber & Wright, 2016A/B].
 
 %%
 % To get started, we simply call the Diskfun constructor. In this example,
@@ -330,7 +330,7 @@ norm( div(u) - lap(f) )
 %%
 % <latex>
 % Additionally, since $\mathbf{u}$ is a gradient field,
-% $\nabla \cross \mathbf{u} =  0$. We can verify this with the  |curl|
+% $\nabla \times \mathbf{u} =  0$. We can verify this with the  |curl|
 % command.
 % </latex>
 
@@ -411,7 +411,7 @@ title('The BMC function associated with f')
 
 %%
 % <latex>
-% A structure-preserving method of GE (see [Townsend, Wilber & Wright, 2016B])
+% A structure-preserving method of GE (see [Townsend, Wilber \& Wright, 2016B])
 % adaptively selects a collection of 1D circular and radial
 % ``slices" that are used to approximate $\tilde{f}$. Each circular slice
 % is a periodic function in $\theta$, and is represented by a trigonometric
@@ -457,7 +457,7 @@ title('Tensor product function samples', FS, 16)
 
 %%
 % <latex>
-% Writing the approximant as in~\eqref{eq:lra} allows us to work with it as
+% Writing the approximant as in (\ref{eq:lra}) allows us to work with it as
 % a continuous analogue of a matrix factorization. The
 % the ``column" (radial) slices of $f$ are the collection of Chebyshev 
 % interpolants $\{ c_j(\rho)\}_{j=1}^n$, and the ``rows" of $f$ are the 
