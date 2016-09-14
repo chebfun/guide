@@ -53,7 +53,7 @@ f
 %%
 % <latex>
 % The output describes the {\em numerical rank} of $f$,
-% as well an approximate maximum absolute value of $f$ (the vertical scale).
+% as well an approximation to the maximum absolute value of $f$ (the vertical scale).
 % </latex>
 %%
 % To evaluate a diskfun, we can use either polar or Cartesian
@@ -63,9 +63,9 @@ f
 [   f(sqrt(2)/4, sqrt(2)/4)    f(pi/4,1/2, 'polar')  ]
 
 %%
-% We can also evaluate a univariate ``slice" of $f$, either radial or
-% angular. The result is returned as a chebfun, either a nonperiodic or
-% periodic function, respectively. Here, we plot three angular slices at
+% We can also evaluate a univariate ``slice" of $f$, in either the radial or
+% angular coordinate. The result is returned as a chebfun, either as a nonperiodic or
+% as a periodic function, respectively. Here, we plot three angular slices at
 % the fixed radii $\rho = 1/4$, $1/3$, and $1/2$.
 
 c = f( : , [1/4 1/3 1/2] , 'polar');
@@ -76,13 +76,13 @@ title( 'Three angular slices of a diskfun' )
 % Where ever possible, we interpret commands with respect to the function
 % in Cartesian coordinates. So, for example, the command  |diag| returns
 % the radial slice $f(x,x)$ as a nonperiodic chebfun, and  |trace| is
-% the integral of $f(x,x)$ over its domain.
+% the integral of $f(x,x)$ over its domain, $[-1, 1]$.
 
 d = diag( f );
 plot( d )
 title( 'The diagonal slice of f' ), snapnow
 trace_f = trace( f ) % The trace is the integral of f(x,x) over its domain  
-sum( d )
+int_d = sum( d )
 
 %%
 % Just like the rest of Chebfun, Diskfun is designed to perform operations at
@@ -106,25 +106,21 @@ f = diskfun( @(x,y) cos(15*((x-.2).^2+(y-.2).^2))...
 
 plot( g )
 title( 'g' )
-axis off
-snapnow
+axis off; snapnow
 
 plot( f )
 title( 'f' )
-axis off
-snapnow
+axis off; snapnow
 
 h = g + f;
 plot(h)
 title( 'g + f' )
-axis off
-snapnow
+axis off; snapnow
 
 h = g - f;
 plot( h )
 title( 'g - f' )
-axis off
-snapnow
+axis off; snapnow
 
 h = g.*f;
 plot( h )
@@ -137,25 +133,20 @@ axis off
 % |max2| to plot $f$ along with its maximum value.
 
 [val, loc] = max2( f )
-plot( f ), hold on
-axis off
-colorbar
-plot3(loc(1), loc(2), val, 'k.', MS, 20);
-hold off
+plot( f ), hold on; axis off; colorbar
+plot3(loc(1), loc(2), val, 'k.', MS, 20), hold off
 
 %%
 % There are many ways to visualize a function on the disk and Diskfun offers
 % several options. For example, here is a contour plot of $g$, with 
 % the zero contours displayed as black lines:
 
-contour(g, 'Linewidth', 1.2), hold on
-axis off
-contour(g, [0 0], '-k', 'Linewidth', 2)
-hold off
+contour(g, 'Linewidth', 1.2), hold on; axis off
+contour(g, [0 0], '-k', 'Linewidth', 2), hold off
 
 %%
-% The roots of a function (1D contours) can also be found explicitly and 
-% computed with as functions. The contours are stored as a cell array of 
+% The roots of a function (1D contours) can also be found explicitly. 
+% The contours are stored as a cell array of 
 % chebfuns. Each cell consists of an array-valued chebfun that parametrizes 
 % the $x$ and $y$ coordinates of the contour.
 
@@ -191,28 +182,37 @@ sum2(f)
 
 %%
 % Here, we examine a  harmonic conjugate pair of functions, $u$ and $v$.
-% We can use Diskfun to check that they satisfy the Cauchy-Riemann equations.
+% We can use Diskfun to check that they satisfy the Cauchy-Riemann
+% equations, and that $\nabla^2u = \nabla^2v = 0$. 
 % Geometrically, this implies that the contour lines of $u$ and $v$
-% intersect orthogonally.
+% intersect at right angles.
 
-u = diskfun(@(x,y) exp(x).*sin(y));
-v = diskfun(@(x,y) -exp(x).*cos(y));
+u = diskfun(@(t,r) r.^3.*cos(3*t), 'polar');
+v = diskfun(@(t,r) r.^3.*sin(3*t), 'polar');
 dyu = diffy(u);  % u_y
 dxv = diffx(v);  % u_x
 
-norm(dyu+dxv)             % Check u_y =- v_x
+norm(dyu + dxv)             % Check u_y =- v_x
 norm(diffx(u) - diffy(v)) % Check u_x = v_y
-%%
-contour(u, 30, 'b'), hold on
-contour(v, 30, 'm')
-axis off
-hold off
-title( 'Contour lines for u and v' )
-snapnow
+norm(diffx(u, 2) + diffy(u, 2)) % Check u_xx +u_yy = 0
+norm(lap(v)) % an equivalent way to check that v_xx +v_yy = 0 
 
 %%
-% In the next example, we compute the derivatives of a function
-% involving the Bessel function.
+contour(u, 30, 'b'), hold on
+contour(v, 30, 'm'), axis off; hold off
+title( 'Contour lines for u and v' ); snapnow
+
+%%
+
+%%
+% 
+
+%%
+% The Bessel functions arise frequently in connection
+% to the disk, and in fact form a basis that is orthogonal with respect
+% to the polar measure on the disk in the radial direction. 
+% Here, we use them to construct a function whose derivatives
+% are visually quite intuitive.
 
 f = diskfun(@(x,y) besselj(0, 5*y).*besselj(0, 5*(x-.1)).*exp(-x.^2-y.^2));
 plot( f )
@@ -264,14 +264,14 @@ title( 'v' ), snapnow
 
 
 %% 16.4 Vector calculus
-% Since the introduction of Chebfun2, Chebfun has supported computation with
+% Since the introduction of Chebfun2, Chebfun has supported computations with
 % vector-valued functions, including functions in 2D (Chebfun2v), 3D
 % (Chebfun3v), and spherical geometries (Spherefunv). Similarly, Diskfunv
 % allows one to compute with vector-valued functions on the disk.
 % Currently, there are dozens commands available in Diskfunv, including
-% vector-based algebraic commands such as |cross| and |dot|,
+% vector-based algebraic commands such as |cross|,
 % as well as commands that map vector-valued functions to
-% scalar-valued functions (e.g., |curl|, |div| and |jacobian|)
+% scalar-valued functions (e.g., |dot|, |curl|, |div| and |jacobian|)
 % and vice-versa (e.g., |grad|), and commands for performing calculus
 % with vector fields (e.g., |laplacian|).
 
@@ -393,15 +393,15 @@ norm( v - curl(g) )
 % The function $\tilde{f}$ has a special structure, referred to as a block-
 % mirror-centrosymmetric (BMC) structure.  By forming approximants that 
 % preserve the BMC structure of $\tilde{f}$, smoothness near the origin is 
-% guaranteed. To see the BMC structure, we construct a diskfun |f| and use 
-% the |pol2cart| command:
-% </latex>
+% guaranteed.  To see the BMC structure, we construct a diskfun {\tt f} and use 
+% the {\tt pol2cart} command:
+% 
 
 f= @(x,y) sech((cos(2*((2*x).^2+(2*y).^2))+sin(2*y))); 
+%f= @(x,y) sech(2*(cos(2*((2*x).^2+(2*y).^2))))+(sin(y.*(1-(3*(y).^2-3*(2*x).^2)))); 
 f = diskfun(f);
-plot(f)
-axis off
-title 'f'
+plot(f), axis off
+title('f')
 snapnow
 
 tf = cart2pol(f, 'cdr') 
@@ -484,13 +484,6 @@ title('5 of the 33 row slices of f')
 
 plotcoeffs(f)
 
-%%
-% The Fourier-Chebyshev coefficients are retrieved using the |coeffs2| 
-% command. A coefficient matrix can also be used to construct a diskfun. 
-
-C = coeffs2(f); 
-g = diskfun(C, 'coeffs'); 
-norm(g-f); 
 
 %% References
 %%
