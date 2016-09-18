@@ -578,7 +578,7 @@ norm( delta, inf )
 %
 % [Townsend, Wilber, & Wright 2015] A. Townsend, H. Wilber, and G. Wright,
 % Computing with functions in spherical and polar geometries I. The sphere.
-% SIAM J. Sci. Comput., Accepted, 2016.
+% _SIAM J. Sci. Comp_,  38-4 (2016), pp. C403-C425.
 %
 % [Yee 1980] S. Y. K. Yee, Studies on Fourier series on spheres, _Mon. Wea.
 % Rev._, 108 (1980), pp. 676-678.

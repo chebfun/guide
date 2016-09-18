@@ -1,5 +1,5 @@
 %% 16. Diskfun
-% Heather Wilber, August 2016
+% Heather Wilber, September 2016
 
 %%
 LW = 'Linewidth';
@@ -137,9 +137,8 @@ plot( f ), hold on; axis off; colorbar
 plot3(loc(1), loc(2), val, 'k.', MS, 20), hold off
 
 %%
-% There are many ways to visualize a function on the disk and Diskfun offers
-% several options. For example, here is a contour plot of $g$, with 
-% the zero contours displayed as black lines:
+% There are many ways to visualize a function on the disk. For example, 
+% here is a contour plot of $g$, with the zero contours displayed in black:
 
 contour(g, 'Linewidth', 1.2), hold on; axis off
 contour(g, [0 0], '-k', 'Linewidth', 2), hold off
@@ -211,8 +210,8 @@ title( 'Contour lines for u and v' ); snapnow
 % The Bessel functions arise frequently in connection
 % to the disk, and in fact form a basis that is orthogonal with respect
 % to the polar measure on the disk in the radial direction. 
-% Here, we use them to construct a function whose derivatives
-% are visually quite intuitive.
+% Here, we use them to construct a function with derivatives
+% that are easy to inspect visually.
 
 f = diskfun(@(x,y) besselj(0, 5*y).*besselj(0, 5*(x-.1)).*exp(-x.^2-y.^2));
 plot( f )
@@ -374,7 +373,7 @@ norm( v - curl(g) )
 % a brief overview of how the algorithms in Diskfun work. This can be useful 
 % for understanding various aspects of approximation involving functions 
 % on the disk. More details can be found in [Townsend, Wilber & Wright, 2016B], 
-% and also in the closely related Spherefun part(Chapter 17) of the guide.
+% and also in the closely related Spherefun part (Chapter 17) of the guide.
 
 %%
 % Like Chebfun2 and Spherefun, Diskfun uses a variant of Gaussian
@@ -397,8 +396,7 @@ norm( v - curl(g) )
 % the {\tt pol2cart} command:
 % 
 
-f= @(x,y) sech((cos(2*((2*x).^2+(2*y).^2))+sin(2*y))); 
-%f= @(x,y) sech(2*(cos(2*((2*x).^2+(2*y).^2))))+(sin(y.*(1-(3*(y).^2-3*(2*x).^2)))); 
+f = @(x,y) cos(2*((3*sin(2*x)+5*sin(y))))-.5*sin(x-y);
 f = diskfun(f);
 plot(f), axis off
 title('f')
@@ -468,12 +466,12 @@ title('Tensor product function samples', FS, 16)
 % </latex>
 
 clf
-plot(f.cols(:,2:10)) 
-title('8 of the 33 column slices of f')
+plot(f.cols(:,3:7)) 
+title('5 of the 26 column slices of f')
 snapnow
 
-plot(f.rows(:,5:10))
-title('5 of the 33 row slices of f')
+plot(f.rows(:,3:7))
+title('5 of the 26 row slices of f')
 
 %%
 % In practice, several basis choices can be used for approximation on the 
@@ -489,10 +487,10 @@ plotcoeffs(f)
 %%
 % [Boyd & Yu, 2011] J.P. Boyd, F. Yu, Comparing seven spectral methods 
 % for interpolation and for solving the Poisson equation in a disk: Zernike 
-% polynomials, LoganÂ–Shepp ridge polynomials, ChebyshevÂ–Fourier series, 
-% cylindrical Robert functions, BesselÂ–Fourier expansions, square-to-disk 
-% conformal mapping and radial basis functions, 
-% J. Comp. Physics, 230.4 (2011), pp. 1408-1438.
+% polynomials, Logan &–Shepp ridge polynomials, Chebyshev &–
+% Fourier series, cylindrical Robert functions, Bessel &–Fourier expansions, 
+% square-to-disk conformal mapping and radial basis functions, 
+% _J. Comp. Physics_, 230.4 (2011), pp. 1408-1438.
 %
 %%
 % [Fornberg, 1998] B. Fornberg, A Practical Guide to Pseudospectral Methods, 
@@ -500,7 +498,7 @@ plotcoeffs(f)
 %%
 % [Townsend, Wilber & Wright, 2016A] A. Townsend, H. Wilber, and G.B. Wright, 
 % Computing with functions in spherical and polar geometries I. The sphere, 
-% SISC, to appear, (2016).
+% _SIAM J. Sci. Comp._, 38-4 (2016), pp. C403-C425.
 %%
 % [Townsend, Wilber & Wright, 2016B] A. Townsend, H. Wilber, and G.B. Wright, 
 % Computing with functions in spherical and polar geometries II. The disk, 
