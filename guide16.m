@@ -438,7 +438,7 @@ title('The BMC function associated with f')
 % </latex>
 
 clf
-plot(f, '.-', MS, 20)
+plot(f, '.-', MS, 10)
 axis off
 title('Low rank function samples', FS, 16), snapnow
 
