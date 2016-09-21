@@ -10,11 +10,11 @@ FS = 'Fontsize';
 % Diskfun is a new part of Chebfun designed for computing with
 % 2D scalar and vector-valued functions defined on the unit disk. Conceptually,
 % it is an extension of Chebfun2 to the polar setting, designed to accurately
-% and efficiently perform over 100 operations with functions on the disk,
-% including differentiation, integration, vector calculus, and rootfinding, among
-% many other things. Diskfun was developed in tandem with Spherefun, and
+% and efficiently perform over 100 operations with functions on the disk.
+% This includes differentiation, integration, vector calculus, and rootfinding,
+% among many other things. Diskfun was developed in tandem with Spherefun, and
 % the two are algorithmically closely related.  For complete details on 
-% the algorithms of both of these classes see [Townsend, Wilber & Wright, 2016A/B].
+% the algorithms of both of these classes, see [Townsend, Wilber & Wright, 2016A/B].
 
 %%
 % To get started, we simply call the Diskfun constructor. In this example,
@@ -39,14 +39,14 @@ view(3)
 
 %%
 % To construct $g$ using polar coordinates, we include the
-% flag |'polar'|. The result using either
+% flag |`polar'|. The result using either
 % coordinate system is the same up to essentially machine precision:
 
 f = diskfun(@(t, r) exp(-10*((r.*cos(t)-.3).^2+(r.*sin(t)).^2)), 'polar');
 norm(f-g)
 
 %%
-% The object we have constructed is called a diskfun, with a lower case "d".
+% The object we have constructed is called a diskfun, with a lower case ``d".
 % We can find out more about a diskfun by printing it to the command line.
 f
 
@@ -58,14 +58,14 @@ f
 %%
 % To evaluate a diskfun, we can use either polar or Cartesian
 % coordinates.  (To evaluate in polar coordinates, we need to include
-% the |'polar'| flag.)
+% the |`polar'| flag.)
 
 [   f(sqrt(2)/4, sqrt(2)/4)    f(pi/4,1/2, 'polar')  ]
 
 %%
 % We can also evaluate a univariate ``slice" of $f$, in either the radial or
-% angular coordinate. The result is returned as a chebfun, either as a nonperiodic or
-% as a periodic function, respectively. Here, we plot three angular slices at
+% angular coordinate. The result is returned as a chebfun, either as a nonperiodic
+% or periodic function, respectively. Here, we plot three angular slices at
 % the fixed radii $\rho = 1/4$, $1/3$, and $1/2$.
 
 c = f( : , [1/4 1/3 1/2] , 'polar');
@@ -73,7 +73,7 @@ plot(c(:,1), 'r', c(:,2), 'k', c(:,3), 'b')
 title( 'Three angular slices of a diskfun' )
 
 %%
-% Where ever possible, we interpret commands with respect to the function
+% Whenever possible, we interpret commands with respect to the function
 % in Cartesian coordinates. So, for example, the command  |diag| returns
 % the radial slice $f(x,x)$ as a nonperiodic chebfun, and  |trace| is
 % the integral of $f(x,x)$ over its domain, $[-1, 1]$.
@@ -211,7 +211,7 @@ title( 'Contour lines for u and v' ); snapnow
 % to the disk, and in fact form a basis that is orthogonal with respect
 % to the polar measure on the disk in the radial direction. 
 % Here, we use them to construct a function with derivatives
-% that are easy to inspect visually.
+% that are intuitive to interpret visually.
 
 f = diskfun(@(x,y) besselj(0, 5*y).*besselj(0, 5*(x-.1)).*exp(-x.^2-y.^2));
 plot( f )
@@ -240,7 +240,7 @@ snapnow
 % We can use Diskfun to compute solutions to Poisson's equation on the disk.
 % In this example, we compute the solution $v(\theta, \rho)$ for Poisson's
 % equation with a Dirichlet boundary condition, so that
-% $\nabla^2 v = f, \qquad f(\theta, 1) = 1.$
+% \[\nabla^2 v = f, \qquad f(\theta, 1) = 1.\]
 % Here, $(\theta, \rho) \in [-\pi, \pi] \times [0, 1]$ and
 % $f = \sin \left( 21 \pi \left( 1 + \cos( \pi \rho)
 % \right) \rho^2-2\rho^5\cos \left( 5(t-.11)\right) \right)$. The solution is
@@ -278,7 +278,7 @@ title( 'v' ), snapnow
 % To get started, we create a diskfun representing a function
 % $f = \psi + \phi$, and then compute its gradient.
 % The result is returned as a vector-valued object called a diskfunv, with 
-% a lower case "d".
+% a lower case ``d".
 
 psi = @(x,y) 10*exp(-10*(x+.3).^2-10*(y+.5).^2)+10*...
     exp(-10*(x+.3).^2-10*(y-.5).^2)+ 10*(1-x.^2-y.^2)-20;
@@ -329,7 +329,7 @@ norm( div(u) - lap(f) )
 %%
 % <latex>
 % Additionally, since $\mathbf{u}$ is a gradient field,
-% $\nabla \times \mathbf{u} =  0$. We can verify this with the  |curl|
+% $\nabla \times \mathbf{u} =  0$. We can verify this with the  {\tt curl}
 % command.
 % </latex>
 
@@ -338,11 +338,12 @@ norm( v )
 
 %%
 % <latex>
-% Diskfunv objects can be created through calling the constructor directly with
-% function handles or diskfuns input for each component, or by vertically
-% concatenating two diskfuns. Here, we demonstrate this by forming a 
-% diskfunv $\mathbf{v}$ that represents the numerical surface curl for a 
-% scalar-valued function $g$, i.e, $\nabla \times [0, 0, g]$.
+% Diskfunv objects can be created through calling the constructor directly 
+% and supplying function handles or diskfuns for each component, 
+% or by vertically concatenating two diskfuns. 
+% Here, we demonstrate this by forming a diskfunv $\mathbf{v}$ that 
+% represents the numerical surface curl for a scalar-valued function $g$, 
+% i.e, $\nabla \times [0, 0, g]$.
 % </latex>
 
 g = diskfun( @(x,y) cosh(.25.*(cos(5*x)+sin(4*y.^2)))-2 );
@@ -394,7 +395,7 @@ norm( v - curl(g) )
 % preserve the BMC structure of $\tilde{f}$, smoothness near the origin is 
 % guaranteed.  To see the BMC structure, we construct a diskfun {\tt f} and use 
 % the {\tt pol2cart} command:
-% 
+% <\latex>
 
 f = @(x,y) cos(2*((3*sin(2*x)+5*sin(y))))-.5*sin(x-y);
 f = diskfun(f);
