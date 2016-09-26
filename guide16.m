@@ -325,10 +325,8 @@ v = diskfunv(dgy, -dgx);  % call constructor
 norm(v - [dgy; -dgx])     % equivalent to vertical concatenation
 %%
 plot( g ), hold on
-quiver(v, 'w')
-axis off
-title( 'The numerical surface curl of g' )
-hold off
+quiver(v, 'w'), axis off
+title( 'The numerical surface curl of g' ), hold off
 
 %%
 % This construction is equivalent to using the command |curl|
@@ -407,8 +405,7 @@ title('The BMC function associated with f')
 % </latex>
 
 clf
-plot(f, '.-', MS, 10)
-axis off
+plot(f, '.-', MS, 10), axis off
 title('Low rank function samples', FS, 16), snapnow
 
 [ m, n ] = length(f);
@@ -437,8 +434,7 @@ title('Tensor product function samples', FS, 16)
 
 clf
 plot(f.cols(:,3:7)) 
-title('5 of the 26 column slices of f')
-snapnow
+title('5 of the 26 column slices of f'), snapnow
 
 plot(f.rows(:,3:7))
 title('5 of the 26 row slices of f')
