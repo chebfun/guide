@@ -8,21 +8,19 @@ FS = 'Fontsize';
 
 %% 16.1 Introduction
 % Diskfun is a new part of Chebfun designed for computing with
-% 2D scalar and vector-valued functions defined on the unit disk. Conceptually,
+% 2D scalar and vector-valued functions on the unit disk. Conceptually,
 % it is an extension of Chebfun2 to the polar setting, designed to accurately
 % and efficiently perform over 100 operations with functions on the disk.
 % This includes differentiation, integration, vector calculus, and rootfinding,
 % among many other things. Diskfun was developed in tandem with Spherefun, and
 % the two are algorithmically closely related.  For complete details on 
-% the algorithms of both of these classes, see [Townsend, Wilber & Wright, 2016A/B].
+% the algorithms of both of these classes, see [Townsend, Wilber \& Wright, 2016A/B].
 
 %%
-% To get started, we simply call the Diskfun constructor. In this example,
-% we consider a Gaussian function.
+% To get started, we simply call the Diskfun constructor. 
 
 g = diskfun(@(x,y) exp(-10*((x-.3).^2+y.^2)));
-plot(g)
-view(3)
+plot(g), view(3)
 
 %%
 % <latex>
@@ -88,8 +86,7 @@ int_d = sum( d )
 % Just like the rest of Chebfun, Diskfun is designed to perform operations at
 % essentially machine precision, and using Diskfun requires no special
 % knowledge about the underlying algorithms or discretization procedures.
-% Those interested in such details can find an in-depth description of
-% how Diskfun works in [Townsend, Wilber & Wright, 2016B].
+
 
 %% 16.2 Basic operations
 % A suite of commands are available in Diskfun, and here we describe only 
@@ -105,27 +102,22 @@ f = diskfun( @(x,y) cos(15*((x-.2).^2+(y-.2).^2))...
     .*exp(-((x-.2)).^2-((y-.2)).^2));
 
 plot( g )
-title( 'g' )
-axis off; snapnow
+title( 'g' ),axis off, snapnow
 
 plot( f )
-title( 'f' )
-axis off; snapnow
+title( 'f' ), axis off, snapnow
 
 h = g + f;
 plot(h)
-title( 'g + f' )
-axis off; snapnow
+title( 'g + f' ), axis off, snapnow
 
 h = g - f;
 plot( h )
-title( 'g - f' )
-axis off; snapnow
+title( 'g - f' ), axis off, snapnow
 
 h = g.*f;
 plot( h )
-title( 'g x f' )
-axis off
+title( 'g x f' ), axis off
 
 %%
 % In addition to algebraic operations, we can also solve unconstrained 
@@ -155,9 +147,7 @@ for j = 1:length(r)
     rj = r{j};
     plot(r{j}(:,1), r{j}(:,2), '-k', LW, 2)
 end
-colorbar
-axis off
-hold off
+colorbar, axis off, hold off
 
 %%
 % One can also perform calculus on diskfuns. For instance, the integral of 
@@ -165,17 +155,17 @@ hold off
 % computed using the |sum2| command. We know that the exact answer is
 % $-3\pi/2$.
 
-f = diskfun(@(x,y) -x.^2 - 3*x.*y-(y-1).^2)
-sum2(f)
--3*pi/2
+f = diskfun(@(x,y) -x.^2 - 3*x.*y-(y-1).^2);
+intf = sum2(f)
+tru = -3*pi/2
 
 %%
 % <latex>
 % Differentiation on the disk with respect to the polar variable $\rho$
 % can lead to singularities, even for smooth functions.
 % For example, the function $f( \theta, \rho) = \rho^2$ is smooth
-% on the disk, but $\partial f/ \partial \rho = 2 \rho$ is not
-% smooth. For this reason, differentiation in Diskfun is only done with 
+% on the disk, but $\partial f/ \partial \rho = 2 \rho$ is not. 
+% For this reason, differentiation in Diskfun is only done with 
 % respect to the Cartesian coordinates, $x$ and $y$.
 % </latex>
 
@@ -198,8 +188,8 @@ norm(lap(v)) % an equivalent way to check that v_xx +v_yy = 0
 
 %%
 contour(u, 30, 'b'), hold on
-contour(v, 30, 'm'), axis off; hold off
-title( 'Contour lines for u and v' ); snapnow
+contour(v, 30, 'm'), axis off, hold off
+title( 'Contour lines for u and v' ), snapnow
 
 %%
 
@@ -211,37 +201,29 @@ title( 'Contour lines for u and v' ); snapnow
 % to the disk, and in fact form a basis that is orthogonal with respect
 % to the polar measure on the disk in the radial direction. 
 % Here, we use them to construct a function with derivatives
-% that are intuitive to interpret visually.
+% that can easily be inspected visually.
 
 f = diskfun(@(x,y) besselj(0, 5*y).*besselj(0, 5*(x-.1)).*exp(-x.^2-y.^2));
-plot( f )
-axis off
-title( 'f' )
-snapnow
+plot( f ), axis off
+title( 'f' ), snapnow
 
 
-plot( diffx( f ) )
-axis off
-title( 'Derivative of f with respect to x' )
-snapnow
+plot( diffx( f ) ), axis off
+title( 'Derivative of f with respect to x' ), snapnow
 
-plot( diffy( f ) )
-axis off
-title( 'Derivative of f with respect to y' )
-snapnow
+plot( diffy( f ) ), axis off
+title( 'Derivative of f with respect to y' ), snapnow
 
-plot( laplacian( f ) )
-axis off
-title( 'Scalar laplacian of f' )
-snapnow
+plot( laplacian( f ) ), axis off
+title( 'Scalar laplacian of f' ), snapnow
 
 %% 16.3 Poisson's equation
 % <latex>
 % We can use Diskfun to compute solutions to Poisson's equation on the disk.
 % In this example, we compute the solution $v(\theta, \rho)$ for Poisson's
-% equation with a Dirichlet boundary condition, so that
-% \[\nabla^2 v = f, \qquad f(\theta, 1) = 1.\]
-% Here, $(\theta, \rho) \in [-\pi, \pi] \times [0, 1]$ and
+% equation with a Dirichlet boundary condition: we seek $v$ in
+% \[\nabla^2 v = f, \qquad f(\theta, 1) = 1,\]
+% where $(\theta, \rho) \in [-\pi, \pi] \times [0, 1]$ and
 % $f = \sin \left( 21 \pi \left( 1 + \cos( \pi \rho)
 % \right) \rho^2-2\rho^5\cos \left( 5(t-.11)\right) \right)$. The solution is
 % returned as a diskfun, so we can immediately plot it, evaluate it, 
@@ -253,12 +235,10 @@ rhs = diskfun(f, 'polar'); % Right-hand side
 bc = @(t) 0*t+1;           % Boundary condition
 v = diskfun.poisson(f, bc, 512) % Solve for u for 512 x 512 dof
 
-plot( rhs )
-axis off
+plot( rhs ), axis off
 title( 'f' ), snapnow
 
-plot( v )
-axis off
+plot( v ), axis off
 title( 'v' ), snapnow
 
 
@@ -275,18 +255,14 @@ title( 'v' ), snapnow
 % with vector fields (e.g., |laplacian|).
 
 %%
-% To get started, we create a diskfun representing a function
-% $f = \psi + \phi$, and then compute its gradient.
-% The result is returned as a vector-valued object called a diskfunv, with 
-% a lower case ``d".
+% In this example, we create a diskfun using two Gaussian functions, 
+% and then compute its gradient. The result is returned as a vector-valued 
+% object called a diskfunv, with a lower case ``d".
 
-psi = @(x,y) 10*exp(-10*(x+.3).^2-10*(y+.5).^2)+10*...
-    exp(-10*(x+.3).^2-10*(y-.5).^2)+ 10*(1-x.^2-y.^2)-20;
-phi = @(x,y) 10*exp(-10*(x-.6).^2-10*(y).^2);
-
-f = diskfun( psi ) + diskfun( phi );
-u = grad( f )
-
+psi = @(x,y) 5*exp(-10*(x+.4).^2-10*(y+.5).^2)...
+    -5*exp(-10*(x-.4).^2-10*(y-.5).^2) + 5*(-x.^2-y.^2)-20;
+f = diskfun( psi ); 
+u = grad(f)
 %%
 % <latex>
 % The vector-valued function $\mathbf{u}$ consists of two components,
@@ -299,24 +275,19 @@ u = grad( f )
 % a quiver plot:
 % </latex>
 
-plot(f)
-hold on
-quiver(u, 'k')
-axis off
-hold off
+plot(f), hold on
+quiver(u, 'k'), axis off, hold off
 
 %%
 % <latex>
-% Once a diskfunv object is created, we have overloaded dozens of commands 
-% to compute with them. For example, here is a contour plot of the 
+% Once a diskfunv object is created, dozens of overloaded commands 
+% can be used compute with it. For example, here is a contour plot of the 
 % divergence for $\mathbf{u}$.
 % </latex>
 
 D = div( u );
-contour(D, 'Linewidth', 1.5), hold on
-quiver(u, 'k')
-axis off
-hold off
+contour(D, LW, 1.5), hold on
+quiver(u, 'k'), axis off, hold off
 
 %%
 % <latex>
@@ -352,7 +323,7 @@ dgy = diffy( g );
 
 v = diskfunv(dgy, -dgx);  % call constructor
 norm(v - [dgy; -dgx])     % equivalent to vertical concatenation
-
+%%
 plot( g ), hold on
 quiver(v, 'w')
 axis off
@@ -395,17 +366,15 @@ norm( v - curl(g) )
 % preserve the BMC structure of $\tilde{f}$, smoothness near the origin is 
 % guaranteed.  To see the BMC structure, we construct a diskfun {\tt f} and use 
 % the {\tt pol2cart} command:
-% <\latex>
+% </latex>
 
 f = @(x,y) cos(2*((3*sin(2*x)+5*sin(y))))-.5*sin(x-y);
 f = diskfun(f);
 plot(f), axis off
-title('f')
-snapnow
+title('f'), snapnow
 
 tf = cart2pol(f, 'cdr') 
-plot(tf)
-view(2)
+plot(tf), view(2)
 title('The BMC function associated with f')
 
 %%
@@ -476,7 +445,7 @@ title('5 of the 26 row slices of f')
 
 %%
 % In practice, several basis choices can be used for approximation on the 
-% disk (see [Boyd & Yu, 2011]). Diskfun uses the Chebyshev--Fourier basis, and 
+% disk (see [Boyd \& Yu, 2011]). Diskfun uses the Chebyshev--Fourier basis, and 
 % |f| is fully characterized by its Chebyshev and Fourier coefficients. The 
 % command |plotcoeffs| lets us inspect these details. 
 
@@ -488,8 +457,8 @@ plotcoeffs(f)
 %%
 % [Boyd & Yu, 2011] J.P. Boyd, F. Yu, Comparing seven spectral methods 
 % for interpolation and for solving the Poisson equation in a disk: Zernike 
-% polynomials, Logan &–Shepp ridge polynomials, Chebyshev &–
-% Fourier series, cylindrical Robert functions, Bessel &–Fourier expansions, 
+% polynomials, Logan \&–Shepp ridge polynomials, Chebyshev \&–
+% Fourier series, cylindrical Robert functions, Bessel \&–Fourier expansions, 
 % square-to-disk conformal mapping and radial basis functions, 
 % _J. Comp. Physics_, 230.4 (2011), pp. 1408-1438.
 %
