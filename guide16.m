@@ -188,21 +188,17 @@ norm(diffx(u, 2) + diffy(u, 2)) % Check u_xx +u_yy = 0
 norm(lap(v)) % an equivalent way to check that v_xx +v_yy = 0 
 
 %%
-contour(u, 30, 'b'), hold on
-contour(v, 30, 'm'), axis off, hold off
+contour(u, 20, 'b'), hold on
+contour(v, 20, 'm'), axis off, hold off
 title( 'Contour lines for u and v' ), snapnow
 
-%%
-
-%%
-% 
 
 %%
 % The Bessel functions arise frequently in connection
 % to the disk, and in fact form a basis that is orthogonal with respect
 % to the polar measure on the disk in the radial direction. 
-% Here, we use them to construct a function with derivatives
-% that can easily be inspected visually.
+% Here, we use them to construct a rank 20 function with derivatives that are
+% simple to examine visually. 
 
 f = diskfun(@(x,y) besselj(0, 5*y).*besselj(0, 5*(x-.1)).*exp(-x.^2-y.^2));
 plot( f ), axis off
@@ -260,8 +256,8 @@ title( 'v' ), snapnow
 % and then compute its gradient. The result is returned as a vector-valued 
 % object called a diskfunv, with a lower case ``d".
 
-psi = @(x,y) 5*exp(-10*(x+.4).^2-10*(y+.5).^2)...
-    -5*exp(-10*(x-.4).^2-10*(y-.5).^2) + 5*(-x.^2-y.^2)-20;
+psi = @(x,y) 5*exp(-10*(x+.2).^2-10*(y+.4).^2)...
+    -5*exp(-10*(x-.2).^2-10*(y-.2).^2) + 5*(1-x.^2-y.^2)-20;
 f = diskfun( psi ); 
 u = grad(f)
 %%
@@ -287,7 +283,7 @@ quiver(u, 'k'), axis off, hold off
 % </latex>
 
 D = div( u );
-contour(D, LW, 1.5), hold on
+contour(D,10, LW, 1.5), hold on
 quiver(u, 'k'), axis off, hold off
 
 %%
@@ -372,6 +368,7 @@ f = diskfun(f);
 plot(f), axis off
 title('f'), snapnow
 
+%%
 tf = cart2pol(f, 'cdr') 
 plot(tf), view(2)
 title('The BMC function associated with f')
