@@ -10,11 +10,11 @@ FS = 'Fontsize';
 % Diskfun is a new part of Chebfun designed for computing with
 % 2D scalar and vector-valued functions on the unit disk. Conceptually,
 % it is an extension of Chebfun2 to the polar setting, designed to accurately
-% and efficiently perform over 100 operations with functions on the disk.
-% This includes differentiation, integration, vector calculus, and rootfinding,
-% among many other things. Diskfun was developed in tandem with Spherefun, and
-% the two are algorithmically closely related.  For complete details on 
-% the algorithms of both of these classes, see [Townsend, Wilber \& Wright, 2016A/B].
+% and efficiently perform over 100 operations. This includes differentiation, 
+% integration, vector calculus, and rootfinding, among many other things. 
+% Diskfun was developed in tandem with Spherefun, and the two are algorithmically 
+% closely related.  For complete details on the algorithms of both of these 
+% classes, see [Townsend, Wilber \& Wright, 2016A/B].
 
 %%
 % To get started, we simply call the Diskfun constructor. 
@@ -29,14 +29,15 @@ plot(g), view(3)
 % expressed in Cartesian coordinates, we apply the following transformation
 % of variables:
 % \begin{equation}
-% x = \rho\cos\theta, \qquad y=\rho\sin\theta.
+% x = \rho\cos\theta, \qquad y=\rho\sin\theta, \qquad (\theta, \rho) \in 
+% [-\pi, \pi] \times [0, 1]
 % \end{equation}
 % This finds $f(\theta, \rho)$, where $\theta$ is the {\em angular}
 % variable and $\rho$ is the {\em radial} variable.
 % </latex>
 
 %%
-% To construct $g$ using polar coordinates, we include the
+% To construct |g| using polar coordinates, we include the
 % flag |`polar'|. The result using either
 % coordinate system is the same up to essentially machine precision:
 
@@ -350,7 +351,7 @@ norm( v - curl(g) )
 % elimination (GE) to form low rank approximations to functions. This often 
 % results in a compressed representation of the function, and it also 
 % facilitates the use of highly efficient algorithms that work primarily 
-% on 1D functions.
+% on sets of 1D functions related to the approximant.
 
 %%
 % <latex>
@@ -358,12 +359,12 @@ norm( v - curl(g) )
 % of $f$, denoted by $\tilde{f}$, which is formed by taking $f(\theta, \rho)$ 
 % and letting $\rho$ range over $[-1, 1]$, as opposed to $[0, 1]$.
 % This is the disk analogue to the so-called double Fourier sphere method 
-% discussed in Chapter 17. Also, see [Fornberg, 1998] and [Trefethen, 2000]. 
+% discussed in Chapter 17 (Also, see [Fornberg, 1998] and [Trefethen, 2000]). 
 % The function $\tilde{f}$ has a special structure, referred to as a block-
 % mirror-centrosymmetric (BMC) structure.  By forming approximants that 
 % preserve the BMC structure of $\tilde{f}$, smoothness near the origin is 
 % guaranteed.  To see the BMC structure, we construct a diskfun {\tt f} and use 
-% the {\tt pol2cart} command:
+% the {\tt cart2pol} command:
 % </latex>
 
 f = @(x,y) cos(2*((3*sin(2*x)+5*sin(y))))-.5*sin(x-y);
@@ -423,13 +424,13 @@ title('Tensor product function samples', FS, 16)
 %%
 % <latex>
 % Writing the approximant as in (\ref{eq:lra}) allows us to work with it as
-% a continuous analogue of a matrix factorization. The
+% a continuous analogue of a matrix factorization. Then,
 % the ``column" (radial) slices of $f$ are the collection of Chebyshev 
-% interpolants $\{ c_j(\rho)\}_{j=1}^n$, and the ``rows" of $f$ are the 
+% interpolants $\{ c_j(\rho)\}_{j=1}^n$, and the ``row" slices are the 
 % trigonometric interpolants $\{ r_j(\theta)\}$. These can be plotted; 
 % doing so we observe that each column is either even or odd, and each row 
 % is either $\pi$-periodic or $\pi$-antiperiodic. This is reflective of the 
-% inherent BMC structure of the approximant. 
+% BMC structure inherent to the approximant. 
 % </latex>
 
 clf
