@@ -30,7 +30,7 @@ plot(g), view(3)
 % of variables:
 % \begin{equation}
 % x = \rho\cos\theta, \qquad y=\rho\sin\theta, \qquad (\theta, \rho) \in 
-% [-\pi, \pi] \times [0, 1]
+% [-\pi, \pi] \times [0, 1].
 % \end{equation}
 % This finds $f(\theta, \rho)$, where $\theta$ is the {\em angular}
 % variable and $\rho$ is the {\em radial} variable.
