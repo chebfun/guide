@@ -1,11 +1,6 @@
 %% 16. Diskfun
 % Heather Wilber, August 2016
 
-%%
-LW = 'Linewidth';
-MS = 'Markersize';
-FS = 'Fontsize';
-
 %% 16.1 Introduction
 % Diskfun is a new part of Chebfun designed for computing with
 % 2D scalar and vector-valued functions defined on the unit disk. Conceptually,
@@ -19,6 +14,7 @@ FS = 'Fontsize';
 % To get started, we simply call the Diskfun constructor. In this example,
 % we consider a Gaussian function.
 
+LW = 'Linewidth'; MS = 'Markersize'; FS = 'Fontsize';
 g = diskfun(@(x,y) exp(-10*((x-.3).^2+y.^2)));
 plot(g)
 view(3)
@@ -132,7 +128,7 @@ axis off
 
 %%
 % In addition to algebraic operations, we can also solve unconstrained 
-% global optimzation problems. In this example, we use the command 
+% global optimization problems. In this example, we use the command 
 % |max2| to plot $f$ along with its maximum value.
 
 [val, loc] = max2( f )
@@ -493,15 +489,15 @@ norm(g-f);
 % J. Comp. Physics, 230.4 (2011), pp. 1408-1438.
 %
 %%
-% [Fornberg 1998] B. Fornberg, A Practical Guide to Pseudospectral Methods, 
+% [Fornberg 1998] B. Fornberg, _A Practical Guide to Pseudospectral Methods_, 
 % Cambridge University Press, 1998.
 %%
 % [Townsend, Wilber & Wright, 2016A] A. Townsend, H. Wilber, and G.B. Wright, 
 % Computing with functions in spherical and polar geometries I. The sphere, 
-% SISC, to appear, (2016).
+% _SIAM J. Sci. Comput._, to appear, 2016.
 %%
 % [Townsend, Wilber & Wright, 2016B] A. Townsend, H. Wilber, and G.B. Wright, 
 % Computing with functions in spherical and polar geometries II. The disk, 
-% submitted, (2016).
+% _SIAM J. Sci. Comput._, in revision, 2016.
 %%
 % [Trefethen 2000] L. N. Trefethen, Spectral methods in MATLAB, SIAM, 2000. 
