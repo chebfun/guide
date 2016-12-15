@@ -124,8 +124,8 @@ waterfall(U), xlabel x, ylabel t
 % could do it like this:
 dom = [0 5]; tspan = [0 10];
 S = spinop(dom, tspan);
-S.linearPart = @(u) .3*diff(u,2);
-S.nonlinearPart = @(u) u.^2 - 1;
+S.line = @(u) .3*diff(u,2);
+S.nonlin = @(u) u.^2 - 1;
 S.init = chebfun(@(x) cos(x), dom);
 
 %% 19.3 Computations in 2D and 3D with `spin2` and `spin3`
@@ -150,7 +150,7 @@ S.tspan = 0:10:30;
 U = spin2(S, 100, 2e-1, 'plot', 'off');
 clf reset
 for k = 1:4
-   plot(real(U{k})), view(0,90), snapnow, axis square
+   plot(real(U{k})), view(0,90), snapnow, axis equal
 end
 
 %%
