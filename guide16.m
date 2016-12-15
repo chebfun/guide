@@ -39,7 +39,7 @@ plot(g), view(3)
 f = diskfun(@(t, r) exp(-10*((r.*cos(t)-.3).^2+(r.*sin(t)).^2)), 'polar');
 norm(f-g)
 %%
-% The object we have constructed is called a diskfun, with a lower case ``d".
+% The object we have constructed is called a diskfun, with a lower case "d".
 % We can find out more about a diskfun by printing it to the command line.
 %%
 f
@@ -182,7 +182,7 @@ title( 'Contour lines for u and v' )
 % $u = a J_4(\omega_{41}\rho) \cos(4 \theta)$. 
 % The function $J_4$ is a Bessel function with parameter 4, $\omega_{41}$ is 
 % the first positive root of $J_4$, and $a$ is a normalization constant 
-% (see Ch. 9, [Churchill \& Brown, 1978]). 
+% (see Ch. 9, [Churchill & Brown, 1978]). 
 % We construct $u$ in Diskfun as follows:
 % </latex>
 %%
@@ -221,7 +221,7 @@ norm(-lambda*u - lap(u))
 % the disk. In this example, we compute the solution $v(\theta, \rho)$ 
 % for Poisson's equation with a Dirichlet boundary condition: we seek $v$
 % such that
-% \[\nabla^2 v = f, \qquad v(\theta, 1) = 1,\]
+% $$ \nabla^2 v = f, \qquad v(\theta, 1) = 1,$$
 % where $(\theta, \rho) \in [-\pi, \pi] \times [0, 1]$ and
 % $f = \sin \left( 21 \pi \left( 1 + \cos( \pi \rho)
 % \right) \rho^2-2\rho^5\cos \left( 5(t-.11)\right) \right)$. The solution is
@@ -293,9 +293,9 @@ norm( div(u) - lap(f) )
 %%
 % <latex>
 % Additionally, since $\mathbf{u}$ is a gradient field,
-% $\nabla \times \mathbf{u} =  0$. We can verify this with the  {\tt curl}
-% command.
+% $\nabla \times \mathbf{u} =  0$. 
 % </latex>
+% We can verify this with the  |curl| command.
 %%
 v = curl(u);
 norm( v )
