@@ -150,7 +150,7 @@ S.tspan = 0:10:30;
 U = spin2(S, 100, 2e-1, 'plot', 'off');
 clf reset
 for k = 1:4
-   plot(real(U{k})), view(0,90), snapnow, axis equal
+   plot(real(U{k})), view(0,90), axis equal, axis off, drawnow
 end
 
 %%
