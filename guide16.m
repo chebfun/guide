@@ -27,11 +27,11 @@ plot(g), view(3)
 % [-\pi, \pi] \times [0, 1].
 % \end{equation}
 % This gives $f(\theta, \rho)$, where $\theta$ is the  _angular_
-% variable and $\rho$ is the _radial_ variable.
+%  variable and $\rho$ is the _radial_ variable.
 % </latex>
 %%
 % To construct |g| using polar coordinates, we include the
-% flag |`polar'|. The result using either
+% flag |'polar'|. The result using either
 % coordinate system is the same up to machine precision:
 %%
 f = diskfun(@(t, r) exp(-10*((r.*cos(t)-.3).^2+(r.*sin(t)).^2)), 'polar');
@@ -417,8 +417,8 @@ title('Tensor product function samples', FS, 16)
 % Writing the approximant as in (\ref{eq:lra}) allows us to work with it as
 % a continuous analogue of a matrix factorization. Then,
 % the "column" (radial) slices of $f$ are the collection of Chebyshev 
-% interpolants $\{ c_j(\rho)\}_{j=1}^n$, and the "row" slices are the 
-% trigonometric interpolants $\{ r_j(\theta)\}$. These can be plotted; 
+% interpolants $c_j(\rho)$, and the "row" slices are the 
+% trigonometric interpolants $r_j(\theta)$. These can be plotted; 
 % doing so we observe that each column is either even or odd, and each row 
 % is either $\pi$-periodic or $\pi$-antiperiodic. This is reflective of the 
 % BMC structure inherent to the approximant. 
