@@ -124,7 +124,7 @@ waterfall(U), xlabel x, ylabel t
 % could do it like this:
 dom = [0 5]; tspan = [0 10];
 S = spinop(dom, tspan);
-S.line = @(u) .3*diff(u,2);
+S.lin = @(u) .3*diff(u,2);
 S.nonlin = @(u) u.^2 - 1;
 S.init = chebfun(@(x) cos(x), dom);
 
