@@ -26,8 +26,8 @@ plot(g), view(3)
 % x = \rho\cos\theta, \qquad y=\rho\sin\theta, \qquad (\theta, \rho) \in 
 % [-\pi, \pi] \times [0, 1].
 % \end{equation}
-% This gives $f(\theta, \rho)$, where $\theta$ is the  angular
-% variable and $\rho$ is the radial variable.
+% This gives $f(\theta, \rho)$, where $\theta$ is the  _angular_
+% variable and $\rho$ is the _radial_ variable.
 % </latex>
 %%
 % To construct |g| using polar coordinates, we include the
@@ -43,7 +43,7 @@ norm(f-g)
 f
 %%
 % <latex>
-% The output describes the  numerical rank of $f$,
+% The output describes the  _numerical_ rank of $f$,
 % as well an approximation of the maximum absolute value of $f$ (the vertical scale).
 % </latex>
 %%
@@ -177,7 +177,7 @@ title( 'Contour lines for u and v' )
 % are a natural basis for functions on the disk. 
 % </latex> 
 %%
-% They can be accessed in Diskfun with the |diskfun.harmonic| command.
+% They can be accessed in Diskfun with the ```diskfun.harmonic``` command.
 %%
 % <latex>
 % Here, we examine the 
