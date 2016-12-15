@@ -69,7 +69,7 @@ u = spin(S, 256, 1e-6, 'plot', 'off');
 
 %%
 % The output `u` is a `chebfun` at the final time:
-figure, plot(u, 'linewidth', 2)
+plot(u, 'linewidth', 2)
 
 %%
 % `spin` makes these things happen with the aid of a class called a `spinop` 
@@ -150,7 +150,7 @@ S.tspan = 0:10:30;
 U = spin2(S, 100, 2e-1, 'plot', 'off');
 clf reset
 for k = 1:4
-   plot(real(U{k})), view(0,90), axis equal, axis off, drawnow
+   plot(real(U{k})), view(0,90), axis equal, axis off, snapnow
 end
 
 %%
