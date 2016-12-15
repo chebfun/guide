@@ -428,6 +428,7 @@ title('5 of the 26 row slices of f')
 % |f| is fully characterized by its Chebyshev and Fourier coefficients. The 
 % command |plotcoeffs| lets us inspect these details. 
 %%
+clf
 plotcoeffs(f)
 %% References
 %%
