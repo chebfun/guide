@@ -11,8 +11,6 @@
 % closely related.  For complete details on the algorithms of both of these 
 % classes, see [Townsend, Wilber & Wright, 2016A/B].
 %%
-% To get started, we simply call the Diskfun constructor. 
-%%
 % To get started, we simply call the Diskfun constructor. In this example,
 % we consider a Gaussian function.
 LW = 'Linewidth'; MS = 'Markersize'; FS = 'Fontsize';
@@ -28,34 +26,34 @@ plot(g), view(3)
 % x = \rho\cos\theta, \qquad y=\rho\sin\theta, \qquad (\theta, \rho) \in 
 % [-\pi, \pi] \times [0, 1].
 % \end{equation}
-% This gives $f(\theta, \rho)$, where $\theta$ is the {\em angular}
-% variable and $\rho$ is the {\em radial} variable.
+% This gives $f(\theta, \rho)$, where $\theta$ is the  _angular_
+%  variable and $\rho$ is the _radial_ variable.
 % </latex>
 %%
 % To construct |g| using polar coordinates, we include the
-% flag |`polar'|. The result using either
+% flag |'polar'|. The result using either
 % coordinate system is the same up to machine precision:
 %%
 f = diskfun(@(t, r) exp(-10*((r.*cos(t)-.3).^2+(r.*sin(t)).^2)), 'polar');
 norm(f-g)
 %%
-% The object we have constructed is called a diskfun, with a lower case ``d".
+% The object we have constructed is called a diskfun, with a lower case 'd'.
 % We can find out more about a diskfun by printing it to the command line.
 %%
 f
 %%
 % <latex>
-% The output describes the {\em numerical rank} of $f$,
+% The output describes the  _numerical_ rank of $f$,
 % as well an approximation of the maximum absolute value of $f$ (the vertical scale).
 % </latex>
 %%
 % To evaluate a diskfun, we can use either polar or Cartesian
 % coordinates.  (To evaluate in polar coordinates, we need to include
-% the |`polar'| flag.)
+% the |'polar'| flag.)
 %%
 [  f(sqrt(2)/4, sqrt(2)/4)    f(pi/4,1/2, 'polar')  ]
 %%
-% We can also evaluate a univariate ``slice" of $f$, in either the radial or
+% We can also evaluate a univariate slice of $f$, in either the radial or
 % angular coordinate. The result is returned as a chebfun, either as a nonperiodic
 % or periodic function, respectively. Here, we plot three angular slices at
 % the fixed radii $\rho = 1/4$, $1/3$, and $1/2$.
@@ -176,13 +174,18 @@ title( 'Contour lines for u and v' )
 % <latex>
 % For the next example, we consider the eigenfunctions of the Laplace operator 
 % in polar coordinates. As the analogue of the the spherical harmonics, they 
-% are a natural basis for functions on the disk, and can be accessed 
-% in Diskfun with the {\tt diskfun.harmonic} command. Here, we examine the 
+% are a natural basis for functions on the disk. 
+% </latex> 
+%%
+% They can be accessed in Diskfun with the ```diskfun.harmonic``` command.
+%%
+% <latex>
+% Here, we examine the 
 % derivatives of the cylindrical harmonic function 
 % $u = a J_4(\omega_{41}\rho) \cos(4 \theta)$. 
 % The function $J_4$ is a Bessel function with parameter 4, $\omega_{41}$ is 
 % the first positive root of $J_4$, and $a$ is a normalization constant 
-% (see Ch. 9, [Churchill \& Brown, 1978]). 
+% (see Ch. 9, [Churchill & Brown, 1978]). 
 % We construct $u$ in Diskfun as follows:
 % </latex>
 %%
@@ -221,7 +224,7 @@ norm(-lambda*u - lap(u))
 % the disk. In this example, we compute the solution $v(\theta, \rho)$ 
 % for Poisson's equation with a Dirichlet boundary condition: we seek $v$
 % such that
-% \[\nabla^2 v = f, \qquad v(\theta, 1) = 1,\]
+% $$ \nabla^2 v = f, \qquad v(\theta, 1) = 1,$$
 % where $(\theta, \rho) \in [-\pi, \pi] \times [0, 1]$ and
 % $f = \sin \left( 21 \pi \left( 1 + \cos( \pi \rho)
 % \right) \rho^2-2\rho^5\cos \left( 5(t-.11)\right) \right)$. The solution is
@@ -257,7 +260,7 @@ title( 'v' )
 % In this example, we create a diskfun consisting of a difference of
 % two Gaussian functions, and then compute its gradient. The result is 
 % returned as a vector-valued object called a diskfunv, with a lower 
-% case ``d".
+% case 'd'.
 %%
 psi = @(x,y) 5*exp(-10*(x+.2).^2-10*(y+.4).^2)...
     -5*exp(-10*(x-.2).^2-10*(y-.2).^2) + 5*(1-x.^2-y.^2)-20;
@@ -293,9 +296,10 @@ norm( div(u) - lap(f) )
 %%
 % <latex>
 % Additionally, since $\mathbf{u}$ is a gradient field,
-% $\nabla \times \mathbf{u} =  0$. We can verify this with the  {\tt curl}
-% command.
+% $\nabla \times \mathbf{u} =  0$. 
 % </latex>
+%%
+% We can verify this with the  |curl| command.
 %%
 v = curl(u);
 norm( v )
@@ -349,9 +353,11 @@ norm( v - curl(g) )
 % The function $\tilde{f}$ has a special structure, referred to as a block-
 % mirror-centrosymmetric (BMC) structure.  By forming approximants that 
 % preserve the BMC structure of $\tilde{f}$, smoothness near the origin is 
-% guaranteed.  To see the BMC structure, we construct a diskfun {\tt f} and use 
-% the {\tt cart2pol} command:
+% guaranteed.  
 % </latex>
+%%
+% To see the BMC structure, we construct a diskfun |f| and use 
+% the |cart2pol| command:
 %%
 f = @(x,y) cos(2*((3*sin(2*x)+5*sin(y))))-.5*sin(x-y);
 f = diskfun(f);
@@ -378,9 +384,11 @@ title('The BMC function associated with f')
 % </latex>
 %%
 % <latex>
-% The {\tt plot} command can be used to display the ``skeleton" of {\tt f}:
+% The |plot| command can be used to display the "skeleton" of |f|:
 % the locations of the slices that were adaptively selected and sampled
-% during the GE procedure. Comparing the skeleton of {\tt f} to the tensor
+% during the GE procedure. 
+%%
+% <latex> Comparing the skeleton to the tensor
 % product grid required to approximate $\tilde{f}$ to machine precision, we
 % see that $\tilde{f}$ is numerically of low rank, so Diskfun is effectively
 % compressing the representation. The clustering of sample 
@@ -408,9 +416,9 @@ title('Tensor product function samples', FS, 16)
 % <latex>
 % Writing the approximant as in (\ref{eq:lra}) allows us to work with it as
 % a continuous analogue of a matrix factorization. Then,
-% the ``column" (radial) slices of $f$ are the collection of Chebyshev 
-% interpolants $\{ c_j(\rho)\}_{j=1}^n$, and the ``row" slices are the 
-% trigonometric interpolants $\{ r_j(\theta)\}$. These can be plotted; 
+% the "column" (radial) slices of $f$ are the collection of Chebyshev 
+% interpolants $c_j(\rho)$, and the "row" slices are the 
+% trigonometric interpolants $r_j(\theta)$. These can be plotted; 
 % doing so we observe that each column is either even or odd, and each row 
 % is either $\pi$-periodic or $\pi$-antiperiodic. This is reflective of the 
 % BMC structure inherent to the approximant. 
@@ -428,6 +436,7 @@ title('5 of the 26 row slices of f')
 % |f| is fully characterized by its Chebyshev and Fourier coefficients. The 
 % command |plotcoeffs| lets us inspect these details. 
 %%
+clf
 plotcoeffs(f)
 %% References
 %%
