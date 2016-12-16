@@ -1,5 +1,6 @@
 %% 19. SPIN, SPIN2 and SPIN3 for stiff PDEs
-% Hadrien Montanelli and Nick Trefethen, February 2016
+% Hadrien Montanelli and Nick Trefethen, February 2016, latest revision December
+% 2016
 
 %% 19.1  Introduction
 % By a stiff PDE, we mean a partial differential equation of
@@ -148,9 +149,8 @@ S.init = chebfun(@(x) cos(x), dom);
 S = spinop2('gl2');
 S.tspan = 0:10:30;
 U = spin2(S, 100, 2e-1, 'plot', 'off');
-clf reset
 for k = 1:4
-   plot(real(U{k})), view(0,90), axis equal, axis off, snapnow
+    subplot(2,2,k), plot(real(U{k})), view(0,90), axis equal, axis off
 end
 
 %%
