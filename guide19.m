@@ -1,5 +1,5 @@
 %% 19. SPIN, SPIN2 and SPIN3 for stiff PDEs
-% Hadrien Montanelli and Nick Trefethen, February 2016, latest revision December
+% H. Montanelli and Lloyd N. Trefethen, February 2016, latest revision December
 % 2016
 
 %% 19.1  Introduction
@@ -151,6 +151,7 @@ S.tspan = 0:10:30;
 U = spin2(S, 100, 2e-1, 'plot', 'off');
 for k = 1:4
     subplot(2,2,k), plot(real(U{k})), view(0,90), axis equal, axis off
+    snapnow
 end
 
 %%
