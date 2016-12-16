@@ -1,5 +1,5 @@
 %% 19. SPIN, SPIN2 and SPIN3 for stiff PDEs
-% H. Montanelli and Lloyd N. Trefethen, February 2016, latest revision December
+% H. Montanelli and L. N. Trefethen, February 2016, latest revision December
 % 2016
 
 %% 19.1  Introduction
