@@ -9,7 +9,8 @@
 % integration, vector calculus, and rootfinding, among many other things. 
 % Diskfun was developed in tandem with Spherefun, and the two are algorithmically 
 % closely related.  For complete details on the algorithms of both of these 
-% classes, see [Townsend, Wilber & Wright, 2016A/B].
+% classes, see [Townsend, Wilber & Wright, 2016], 
+% [Wilber, Townsend & Wright, 2016].
 %%
 % To get started, we simply call the Diskfun constructor. In this example,
 % we consider a Gaussian function.
@@ -453,12 +454,12 @@ plotcoeffs(f)
 % [Fornberg 1998] B. Fornberg, _A Practical Guide to Pseudospectral Methods_, 
 % Cambridge University Press, 1998.
 %%
-% [Townsend, Wilber & Wright, 2016A] A. Townsend, H. Wilber, and G.B. Wright, 
+% [Townsend, Wilber & Wright, 2016] A. Townsend, H. Wilber, and G.B. Wright, 
 % Computing with functions in spherical and polar geometries I. The sphere, 
 % _SIAM J. Sci. Comp._, 38-4 (2016), C403-C425.
 %%
-% [Townsend, Wilber & Wright, 2016B] A. Townsend, H. Wilber, and G.B. Wright, 
+% [Wilber, Townsend & Wright, 2016] A. Townsend, H. Wilber, and G.B. Wright, 
 % Computing with functions in spherical and polar geometries II. The disk, 
-% _SIAM J. Sci. Comput._, in revision, 2016.
+% _SIAM J. Sci. Comput._, submitted, 2016.
 %%
 % [Trefethen, 2000] L. N. Trefethen, _Spectral Methods in MATLAB_, SIAM, 2000. 
