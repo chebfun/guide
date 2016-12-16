@@ -70,7 +70,7 @@ u = spin(S, 256, 1e-6, 'plot', 'off');
 
 %%
 % The output `u` is a `chebfun` at the final time:
-plot(u, 'linewidth', 2)
+plot(u)
 
 %%
 % `spin` makes these things happen with the aid of a class called a `spinop` 
@@ -84,21 +84,21 @@ S = spinop('kdv')
 % $u_t = 0.005u_{xx} + u - u^3$:
 S = spinop('ac');
 u = spin(S, 256, 1e-1, 'plot', 'off');
-figure, plot(u, 'linewidth', 2)
+figure, plot(u)
 
 %%
 % The computation we just performed was on the time interval $[0,500]$. If we 
 % had wanted the interval $[0,100]$, we could have specified it like this:
 S.tspan = [0 100];
 u = spin(S, 256, 1e-1, 'plot', 'off');
-figure, plot(u, 'linewidth', 2)
+figure, plot(u)
 
 %%
 % To specify a different initial condition, you can provide a chebfun as another 
 % argument. For example, here we use a simpler initial condition:
 S.init = chebfun(@(x) -1 + 4*exp(-19*(x-pi).^2), [0 2*pi], 'trig');
 u = spin(S, 256, 1e-1, 'plot', 'off');
-figure, plot(u, 'linewidth', 2)
+figure, plot(u)
 
 %%
 % Suppose we want Chebfun output at times $0,1,\dots, 30$. We could do this:
@@ -108,7 +108,7 @@ U = spin(S, 256, 1e-1, 'plot', 'off');
 %%
 % The output `U` from this command is a chebmatrix. Here for example is the 
 % initial condition and its plot:
-U{1}, plot(U{1}, 'linewidth', 2)
+U{1}, plot(U{1}), axis([0 2*pi -1 3])
 
 %%
 % Here is a waterfall plot of all the curves:
@@ -150,6 +150,7 @@ S = spinop2('gl2');
 S.tspan = 0:10:30;
 U = spin2(S, 100, 2e-1, 'plot', 'off');
 for k = 1:4
+    subplot(2,2,k)
     plot(real(U{k})), view(0,90), axis equal, axis off
     snapnow
 end
