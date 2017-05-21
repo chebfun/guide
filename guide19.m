@@ -1,6 +1,6 @@
 %% 19. SPIN, SPIN2 and SPIN3 for stiff PDEs
-% H. Montanelli and L. N. Trefethen, February 2016, latest revision December
-% 2016
+% H. Montanelli and L. N. Trefethen, February 2016, latest revision May
+% 2017
 
 %% 19.1  Introduction
 % By a stiff PDE, we mean a partial differential equation of
