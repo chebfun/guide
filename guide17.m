@@ -237,7 +237,7 @@ plot( h ), title('f x g', FS, 16), snapnow
 % sphere method and a symmetry preserving variant of iterative Gaussian
 % elimination. We give a brief overview of algorithms here. For a full
 % description of the mathematics behind Spherefun see [Townsend, Wilber, \&
-% Wright 2015].
+% Wright 2016].
 % </latex>
 
 
@@ -576,7 +576,7 @@ norm( delta, inf )
 % extension of Chebfun to two dimensions, _SIAM J. Sci. Comp_, 35
 % (2013), pp. C495-C518.
 %
-% [Townsend, Wilber, & Wright 2015] A. Townsend, H. Wilber, and G. Wright,
+% [Townsend, Wilber, & Wright 2016] A. Townsend, H. Wilber, and G. Wright,
 % Computing with functions in spherical and polar geometries I. The sphere.
 % _SIAM J. Sci. Comp_,  38-4 (2016), pp. C403-C425.
 %
