@@ -206,7 +206,7 @@ u = spin2(S, 100, 2e-1, 'plot', 'off');
 % complexity. The `spin` package was written by Montanelli.
 
 %% References
-% [1] H. Berland and B. Skaflestad and W. M. Wright, _EXPINT--A MATLAB package 
+% [1] H. Berland and B. Skaflestad and W. M. Wright, _EXPINT---A MATLAB package 
 %     for exponential integrators_, ACM Transactions on Mathematical Software,
 %     33 (2007), pp. 4:1--4:17.
 %
@@ -220,7 +220,7 @@ u = spin2(S, 100, 2e-1, 'plot', 'off');
 % [4] S. M. Cox and P. C. Matthews, _Exponential time differencing for stiff
 %     systems_, J. Comput. Phys. 176 (2002), pp. 430--455.
 %
-% [5] J. Hersch, _Contribution a la methode des equations aux differences_,
+% [5] J. Hersch, _Contribution à la methode des equations aux differences_,
 %     Z. Angew. Math. und Phys., 9 (1958), pp. 129--180. 
 %   
 % [6] M. Hochbruck and A. Ostermann, _Exponential integrators_, Acta Numerica,
@@ -232,7 +232,7 @@ u = spin2(S, 100, 2e-1, 'plot', 'off');
 % [8] A.-K. Kassam and L. N. Trefethen, _Fourth-order time-stepping for stiff
 %     PDEs_, SIAM J. Sci. Comp., 26 (2005), pp. 1214--1233.
 %
-% [9] V. T. Luan and A. Ostermann, _Explicit exponential Runge-Kutta methods of
+% [9] V. T. Luan and A. Ostermann, _Explicit exponential Runge--Kutta methods of
 %     high order for parabolic problems_, J. Comput. Appl. Math., 256 (2014),
 %     pp. 168-179.
 %
