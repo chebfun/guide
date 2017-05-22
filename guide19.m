@@ -154,7 +154,7 @@ S = spinop2('gl2');
 S.tspan = 0:10:30;
 U = spin2(S, 100, 2e-1, 'plot', 'off');
 for k = 1:4
-    subplot(2, 2, k), plot(real(U{k})), view(0,90), axis equal, axis off
+    plot(real(U{k})), view(0,90), axis equal, axis off
     snapnow
 end
 
@@ -181,7 +181,7 @@ S = spinopsphere('ac');
 S.tspan = [0 2 5 10];
 U = spinsphere(S, 256, 1e-1, 'plot', 'off');
 for k = 1:4
-    subplot(2, 2, k), plot(U{k}), axis off
+    plot(U{k}), axis off
     snapnow
 end
 
@@ -194,7 +194,7 @@ S = spinopsphere('gl');
 S.tspan = 0:10:30;
 U = spinsphere(S, 256, 1e-1, 'plot', 'off');
 for k = 1:4
-    subplot(2, 2, k), plot(U{k}), axis off
+    plot(U{k}), axis off
     snapnow
 end
 
