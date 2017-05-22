@@ -6,7 +6,7 @@
 % By a stiff PDE, we mean a partial differential equation of
 % the form
 %
-% $$ u_t = S(u) = Lu + N(u) \quad\quad (1) $$
+% $$ u_t = S(u) = Lu + N(u), \quad\quad (1) $$
 %
 % where $L$ is a constant-coefficient linear differential operator on a domain
 % in 1D/2D/3D or on the sphere, and $N$ is a constant-coefficient
@@ -135,10 +135,9 @@ S.nonlin = @(u) u.^2 - 1;
 S.init = chebfun(@(x) cos(x), dom);
 
 %% 19.3 Computations in 2D and 3D with `spin2` and `spin3`
-% `spin`/`spin2`/`spin3` have been written
-% at the same time as Chebfun3 has been being
-% developed, so naturally enough, our aim has been to make them operate in as 
-% nearly similar fashions as possible in 1D, 2D, or 3D. There are classes 
+% `spin`/`spin2`/`spin3` have been written at the same time as Chebfun3 has been 
+% being developed, so naturally enough, our aim has been to make them operate in 
+% as nearly similar fashions as possible in 1D, 2D, or 3D. There are classes 
 % `spinop2` and `spinop3` parallel to `spinop`, invoked by drivers `spin2` 
 % and `spin3`. Preloaded examples exist with names like `gl2` and `gl3` 
 % (Ginzburg--Landau) and `gs2` and `gs3` (Gray--Scott). Too see the complete 
@@ -147,10 +146,10 @@ S.init = chebfun(@(x) cos(x), dom);
 %%
 % For example, here is the Ginzburg--Landau equation:
 %
-% $$  u_t = \Delta u + u - (1+1.5i)u\vert u\vert^2. $$
+% $$  u_t = \Delta u + u - (1+1.5i)u\vert u\vert^2. \quad\quad (2)$$
 %
 % The built-in demo in 2D solves the PDE on $[0,100]^2$ and produces a movie to 
-% time $t=100$. Here are stills at times $0,10,20,30$:
+% time $t=100$. Here are the solutions at times $0,10,20,30$:
 S = spinop2('gl2');
 S.tspan = 0:10:30;
 U = spin2(S, 100, 2e-1, 'plot', 'off');
@@ -164,19 +163,52 @@ end
 % movie to time $t=70$.
 
 %% 19.4 Computations on the sphere with `spinsphere`
-% [13] paper
+% As we mentioned in the introduction, it is also possible to solve PDEs of the 
+% form (1) on the unit sphere with the `spinsphere` code [13], which is based on 
+% the `spherefun` technology (see Chapter 17) and implicit-explicit 
+% time-stepping schemes.
 
-%% 19.5 Using different time-stepping schemes and managing preferences with `spinpref`
+%%
+% For example, to solve the preloaded example `spinsphere('ac')` solves the 
+% Allen--Cahn equation
+%
+% $$  u_t = 10^{-2}*\Delta u + u - u^3, \quad\quad (2)$$
+%
+% on the sphere up to $t=60$, with initial condition 
+% $u0(x,y,z) = cos(cosh(5*x*z) - 10*y)$. 
+% Here are the solutions at times $0,1,2,5$:
+S = spinopsphere('ac');
+S.tspan = [0 2 5 10];
+U = spinsphere(S, 256, 1e-1, 'plot', 'off');
+for k = 1:4
+    plot(real(U{k})), axis off
+    snapnow
+end
+
+%% 
+% Another examples is the Ginzburg--Landau (2) but with a much smaller diffusion
+% $5\times 10^{-4}\Delta u$. The preoladed example solves the PDE tp $t=100$ 
+% using a random initial condition (a `randnfunsphere`). 
+% Here are the solutions at times $0,10,20,30$
+S = spinopsphere('gl');
+S.tspan = 0:10:30;
+U = spinsphere(S, 256, 1e-1, 'plot', 'off');
+for k = 1:4
+    plot(U{k}), axis off
+    snapnow
+end
+
+%% 19.5 Managing preferences 
 % The `spin`/`spin2`/`spin3`/`spinsphere` codes use the classes `spinpref`, 
 % `spinpref2`, `spinpref3` and `spinprefsphere` to manage preferences, including 
 % the choice of the exponential integrator/implicit-explicit schemes for the 
-% time-stepping, the value of the time-step, the number of grid points and 
-% various other options. See the help texts of these files for complete lists of 
-% preferences. 
+% time-stepping schemes, the value of the time-step, the number of grid points 
+% and various other options. See the help texts of these files for the complete 
+% lists of preferences. 
 
 %% 
-% For example, to solve the Kuramoto-Sivashinsky (KS) equation using the
-% EXPRK5S8 scheme of Luan and Ostermann [9], one can type:
+% For example, to solve the Kuramoto--Sivashinsky equation using the EXPRK5S8 
+% scheme of Luan and Ostermann [9], one can type:
 pref = spinpref('scheme', 'exprk5s8', 'plot', 'off');
 S = spinop('ks');
 u = spin(S, 256, 5e-2, pref);
@@ -194,6 +226,9 @@ u = spin2(S, 100, 2e-1, pref);
 %%
 % or simply
 u = spin2(S, 100, 2e-1, 'plot', 'off');
+
+%%
+% On the sphere, preferences are managed with `spinprefsphere`. 
 
 %% 19.6 A quick note on history
 % The history of exponential integrators for ODEs goes back at least to Hersch 
