@@ -31,11 +31,11 @@
 %%
 % Solving all these PDEs by generic numerical methods can be highly challenging.  
 % This chapter decribes Chebfun's capabilities based on more specialized methods 
-% that take advantage of special structure of the problem. One special feature 
-% is that the higher-order terms of the equation are linear, and another is that 
-% in many applications boundary effects are not the scientific issue, so that it 
-% suffices to consider periodic 1D/2D/3D domains. (On the sphere, periodicity 
-% naturally arises; see Chapter 17).
+% that take advantage of the special structure of the problem. One special 
+% feature is that the higher-order terms of the equation are linear, and another 
+% is that in many applications boundary effects are not the scientific issue, so 
+% that it suffices to consider periodic 1D/2D/3D domains. (On the sphere, 
+% periodicity naturally arises; see Chapter 17.)
 
 %%
 % Specifically, the Chebfun codes `spin`/`spin2`/`spin3`/`spinsphere` we shall 
@@ -46,7 +46,7 @@
 % time-stepping scheme known as ETDRK4, devised by Cox and Matthews [5]. 
 % The `spinsphere` code uses the standard IMEX-BDF4 scheme for diffusive PDEs 
 % and the LIRK4 scheme [3] for dispersive PDEs. These codes handle entirely 
-% general problems of the form (1), but convenient defaults are in place, an in 
+% general problems of the form (1), but convenient defaults are in place, and in 
 % particular, one can quickly solve well-known problems by specifying 
 % (case-insensitive) flags such as `burg`, `kdv`, `gl` and `ks`.
 
@@ -61,14 +61,14 @@
 
 %% 19.2 Computations in 1D with `spin`
 % The simplest way to see `spin` in action is to type simply `spin('ks')` or 
-% `spin('kdv')` or another similar string to invoke an example computation 
+% `spin('kdv')`, or another similar string to invoke an example computation 
 % involving a preloaded initial condition and time interval. 
 % (Other choices include `ac`, `burg`, `bz`, `ch`, `gs`, `ks`, `niko`, and 
 % `nls`.) In interactive computing, this is all you need: `spin` will plot 
 % the initial condition and then pause, waiting for user input to start the 
 % time-integration, and then plot a movie of the solution. Here in a chapter of 
 % the guide, we use a `spinop` obect with a grid size `N` and a time-step `dt`, 
-% and `plot` `off`. (See section 19.5 to learn how to manage preferences.) Here 
+% and `plot` `off`. (See section 19.5 to learn how to manage preferences.) Below
 % we solve the KdV equation $u_t = -uu_x - u_{xxx}$: 
 S = spinop('kdv');
 u = spin(S, 256, 1e-6, 'plot', 'off');
@@ -80,7 +80,7 @@ plot(u)
 %%
 % `spin` makes these things happen with the aid of a class called a `spinop` 
 % (later we will also see `spinop2`, `spinop3` and `spinopsphere`). For example, 
-% to see the KdV operator we have just worked with, we can type
+% to see the KdV operator we have just worked with, we can type:
 S = spinop('kdv')
 
 %% 
@@ -99,8 +99,8 @@ u = spin(S, 256, 1e-1, 'plot', 'off');
 figure, plot(u)
 
 %%
-% To specify a different initial condition, you can provide a chebfun as another 
-% argument. For example, here we use a simpler initial condition:
+% To specify a different initial condition, we can change the field `S.init`.
+% For example, here we use a simpler initial condition:
 S.init = chebfun(@(x) -1 + 4*exp(-19*(x-pi).^2), [0 2*pi], 'trig');
 u = spin(S, 256, 1e-1, 'plot', 'off');
 figure, plot(u)
@@ -125,7 +125,7 @@ waterfall(U), xlabel x, ylabel t
 %%
 % Of course, `spin` is not restricted to preloaded differential operators. 
 % Suppose we wanted to run a problem on the domain $d = [0,5]$, from $t=0$ to 
-% $t=10$, with initial condition u0(x) = cos(x) and involving the linear 
+% $t=10$, with initial condition $u_0(x) = \cos(x)$ and involving the linear 
 % operator $L:u\mapsto .3u''$ and the nonlinear operator $N:u\mapsto u^2-1$. We 
 % could do it like this:
 dom = [0 5]; tspan = [0 10];
@@ -188,9 +188,10 @@ for k = 2:4
 end
 
 %% 
-% Another preoladed example is the Ginzburg--Landau (2) with a much smaller 
-% diffusion $5\times 10^{-4}\Delta u$, up to $t=100$ and with a random initial 
-% condition (a `randnfunsphere`). Here are the solutions at times $0,10,20,30$:
+% Another preoladed example is the Ginzburg--Landau equation (2) with a much 
+% smaller diffusion $5\times 10^{-4}\Delta u$, up to $t=100$ and with a random 
+% initial condition (a `randnfunsphere`). Here are the solutions at times 
+% $0,10,20,30$:
 S = spinopsphere('gl');
 S.tspan = 0:10:30;
 U = spinsphere(S, 256, 1e-1, 'plot', 'off');
@@ -202,8 +203,8 @@ end
 %% 19.5 Managing preferences 
 % The `spin`/`spin2`/`spin3`/`spinsphere` codes use the classes `spinpref`, 
 % `spinpref2`, `spinpref3` and `spinprefsphere` to manage preferences, including 
-% the choice of the exponential integrator/implicit-explicit schemes for the 
-% time-stepping schemes, the value of the time-step, the number of grid points 
+% the choice of the exponential integrator/implicit-explicit scheme for the 
+% time-stepping, the value of the time-step, the number of grid points 
 % and various other options. See the help texts of these files for the complete 
 % lists of preferences. 
 
