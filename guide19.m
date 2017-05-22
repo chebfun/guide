@@ -55,7 +55,7 @@
 %%
 % As we shall describe, `spin`/`spin2`/`spin3`/`spinsphere` take as inputs an 
 % initial function in the form of a `chebfun`, `chebfun2`, `chebfun3` or 
-% `spherefun` (with appropriate generalizations for systems, i.e., `chebmatrix
+% `spherefun` (with appropriate generalizations for systems, i.e., `chebmatrix`
 % objects), compute over a specified time interval, and output another `chebfun`, 
 % `chebfun2`, `chebfun3` or `spherefun` corresponding to the final time (and 
 % also intermediate times if requested). By default they show movies of the 
@@ -235,7 +235,7 @@ u = spin2(S, 100, 2e-1, 'plot', 'off');
 % [5] S. M. Cox and P. C. Matthews, _Exponential time differencing for stiff
 %     systems_, J. Comput. Phys. 176 (2002), pp. 430--455.
 %
-% [6] J. Hersch, _Contribution à la methode des equations aux différences_,
+% [6] J. Hersch, _Contribution \'a la methode des equations aux diff\'erences_,
 %     Z. Angew. Math. und Phys., 9 (1958), pp. 129--180. 
 %   
 % [7] M. Hochbruck and A. Ostermann, _Exponential integrators_, Acta Numerica,
