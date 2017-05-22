@@ -178,7 +178,7 @@ end
 S = spinopsphere('ac');
 figure, plot(S.init), axis off
 
-% Here are the solutions at times $1,2,5$:
+% Here are the solutions at times $2,5,10$:
 S.tspan = [0 2 5 10];
 U = spinsphere(S, 256, 1e-1, 'plot', 'off');
 for k = 2:4
