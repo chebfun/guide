@@ -172,15 +172,16 @@ end
 % For example, to solve the preloaded example `spinsphere('ac')` solves the 
 % Allen--Cahn equation
 %
-% $$  u_t = 10^{-2}*\Delta u + u - u^3, \quad\quad (2)$$
+% $$  u_t = 10^{-2}\Delta u + u - u^3, \quad\quad (2)$$
 %
-% on the sphere up to $t=60$, with initial condition 
-% $u0(x,y,z) = cos(cosh(5*x*z) - 10*y)$. 
-% Here are the solutions at times $0,1,2,5$:
+% on the sphere up to $t=60$. The intial condition looks like this
 S = spinopsphere('ac');
+figure, plot(S.init), axis off
+
+% Here are the solutions at times $1,2,5$:
 S.tspan = [0 2 5 10];
 U = spinsphere(S, 256, 1e-1, 'plot', 'off');
-for k = 1:4
+for k = 2:4
     plot(U{k}), axis off
     snapnow
 end
@@ -189,7 +190,7 @@ end
 % Another examples is the Ginzburg--Landau (2) but with a much smaller diffusion
 % $5\times 10^{-4}\Delta u$. The preoladed example solves the PDE tp $t=100$ 
 % using a random initial condition (a `randnfunsphere`). 
-% Here are the solutions at times $0,10,20,30$
+% Here are the solutions at times $0,10,20,30$:
 S = spinopsphere('gl');
 S.tspan = 0:10:30;
 U = spinsphere(S, 256, 1e-1, 'plot', 'off');
