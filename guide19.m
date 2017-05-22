@@ -174,10 +174,11 @@ end
 %
 % $$  u_t = 10^{-2}\Delta u + u - u^3, \quad\quad (2)$$
 %
-% on the sphere up to $t=60$. The intial condition looks like this
+% on the sphere up to $t=60$. The intial condition looks like this:
 S = spinopsphere('ac');
 figure, plot(S.init), axis off
 
+%%
 % Here are the solutions at times $2,5,10$:
 S.tspan = [0 2 5 10];
 U = spinsphere(S, 256, 1e-1, 'plot', 'off');
