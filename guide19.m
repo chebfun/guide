@@ -15,17 +15,18 @@
 % more different physical processes are combined, and many PDEs of interest in
 % science and engineering take this form. For example, the viscous Burgers
 % equation couples second-order linear diffusion with first-order convection, 
-% and the Allen-Cahn equation couples second-order linear diffusion with a
+% and the Allen--Cahn equation couples second-order linear diffusion with a
 % nondifferentiated cubic reaction term. Often a system of equations rather than 
-% a single scalar equation is involved, for example in the Gray-Scott and 
+% a single scalar equation is involved, for example in the Gray--Scott and 
 % Schnakenberg equations, which involve two components coupled together. (The 
 % importance of coupling of nonequal diffusion constants in science was made 
 % famous by Alan Turing in the most highly-cited of all his papers [14].) An 
-% example of a third-order PDE is the KdV equation, the starting point 
-% of the study of nonlinear waves and solitons. Fourth-order terms also arise, 
-% for example in the Cahn-Hilliard equation, whose solutions describe structures
-% of alloys, and the Kuramoto-Sivashinksy equation, related to combustion 
-% problems among others, whose solutions are chaotic.
+% example of a third-order PDE is the Korteweg--de Vries equation (KdV) 
+% equation, the starting point of the study of nonlinear waves and solitons. 
+% Fourth-order terms also arise, for example in the Cahn--Hilliard equation, 
+% whose solutions describe structures of alloys, and the Kuramoto--Sivashinksy 
+% equation, related to combustion problems among others, whose solutions are 
+% chaotic.
 
 %%
 % Solving all these PDEs by generic numerical methods can be highly challenging.  
@@ -33,29 +34,26 @@
 % that take advantage of special structure of the problem. One special feature 
 % is that the higher-order terms of the equation are linear, and another is that 
 % in many applications boundary effects are not the scientific issue, so that it 
-% suffices to consider periodic domains (in 1D/2D/3D)---for the sphere,
-% periodicity naturally arises (see Chapter 17).
+% suffices to consider periodic 1D/2D/3D domains. (On the sphere, periodicity 
+% naturally arises; see Chapter 17).
 
 %%
 % Specifically, the Chebfun codes `spin`/`spin2`/`spin3`/`spinsphere` we shall 
-% describe--which stand for "stiff PDE integrator"--are based on _exponential 
+% describe---which stand for "stiff PDE integrator"---are based on _exponential 
 % integrators_ (in 1D/2D/3D) and _implicit-explicit schemes_ (on the sphere). 
-% As we shall describe, `spin`/`spin2`/`spin3` are very general codes that can 
-% employ an arbitrary exponential integrator; by default, they use the 
-% fourth-order stiff time-stepping scheme known as ETDRK4, devised by Cox and 
-% Matthews [5]. The `spinsphere` code uses the standard IMEX-BDF4 scheme for 
-% diffusive PDEs and the LIRK4 scheme [3] for dispersive PDEs. 
-
-%%
-% These codes handle entirely general problems of the form (1), but convenient 
-% defaults are in place, an in particular, one can quickly solve well-known 
-% problems by specifying (case-insensitive) flags such as `burg`, `kdv`, `gl` 
-% and `ks`.
+% The codes `spin`/`spin2`/`spin3` are very general codes that can employ an 
+% arbitrary exponential integrator; by default, they use the fourth-order stiff 
+% time-stepping scheme known as ETDRK4, devised by Cox and Matthews [5]. 
+% The `spinsphere` code uses the standard IMEX-BDF4 scheme for diffusive PDEs 
+% and the LIRK4 scheme [3] for dispersive PDEs. These codes handle entirely 
+% general problems of the form (1), but convenient defaults are in place, an in 
+% particular, one can quickly solve well-known problems by specifying 
+% (case-insensitive) flags such as `burg`, `kdv`, `gl` and `ks`.
 
 %%
 % As we shall describe, `spin`/`spin2`/`spin3`/`spinsphere` take as inputs an 
 % initial function in the form of a `chebfun`, `chebfun2`, `chebfun3` or 
-% `spherefun` (with appropriate generalizations for systems, i.e., `chebmatrix`
+% `spherefun` (with appropriate generalizations for systems using `chebmatrix`
 % objects), compute over a specified time interval, and output another `chebfun`, 
 % `chebfun2`, `chebfun3` or `spherefun` corresponding to the final time (and 
 % also intermediate times if requested). By default they show movies of the 
@@ -66,12 +64,12 @@
 % `spin('kdv')` or another similar string to invoke an example computation 
 % involving a preloaded initial condition and time interval. 
 % (Other choices include `ac`, `burg`, `bz`, `ch`, `gs`, `ks`, `niko`, and 
-% `nls`.) In interactive computing, this is all you need. `spin` will plot 
+% `nls`.) In interactive computing, this is all you need: `spin` will plot 
 % the initial condition and then pause, waiting for user input to start the 
 % time-integration, and then plot a movie of the solution. Here in a chapter of 
 % the guide, we use a `spinop` obect with a grid size `N` and a time-step `dt`, 
-% and `plot` `off`. (See section 19.4 to learn how to manage preferences.) Here 
-% we solve the KdV (Korteweg-de Vries equation) $u_t = -uu_x - u_{xxx}$: 
+% and `plot` `off`. (See section 19.5 to learn how to manage preferences.) Here 
+% we solve the KdV equation $u_t = -uu_x - u_{xxx}$: 
 S = spinop('kdv');
 u = spin(S, 256, 1e-6, 'plot', 'off');
 
@@ -81,13 +79,13 @@ plot(u)
 
 %%
 % `spin` makes these things happen with the aid of a class called a `spinop` 
-% (later we will also see `spinop2` and `spinop3`).  For example, to see the KdV
-% operator we have just worked with, we can type
+% (later we will also see `spinop2`, `spinop3` and `spinopsphere`). For example, 
+% to see the KdV operator we have just worked with, we can type
 S = spinop('kdv')
 
 %% 
 % (To find what initial condition ws used, type `help spin`.)
-% As a second example of a stiff PDE in 1D, here is the Allen-Cahn equation
+% As a second example of a stiff PDE in 1D, here is the Allen--Cahn equation
 % $u_t = 0.005u_{xx} + u - u^3$:
 S = spinop('ac');
 u = spin(S, 256, 1e-1, 'plot', 'off');
@@ -143,13 +141,13 @@ S.init = chebfun(@(x) cos(x), dom);
 % nearly similar fashions as possible in 1D, 2D, or 3D. There are classes 
 % `spinop2` and `spinop3` parallel to `spinop`, invoked by drivers `spin2` 
 % and `spin3`. Preloaded examples exist with names like `gl2` and `gl3` 
-% (Ginzburg-Landau) and `gs2` and `gs3`(Gray-Scott). Too see the complete lists 
-% of preloaded 2D and 3D examples, type `help spin2` and `help spin3`.
+% (Ginzburg--Landau) and `gs2` and `gs3` (Gray--Scott). Too see the complete 
+% lists of preloaded 2D and 3D examples, type `help spin2` and `help spin3`.
 
 %%
-% For example, here are the Ginzburg-Landau equations:
+% For example, here is the Ginzburg--Landau equation:
 %
-% $$  u_t = \Delta u + u - (1+1.5i)u\vert u\vert^2, $$
+% $$  u_t = \Delta u + u - (1+1.5i)u\vert u\vert^2. $$
 %
 % The built-in demo in 2D solves the PDE on $[0,100]^2$ and produces a movie to 
 % time $t=100$. Here are stills at times $0,10,20,30$:
@@ -168,13 +166,13 @@ end
 %% 19.4 Computations on the sphere with `spinsphere`
 % [13] paper
 
-%% 19.5 Using different exponential integrators and managing preferences with `spinpref`
+%% 19.5 Using different time-stepping schemes and managing preferences with `spinpref`
 % The `spin`/`spin2`/`spin3`/`spinsphere` codes use the classes `spinpref`, 
 % `spinpref2`, `spinpref3` and `spinprefsphere` to manage preferences, including 
 % the choice of the exponential integrator/implicit-explicit schemes for the 
 % time-stepping, the value of the time-step, the number of grid points and 
-% various other options. See `help spinpref`/`spinpref2`/`spinpref3`/`spinprefsphere` 
-% for complete lists of preferences. 
+% various other options. See the help texts of these files for complete lists of 
+% preferences. 
 
 %% 
 % For example, to solve the Kuramoto-Sivashinsky (KS) equation using the
@@ -235,7 +233,7 @@ u = spin2(S, 100, 2e-1, 'plot', 'off');
 % [5] S. M. Cox and P. C. Matthews, _Exponential time differencing for stiff
 %     systems_, J. Comput. Phys. 176 (2002), pp. 430--455.
 %
-% [6] J. Hersch, _Contribution \'a la methode des equations aux diff\'erences_,
+% [6] J. Hersch, _Contribution a la methode des equations aux differences_,
 %     Z. Angew. Math. und Phys., 9 (1958), pp. 129--180. 
 %   
 % [7] M. Hochbruck and A. Ostermann, _Exponential integrators_, Acta Numerica,
