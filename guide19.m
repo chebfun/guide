@@ -189,7 +189,7 @@ end
 
 %% 
 % Another preoladed example is the Ginzburg--Landau equation (2) with a much 
-% smaller diffusion $5\times 10^{-4}\Delta u$, up to $t=100$ and with a random 
+% smaller diffusion $10^{-3}\Delta u$, up to $t=100$ and with a random 
 % initial condition (a `randnfunsphere`). Here are the solutions at times 
 % $0,10,20,30$:
 S = spinopsphere('gl');
