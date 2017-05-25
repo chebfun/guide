@@ -159,8 +159,8 @@ for k = 1:4
 end
 
 %%
-% In 3D, the demo `spin3('gl3')` solves the PDE on $[0,100]^3$ and produces a 
-% movie to time $t=70$.
+% In 3D, the demo `spin3('gl3')` solves the PDE on $[0,50]^3$ and produces a 
+% movie to time $t=100$.
 
 %% 19.4 Computations on the sphere with `spinsphere`
 % As we mentioned in the introduction, it is also possible to solve PDEs of the 
@@ -181,7 +181,7 @@ figure, plot(S.init), axis off
 %%
 % Here are the solutions at times $2,5,10$:
 S.tspan = [0 2 5 10];
-U = spinsphere(S, 256, 1e-1, 'plot', 'off');
+U = spinsphere(S, 128, 1e-1, 'plot', 'off');
 for k = 2:4
     plot(U{k}), axis off
     snapnow
@@ -194,7 +194,7 @@ end
 % $0,10,20,30$:
 S = spinopsphere('gl');
 S.tspan = 0:10:30;
-U = spinsphere(S, 256, 1e-1, 'plot', 'off');
+U = spinsphere(S, 128, 1e-1, 'plot', 'off');
 for k = 1:4
     plot(U{k}), axis off
     snapnow
@@ -213,21 +213,21 @@ end
 % scheme of Luan and Ostermann [9], one can type:
 pref = spinpref('scheme', 'exprk5s8', 'plot', 'off');
 S = spinop('ks');
-u = spin(S, 256, 5e-2, pref);
+u = spin(S, 256, 1e-2, pref);
 
 %%
 % Alternatively, one can type:
-u = spin(S, 256, 5e-2, 'scheme', 'exprk5s8', 'plot', 'off');
+u = spin(S, 256, 1e-2, 'scheme', 'exprk5s8', 'plot', 'off');
 
 %%
 % Preferences in 2D and 3D use `spinpref2` and `spinpref3`, e.g.,
 pref = spinpref2('plot', 'off');
 S = spinop2('gl2');
-u = spin2(S, 100, 2e-1, pref);
+u = spin2(S, 128, 1e-1, pref);
 
 %%
 % or simply
-u = spin2(S, 100, 2e-1, 'plot', 'off');
+u = spin2(S, 128, 1e-1, 'plot', 'off');
 
 %%
 % On the sphere, preferences are managed with `spinprefsphere`. 
