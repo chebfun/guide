@@ -15,16 +15,16 @@
 % more different physical processes are combined, and many PDEs of interest in
 % science and engineering take this form. For example, the viscous Burgers
 % equation couples second-order linear diffusion with first-order convection, 
-% and the Allen--Cahn equation couples second-order linear diffusion with a
+% and the Allen-Cahn equation couples second-order linear diffusion with a
 % nondifferentiated cubic reaction term. Often a system of equations rather than 
-% a single scalar equation is involved, for example in the Gray--Scott and 
+% a single scalar equation is involved, for example in the Gray-Scott and 
 % Schnakenberg equations, which involve two components coupled together. (The 
 % importance of coupling of nonequal diffusion constants in science was made 
 % famous by Alan Turing in the most highly-cited of all his papers [14].) An 
-% example of a third-order PDE is the Korteweg--de Vries equation (KdV) 
+% example of a third-order PDE is the Korteweg-de Vries equation (KdV) 
 % equation, the starting point of the study of nonlinear waves and solitons. 
-% Fourth-order terms also arise, for example in the Cahn--Hilliard equation, 
-% whose solutions describe structures of alloys, and the Kuramoto--Sivashinksy 
+% Fourth-order terms also arise, for example in the Cahn-Hilliard equation, 
+% whose solutions describe structures of alloys, and the Kuramoto-Sivashinksy 
 % equation, related to combustion problems among others, whose solutions are 
 % chaotic.
 
@@ -85,7 +85,7 @@ S = spinop('kdv')
 
 %% 
 % (To find what initial condition ws used, type `help spin`.)
-% As a second example of a stiff PDE in 1D, here is the Allen--Cahn equation
+% As a second example of a stiff PDE in 1D, here is the Allen-Cahn equation
 % $u_t = 0.005u_{xx} + u - u^3$:
 S = spinop('ac');
 u = spin(S, 256, 1e-1, 'plot', 'off');
@@ -140,11 +140,11 @@ S.init = chebfun(@(x) cos(x), dom);
 % as nearly similar fashions as possible in 1D, 2D, or 3D. There are classes 
 % `spinop2` and `spinop3` parallel to `spinop`, invoked by drivers `spin2` 
 % and `spin3`. Preloaded examples exist with names like `gl2` and `gl3` 
-% (Ginzburg--Landau) and `gs2` and `gs3` (Gray--Scott). Too see the complete 
+% (Ginzburg-Landau) and `gs2` and `gs3` (Gray-Scott). Too see the complete 
 % lists of preloaded 2D and 3D examples, type `help spin2` and `help spin3`.
 
 %%
-% For example, here is the Ginzburg--Landau equation:
+% For example, here is the Ginzburg-Landau equation:
 %
 % $$  u_t = \Delta u + u - (1+1.5i)u\vert u\vert^2. \quad\quad (2)$$
 %
@@ -169,7 +169,7 @@ end
 % time-stepping schemes.
 
 %%
-% For example, the preloaded example `spinsphere('ac')` solves the Allen--Cahn 
+% For example, the preloaded example `spinsphere('ac')` solves the Allen-Cahn 
 % equation,
 %
 % $$  u_t = 10^{-2}\Delta u + u - u^3, \quad\quad (3)$$
@@ -188,7 +188,7 @@ for k = 2:4
 end
 
 %% 
-% Another preoladed example is the Ginzburg--Landau equation (2) with a much 
+% Another preoladed example is the Ginzburg-Landau equation (2) with a much 
 % smaller diffusion $10^{-3}\Delta u$, up to $t=100$ and with a random 
 % initial condition (a `randnfunsphere`). Here are the solutions at times 
 % $0,10,20,30$:
@@ -209,7 +209,7 @@ end
 % lists of preferences. 
 
 %% 
-% For example, to solve the Kuramoto--Sivashinsky equation using the EXPRK5S8 
+% For example, to solve the Kuramoto-Sivashinsky equation using the EXPRK5S8 
 % scheme of Luan and Ostermann [9], one can type:
 pref = spinpref('scheme', 'exprk5s8', 'plot', 'off');
 S = spinop('ks');
@@ -259,7 +259,7 @@ u = spin2(S, 128, 1e-1, 'plot', 'off');
 % [2] N. J. Bootland, _Exponential integrators for stiff PDEs_, MSc thesis, 
 %     University of Oxford, 2014.
 %
-% [3] M. P. Calvo, J. de Frutos and J. Novo, _Linearly implicit Runge--Kutta 
+% [3] M. P. Calvo, J. de Frutos and J. Novo, _Linearly implicit Runge-Kutta 
 %     methods for advection-reaction-diffusion equations_, Appl. Numer. Math.,
 %     37 (2001), pp. 535-549.
 % 
@@ -282,7 +282,7 @@ u = spin2(S, 128, 1e-1, 'plot', 'off');
 % [9] A.-K. Kassam and L. N. Trefethen, _Fourth-order time-stepping for stiff
 %     PDEs_, SIAM J. Sci. Comp., 26 (2005), pp. 1214--1233.
 %
-% [10] V. T. Luan and A. Ostermann, _Explicit exponential Runge--Kutta methods of
+% [10] V. T. Luan and A. Ostermann, _Explicit exponential Runge-Kutta methods of
 %     high order for parabolic problems_, J. Comput. Appl. Math., 256 (2014),
 %     pp. 168-179.
 %
