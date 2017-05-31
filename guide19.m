@@ -140,7 +140,7 @@ S.init = chebfun(@(x) cos(x), dom);
 % as nearly similar fashions as possible in 1D, 2D, or 3D. There are classes 
 % `spinop2` and `spinop3` parallel to `spinop`, invoked by drivers `spin2` 
 % and `spin3`. Preloaded examples exist with names like `gl` (Ginzburg-Landau) 
-% and `gs` Gray-Scott). Too see the complete lists of preloaded 2D and 3D 
+% and `gs` (Gray-Scott). Too see the complete lists of preloaded 2D and 3D 
 % examples, type `help spin2` and `help spin3`.
 
 %%
