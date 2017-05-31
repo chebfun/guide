@@ -139,9 +139,9 @@ S.init = chebfun(@(x) cos(x), dom);
 % being developed, so naturally enough, our aim has been to make them operate in 
 % as nearly similar fashions as possible in 1D, 2D, or 3D. There are classes 
 % `spinop2` and `spinop3` parallel to `spinop`, invoked by drivers `spin2` 
-% and `spin3`. Preloaded examples exist with names like `gl2` and `gl3` 
-% (Ginzburg-Landau) and `gs2` and `gs3` (Gray-Scott). Too see the complete 
-% lists of preloaded 2D and 3D examples, type `help spin2` and `help spin3`.
+% and `spin3`. Preloaded examples exist with names like `gl` (Ginzburg-Landau) 
+% and `gs` Gray-Scott). Too see the complete lists of preloaded 2D and 3D 
+% examples, type `help spin2` and `help spin3`.
 
 %%
 % For example, here is the Ginzburg-Landau equation:
@@ -150,7 +150,7 @@ S.init = chebfun(@(x) cos(x), dom);
 %
 % The built-in demo in 2D solves the PDE on $[0,100]^2$ and produces a movie to 
 % time $t=100$. Here are the solutions at times $0,10,20,30$:
-S = spinop2('gl2');
+S = spinop2('gl');
 S.tspan = 0:10:30;
 U = spin2(S, 100, 2e-1, 'plot', 'off');
 for k = 1:4
@@ -222,7 +222,7 @@ u = spin(S, 256, 1e-2, 'scheme', 'exprk5s8', 'plot', 'off');
 %%
 % Preferences in 2D and 3D use `spinpref2` and `spinpref3`, e.g.,
 pref = spinpref2('plot', 'off');
-S = spinop2('gl2');
+S = spinop2('gl');
 u = spin2(S, 128, 1e-1, pref);
 
 %%
