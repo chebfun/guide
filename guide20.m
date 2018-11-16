@@ -114,6 +114,15 @@ sum2f = sum2(f, 1, 3)
 plot( sum2f )
 
 %%
+% Ballfun has a fast |rotate| command to efficiently rotate functions.
+f = ballfun(@(x,y,z) sin(50*z) - x.^2);
+g = rotate(f, -pi/4, pi/2, pi/8);
+subplot(1,2,1)
+plot( f ), title('Original')
+subplot(1,2,2)
+plot( g ), title('Rotated')
+
+%%
 % Differentiation on the ball with respect to spherical coordinates in $r$,
 % $\lambda$ and $\theta$ may introduce singularities. For instance, consider 
 % the smooth function $f(r,\lambda,\theta) = r\cos\theta$. The derivative of 
@@ -132,7 +141,7 @@ g = diff(f, 1);
 exact = ballfun(@(x,y,z) -y.*sin(x.*y));
 
 norm(g-exact)
-plot( g ), title('df/dx')
+clf, plot( g ), title('df/dx')
 
 %% 
 % The Laplacian is computed in Cartesian coordinates using the |laplacian|
