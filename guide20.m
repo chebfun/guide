@@ -41,8 +41,8 @@ f
 
 %%
 % The output displays the discretization size employed to represent the function in
-% a Chebyshev-Fourier-Fourier expansion. The numbers $19$, $41$, and $37$ indicate
-% that the ballfun is represented by a $19\times 41\times 37$ tensor of coefficients.
+% a Chebyshev-Fourier-Fourier expansion. The numbers $21$, $41$, and $37$ indicate
+% that the ballfun is represented by a $21\times 41\times 37$ tensor of coefficients.
 
 %% 20.2 Visualizing ballfuns
 % There are plenty of ways to visualize a ballfun object. The simplest is 
@@ -83,7 +83,7 @@ plot( f .* g ), title( 'f .* g' )
 
 %%
 % The definite integral of a ballfun is computed via the |sum3| command. 
-% For example, the integral of $f(x,y,z)=x+1$ over the unit ball is $4*pi/3$.
+% For example, the integral of $f(x,y,z)=x+1$ over the unit ball is $4\pi/3$.
 f = ballfun(@(x,y,z)x+1);
 intf = sum3(f)
 error = intf - 4*pi/3
