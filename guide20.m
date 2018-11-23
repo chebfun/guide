@@ -10,26 +10,18 @@
 % many others. It was created by Nicolas Boulle and Alex Townsend [3].
 
 %%
-% A function $f$ on the unit ball can be expressed in spherical
-% coordinates $f(r,\lambda,\theta)$, where $r$ is the radial variable,
-% $\lambda$ is the azimuthal angle between $-\pi$ and $\pi$ and
-% $\theta\in[0,\pi]$ is the polar angle. For example, the function
-%
-% $$f(r,\lambda,\theta) = \cos(r^2\cos(\lambda)\sin(\lambda)\sin(\theta)^2)$$
-%
+% A function $f$ on the unit ball can be expressed in cartesian coordinates
+% $f(x,y,z)$, where $x^2+y^2+z^2\leq 1$. For example, the function $f(x,y,z) = \cos(xy)$
 % can be constructed in Ballfun by the following command
-f = ballfun(@(r,lam,th) cos(r.^2.*cos(lam).*sin(lam).*sin(th).^2), 'polar');
+f = ballfun(@(x,y,z) cos(x.*y));
 plot( f )
 
 %%
-% Ballfun also allows functions to be supplied to the constructor in
-% Cartesian coordinates $(x,y,z)$:
-g = ballfun(@(x,y,z) cos(x.*y));
-
-%%
-% Internally, we apply the change of variables
-%
-% $$ x = r\sin\theta\cos\lambda,\quad y = r\sin\theta\sin\lambda,\quad z = r\cos\theta,\quad,\quad (r,\lambda,\theta)\in[0,1]\times[-\pi,\pi]\times[0,\pi].$$
+% Ballfun also allows functions to be supplied to the constructor in spherical
+% coordinates $f(r,\lambda,\theta)$, where $r$ is the radial variable,
+% $\lambda$ is the azimuthal angle between $-\pi$ and $\pi$ and
+% $\theta\in[0,\pi]$ is the polar angle.
+g = ballfun(@(r,lam,th) cos(r.^2.*cos(lam).*sin(lam).*sin(th).^2), 'spherical');
 
 %%
 % The resulting objects are identical up to machine precision:
@@ -50,15 +42,15 @@ f
 plot( f )
 
 %%
-% Slices of the ballfun along a plane passing through the origin can also 
-% be obtained, taking the form of diskfuns:
-fdisk = diskfun(f)
+% Slices of the ballfun along the planes $x=0$, $y=0$ or $z=0$ passing through
+% the origin can also be obtained, taking the form of diskfuns:
+fdisk = f(:, :, 0);
 plot( fdisk )
 
 %%
 % Moreover, the restriction to the unit sphere can be obtained with the 
 % following command, returning a spherefun:
-fsphere = f(1,:,:)
+fsphere = f(1, :, :, 'spherical')
 plot( fsphere )
 
 %% 20.3 Basic operations
@@ -82,9 +74,9 @@ subplot(2,2,4)
 plot( f .* g ), title( 'f .* g' )
 
 %%
-% The definite integral of a ballfun is computed via the |sum3| command. 
-% For example, the integral of $f(x,y,z)=x+1$ over the unit ball is $4\pi/3$.
-f = ballfun(@(x,y,z)x+1);
+% The definite triple integral of a ballfun is computed via the |sum3| command. 
+% For example, the integral of $f(x,y,z)=1$ over the unit ball is $4\pi/3$.
+f = ballfun(@(x,y,z)1);
 intf = sum3(f)
 error = intf - 4*pi/3
 
@@ -110,7 +102,7 @@ plot( sumf )
 %
 % $$s(\lambda) = \int_0^\pi\int_0^1f(r,\lambda,\theta)r^2\sin(\theta)drd\theta,$$
 f = ballfun(@(x,y,z) y);
-sum2f = sum2(f, 1, 3)
+sum2f = sum2(f, [1, 3])
 plot( sum2f )
 
 %%
@@ -178,7 +170,7 @@ clf, plot( u )
 exact = ballfun(@(x,y,z) sin(y.^2));
 f = ballfun(@(x,y,z) 2*cos(y.^2)-4*y.^2.*sin(y.^2));
 bc = @(lam,th) 2*(sin(th).*sin(lam)).^2.*cos((sin(th).*sin(lam)).^2);
-u = helmholtz_neumann(f, 0, bc, 50, 50, 50);
+u = helmholtz(f, 0, bc, 50, 50, 50, 'neumann');
 
 plot( u )
 
