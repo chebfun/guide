@@ -1,5 +1,5 @@
 %% 20. Ballfun 
-% Nicolas Boulle and Alex Townsend, November 2018
+% Nicolas Boulle and Alex Townsend, March 2019
 
 %% 20.1 Introduction
 % Ballfun is a new part of Chebfun for computing with scalar and vector functions 
@@ -35,10 +35,14 @@ f
 % The output displays the discretization size employed to represent the function in
 % a Chebyshev-Fourier-Fourier expansion. The numbers $21$, $41$, and $37$ indicate
 % that the ballfun is represented by a $21\times 41\times 37$ tensor of coefficients.
+% The Chebyshev-Fourier-Fourier coefficients can be vizualized with
+% |plotcoeffs|:
+plotcoeffs( f )
 
 %% 20.2 Visualizing ballfuns
 % There are plenty of ways to visualize a ballfun object. The simplest is 
 % the |plot| command:
+f = cheb.galleryball("moire");
 plot( f )
 
 %%
@@ -244,10 +248,10 @@ clf, quiver( V ), title('V')
 % The main operations for vector-valued functions are supported in Ballfun.
 % These include the curl and the divergence, among others.
 W = curl(V);
-quiver(W), title('curl( V )')
+quiver( W ), title('curl( V )')
 
 f = divergence(V);
-plot(f), title('divergence( V )')
+plot( f ), title('divergence( V )')
 
 %% 
 % One can easily check that the vector calculus identities are satisfied. 
@@ -303,9 +307,9 @@ norm( div( w ) )
 % The poloidal-toroidal decomposition of $v$ can be computed as follows:
 [Pw, Tw] = PTdecomposition( w );
 subplot(1,2,1)
-plot(Pw), title('Poloidal scalar')
+plot( Pw ), title('Poloidal scalar')
 subplot(1,2,2)
-plot(Tw), title('Toroidal scalar')
+plot( Tw ), title('Toroidal scalar')
 
 %%
 % Here is a visualization of the decomposition.
