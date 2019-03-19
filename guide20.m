@@ -421,7 +421,7 @@ norm( v - w )
 % Helmholtz-Hodge Decomposition--A Survey, _IEEE Trans. Vis. Comput. Graphics_, 
 % 19 (2013), pp. 1386-1404.
 %
-% [3] N. Boulle, and A. Townsend, Computing with functions in the ball, in 
+% [3] N. Boulle, and A. Townsend, Computing with functions on the ball, in 
 % preparation.
 %
 % [4] Y. Tong, S. Lombeyda, A. Hirani, and M. Desbrun, Discrete Multiscale
