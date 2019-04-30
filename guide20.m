@@ -43,12 +43,12 @@ plotcoeffs( f )
 % There are plenty of ways to visualize a ballfun object. The simplest is 
 % the |plot| command:
 f = cheb.galleryball("moire");
-plot( f )
+clf, plot( f )
 
 %%
 % Slices of the ballfun along the planes $x=0$, $y=0$ or $z=0$ passing through
 % the origin can also be obtained, taking the form of diskfuns:
-fdisk = f(:, :, 0);
+fdisk = f(:, :, 0)
 plot( fdisk )
 
 %%
@@ -66,7 +66,7 @@ plot( fsphere )
 % For example, basic algebra such as addition, subtraction, and
 % multiplication are given by the operations '+', '-', and '.*':
 f = ballfun(@(x,y,z) sin(x.^2+z.^2)+cos(y).^2);
-g = ballfun(@(x,y,z) cos((x.*z).^2));
+g = ballfun(@(x,y,z) sin(x.*z)+cos(z).^3);
 
 subplot(2,2,1)
 plot( f ), title( 'f' )
@@ -80,9 +80,9 @@ plot( f .* g ), title( 'f .* g' )
 %%
 % The definite triple integral of a ballfun is computed via the |sum3| command. 
 % For example, the integral of $f(x,y,z)=1$ over the unit ball is $4\pi/3$.
-f = ballfun(@(x,y,z)1);
+f = ballfun(@(x,y,z) x.^2);
 intf = sum3(f)
-error = intf - 4*pi/3
+error = intf - 4*pi/15
 
 %%
 % Ballfun offers the |sum| command for integrating over the variable $r$,
@@ -160,7 +160,7 @@ plot( laplacian(f) ), title('laplacian( f )')
 % these commands:
 f = ballfun(@(x,y,z) -2*(2*x.^2.*cos(x.^2) + sin(x.^2)) + 4*cos(x.^2));
 bc = @(lam, th) cos(sin(th).^2.*cos(lam).^2);
-u = helmholtz(f, 2, bc, 45, 45, 45);
+u = helmholtz(f, 2, bc, 50, 50, 50);
 exact = ballfun(@(x,y,z) cos(x.^2));
 norm(u-exact)
 
