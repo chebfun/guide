@@ -1,5 +1,5 @@
 %% 1. Getting Started with Chebfun
-% Lloyd N. Trefethen, October 2009, latest revision May 2019
+% Lloyd N. Trefethen, October 2009, latest revision December 2015
 
 %% 1.1  What is a chebfun?
 % A chebfun is a function of one variable defined on an interval $[a,b]$. The
@@ -29,7 +29,7 @@
 % 1,000,000 points. Chebfun makes use of adaptive procedures that aim to
 % find the right number of points automatically so as to represent each
 % function to roughly machine precision, that is, about
-% 15 or 16 digits of relative
+% 15 digits of relative
 % accuracy.  (Originally Chebfun stored function values at Chebyshev
 % points; in Version 5 it switched to storing Chebyshev expansion 
 % coefficients.)
@@ -54,15 +54,14 @@
 % Austin, Asgeir Birkisson, Toby Driscoll, Hrothgar, Mohsin
 % Javed, Hadrien Montanelli, Alex Townsend,
 % Nick Trefethen, Grady Wright, and Kuan Xu.
-% October 2014 brough new arrivals Jared Aurentz,  and Behnam
-% Hashemi.  In 2019 the team includes also Nicolas Boulle,
-% Abi Gopal, Yuji Nakatsukasa, and Ryan Sherbo.
+% October 2014 brough new arrivals Jared Aurentz, Behnam
+% Hashemi, and Mikael Slevinsky.
 % Further information about Chebfun history is available at the Chebfun
 % web site, [http://www.chebfun.org](http://www.chebfun.org),
 % where one can also find a discussion of other software projects related
 % to Chebfun.
-% This Guide is based on Chebfun Version 5.7.0, released
-% in June 2017.
+% This Guide is based on Chebfun Version 5.3, released
+% in December 2015.
 
 %% 1.2  Constructing simple chebfuns
 % The |chebfun| command constructs a chebfun from a specification such as a
@@ -103,7 +102,7 @@
 % evaluated by the barycentric formula introduced by Salzer [Berrut &
 % Trefethen 2004, Salzer 1972].  This method of evaluating polynomial
 % interpolants is stable and efficient even if the degree is in the
-% millions [Higham 2004].  Chebfun actually evaluates
+% millions [Higham 2004].  In recent years Chebfun actually evaluates
 % polynomials from their Chebyshev series rather than by barycentric
 % interpolation; the difference in the two methods is little.
 
@@ -159,12 +158,12 @@
 % here is a sequence that uses plus, times, divide, and power operations on
 % an initial chebfun |x| to produce a famous function of Runge:
   x = chebfun('x');
-  f = 1/(1+25*x^2);
+  f = 1./(1+25*x.^2);
   length(f)
   clf, plot(f)
 
 %% 1.3  Operations on chebfuns
-% There are more than 300 commands that can be applied to
+% There are more than 200 commands that can be applied to
 % a chebfun.  For a list of many of them you can type |methods|:
   methods chebfun
 
@@ -174,7 +173,7 @@
 
 %%
 % Most of the commands in the list above exist in ordinary MATLAB; some
-% exceptions are |domain|, |restrict|, and |chebcoeffs|.
+% exceptions are |domain|, |restrict|, |chebpoly|, and |remez|.
 % We have already seen |length| and |sum| in action.  In fact we have
 % already seen |subsref| too, since that is the MATLAB command for (among
 % other things) evaluating arguments in parentheses.
@@ -239,7 +238,7 @@
 % specifies three functions $x^2$, $1$, and $4-x$, together with a vector of
 % endpoints indicating that the first function applies on $[-1,1]$, the
 % second on $[1,2]$, and the third on $[2,4]$:
-  f = chebfun({@(x) x^2, 1, @(x) 4-x},[-1 1 2 4]);
+  f = chebfun({@(x) x.^2, 1, @(x) 4-x},[-1 1 2 4]);
   plot(f)
 
 %%
@@ -255,7 +254,7 @@
 %%
 % Here is an algebraic transformation of |f|, which we plot in another color
 % for variety.
-  plot(1/(1+f),'r')
+  plot(1./(1+f),'r')
 
 %% 
 % Some Chebfun commands naturally introduce breakpoints in a chebfun. For
@@ -311,7 +310,7 @@
 % Nick Hale, Rodrigo Platte, and Mark Richardson, and many later
 % developments are due to Kuan Xu.
 % For example, here is a function on the whole real axis,
-  f = chebfun('exp(-x^2/16).*(1+.2*cos(10*x))',[-inf,inf]);
+  f = chebfun('exp(-x.^2/16).*(1+.2*cos(10*x))',[-inf,inf]);
   plot(f)
 
 %%
@@ -320,7 +319,7 @@
 
 %%
 % Here's the integral of a function on $[1,\infty)$:
-  sum(chebfun('1/x^4',[1 inf]))
+  sum(chebfun('1./x.^4',[1 inf]))
 
 %%
 % Notice that several digits of accuracy have been lost here.  Be careful! --
@@ -331,7 +330,7 @@
 % Here is an example of a function that diverges to infinity,
 % which we can capture with the |'exps'| flag; see Chapter 7
 % for details:
-  h = chebfun('(1/pi)/sqrt(1-x^2)','exps',[-.5 -.5]);
+  h = chebfun('(1/pi)./sqrt(1-x.^2)','exps',[-.5 -.5]);
   plot(h)
 
 %%
@@ -343,9 +342,8 @@
 
 %% 1.6  Periodic functions
 % Until 2014, Chebfun used only nonperiodic representations, based on
-% Chebyshev polynomials.  Beginning with Version 5, a new capability
-% was introduced for representing sufficiently
-% smooth periodic functions by trigonometric
+% Chebyshev polynomials.  Beginning with Version 5, there is a new capability
+% of representing sufficiently smooth periodic functions by trigonometric
 % polynomials instead, that is, Fourier series.  Such an object is still
 % called a chebfun, but it is a periodic one,
 % and the signal to invoke such capabilities is the string |`trig`|.
@@ -356,7 +354,7 @@
 %%
 % Trigfuns were initiated by Grady Wright in the first half of 2014
 % [Wright et al. 2015].
-% Another project along the same lines was
+% A very interesting project along the same lines was
 % carried out independently by Kristyn McLeod and Rodrigo Platte at Arizona
 % State University [McLeod 2014].
 
@@ -455,7 +453,7 @@ disp([a exact'])
 % |legvals2chebcoeffs|, |chebcoeffs2legpts|, and ten more)
 
 %%
-% o |conv| for convolution,
+% o |conv| and |circconv| for convolution,
 
 %%
 % o The |'equi'| flag to the Chebfun constructor for equispaced data,
@@ -484,7 +482,7 @@ toc
 
 %% 1.9  Chebfun example galleries
 % MATLAB has long had a `gallery` command to generate interesting
-% matrices, and Chebfun has an analogous
+% matrices, and with version 5.1, Chebfun has introduced an analogous
 % `gallery` command to generate interesting functions.
 
 %%
@@ -533,7 +531,7 @@ cheb.gallery('zigzag')
 % a gallery function at random.
 
 %%
-% Other collections worth exploring include `cheb.gallerytrig` for
+% Other collections worth exploring are `cheb.gallerytrig` for
 % periodic functions and `cheb.gallery2` for 2D functions.
 
 %% 1.10  How this Guide is produced
@@ -584,4 +582,4 @@ cheb.gallery('zigzag')
 % 
 % [Wright et al. 2015] G. B. Wright, M. Javed, H. Montanelli, and
 % L. N. Trefethen, Extension of Chebfun to periodic functions,
-% _SIAM J. Sci. Comp._ 37 (2015), C554-C573.
+% _SIAM J. Sci. Comp._, to appear.
