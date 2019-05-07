@@ -1,8 +1,8 @@
 %% 2. Integration and Differentiation
-% Lloyd N. Trefethen, November 2009, latest revision December 2015
+% Lloyd N. Trefethen, November 2009, latest revision May 2019
 
 %% 2.1 |sum|
-% We have seen that the |sum| command returns the definite integral of a
+% We have seen that |sum| returns the definite integral of a
 % chebfun over its range of definition.  The integral is normally
 % calculated by an FFT-based version of Clenshaw-Curtis quadrature, as
 % described first in [Gentleman 1972]. This formula is applied on each fun
@@ -38,7 +38,7 @@
 % function evaluated at $t=1$:
   Iexact = erf(1)
 
-  %%
+%%
 % It is interesting to compare the times involved in evaluating this number
 % in various ways.  MATLAB's specialized |erf| code is the fastest:
   tic, erf(1), toc
@@ -93,10 +93,10 @@
 %%
 % For another example of a definite integral we turn to an integrand given
 % as example |F21F| in [Kahaner 1971] (see also
-% `cheb.gallery('kahaner')`).  We treat it first in the default mode
+% |cheb.gallery('kahaner')|).  We treat it first in the default mode
 % of splitting off:
-  ff = @(x) sech(10*(x-0.2)).^2 + sech(100*(x-0.4)).^4 + ...
-            sech(1000*(x-0.6)).^6;
+  ff = @(x) sech(10*(x-0.2))^2 + sech(100*(x-0.4))^4 + ...
+            sech(1000*(x-0.6))^6;
   f = chebfun(ff,[0,1])
 
 %%
@@ -111,8 +111,7 @@
   
 %%
 % With splitting on, Chebfun also gets the right answer,
-% and note that the length of
-% the chebfun is much smaller than before:
+% and note that the length of the chebfun is much smaller than before:
   f = chebfun(ff,[0,1],'splitting','on');
   length(f)
   sum(f)
@@ -132,13 +131,13 @@
 % As mentioned in Chapter 1 and described in more detail in Chapter 9,
 % Chebfun has some capability of dealing with functions that blow up to
 % infinity.  Here for example is a familiar integral:
-  f = chebfun(@(x) 1./sqrt(x),[0 1],'blowup',2);
+  f = chebfun(@(x) 1/sqrt(x),[0 1],'blowup',2);
   sum(f)
 
 %%
 % Certain integrals over infinite domains can also be computed, though the
 % error is often large:
-  f = chebfun(@(x) 1./x.^2.5,[1 inf]);
+  f = chebfun(@(x) 1/x^2.5,[1 inf]);
   sum(f)
 
 %%
@@ -172,12 +171,12 @@
 
 %%
 % Here is a function that is infinitely differentiable but not analytic.
-  f = chebfun('exp(-1./sin(10*x).^2)');
+  f = chebfun('exp(-1/sin(10*x)^2)');
   plot(f)
 
 %%
 % Here are the norms of |f| and its tenth power:
-  norm(f), norm(f.^10)
+  norm(f), norm(f^10)
 
 %% 2.3 cumsum
 % In MATLAB, |cumsum| gives the cumulative sum of a vector,
@@ -185,9 +184,8 @@
   cumsum(v)
 %%
 % The continuous analogue of this operation is indefinite integration.
-% If |f|
-% is a fun of length $n$, then |cumsum(f)| is a fun of length $n+1$ or
-% less (becauase of Chebfun's rounding of functions to machine
+% If |f| is a fun of length $n$, then |cumsum(f)| is a fun of length $n+1$ or
+% less (because of Chebfun's rounding of functions to machine
 % precision).  For a
 % chebfun consisting of several funs, the integration is performed on each
 % piece.
@@ -196,7 +194,7 @@
 % For example, returning to an integral computed above, we can make our own
 % error function like this:
   t = chebfun('t',[-5 5]);
-  f = 2*exp(-t.^2)/sqrt(pi);
+  f = 2*exp(-t^2)/sqrt(pi);
   fint = cumsum(f);
   plot(fint,'m')
   ylim([-0.2 2.2]), grid on
@@ -215,20 +213,19 @@
 %% 
 % Here is the integral of an oscillatory step function:
   x = chebfun('x',[0 6]);
-  f = x.*sign(sin(x.^2)); subplot(1,2,1), plot(f)
+  f = x*sign(sin(x^2)); subplot(1,2,1), plot(f)
   g = cumsum(f); subplot(1,2,2), plot(g,'m')
 
 %%
 % And here is an example from number theory.  The logarithmic integral,
 % $Li(x)$, is the indefinite integral from $0$ to $x$ of $1/\log(s)$.  It is an
-% approximation to $\pi(x)$, the number of primes
-% less than or equal to $x$.  To
-% avoid the singularity at $x=0$ we begin our integral at the point
+% approximation to $\pi(x)$, the number of primes less than or equal to $x$.  
+% To avoid the singularity at $x=0$ we begin our integral at the point
 % $\mu = 1.451...$ where $Li(x)$ is zero, known as Soldner's constant.
 % The test value $Li(2)$ is correct except in the last few digits:
   mu = 1.45136923488338105;      % Soldner's constant
   xmax = 400;
-  Li = cumsum(chebfun(@(x) 1./log(x),[mu xmax]));
+  Li = cumsum(chebfun(@(x) 1/log(x),[mu xmax]));
   lengthLi = length(Li)
   Li2 = Li(2)
 
@@ -237,11 +234,10 @@
 % to $10^5$ or $10^{10}$.)  Here is a plot comparing $Li(x)$ with $\pi(x)$:
   clf, plot(Li,'m')
   p = primes(xmax);
-  hold on, plot(p,1:length(p),'.k')
+  hold on, plot(p,1:length(p),'.k'), hold off
 
 %%
-% The Prime Number Theorem implies that $\pi(x) \sim Li(x)$ as
-% $x\to\infty$.
+% The Prime Number Theorem implies that $\pi(x) \sim Li(x)$ as $x\to\infty$.
 % Littlewood proved in 1914 that although $Li(x)$ is greater than $\pi(x)$ at
 % first, the two curves eventually cross each other infinitely often. It is
 % known that the first crossing occurs somewhere between
@@ -250,7 +246,7 @@
 %%
 % The |mean|, |std|, and |var| commands have also been overloaded for
 % chebfuns and are based on integrals.  For example,
-  mean(chebfun('cos(x).^2',[0,10*pi]))
+  mean(chebfun('cos(x)^2',[0,10*pi]))
 
 %% 2.4 |diff|
 % In MATLAB, |diff| gives finite differences of a vector:
@@ -261,15 +257,13 @@
 % The continuous analogue of this operation is differentiation.  For example:
   f = chebfun('cos(pi*x)',[0 20]);
   fprime = diff(f);
-  hold off, plot(f)
-  hold on, plot(fprime,'r')
+  plot([f fprime])
 
 %%
 % If the derivative of a function with a jump is computed, then a delta
-% function is introduced. Consider for example this function defined
-% piecewise:
-  f = chebfun({@(x) x.^2, 1, @(x) 4-x, @(x) 4./x},0:4);
-  hold off, plot(f)
+% function is introduced. Consider for example this function defined piecewise:
+  f = chebfun({@(x) x^2, 1, @(x) 4-x, @(x) 4/x},0:4);
+  plot(f)
 
 %%
 % Here is the derivative:
@@ -282,8 +276,7 @@
 % segment appears a delta function of amplitude $1$, corresponding to the
 % jump of $f$ by $1$.
 % The third segment has constant value $f' = -1$. Finally another
-% delta function, this time with amplitude $1/3$, takes us to the final
-% segment.
+% delta function, this time with amplitude $1/3$, takes us to the final segment.
 
 %%
 % Thanks to the delta functions, |cumsum| and |diff| are essentially inverse
@@ -301,7 +294,7 @@
 %%
 % Multiple derivatives can be obtained by adding a second argument to
 % |diff|.  Thus for example,
-  f = chebfun('1./(1+x.^2)');
+  f = chebfun('1/(1+x^2)');
   g = diff(f,4); plot(g)
 
 %%
@@ -348,11 +341,9 @@
 
 %%
 % Using 1D Chebfun technology,
-% we can compute the integral over the box like this.  Notice the use of
-% the flag |vectorize| to construct a chebfun from a function only defined
-% for scalar arguments.
+% we can compute the integral over the box like this.
   Iy = @(y) sum(chebfun(@(x) f(x,y),[-2 2]));
-  tic, I = sum(chebfun(@(y) Iy(y),[0.5 2.5],'vectorize')); t = toc;
+  tic, I = sum(chebfun(@(y) Iy(y),[0.5 2.5])); t = toc;
   fprintf('CHEBFUN:  I = %16.14f  time = %5.3f secs\n',I,t)
 
 %%
@@ -367,7 +358,7 @@
 
 %%
 % A much better approach for this problem, however, is to use
-% Chebfun2, which is described in Chapters 12-16.
+% Chebfun2, which is described in Chapters 12-15.
 % With this method we can compute the integral quickly,
 tic
 f2 = chebfun2(f,[-2 2 0.5 2.5]);
@@ -381,12 +372,10 @@ contour(f2,-1:.2:1), colorbar, grid on
 %% 2.6 Gauss and Gauss-Jacobi quadrature
 % For quadrature experts, Chebfun contains some powerful capabilities
 % due to Nick Hale and Alex Townsend [Hale & Townsend 2013]
-% and Ignace Bogaert
-% [Bogaert, Michiels & Fostier 2012, Bogaert 2014].
+% and Ignace Bogaert [Bogaert, Michiels & Fostier 2012, Bogaert 2014].
 % To start with, suppose we
 % wish to carry out $4$-point Gauss quadrature over $[-1,1]$.  The quadrature
-% nodes are the zeros of the degree $4$ Legendre polynomial
-% |legpoly(4)|, which
+% nodes are the zeros of the degree $4$ Legendre polynomial |legpoly(4)|, which
 % can be obtained from the Chebfun command |legpts|, and if two output
 % arguments are requested, |legpts| provides weights also:
   [s,w] = legpts(4)
@@ -415,16 +404,15 @@ contour(f2,-1:.2:1), colorbar, grid on
 %%
 % Traditionally, numerical analysts computed Gauss quadrature nodes
 % and weights by the eigenvalue algorithm of Golub and Welsch [Golub &
-% Welsch 1969]. However, the Hale-Townsend and Bogaert
-% algorithms are both more
-% accurate and much faster [Hale & Townsend 2013, 
+% Welsch 1969]. However, the Hale-Townsend and Bogaert algorithms are
+% both more accurate and much faster [Hale & Townsend 2013, 
 % Bogaert, Michiels & Fostier 2012, Bogaert 2014].
 
 %%
 % For Legendre polynomials, Legendre points, and Gauss quadrature, use
 % |legpoly| and |legpts|. For Chebyshev polynomials, Chebyshev points, and
 % Clenshaw-Curtis quadrature, use |chebpoly| and |chebpts| and the built-in
-% Chebfun commands such as |sum|. A third variant is also available: for
+% Chebfun commands such as |sum|.  A third variant is also available: for
 % Jacobi polynomials, Gauss-Jacobi points, and Gauss-Jacobi quadrature, see
 % |jacpoly| and |jacpts|. These arise in integration of functions with
 % singularities at one or both endpoints, and are used internally by
