@@ -79,7 +79,7 @@ plot( f .* g ), title( 'f .* g' )
 
 %%
 % The definite triple integral of a ballfun is computed via the |sum3| command. 
-% For example, the integral of $f(x,y,z)=1$ over the unit ball is $4\pi/3$.
+% For example, the integral of $f(x,y,z)=x^2$ over the unit ball is $4\pi/15$.
 f = ballfun(@(x,y,z) x.^2);
 intf = sum3(f)
 error = intf - 4*pi/15
