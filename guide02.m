@@ -43,21 +43,20 @@
 % in various ways.  MATLAB's specialized |erf| code is the fastest:
   tic, erf(1), toc
 
-  %%
-% Using MATLAB's various quadrature commands
-% is understandably slower:
+%%
+% Using MATLAB's quadrature command is understandably slower:
   tol = 3e-14;
-  tic, I = quad(F,0,1,tol); t = toc;
-    fprintf('  QUAD:  I = %17.15f  time = %6.4f secs\n',I,t)
-  tic, I = quadl(F,0,1,tol); t = toc;
-    fprintf(' QUADL:  I = %17.15f  time = %6.4f secs\n',I,t)
-  tic, I = quadgk(F,0,1,'abstol',tol,'reltol',tol); t = toc;
-    fprintf('QUADGK:  I = %17.15f  time = %6.4f secs\n',I,t)
+  tic, I = integral(F,0,1,'abstol',tol,'reltol',tol); t = toc;
+    fprintf(' MATLAB:  I = %17.15f  time = %6.4f secs\n',I,t)
 
-    %%
+%%
 % The timing for Chebfun comes out competitive:
   tic, I = sum(chebfun(F,[0,1])); t = toc;
     fprintf('CHEBFUN:  I = %17.15f  time = %6.4f secs\n',I,t)
+
+%%
+% (Chebfun also offers an |integral| command, which is just a 
+% wrapper that calls |sum| as above.)
 
 %%
 % Here is a similar comparison for a function that is more difficult,
@@ -69,12 +68,8 @@
 
 %%
   tol = 3e-14;
-  tic, I = quad(F,0,20,tol); t = toc;
-    fprintf('   QUAD:  I = %17.15f  time = %5.3f secs\n',I,t)
-  tic, I = quadl(F,0,20,tol); t = toc;
-    fprintf('  QUADL:  I = %17.15f  time = %5.3f secs\n',I,t)
-  tic, I = quadgk(F,0,20,'abstol',tol,'reltol',tol); t = toc;
-    fprintf(' QUADGK:  I = %17.15f  time = %5.3f secs\n',I,t)
+  tic, I = integral(F,0,20,'abstol',tol,'reltol',tol); t = toc;
+    fprintf(' MATLAB:  I = %17.15f  time = %5.3f secs\n',I,t)
   tic, I = sum(chebfun(@(x) abs(besselj(0,x)),[0,20],'splitting','on')); t = toc;
     fprintf('CHEBFUN:  I = %17.15f  time = %5.3f secs\n',I,t)
 
@@ -146,7 +141,8 @@
 % capabilities. Nevertheless Chebfun compares reasonably well as a
 % quadrature engine against specialized software.  This was the conclusion
 % of an Oxford MSc thesis by Phil Assheton [Assheton 2008], which compared
-% Chebfun experimentally to quadrature codes including MATLAB's |quad| and
+% Chebfun experimentally to quadrature codes available at
+% that time including MATLAB's |quad| and
 % |quadl|, Gander and Gautschi's |adaptsim| and |adaptlob|, Espelid's |modsim|,
 % |modlob|, |coteda|, and |coteglob|, QUADPACK's |QAG| and |QAGS|, and the NAG
 % Library's |d01ah|.  In both reliability and speed, Chebfun was found to be
@@ -348,12 +344,12 @@
 
 %%
 % Here for comparison is MATLAB's
-% |dblquad/quadl| with a tolerance of $10^{-11}$:
-  tic, I = dblquad(f,-2,2,0.5,2.5,1e-11,@quadl); t = toc;
-  fprintf('DBLQUAD/QUADL:  I = %16.14f  time = %5.3f secs\n',I,t)
+% |integral2| with a tolerance of $10^{-11}$:
+  tic, I = integral2(f,-2,2,0.5,2.5,'abstol',1e-11,'reltol',1e-11); t = toc;
+  fprintf(' MATLAB:  I = %16.14f  time = %5.3f secs\n',I,t)
 
 %%
-% This example of a 2D integrand is smooth, so both Chebfun and |dblquad| can
+% This example of a 2D integrand is smooth, so both Chebfun and |integral2| can
 % handle it to high accuracy. 
 
 %%
