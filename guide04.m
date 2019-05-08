@@ -1,5 +1,5 @@
 %% 4. Chebfun and Approximation Theory
-% Lloyd N. Trefethen, November 2009, latest revision December 2014
+% Lloyd N. Trefethen, November 2009, latest revision September 2017
 
 %% 4.1  Chebyshev series and interpolants
 % Chebfun is founded on the mathematical subject of approximation theory,
@@ -140,7 +140,7 @@ chebcoeffs(1e100*sin(x))
 % By using |poly| we can print the coefficients of such a chebfun in the
 % monomial basis.  Here for example are the coefficients of the Chebyshev
 % interpolant of $\exp(x)$ compared with the Taylor series coefficients:
-cchebfun = chebcoeffs(exp(x));
+cchebfun = flipud(poly(exp(x)).');
 ctaylor = 1./gamma(1:length(cchebfun))';
 disp('        chebfun              Taylor')
 disp([cchebfun ctaylor])
@@ -363,7 +363,7 @@ subplot(2,1,2), cheb.gallery('sinefun2'), ylim([0 3.5])
 
 %%
 % The next theorem asserts that Chebyshev interpolants can be computed by
-% the barycentric formula [Salzer 1972].  The sumation with a double prime
+% the barycentric formula [Salzer 1972].  The summation with a double prime
 % denotes the sum
 % from $k=0$ to $k=N$ with both terms $k=0$ and $k=N$ multiplied by $1/2$.
 
@@ -392,28 +392,26 @@ subplot(2,1,2), cheb.gallery('sinefun2'), ylim([0 3.5])
 % to some $x_k$, then one bypasses the formula and returns the exact value
 % $p(x) = f(x_k)$.
 
-%% 4.6  Best approximations and the Remez algorithm
+%% 4.6  Best approximations and the minimax command
 % For practical computations, it is rarely worth the trouble to compute a
 % best (minimax) approximation rather than simply a Chebyshev interpolant.
 % Nevertheless best approximations are a beautiful and well-established
 % idea, and it is certainly interesting to be able to compute them.
-% Chebfun makes this possible with the command |remez|, named after Evgeny
-% Remez, who devised the standard algorithm for computing these
-% approximations in 1934. This capability is due to Ricardo Pachon; see
-% [Pachon & Trefethen 2009].
+% Chebfun makes this possible with the command |minimax|.  For details, see
+% [Filip, Nakatsukasa, Trefethen & Beckermann 2017].
 
 %%
 % For example, here is a function on the interval $[0,4]$ together with its
 % best approximation by a polynomial of degree $20$:
 f = chebfun('sqrt(abs(x-3))',[0,4],'splitting','on');
-p = remez(f,20);
+p = minimax(f,20);
 clf, plot(f,'b',p,'r'), grid on
 
 %%
 % A plot of the error curve $(f-p)(x)$ shows that it equioscillates between
 % $20+2 = 22$ alternating extreme values.  Note that a second output argument
-% from |remez| returns the error as well as the polynomial.
-[p,err] = remez(f,20);
+% from |minimax| returns the error as well as the polynomial.
+[p,err] = minimax(f,20);
 plot(f-p,'m'), hold on
 plot([0 4],err*[1 1],'--k'), plot([0 4],-err*[1 1],'--k')
 ylim(3*err*[-1,1])
@@ -429,9 +427,10 @@ plot(f-pinterp,'b')
 % maximum error, it is a worse approximation for most values of $x$.
 
 %%
-% Chebfun's  |remez| command can compute certain rational best approximants
-% too, though it is somewhat fragile. If your function is smooth, a
-% possibly more robust approach to computing best approximations is
+% Chebfun's |minimax| command can compute rational best approximants
+% too, and it is probably the most robust code in existence for
+% such approximations.  If your function is smooth, another fast and
+% robust approach to computing best approximations is
 % Caratheodory-Fejer approximation, implemented in the code |cf| due to
 % Joris Van Deun [Van Deun & Trefethen 2011].  For example:
 f = chebfun('exp(x)');
@@ -499,16 +498,16 @@ semilogy(lebesgue(linspace(-1,1,40)))
 % equispaced data can completely get around this problem [Platte, Trefethen
 % & Kuijlaars 2011].  (Equispaced points are perfect for trigonometric
 % interpolation of periodic functions, of course, accessible in
-% Chebfun with the `trig` flag.)
+% Chebfun with the `trig` flag, as described in Chapter 11.)
 
 %% 4.8  Rational approximations
-% Chebfun contains four different programs, at present, for computing
+% Chebfun contains five different programs, at present, for computing
 % rational approximants to a function $f$.  We say that a rational function
 % is of type $(m,n)$ if it can be written as a quotient of one polynomial of
 % degree at most $m$ and another of degree at most $n$.
 
 %%
-% To illustrate the possibilities, consider the function
+% To illustrate some of the possibilities, consider the function
 f = chebfun('tanh(pi*x/2) + x/20',[-10,10]);
 length(f)
 plot(f)
@@ -556,7 +555,7 @@ roots(q,'complex')
 
 %%
 % The third and fourth options for rational approximation, as mentioned in
-% Section 4.6, are best approximants computed by |remez| and
+% Section 4.6, are best approximants computed by |minimax| and
 % Caratheodory-Fejer approximants computed by |cf| [Trefethen & Gutknecht
 % 1983, Van Deun & Trefethen 2011]. As mentioned in Section 4.6, CF
 % approximants often agree with best approximations to machine precision if
@@ -576,7 +575,14 @@ roots(q,'complex')
 % what accuracy can be obtained for them.  But rational approximation and
 % analytic continuation are very big subjects and we shall resist the
 % temptation.  See Chapter 28 of [Trefethen 2013] and
-% [Webb 2013].
+% [Webb 2013].  Most important, see the _fifth_ method available in
+% Chebfun for computing rational approximants, the AAA ("adaptive
+% Antoulas-Anderson) algorithm implemented in the code |aaa|.  This
+% is suitable for all kinds of real and complex approximations on
+% real and complex domains.  See the help text for |aaa| and
+% [Nakatsukasa, Sete, and Trefethen 2016], where many examples are
+% explored.  Internally, the |minimax| command relies on methods
+% related to AAA approximation.
 
 %% 4.9  References
 % 
@@ -605,6 +611,11 @@ roots(q,'complex')
 % [Ehlich & Zeller 1966] H. Ehlich and K. Zeller, "Auswertung der Normen
 % von Interpolationsoperatoren", _Mathematische Annalen_, 164 (1966), 105-112.
 %
+% [Filip, Nakatsukasa, Trefethen & Beckermann 2017]
+% S. Filip, Y. Nakatsukasa, L. N. Trefethen, and B. Beckermann,
+% "Rational minimax approximations via adaptive barycentric
+% representations," _SIAM Journal on Scientific Computing_, submitted, 2017.
+%
 % [Fox & Parker 1966] L. Fox and I. B. Parker,
 % _Chebyshev Polynomials in Numerical Analysis_, Oxford U. Press, 1968.
 %
@@ -632,13 +643,12 @@ roots(q,'complex')
 % [Meinardus 1967] G. Meinardus, _Approximation of Functions: Theory and
 % Numerical Methods_, Springer, 1967.
 %
+% [Nakatsukasa, Sete & Trefethen 2016], The AAA algorithm for rational
+% approximation, _SIAM Journal on Scientific Computing_, submitted, 2016.
+%
 % [Pachon, Gonnet & Van Deun 2012] R. Pachon, P Gonnet and J. Van Deun,
 % "Fast and stable rational interpolation in roots of unity and Chebyshev
 % points", _SIAM Journal on Numerical Analysis_, 50 (2011), 1713-1734.
-%
-% [Pachon & Trefethen 2009] R. Pachon and L. N. Trefethen,
-% "Barycentric-Remez algorithms for best polynomial approximation in the
-% chebfun system", _BIT Numerical Mathematics_, 49 (2009), 721-741.
 %
 % [Platte, Trefethen & Kuijlaars 2011] R. P. Platte, L. N. Trefethen and A.
 % B. J. Kuijlaars, "Impossibility of fast stable approximation of analytic
