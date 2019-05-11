@@ -1,19 +1,18 @@
 %% 3. Rootfinding and Minima and Maxima
-% Lloyd N. Trefethen, October 2009, latest revision December 2014
+% Lloyd N. Trefethen, October 2009, latest revision May 2019
 
 %% 3.1 |roots|
 % Chebfun comes with a global rootfinding capability -- the ability to find
 % all the zeros of a function in its region of definition.  For example,
 % here is a polynomial with two roots in $[-1,1]$:
   x = chebfun('x');
-  p = x.^3 + x.^2 - x;
+  p = x^3 + x^2 - x;
   r = roots(p)
 
 %%
 % We can plot $p$ and its roots like this:
   plot(p), grid on
-  MS = 'markersize';
-  hold on, plot(r,p(r),'.r',MS,20)
+  hold on, plot(r,p(r),'.r')
 
 %%
 % Of course, one does not need Chebfun to find roots of a polynomial. The
@@ -30,8 +29,8 @@
   Bi = chebfun(@(x) airy(2,x),[-10,3]);
   hold off, plot(Ai,'r')
   hold on, plot(Bi,'b')
-  rA = roots(Ai); plot(rA,Ai(rA),'.r',MS,16)
-  rB = roots(Bi); plot(rB,Bi(rB),'.b',MS,16)
+  rA = roots(Ai); plot(rA,Ai(rA),'.r')
+  rB = roots(Bi); plot(rB,Bi(rB),'.b')
   axis([-10 3 -.6 1.5]), grid on
 
 %%
@@ -83,7 +82,7 @@ hold on, plot(r,f(r),'.r'), hold off
   f = cos(x);
   hold on, plot(f,'k')
   r = roots(f-x)
-  plot(r,f(r),'or',MS,8)
+  plot(r,f(r),'or')
 
 %%
 % All of the examples above concern chebfuns consisting of a single fun.
@@ -91,16 +90,17 @@ hold on, plot(r,f(r),'.r'), hold off
 % The following example shows a chebfun with $26$ pieces.  It has nine zeros:
 % one within a fun, eight at jumps between funs.
   x = chebfun('x',[-2 2]);
-  f = x.^3 - 3*x - 2 + sign(sin(20*x));
+  f = x^3 - 3*x - 2 + sign(sin(20*x));
   hold off, plot(f), grid on
   r = roots(f);
-  hold on, plot(r,0*r,'.r',MS,16)
+  hold on, plot(r,0*r,'.r')
   
 %%
 % If one prefers only the "genuine" roots, omitting those at jumps, they
 % can be computed by using the `nojump` flag:
+  hold off, plot(f), grid on
   r = roots(f,'nojump');
-  plot(r,0*r,'.r',MS,30)
+  hold on, plot(r,0*r,'.r')
 
 %% 3.2 |min|, |max|, |abs|, |sign|, |round|, |floor|, |ceil|
 % Rootfinding is more central to Chebfun than one might at first imagine,
@@ -111,16 +111,16 @@ hold on, plot(r,f(r),'.r'), hold off
 % consists of a single piece, whereas |abs(x)| consists of two pieces.
   x = chebfun('x')
   absx = abs(x)
-  subplot(1,2,1), plot(x,'.-')
-  subplot(1,2,2), plot(absx,'.-')
+  subplot(1,2,1), plot(x)
+  subplot(1,2,2), plot(absx)
 
 %%
 % We saw this effect already in Section 1.4.
 % Another similar effect shown in that section occurs with
 % |min(f,g)| or |max(f,g)|.  Here, breakpoints are introduced
 % at points where |f-g| is zero:
-  f = min(x,-x/2), subplot(1,2,1), plot(f,'.-')
-  g = max(.6,1-x.^2), subplot(1,2,2), plot(g,'.-'), ylim([.5,1])
+  f = min(x,-x/2), subplot(1,2,1), plot(f)
+  g = max(.6,1-x^2), subplot(1,2,2), plot(g), ylim([.5,1])
 
 %%
 % The function |sign| also introduces breaks, as illustrated in the last
@@ -129,7 +129,7 @@ hold on, plot(r,f(r),'.r'), hold off
   g = exp(x);
   clf, plot(g)
   gh = round(10*g)/10;
-  hold on, plot(gh,'r','jumpline','-r');
+  hold on, plot(gh,'jumpline','-');
   grid on
 
 %% 3.3 Local extrema
@@ -158,8 +158,8 @@ hold on, plot(r,f(r),'.r'), hold off
 % the derivative jumps from one sign to the other.  Here is an
 % example.
   x = chebfun('x');
-  f = exp(x).*sin(30*x);
-  g = 2-6*x.^2;
+  f = exp(x)*sin(30*x);
+  g = 2-6*x^2;
   h = max(f,g);
   clf, plot(h)
 
@@ -174,21 +174,21 @@ hold on, plot(r,f(r),'.r'), hold off
 % positive:
   h2 = diff(h,2);
   maxima = extrema(h2(extrema)>0);
-  plot(maxima,h(maxima),'ok',MS,12)
+  plot(maxima,h(maxima),'ok')
 
 %%
 % Or we could do it implicitly with |local|,
   [maxval,maxpos] = min(h,'local')
-  plot(maxpos,maxval,'.k',MS,24)
+  plot(maxpos,maxval,'.k')
 
 %% 3.4 Global extrema: max and min
 % If |min| or |max| is applied to a single chebfun, it returns its global
 % minimum or maximum.  For example:
-  f = chebfun('1-x.^2/2');
+  f = chebfun('1-x^2/2');
   [min(f) max(f)]
 
 %%
-% Chebfun computes such a result by checking the values of |f| at all
+% Chebfun computes such a result by checking the values of |f| at
 % endpoints and at zeros of the derivative.
 
 %%
@@ -204,7 +204,7 @@ hold on, plot(r,f(r),'.r'), hold off
 %%
 % This ability to do global 1D optimization in Chebfun is rather
 % remarkable.  Here is a nontrivial example.
-  f = chebfun('sin(x)+sin(x.^2)',[0,15]);
+  f = chebfun('sin(x)+sin(x^2)',[0,15]);
   hold off, plot(f,'k')
 %%
 % The length of this chebfun is not as great as one might imagine:
@@ -214,8 +214,8 @@ hold on, plot(r,f(r),'.r'), hold off
   [minval,minpos] = min(f)
   [maxval,maxpos] = max(f)
   hold on
-  plot(minpos,minval,'.b',MS,30)
-  plot(maxpos,maxval,'.r',MS,30)
+  plot(minpos,minval,'.b')
+  plot(maxpos,maxval,'.r')
 
 %%
 % For larger chebfuns, it is inefficient to compute the global minimum and
@@ -253,7 +253,7 @@ hold on, plot(r,f(r),'.r'), hold off
 %%
 % The simplest example is a chebfun that is truly intended to
 % correspond to a polynomial.  For example, the chebfun
-f = 1+16*x.^2;
+f = 1+16*x^2;
 
 %%
 % has no roots in $[-1,1]$:
@@ -266,7 +266,7 @@ roots(f,'all')
 %%
 % The situation for more general chebfuns is more complicated.  For example,
 % the chebfun
-g = exp(x).*f(x);
+g = exp(x)*f(x);
 
 %% 
 % also has no roots in $[-1,1]$,
@@ -318,7 +318,7 @@ roots(g,'complex')
 
 %%
 % Notice that the first three imaginary roots are located with about
-% $11$, $8$, and $5$ digits of accuracy,
+% $13$, $10$, and $6$ digits of accuracy,
 % while the fourth does not appear in the list at all.
 
 %%
@@ -330,7 +330,7 @@ f = chebfun(F,[-100,100]);
 % This function has a lot of complex roots lying in strips on either side
 % of the real axis.
   r = roots(f,'complex');
-  hold off, plot(r,'.',MS,8)
+  hold off, plot(r,'.')
 
 %%
 % If you are dealing with complex roots of complicated chebfuns like this,
@@ -340,7 +340,7 @@ f = chebfun(F,[-100,100]);
 % near interfaces of the recursion.  If we try that here we find that the
 % results look almost the same as before in a plot:
 r2 = roots(f,'complex','norecursion');
-hold on, plot(r,'om',MS,8)
+hold on, plot(r,'om')
 
 %%
 % However, the accuracy has improved:
