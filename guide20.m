@@ -1,5 +1,5 @@
 %% 20. Ballfun 
-% Nicolas Boulle and Alex Townsend, March 2019
+% Nicolas Boulle and Alex Townsend, May 2019
 
 %% 20.1 Introduction
 % Ballfun is a new part of Chebfun for computing with scalar and vector functions 
