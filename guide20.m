@@ -21,7 +21,8 @@ plot( f )
 % coordinates $f(r,\lambda,\theta)$, where $r$ is the radial variable,
 % $\lambda$ is the azimuthal angle between $-\pi$ and $\pi$ and
 % $\theta\in[0,\pi]$ is the polar angle.
-g = ballfun(@(r,lam,th) cos(r.^2.*cos(lam).*sin(lam).*sin(th).^2), 'spherical');
+g = ballfun(@(r,lam,th) ...
+   cos(r.^2.*cos(lam).*sin(lam).*sin(th).^2), 'spherical');
 
 %%
 % The resulting objects are identical up to machine precision:
@@ -35,14 +36,14 @@ f
 % The output displays the discretization size employed to represent the function in
 % a Chebyshev-Fourier-Fourier expansion. The numbers $21$, $41$, and $37$ indicate
 % that the ballfun is represented by a $21\times 41\times 37$ tensor of coefficients.
-% The Chebyshev-Fourier-Fourier coefficients can be vizualized with
+% The Chebyshev-Fourier-Fourier coefficients can be visualized with
 % |plotcoeffs|:
 plotcoeffs( f )
 
 %% 20.2 Visualizing ballfuns
 % There are plenty of ways to visualize a ballfun object. The simplest is 
 % the |plot| command:
-f = cheb.galleryball("moire");
+f = cheb.galleryball('moire');
 clf, plot( f )
 
 %%
@@ -63,8 +64,8 @@ plot( fsphere )
 % below.
 
 %%
-% For example, basic algebra such as addition, subtraction, and
-% multiplication are given by the operations '+', '-', and '.*':
+% For example, addition, subtraction, and
+% multiplication are given by the operators '+', '-', and '.*':
 f = ballfun(@(x,y,z) sin(x.^2+z.^2)+cos(y).^2);
 g = ballfun(@(x,y,z) sin(x.*z)+cos(z).^3);
 
@@ -101,8 +102,7 @@ sumf = sum(f, 2)
 plot( sumf )
 
 %%
-% Similarly, the |sum2| command integrates functions over two of the three
-% variables:
+% Similarly, |sum2| integrates functions over two of the three variables:
 %
 % $$s(\lambda) = \int_0^\pi\int_0^1f(r,\lambda,\theta)r^2\sin(\theta)drd\theta,$$
 f = ballfun(@(x,y,z) y);
@@ -125,7 +125,7 @@ plot( g ), title('Rotated')
 % $f$ with respect to $\theta$ is $-r\sin\theta$, which is not smooth along 
 % the axis $x=y=0$. However, we are interested in computing derivatives that
 % arise in vector calculus such as the gradient, the divergence, the curl or the
-% Laplacian. Then, these operations can be written in cartesian coordinates 
+% Laplacian. These operations can be written in cartesian coordinates 
 % with partial derivatives with respect to $x$, $y$ and $z$ and are smooth.
 % We follow a similar approach to Spherefun and express the partial derivatives
 % in $x$, $y$, $z$ in terms of the spherical coordinates $r$, $\lambda$ and
@@ -181,8 +181,9 @@ plot( u )
 %%
 % We then check if our two solutions differ by at most a constant (the kernel
 % of the Helmholtz equation with Neumann boundary conditions):
-max( [ norm(diff(u, 1)-diff(exact, 1)), norm(diff(u, 2)-diff(exact, 2)), ...
-                                        norm(diff(u, 3)-diff(exact, 3)) ] )
+max( [ norm(diff(u, 1)-diff(exact, 1)) ...
+       norm(diff(u, 2)-diff(exact, 2)) ...
+       norm(diff(u, 3)-diff(exact, 3)) ] )
                              
 %% 20.5 Solid harmonics
 % Solid harmonics appear as solutions of the Laplace equation. They are
@@ -194,7 +195,8 @@ max( [ norm(diff(u, 1)-diff(exact, 1)), norm(diff(u, 2)-diff(exact, 2)), ...
 %
 % $$\int_B R^m_l R^{m^*}_ldV = 1,\quad \forall l\in\bf{N},\quad \forall -l\leq m\leq l.$$
 %
-% Ballfun provides a method for constructing them. For example, the solid 
+% Ballfun provides a method for constructing these functions.
+% For example, the solid 
 % harmonic $R^m_l$ of degree $l=4$ and order $m=-2$ is constructed as:
 R = ballfun.solharm(4, -2);
 plot( R ), title('R_4^{-2}')
@@ -240,7 +242,7 @@ V = ballfunv(Vx, Vy, Vz)
 clf, quiver( V ), title('V')
 
 %%
-% Each component is represented as a ballfun and singularities are avoided
+% Each component is represented as a ballfun, and singularities are avoided
 % because the components are in the directions of $\mathbf{e}_x$, $\mathbf{e}_y$, and
 % $\mathbf{e}_z$, respectively.
 
@@ -250,8 +252,8 @@ clf, quiver( V ), title('V')
 W = curl(V);
 quiver( W ), title('curl( V )')
 
-f = divergence(V);
-plot( f ), title('divergence( V )')
+f = div(V);
+plot( f ), title('div( V )')
 
 %% 
 % One can easily check that the vector calculus identities are satisfied. 
@@ -264,7 +266,7 @@ norm( V )
 
 %%
 % The divergence of the curl is also zero:
-f = norm( divergence( curl( V ) ) );
+f = norm( div( curl( V ) ) );
 norm( f )
 
 %% 20.7 Poloidal-toroidal decomposition
@@ -315,7 +317,7 @@ plot( Tw ), title('Toroidal scalar')
 % Here is a visualization of the decomposition.
 [P,T] = ballfunv.PT2ballfunv(Pw, Tw);
 subplot(1,3,1) 
-quiver( w ), title('Divergence-free vector field')
+quiver( w ), title('Divergence-free field')
 subplot(1,3,2)
 quiver( P ), title('Poloidal component')
 subplot(1,3,3)
@@ -334,7 +336,7 @@ norm( w - v )
 %% 20.8 Helmholtz-Hodge decomposition
 % In vector calculus, Helmholtz's theorem states that any sufficiently 
 % smooth vector field in the ball can be expressed as a sum of a curl-free,
-% a divergence-free, and an harmonic vector field [4].
+% a divergence-free, and a harmonic vector field [4].
 %
 % Let $v$ be a vector field defined in the ball of radius $1$. Helmholtz's
 % theorem says that we can decompose $v$ as follows: 
@@ -356,7 +358,7 @@ norm( w - v )
 %
 % The Helmholtz-Hogde decomposition is an important tool in fluid dynamics, 
 % as it is used for flow visualization (when the fluid is compressible), in 
-% CFD simulations (to impose the condition that a fluid remains incompressible),
+% CFD simulations (to impose the imcompressibility condition),
 % and topological analysis. A survey of applications is available here [2].
 %
 % We start with the following vector field:
@@ -418,14 +420,14 @@ norm( v - w )
 % _Reviews of Geophysics_, 24 (1986), pp. 75-109.
 %
 % [2] H. Bhatia, G. Norgard, V. Pascucci, and P.-T. Bremer, The 
-% Helmholtz-Hodge Decomposition--A Survey, _IEEE Trans. Vis. Comput. Graphics_, 
+% Helmholtz-Hodge decomposition--a survey, _IEEE Trans. Vis. Comput. Graphics_, 
 % 19 (2013), pp. 1386-1404.
 %
 % [3] N. Boulle, and A. Townsend, Computing with functions on the ball, in 
 % preparation.
 %
-% [4] Y. Tong, S. Lombeyda, A. Hirani, and M. Desbrun, Discrete Multiscale
-% Vector Field Decomposition, _ACM Trans. Graphics_, 22 (2003), pp. 445-452.
+% [4] Y. Tong, S. Lombeyda, A. Hirani, and M. Desbrun, Discrete multiscale
+% vector field decomposition, _ACM Trans. Graphics_, 22 (2003), pp. 445-452.
 %
 % [5] A. Townsend, H. Wilber, and G. Wright, Computing with functions in 
 % spherical and polar geometries I. The sphere, _SIAM Journal on Scientific 
