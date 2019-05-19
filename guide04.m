@@ -1,5 +1,5 @@
 %% 4. Chebfun and Approximation Theory
-% Lloyd N. Trefethen, November 2009, latest revision September 2017
+% Lloyd N. Trefethen, November 2009, latest revision May 2019
 
 %% 4.1  Chebyshev series and interpolants
 % Chebfun is founded on the mathematical subject of approximation theory,
@@ -114,10 +114,10 @@
 % We have just seen that the command |chebpoly(N)| returns a chebfun
 % corresponding to the Chebyshev polynomial $T_N$.  Conversely, if |f| is a
 % chebfun, then |chebcoeffs(f)| is the vector of its Chebyshev coefficients.
-% (Before Version 5, the command for this was |chebpoly|.)
+% (Before version 5, the command for this was |chebpoly|.)
 % For example, here are the Chebyshev coefficients of $x^3$:
 x = chebfun(@(x) x);
-c = chebcoeffs(x.^3)
+c = chebcoeffs(x^3)
 
 %%
 % Unike |poly|, |chebcoeffs| returns a column vector with the low-order coefficients first.
@@ -146,19 +146,19 @@ disp('        chebfun              Taylor')
 disp([cchebfun ctaylor])
 
 %%
-% The fact that these differ is not an indication of an error in the
-% Chebfun approximation.  On the contrary, the Chebfun coefficients do a
-% better job of approximating than the truncated Taylor series.  If $f$ were
-% a function like $1/(1+25x^2)$, the Taylor series would not converge at all.
+% The numbers disagree in the last four digits, even though the functions
+% represented in the two columns agree almost to full precision.
+% This reflects
+% the ill-conditioning of the monomial basis for representing
+% functions on an interval.
 
 %% 4.3 |chebfun(...,N)| and the Gibbs phenomenon
 
 %%
-% We can examine the approximation qualities of Chebyshev interpolants by
-% means of a command of the form |chebfun(...,N)|.  When an integer $N$ is
-% specified in this manner, it indicates that a Chebyshev interpolant is to
-% be constructed of precisely length $N$ rather than by the usual adaptive
-% process.
+% The two columns represent monomial coefficients of two functions
+% that agree to 15 or 16 digits.  The fact that the numbers differ in
+% the final four decimal places reflects the ill-conditioning of
+% monomials as a basis for representing functions on an interval.
 
 %%
 % Let us begin with a function that cannot be well approximated by
@@ -167,9 +167,10 @@ disp([cchebfun ctaylor])
 % even to avoid including a value $0$ at
 % the middle of the step.
 f = chebfun('sign(x)',10);
-subplot(1,2,1), plot(f,'.-'), grid on
+MS = 'markersize';
+subplot(1,2,1), plot(f,'.-',MS,8), grid on
 f = chebfun('sign(x)',20);
-subplot(1,2,2), plot(f,'.-'), grid on
+subplot(1,2,2), plot(f,'.-',MS,8), grid on
 
 %%
 % There is an overshoot problem here, known as the Gibbs phenomenon, that
@@ -181,9 +182,9 @@ subplot(1,2,2), axis([0 .4 .5 1.5])
 %%
 % Here are analogous results with $N=100$ and $1000$.
 f = chebfun('sign(x)',100);
-subplot(1,2,1), plot(f,'.-'), grid on, axis([0 .08 .5 1.5])
+subplot(1,2,1), plot(f,'.-',MS,8), grid on, axis([0 .08 .5 1.5])
 f = chebfun('sign(x)',1000);
-subplot(1,2,2), plot(f,'.-'), grid on, axis([0 .008 .5 1.5])
+subplot(1,2,2), plot(f,'.-',MS,8), grid on, axis([0 .008 .5 1.5])
 
 %%
 % What is the amplitude of the Gibbs overshoot for Chebyshev
@@ -219,9 +220,9 @@ end
 % points, the errors decrease at the rate $O(N^{-1})$.  For example:
 clf
 f10 = chebfun('abs(x)',10);
-subplot(1,2,1), plot(f10,'.-'), ylim([0 1]), grid on
+subplot(1,2,1), plot(f10,'.-',MS,8), ylim([0 1]), grid on
 f20 = chebfun('abs(x)',20);
-subplot(1,2,2), plot(f20,'.-'), ylim([0 1]), grid on
+subplot(1,2,2), plot(f20,'.-',MS,8), ylim([0 1]), grid on
 
 %%
 % Chebfun has no difficulty computing interpolants of much higher order:
@@ -245,10 +246,10 @@ err1000 = norm(f1000-fexact,inf)
 %%
 % If $f$ is a bit smoother, polynomial approximation to machine precision
 % becomes practical:
-  length(chebfun('abs(x).*x'))
-  length(chebfun('abs(x).*x.^2'))
-  length(chebfun('abs(x).*x.^3'))
-  length(chebfun('abs(x).*x.^4'))
+  length(chebfun('abs(x)*x'))
+  length(chebfun('abs(x)*x^2'))
+  length(chebfun('abs(x)*x^3'))
+  length(chebfun('abs(x)*x^4'))
 
 %%
 % Of course, these particular functions would be easily approximated by
@@ -258,7 +259,7 @@ err1000 = norm(f1000-fexact,inf)
 % It is interesting to plot convergence as a function of $N$.  Here is an
 % example from [Battles & Trefethen 2004] involving the next function from
 % the sequence above.
-s = 'abs(x).^5';
+s = 'abs(x)^5';
 exact = chebfun(s,'splitting','off');
 NN = 1:100; e = [];
 for N = NN
@@ -285,7 +286,7 @@ hold  on, semilogy(NN.^(-5),'--r'), grid on
 % to be the Runge function, for which interpolants in equally spaced points
 % would not converge at all (in fact they diverge exponentially -- see
 % Section 4.7).
-s = '1./(1+25*x.^2)';
+s = '1/(1+25*x.^2)';
 exact = chebfun(s);
 for N = NN
   e(N) = norm(chebfun(s,N)-exact);
@@ -322,9 +323,9 @@ text(45,1e-3,'C^{-N}','color','r','fontsize',16)
 
 %%
 % This theorem implies that even if $N$ is as large as 100,000, one can lose
-% no more than one digit by using $p$ instead of $p^\*$. Whereas Chebfun
+% no more than one digit by using $p$ instead of $p^*$. Whereas Chebfun
 % will readily compute such a $p$, it is unlikely that anybody has ever
-% computed a nontrivial $p^\*$ for a value of $N$ so large.
+% computed a nontrivial $p^*$ for a value of $N$ so large.
 
 %%
 % The next theorem asserts that if $f$ is $k$ times differentiable, roughly
@@ -435,7 +436,7 @@ plot(f-pinterp,'b')
 % Joris Van Deun [Van Deun & Trefethen 2011].  For example:
 f = chebfun('exp(x)');
 [p,q] = cf(f,5,5);
-r = p./q;
+r = p/q;
 err = norm(f-r,inf);
 clf, plot(f-r,'c'), hold on
 plot([-1 1],err*[1 1],'--k'), plot([-1 1],-err*[1 1],'--k')
@@ -447,7 +448,7 @@ ylim(2e-13*[-1 1])
 % Chebyshev grid to use:
 f = abs(x-.3);
 [p,q,r_handle,lam] = cf(f,5,5,300);
-clf, plot(f-p./q,'c'), hold on
+clf, plot(f-p/q,'c'), hold on
 plot([-1 1],lam*[1 1],'--k'), plot([-1 1],-lam*[1 1],'--k')
 
 %%
@@ -470,18 +471,18 @@ plot([-1 1],lam*[1 1],'--k'), plot([-1 1],-lam*[1 1],'--k')
 f = tanh(10*x);
 s = linspace(-1,1,10);
 p = chebfun.interp1(s,f(s)); hold off
-plot(f), hold on, plot(p,'r'), grid on, plot(s,p(s),'.r')
+plot(f), hold on, plot(p,'r'), grid on, plot(s,p(s),'.r',MS,8)
 
 %%
 % Perhaps this doesn't look too bad, but here is what happens for degree
 % $19$.  Note the vertical scale.
 s = linspace(-1,1,20);
 p = chebfun.interp1(s,f(s)); hold off
-plot(f), hold on, plot(p,'r'), grid on, plot(s,p(s),'.r')
+plot(f), hold on, plot(p,'r'), grid on, plot(s,p(s),'.r',MS,8)
 
 %%
 % Approximation experts will know that one of the tools used in analyzing
-% effects like this is known as the *Lebesgue function* associated with a
+% effects like this is the *Lebesgue function* associated with a
 % given set of interpolation points. Chebfun has a command |lebesgue| for
 % computing these functions. The problem with interpolation in $20$
 % equispaced points is reflected in a Lebesgue function of size $10^4$ --
@@ -523,7 +524,7 @@ plot(f)
 % functions defined on an interval of Pade approximation for functions
 % defined in a neighborhood of a point.
 [p,q] = chebpade(f,40,4);
-r = p./q;
+r = p/q;
 
 %%
 % The functions $f$ and $r$ match to about $8$ digits:
@@ -545,7 +546,7 @@ roots(q,'complex')
 % Pachon, Pedro Gonnet and Joris Van Deun [Pachon, Gonnet & Van Deun 2012].
 % The results are similar:
 [p,q] = ratinterp(f,40,4);
-r = p./q;
+r = p/q;
 norm(f-r)
 plot(f-r,'m')
 
@@ -562,7 +563,7 @@ roots(q,'complex')
 % $f$ is smooth. We explore the same function yet again, and this time obtain
 % an equioscillating error curve:
 [p,q] = cf(f,40,4);
-r = p./q;
+r = p/q;
 norm(f-r)
 plot(f-r,'c')
 
@@ -614,7 +615,8 @@ roots(q,'complex')
 % [Filip, Nakatsukasa, Trefethen & Beckermann 2017]
 % S. Filip, Y. Nakatsukasa, L. N. Trefethen, and B. Beckermann,
 % "Rational minimax approximations via adaptive barycentric
-% representations," _SIAM Journal on Scientific Computing_, submitted, 2017.
+% representations," _SIAM Journal on Scientific Computing_, 40 (2018),
+% A2427-A2455.
 %
 % [Fox & Parker 1966] L. Fox and I. B. Parker,
 % _Chebyshev Polynomials in Numerical Analysis_, Oxford U. Press, 1968.
@@ -644,7 +646,8 @@ roots(q,'complex')
 % Numerical Methods_, Springer, 1967.
 %
 % [Nakatsukasa, Sete & Trefethen 2016], The AAA algorithm for rational
-% approximation, _SIAM Journal on Scientific Computing_, submitted, 2016.
+% approximation, _SIAM Journal on Scientific Computing_, 40 (2018),
+% A1494-A1522.
 %
 % [Pachon, Gonnet & Van Deun 2012] R. Pachon, P Gonnet and J. Van Deun,
 % "Fast and stable rational interpolation in roots of unity and Chebyshev
