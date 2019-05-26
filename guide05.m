@@ -1,13 +1,17 @@
 %% 5. Complex Chebfuns
-% Lloyd N. Trefethen, November 2009, latest revision December 2014
+% Lloyd N. Trefethen, November 2009, latest revision May 2019
 
 %% 5.1  Complex functions of a real variable
+% (See also Section 12.7 -- phase portraits in Chebfun2.)
+
+%%
 % One of the attractive features of MATLAB is that it handles complex
 % arithmetic well. For example, here are $20$ points on the upper half of the
 % unit circle in the complex plane:
+MS = 'markersize';
 s = linspace(0,pi,20);
 f = exp(1i*s);
-plot(f,'.')
+plot(f,'.',MS,10)
 axis equal
   
 %%
@@ -29,16 +33,16 @@ axis equal
 %%
 % The Chebfun semicircle is represented by a polynomial of low degree:
 length(f)
-plot(f,'.-')
+plot(f,'.-',MS,10)
 axis equal
 
 %%
 % We can have fun with variations on the theme:
-subplot(1,2,1), g = s.*exp(10i*s); plot(g), axis equal
+subplot(1,2,1), g = s*exp(10i*s); plot(g), axis equal
 subplot(1,2,2), h = exp(2i*s)+.3*exp(20i*s); plot(h), axis equal
 
 %%
-subplot(1,2,1), plot(g.^2), axis equal
+subplot(1,2,1), plot(g^2), axis equal
 subplot(1,2,2), plot(exp(h)), axis equal
 
 %%
@@ -57,7 +61,7 @@ sum(h)
 % interval $[0,1]$ and $1+0.5i-2(s-1)$ for $s$ on the interval $[1,2]$.
 z = chebfun({@(s) (1+.5i)*s, @(s) 1+.5i-2*(s-1)},[0 1 2]);
 subplot(1,2,1), plot(z), axis equal, grid on
-subplot(1,2,2), plot(z.^2), axis equal, grid on
+subplot(1,2,2), plot(z^2), axis equal, grid on
 
 %%
 % Actually, this way of constructing a piecewise chebfun is rather clumsy.
@@ -79,7 +83,7 @@ subplot(1,2,2), plot(z.^2), axis equal, grid on
 % its domain of definition.
 % Analytic functions do interesting things in the complex plane. In
 % particular, away from points where the derivative is zero, they are
-% *conformal maps*, which means that though they may scale and rotate an
+% *conformal maps*, which means that although they may scale and rotate an
 % infinitesimal region, they preserve angles between intersecting curves.
 
 %%
@@ -88,7 +92,7 @@ subplot(1,2,2), plot(z.^2), axis equal, grid on
 % corresponding to a cross inside |R|.
 s = chebfun('s',[0 1]);
 R = join(1+s, 2+2i*s, 2+2i-s, 1+2i-2i*s);
-LW = 'linewidth'; lw1 = 2; lw2 = 3;
+LW = 'linewidth'; lw1 = 1.5; lw2 = 2.2;
 clf, subplot(1,2,1), plot(R,LW,lw2), grid on, axis equal
 X = join(1.3+1.5i+.4*s, 1.5+1.3i+.4i*s);
 hold on, plot(X,'r',LW,lw2)
@@ -96,8 +100,8 @@ hold on, plot(X,'r',LW,lw2)
 %%
 % Here we see what happens to |R| and |X| under the maps $z^2$ and $\exp(z)$:
 clf
-subplot(1,2,1), plot(R.^2,LW,lw1), grid on, axis equal
-hold on, plot(X.^2,'r',LW,lw2)
+subplot(1,2,1), plot(R^2,LW,lw1), grid on, axis equal
+hold on, plot(X^2,'r',LW,lw2)
 subplot(1,2,2), plot(exp(R),LW,lw1), grid on, axis equal
 hold on, plot(exp(X),'r',LW,lw2)
 
@@ -114,7 +118,6 @@ hold on, plot(exp(X),'r',LW,lw2)
   end
   clf,
   subplot(1,2,1), plot(S), axis equal
-  
 
 %%
 % Here are the exponential and tangent of the grid:
@@ -136,7 +139,7 @@ hold on, plot(exp(X),'r',LW,lw2)
 % map $w = 1/(1+z)$, and the image of the image under the same map, and the
 % image of the image of the image.  We also plot the limit point given by
 % the equation $z = 1/(1+z)$, i.e., $z = (\sqrt{5}-1)/2$.
-moebius = @(z) 1./(1+z);
+moebius = @(z) 1/(1+z);
 s = chebfun(@(s) s,[0 1]);
 S = join(-.5i+s, 1-.5i+1i*s, 1+.5i-s, .5i-1i*s);
 clf
@@ -145,7 +148,7 @@ for j = 1:3
 end
 plot(S)
 hold on, axis equal
-plot((sqrt(5)-1)/2,0,'.k','markersize',4)
+plot((sqrt(5)-1)/2,0,'.k',MS,6)
 
 %%
 % Here's a prettier version of the same image using the Chebfun |fill|
@@ -156,7 +159,7 @@ fill(real(S),imag(S),[.5 .5 1]), axis equal, hold on
 S = moebius(S); fill(real(S),imag(S),[.5 1 .5])
 S = moebius(S); fill(real(S),imag(S),[1 .5 .5])
 S = moebius(S); fill(real(S),imag(S),[.5 1 1 ])
-plot((sqrt(5)-1)/2,0,'.k','markersize',4)
+plot((sqrt(5)-1)/2,0,'.k',MS,6)
 axis off
 
 %% 5.3 Contour integrals
@@ -170,8 +173,8 @@ axis off
 % For example, in the example at the end of Section 5.1 the contour
 % consists of two straight segments that begin at $0$ and end at $-1+.5i$.  We
 % can compute the integral of $\exp(-z^2)$ over the contour like this:
-  f = exp(-z.^2);
-  I = sum(f.*diff(z))
+  f = exp(-z^2);
+  I = sum(f*diff(z))
 
 %%
 % Notice how easily the contour integral is realized in Chebfun, even over
@@ -186,8 +189,8 @@ axis off
 % same integral over the straight segment going directly from $0$
 % to $-1+0.5i$:
   w = chebfun('(-1+.5i)*s',[0 1]);
-  f = exp(-w.^2);
-  I2 = sum(f.*diff(w))
+  f = exp(-w^2);
+  I2 = sum(f*diff(w))
 
 %%
 % A *meromorphic function* is a function that is analytic in a region of
@@ -202,12 +205,11 @@ axis off
 % origin, and so its residue there is $1/2$.  We can confirm this by
 % computing the contour integral around a circle:
 z = chebfun('exp(1i*s)',[0 2*pi]);
-f = exp(z)./z.^3;
-I = sum(f.*diff(z))/(2i*pi)
+f = exp(z)/z^3;
+I = sum(f*diff(z))/(2i*pi)
 
 %%
-% Notice that we have just computed the degree
-% $2$ Taylor coefficient of $\exp(z)$.
+% Notice that we have just computed the degree $2$ Taylor coefficient of $\exp(z)$.
 
 %%
 % When Chebfun integrates around a circular contour like this, it does not
@@ -219,8 +221,8 @@ I = sum(f.*diff(z))/(2i*pi)
 % For example, we could repeat the above calculation in Fourier mode
 % like this:
 z = chebfun('exp(1i*s)',[0 2*pi],'trig');
-f = exp(z)./z.^3;
-I = sum(f.*diff(z))/(2i*pi)
+f = exp(z)/z^3;
+I = sum(f*diff(z))/(2i*pi)
 
 %%
 % Chebyshev methods are more flexible, as a rule, but Fourier methods
@@ -232,8 +234,8 @@ I = sum(f.*diff(z))/(2i*pi)
 %%
 % The contour does not have to have radius $1$, or be centered at the origin:
 z = chebfun('1+2*exp(1i*s)',[0 2*pi],'trig');
-f = exp(z)./z.^3;
-I2 = sum(f.*diff(z))/(2i*pi)
+f = exp(z)/z^3;
+I2 = sum(f*diff(z))/(2i*pi)
 
 %% 
 % Nor does the contour have to be smooth. Here let us compute the same
@@ -241,8 +243,8 @@ I2 = sum(f.*diff(z))/(2i*pi)
 % than Fourier technology).
 s = chebfun('s',[-1 1]);
 z = join(1+1i*s, 1i-s, -1-1i*s, -1i+s);
-f = exp(z)./z.^3;
-I3 = sum(f.*diff(z))/(2i*pi)
+f = exp(z)/z^3;
+I3 = sum(f*diff(z))/(2i*pi)
 
 %%
 % In Chebfun one can also construct more interesting contours of the kind
@@ -257,26 +259,26 @@ I3 = sum(f.*diff(z))/(2i*pi)
 %%
 % The integral of $f(z) = \log(z)\tanh(z)$ around this contour will be equal to
 % $2\pi i$ times the sum of the residues at the poles of $f$ at $\pm \pi i/2$.
-f = log(z).*tanh(z);
-I = sum(f.*diff(z))
+f = log(z)*tanh(z);
+I = sum(f*diff(z))
 Iexact = 4i*pi*log(pi/2)
 
 %% 5.4 Cauchy integrals and locating zeros and poles
 % Here are some further examples of computations with Cauchy integrals. The
 % Bernoulli number $B_k$ is $k!$ times the kth Taylor coefficient of
-% $z/((\exp(z)-1)$. Here is $B_{10}$ compared with its exact value $5/66$.
+% $z/(\exp(z)-1)$. Here is $B_{10}$ compared with its exact value $5/66$.
 k = 10;
 z = chebfun('4*exp(1i*s)',[0 2*pi],'trig');
-f = z./((exp(z)-1));
-B10 = factorial(k)*sum((f./z.^(k+1)).*diff(z))/(2i*pi)
+f = z/((exp(z)-1));
+B10 = factorial(k)*sum((f/z^(k+1))*diff(z))/(2i*pi)
 exact = 5/66
 
 %%
 % Notice that we have taken |z| to be a circle of radius $4$. If the radius is
 % $1$, the accuracy is a good deal lower:
 z = chebfun('exp(1i*s)',[0 2*pi],'trig');
-f = z./((exp(z)-1));
-B10 = factorial(k)*sum((f./z.^(k+1)).*diff(z))/(2i*pi)
+f = z/((exp(z)-1));
+B10 = factorial(k)*sum((f/z^(k+1))*diff(z))/(2i*pi)
 
 %%
 % This problem of numerical instability would arise no matter how one
@@ -296,7 +298,7 @@ B10 = factorial(k)*sum((f./z.^(k+1)).*diff(z))/(2i*pi)
 % poles; how many zeros does it have in the disk about $0$ of radius $2$? The
 % following calculation shows that the answer is $3$:
 z = chebfun('2*exp(1i*s)',[0 2*pi]);
-f = sin(z).^3 + cos(z).^3;
+f = sin(z)^3 + cos(z)^3;
 N = sum((diff(f)./f))/(2i*pi)
 
 %%
@@ -313,13 +315,13 @@ N = (anglef(end)-anglef(0))/(2*pi)
 % $$ r = {1\over 2\pi i} \int  z (df/ds)/f ds $$
 % [McCune 1966].  Here is the zero of the function above in the unit disk:
 z = chebfun('exp(1i*s)',[0 2*pi],'trig');
-f = sin(z).^3 + cos(z).^3;
-r = sum(z.*(diff(f)./f))/(2i*pi)
+f = sin(z)^3 + cos(z)^3;
+r = sum(z*(diff(f)/f))/(2i*pi)
 
 %%
 % We can check the result by a more ordinary Chebfun calculation:
 x = chebfun('x');
-f = sin(x).^3 + cos(x).^3;
+f = sin(x)^3 + cos(x)^3;
 r = roots(f)
 
 %%
@@ -372,7 +374,7 @@ L = f.ends(end);
 g = @(z) exp(-2.2i+(2.5i+.4)*z);
 clf, plot(g(f),'r',LW,lw)
 circle = 1.12*chebfun(@(x) exp(2i*pi*x/L),[0 L]);
-ellipse = 1.2*(circle + 1./circle)/2 + 1i*mean(imag(f));
+ellipse = 1.2*(circle + 1/circle)/2 + 1i*mean(imag(f));
 hold on, plot(g(ellipse),'b',LW,lw)
 axis auto equal off
 
@@ -386,9 +388,10 @@ cheb.gallery('motto')
 
 %% 5.6  References
 %
-% [Austin, Kravanja & Trefethen 2014] A. P. Austin, P. Kravanja and
+% [Austin, Kravanja & Trefethen 2014] A. P. Austin, P. Kravanja, and
 % L. N. Trefethen, "Numerical algorithms based on analytic function
-% values at roots of unity", _SIAM Journal on Numerical Analysis_, to appear.
+% values at roots of unity", _SIAM Journal on Numerical Analysis_ 52 (2014),
+% 1795--1821.
 %
 % [Bornemann 2009] F. Bornemann, "Accuracy and stability of computing
 % high-order derivatives of analytic functions by Cauchy integrals",
