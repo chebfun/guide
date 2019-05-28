@@ -382,7 +382,7 @@ axis auto equal off
 % You can find an example "Birthday cards and analytic functions" in the
 % Fun Stuff section of the Chebfun Examples collection, and further
 % related explorations in the Geometry section.  And here's another
-% complex scribble:
+% complex scribble penned by Gil Strang:
 clf
 cheb.gallery('motto')
 
