@@ -1,12 +1,12 @@
 %% 6. Quasimatrices and Least-Squares
-% Lloyd N. Trefethen, November 2009, latest revision December 2014
+% Lloyd N. Trefethen, November 2009, latest revision June 2019
 
 %% 6.1  Quasimatrices and |spy|
 % A chebfun can have more than one column, or if it is transposed, it can
 % have more than one row.  In these cases we get a
-% *quasimatrix*, a "matrix" in which one of the dimensions is
+% *quasimatrix*, a ``matrix'' in which one of the dimensions is
 % discrete as usual but the other is continuous.  Our default choice
-% will be that of an " $\infty\times n$ " quasimatrix consisting of $n$ columns,
+% will be that of an `` $\infty\times n$ '' quasimatrix consisting of $n$ columns,
 % each of which is a chebfun.  When it is important to specify the orientation
 % we use the term *column quasimatrix* or *row quasimatrix*.
 
@@ -16,7 +16,7 @@
 % used to identify the continuous dimension, and to find the numbers
 % of rows or columns:
   x = chebfun('x');
-  A = [1 x x.^2 x.^3 x.^4 x.^5];
+  A = [1 x x^2 x^3 x^4 x^5];
   size(A)
   size(A,2)
 
@@ -31,8 +31,7 @@
 
 %%
 % And here is a plot of the columns:
-  LW = 'linewidth';
-  plot(A,LW,1.6), grid on, ylim([-1.1 1.1])
+  plot(A), grid on, ylim([-1.1 1.1])
 
 %%
 % The term quasimatrix comes from [Stewart 1998], and the
@@ -76,16 +75,17 @@
 %%
 % For example, continuing with the same chebfun |x| and
 % quasimatrix |A| as above, consider the following sequence:
-  f = exp(x).*sin(6*x);
+  f = exp(x)*sin(6*x);
   c = A\f
   
 %%
 % The vector $c$ can be interpreted as the vector of
 % coefficients of the least-squares fit to $f$ by a linear combination
-% of the functions $1, x,\dots, x^5$.  Here is a plot of $f$ (in blue) and
-% the least-squares approximation (in red), which we label |ffit|.
+% of the functions $1, x,\dots, x^5$.  Here is a plot of $f$ and
+% its least-squares approximation, which we label |ffit|.
   ffit = A*c;
-  clf, plot(f,'b',ffit,'r',LW,1.6), grid on
+  clf, plot([f ffit]), grid on
+  legend({'f','ffit'})
   error = norm(f-ffit)
 
 %%
@@ -113,7 +113,8 @@
 % are continuous ones involving integrals, not point evaluations.
   c = A2\f;
   ffit = A2*c;
-  plot(f,'b',ffit,'.-r',LW,1.6), grid on
+  plot([f ffit]), grid on
+  legend({'f','ffit'})
   set(gca,'xtick',-1:.2:1)
   error = norm(f-ffit)
     
@@ -132,15 +133,15 @@
 % $$ A:~ \infty\times n, \quad Q: ~ \infty\times n, \quad R: ~ n\times n.  $$
 % The columns of $A$ are arbitrary, the columns of $Q$ are orthonormal, and
 % $R$ is an $n\times n$ upper-triangular matrix.  This factorization corresponds
-% to what is known in various texts as the "reduced", "economy size", "skinny",
-% "abbreviated", or "condensed"
+% to what is known in various texts as the ``reduced,'' ``economy size,'' ``skinny,''
+% ``abbreviated,'' or ``condensed''
 % QR factorization, since $Q$ is rectangular rather than square and $R$ is
 % square rather than rectangular.  In MATLAB the syntax for computing such things is
-% |[Q,R] = qr(A,0)|, and the same command has been overloaded for chebfuns.  The
+% |[Q,R] = qr(A)|, and the same command has been overloaded for chebfuns.  The
 % computation makes use of a quasimatrix analogue of Householder triangularization
 % [Trefethen 2010].  Alternatively one can simply write |[Q,R] = qr(A)|:
   [Q,R] = qr(A);
-  plot(Q,LW,1.6), grid on
+  plot(Q), grid on
 
 %%
 % The |spy| command confirms the shape of these various matrices.
@@ -163,7 +164,7 @@
     R(j,:) = R(j,:)*Q(1,j);
     Q(:,j) = Q(:,j)/Q(1,j);
   end
-  clf, plot(Q,LW,1.6), grid on
+  clf, plot(Q), grid on
 
 %%
 % (A slicker way to produce this plot in Chebfun would be
@@ -184,19 +185,19 @@
 %%
 % Here is what the hat functions look like after orthonormalization:
   [Q2,R2] = qr(A2);
-  plot(Q2,LW,1.6)
+  plot(Q2)
   set(gca,'xtick',-1:.2:1)
 
-%% 6.4 `svd`, `norm`, `cond`
+%% 6.4 |svd|, |norm|, |cond|
 
 %%
 % An $m\times n$ matrix $A$ defines a map from $R^n$ to $R^m$, and in
 % particular, $A$ maps the unit ball in
 % $R^n$ to a hyperellipsoid of dimension $\le n$ in $R^m$.
-% The (reduced, skinny, condensed$,\dots$)
+% The (reduced, skinny, condensed, $\dots$ )
 % *SVD* or *singular value decomposition* exhibits this
 % map by providing a factorization $AV = US$ or
-% equivalently $A = USV^\*$, where $U$ is $m\times n$ with orthonormal
+% equivalently $A = USV^*$, where $U$ is $m\times n$ with orthonormal
 % columns, $S$ is diagonal with
 % nonincreasing nonnegative diagonal entries known as the *singular values*,
 % and $V$ is $n\times n$ and orthogonal.
@@ -208,7 +209,7 @@
 % of [Trefethen & Bau 1997].
 
 %%
-% If A is an $\infty \times n$ quasimatrix, everything is analogous:
+% If $A$ is an $\infty \times n$ quasimatrix, everything is analogous:
 % $$ A = USV^T, \qquad  A: \infty \times n,~~
 % U: \infty \times n, ~~  S: n \times n, ~~  V:  n \times n. $$
 % The image of the unit ball in $R^n$ under $A$
@@ -219,8 +220,8 @@
 
 %%
 % For example, here are the singular values of the matrix
-% A defined earlier with columns $1,x,\dots,x^5$:
-  s = svd(A,0)
+% $A$ defined earlier with columns $1,x,\dots,x^5$:
+  s = svd(A)
 
 %%
 % The largest singular value is equal to the norm of the quasimatrix, which
@@ -228,7 +229,7 @@
   norm(A,2)
 
 %%
-% (Note that we must include the argument `2` here: for reasons of speed,
+% (Note that we must include the argument |2| here: for reasons of speed,
 % the default for quasimatrices, unlike the usual MATLAB matrices, is
 % the Frobenius norm rather than the 2-norm.)
 % The SVD enables us to identify exactly what vectors are involved in achieving
@@ -239,8 +240,8 @@
 
 %%
 % We can use spy to confirm the shapes of the matrices.
-% As with `spy(R)` earlier, here
-% `spy(V)` should in principle show a checkerboard,
+% As with |spy(R)| earlier, here
+% |spy(V)| should in principle show a checkerboard,
 % but nonzeros are introduced by rounding errors.
   subplot(1,5,1), spy(A), title A
   subplot(1,5,3), spy(U), title U
@@ -272,13 +273,13 @@
 % interpret these as the largest and smallest degree $5$ polynomials, as
 % measured in the $2$-norm over $[-1,1]$, whose coefficient
 % vectors have $2$-norm equal to $1$.
-  clf, plot(A*v1,LW,1.6), grid on, hold on
+  clf, plot(A*v1), grid on, hold on
   vn = V(:,end);
-  plot(A*vn,'r',LW,1.6), hold off
+  plot(A*vn,'r'), hold off
 
 %%
-% The ratio of the largest and smallest singular values -- the
-% eccentricity of the hyperellipsoid -- is the condition number of $A$:
+% The ratio of the largest and smallest singular values --- the
+% eccentricity of the hyperellipsoid --- is the condition number of $A$:
   max(s)/min(s)
 
 %%
@@ -290,7 +291,7 @@
 % of the monomials $1,x,\dots ,x^5$ as a basis
 % for degree $5$ polynomials in $[-1,1]$.  The effect
 % becomes rapidly stronger as we take more terms in the sequence:
-  cond([A x.^6 x.^7 x.^8 x.^9 x.^10 x.^11 x.^12 x.^13 x.^14 x.^15])
+  cond([A x^6 x^7 x^8 x^9 x^10 x^11 x^12 x^13 x^14 x^15])
 
 %%
 % By contrast a quasimatrix formed of suitably
@@ -313,13 +314,13 @@ cond(chebpoly(0:15))
 % The definition $\|A\| = \max_x \|Ax\|/\|x\|$
 % makes sense in other norms besides the $2$-norm, and the particularly 
 % important alternatives are the $1$-norm and the $\infty$-norm.  The 1-norm of
-% a column quasimatrix is the "maximum column sum", i.e., the maximum of
+% a column quasimatrix is the ``maximum column sum,'' i.e., the maximum of
 % the 1-norms of its columns.   In the case of our quasimatrix $A$,
 % the maximum is attained by the first column, which has norm $2$:
   norm(A,1)
 
 %%
-% The $\infty$-norm is the "maximum row sum", which for a column quasimatrix
+% The $\infty$-norm is the ``maximum row sum,'' which for a column quasimatrix
 % corresponds to the maximum of the chebfun obtained by adding the
 % absolute values of the columns.  In the case of $A$, the sum is
 % $1+|x|+\cdots +|x|^5$, which attains its maximum value $6$ at $x=-1$ and $1$:
@@ -347,7 +348,7 @@ cond(chebpoly(0:15))
 % still defined as before, here is an
 % example showing that the functions $1,$ $\sin(x)^2$,
 % and $\cos(x)^2$ are linearly dependent:
-  B = [1 sin(x).^2 cos(x).^2];
+  B = [1 sin(x)^2 cos(x)^2];
   rank(B)
 
 %%
@@ -395,20 +396,19 @@ cond(chebpoly(0:15))
 % Computing Laboratory, 2006.
 %
 % [Battles & Trefethen 2004] Z. Battles and L. N. Trefethen,
-% "An extension of Matlab to continuous functions and
-% operators", _SIAM Journal on Scientific Computing_, 25 (2004),
+% ``An extension of Matlab to continuous functions and
+% operators,'' _SIAM Journal on Scientific Computing_, 25 (2004),
 % 1743-1770.
 %
-% [de Boor 1991] C. de Boor, "An alternative approach to (the teaching
-% of) rank, basis, and dimension", _Linear Algebra and its Applications_,
+% [de Boor 1991] C. de Boor, ``An alternative approach to (the teaching
+% of) rank, basis, and dimension,'' _Linear Algebra and its Applications_,
 % 146 (1991), 221-229.
 %
 % [Stewart 1998] G. W. Stewart, _Afternotes Goes to Graduate School:
 % Lectures on Advanced Numerical Analysis_, SIAM, 1998.
 %
-% [Trefethen 2008] L. N. Trefethen, "Householder triangularization of
-% a quasimatrix", _IMA Journal of Numerical Analysis_, 30 (2010), 887-897.
+% [Trefethen 2008] L. N. Trefethen, ``Householder triangularization of
+% a quasimatrix,'' _IMA Journal of Numerical Analysis_, 30 (2010), 887-897.
 %
 % [Trefethen & Bau 1997] L. N. Trefethen and D. Bau, III, _Numerical Linear
 % Algebra_, SIAM, 1997.
-
