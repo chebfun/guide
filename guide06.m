@@ -4,9 +4,9 @@
 %% 6.1  Quasimatrices and |spy|
 % A chebfun can have more than one column, or if it is transposed, it can
 % have more than one row.  In these cases we get a
-% *quasimatrix*, a ``matrix'' in which one of the dimensions is
+% *quasimatrix*, a "matrix" in which one of the dimensions is
 % discrete as usual but the other is continuous.  Our default choice
-% will be that of an `` $\infty\times n$ '' quasimatrix consisting of $n$ columns,
+% will be that of an " $\infty\times n$ " quasimatrix consisting of $n$ columns,
 % each of which is a chebfun.  When it is important to specify the orientation
 % we use the term *column quasimatrix* or *row quasimatrix*.
 
@@ -133,8 +133,8 @@
 % $$ A:~ \infty\times n, \quad Q: ~ \infty\times n, \quad R: ~ n\times n.  $$
 % The columns of $A$ are arbitrary, the columns of $Q$ are orthonormal, and
 % $R$ is an $n\times n$ upper-triangular matrix.  This factorization corresponds
-% to what is known in various texts as the ``reduced,'' ``economy size,'' ``skinny,''
-% ``abbreviated,'' or ``condensed''
+% to what is known in various texts as the "reduced," "economy size," "skinny,"
+% "abbreviated," or "condensed"
 % QR factorization, since $Q$ is rectangular rather than square and $R$ is
 % square rather than rectangular.  In MATLAB the syntax for computing such things is
 % |[Q,R] = qr(A)|, and the same command has been overloaded for chebfuns.  The
@@ -314,13 +314,13 @@ cond(chebpoly(0:15))
 % The definition $\|A\| = \max_x \|Ax\|/\|x\|$
 % makes sense in other norms besides the $2$-norm, and the particularly 
 % important alternatives are the $1$-norm and the $\infty$-norm.  The 1-norm of
-% a column quasimatrix is the ``maximum column sum,'' i.e., the maximum of
+% a column quasimatrix is the "maximum column sum," i.e., the maximum of
 % the 1-norms of its columns.   In the case of our quasimatrix $A$,
 % the maximum is attained by the first column, which has norm $2$:
   norm(A,1)
 
 %%
-% The $\infty$-norm is the ``maximum row sum,'' which for a column quasimatrix
+% The $\infty$-norm is the "maximum row sum," which for a column quasimatrix
 % corresponds to the maximum of the chebfun obtained by adding the
 % absolute values of the columns.  In the case of $A$, the sum is
 % $1+|x|+\cdots +|x|^5$, which attains its maximum value $6$ at $x=-1$ and $1$:
@@ -396,19 +396,19 @@ cond(chebpoly(0:15))
 % Computing Laboratory, 2006.
 %
 % [Battles & Trefethen 2004] Z. Battles and L. N. Trefethen,
-% ``An extension of Matlab to continuous functions and
-% operators,'' _SIAM Journal on Scientific Computing_, 25 (2004),
+% "An extension of Matlab to continuous functions and
+% operators," _SIAM Journal on Scientific Computing_, 25 (2004),
 % 1743-1770.
 %
-% [de Boor 1991] C. de Boor, ``An alternative approach to (the teaching
-% of) rank, basis, and dimension,'' _Linear Algebra and its Applications_,
+% [de Boor 1991] C. de Boor, "An alternative approach to (the teaching
+% of) rank, basis, and dimension," _Linear Algebra and its Applications_,
 % 146 (1991), 221-229.
 %
 % [Stewart 1998] G. W. Stewart, _Afternotes Goes to Graduate School:
 % Lectures on Advanced Numerical Analysis_, SIAM, 1998.
 %
-% [Trefethen 2008] L. N. Trefethen, ``Householder triangularization of
-% a quasimatrix,'' _IMA Journal of Numerical Analysis_, 30 (2010), 887-897.
+% [Trefethen 2008] L. N. Trefethen, "Householder triangularization of
+% a quasimatrix," _IMA Journal of Numerical Analysis_, 30 (2010), 887-897.
 %
 % [Trefethen & Bau 1997] L. N. Trefethen and D. Bau, III, _Numerical Linear
 % Algebra_, SIAM, 1997.
