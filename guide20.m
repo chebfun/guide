@@ -278,8 +278,8 @@ norm( f )
 % geomagnetism, flow visualization, and incompressible fluid simulations.
 %
 % For a chosen unit vector $\mathbf{e}_r$, a toroidal field, $\mathbf{T}$, is
-% one that is tangential to $\mathbf{e}_r$ while a poloidal field, $\mathbf{P}$,
-% is one whose curl is tangential to $\mathbf{e}_r$, i.e.,
+% one that is orthogonal to $\mathbf{e}_r$ while a poloidal field, $\mathbf{P}$,
+% is one whose curl is orthogonal to $\mathbf{e}_r$, i.e.,
 %
 % $$ \mathbf{e}_r\cdot \mathbf{T} = 0, \quad \mathbf{e}_r\cdot (\nabla \times \mathbf{P}) = 0.$$
 %
@@ -288,9 +288,9 @@ norm( f )
 %
 % $$ w = \nabla\times\nabla\times(\bf{r}P_w) + \nabla\times(\bf{r}T_w),$$
 % 
-% where $\bf{r} = r\bf{e}_r$, and $P_w$ and $T_w$ are scalar-valued potential
+% where $\mathbf{r} = r\mathbf{e}_r$, and $P_w$ and $T_w$ are scalar-valued potential
 % functions (called the poloidal and toroidal scalars). In this setting, the natural unit vector,
-% $\bf{e}_r$ to select is the unit radial vector that points away from
+% $\mathbf{e}_r$ to select is the unit radial vector that points away from
 % the origin. The scalars $P_w$ and $T_w$ are unique up to the addition of 
 % an arbitrary function that only depends on the radial variable, $r$.
 %
@@ -400,13 +400,13 @@ norm( div( curl( psi ) ) )
 
 %%
 % Here is a plot of each component of the decomposition. 
-subplot(1,4,1) 
+subplot(2,2,1) 
 quiver( v ), title('Vector field')
-subplot(1,4,2)
+subplot(2,2,2)
 quiver( grad(f) ), title('Curl-free')
-subplot(1,4,3)
+subplot(2,2,3)
 quiver( curl(psi) ), title('Divergence-free')
-subplot(1,4,4)
+subplot(2,2,4)
 quiver( grad(phi) ), title('Harmonic')
 
 %% 
