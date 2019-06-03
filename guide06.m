@@ -61,7 +61,7 @@
   subplot(1,2,1), spy(A), title A
   subplot(1,2,2), spy(A'), title('A''')
 
-%% 6.2 Backslash and least-squares
+%% 6.2 Backslash, least-squares, and |polyfit|
 
 %%
 % In MATLAB, the command |c = A\b| computes the solution to the system
@@ -94,9 +94,24 @@
 % $f$ at least $n+1$ times in the interval of approximation.
 
 %%
-% Here is quite a different quasimatrix whose columns can be used to fit $f$.
-% The columns correspond to hat functions located at points equally
-% spaced from $-1$ to $1$, and they are realized as piecewise smooth chebfuns.
+% If you want to do least-squares fitting by polynomials in Chebfun,
+% there is no need to set up a quasimatrix as we did above.  Instead,
+% you can use the Chebfun |polyfit| command, like this:
+ffit_polyfit = polyfit(f,5);
+norm(ffit-ffit_polyfit)
+%%
+% |polyfit| can be used both for fittting a function, as here, or
+% for fitting data.  See the Chebfun examples
+% "Least-squares approximation in Chebfun," in the |approx| section , and
+% "Least-squares data fitting and |polyfit|," in the |stats| section.
+% |polyfit| will also fit periodic functions by trigonometric polynomials.
+
+%%
+% For fitting by functions that are not just polynomials or
+% trigonometric polynomials, however, you need a quasimatrix.
+% Here is an example in which 
+% the columns correspond to hat functions located at points equally
+% spaced from $-1$ to $1$, realized as piecewise smooth chebfuns.
   A2 = [];
   for j = 0:10
     xj = -1 + j/5;
