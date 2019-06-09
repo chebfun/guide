@@ -1,19 +1,28 @@
 %% 7. Linear Differential Operators and Equations
-% Tobin A. Driscoll, November 2009, latest revision December 2015
+% Tobin A. Driscoll, November 2009, latest revision June 2019
 
 %% 7.1  Introduction
 % Chebfun has powerful capabilities for solving ordinary differential equations
-% as well as partial differential equations involving one space and one time
-% variable. The present chapter is devoted to chebops, the fundamental Chebfun
-% tools for solving differential (or integral) equations.  In particular we
+% as well as certain partial differential equations.
+% The present chapter is devoted to chebops, the fundamental Chebfun
+% tools for solving ordinary differential (or integral) equations.
+% In particular we
 % focus here on the linear case.  We shall see that one can solve a linear
 % two-point boundary value problem to high accuracy by a single backslash
 % command.  Nonlinear extensions are described in Section 7.9 and in Chapter 10,
-% and for PDEs, try |help pde15s|.
+% and for PDEs in one space dimension, try |help pde15s|.
 
 %%
-% A book about ODEs in Chebfun is in preparation
-% [Trefethen, Birkisson & Driscoll 2016].
+% Chebfun can also solve certain integral equations, though
+% this topic is not covered much in the _Chebfun Guide_.
+% See the commands |fred| and |volt| and the |integro| section
+% of the Chebfun Examples collection.
+
+%%
+% The book _Exploring ODEs_ about ODEs in Chebfun appeared in 2018,
+% and is freely available online as a PDF file
+% [Trefethen, Birkisson & Driscoll 2018].  Appendix B of the book
+% gives 100 short examples of how to solve various ODE problems in Chebfun.
 
 %%
 % Although one or two examples of initial-value problems for ODEs are
@@ -117,8 +126,7 @@ L.op = @(x,u) cumsum(u);
 %%
 % For example, the indefinite integral of $x$ is $x^2/2$:
 x = chebfun('x', [0, 1]);
-LW = 'linewidth';
-hold off, plot(L*x, LW, 2), grid on
+plot(L*x), grid on
 
 %%
 % Chebops can be specified in various ways, including all in a single line.  For
@@ -147,9 +155,9 @@ L = chebop(@(x,u) diff(u) + diff(u,2), [-1, 1], 0, @(u) diff(u))
 % on the interval $[-3,3]$ with Dirichlet boundary conditions.  Here is a
 % Chebfun solution:
 L = chebop(-3, 3);
-L.op = @(x,u) diff(u,2) + x.^3.*u;
+L.op = @(x,u) diff(u,2) + x^3*u;
 L.lbc = 0; L.rbc = 0;
-u = L\1; plot(u, LW, 2), grid on
+u = L\1; plot(u), grid on
 
 %%
 % We confirm that the computed $u$ satisfies the differential equation to high
@@ -161,7 +169,7 @@ norm(L(u) - 1)
 % changes the solution:
 L.rbc = @(u) diff(u);
 u = L\1;
-hold on, plot(u, 'r', LW, 2)
+hold on, plot(u), hold off
 
 %%
 % An equivalent to backslash is the |solvebvp| command.
@@ -173,7 +181,7 @@ norm(u - v)
 % A command like |L.bc=100| imposes the corresponding numerical Dirichlet
 % condition at both ends of the domain:
 L.bc = 100;
-hold off, plot(L\1, LW, 2), grid on
+plot(L\1), grid on
 
 %%
 % Boundary conditions can also be specified in a single line, as noted above:
@@ -182,7 +190,7 @@ L = chebop( @(x,u) diff(u,2)+10000*u, [-1,1], 0, @(u) diff(u) );
 %%
 % Thus it is possible to set up and solve a differential equation and plot the
 % solution with a single line of Chebfun:
-plot( chebop(@(x,u) diff(u,2)+50*(1+sin(x)).*u,[-20,20],0,0)\1 )
+plot( chebop(@(x,u) diff(u,2)+50*(1+sin(x))*u,[-20,20],0,0)\1 )
 
 %%
 % When Chebfun solves differential or integral equations, the coefficients may
@@ -190,14 +198,14 @@ plot( chebop(@(x,u) diff(u,2)+50*(1+sin(x)).*u,[-20,20],0,0)\1 )
 % order problem involving a coefficient that jumps from $+1$ (oscillation) for
 % $x<0$ to $-1$ (growth/decay) for $x>0$:
 L = chebop(-60, 60);
-L.op = @(x,u) diff(u,2) - sign(x).*u;
+L.op = @(x,u) diff(u,2) - sign(x)*u;
 L.lbc = 1; L.rbc = 0;
 u = L\0;
-plot(u, LW, 2), grid on
+plot(u), grid on
 
 %%
 % Further examples of Chebfun solutions of differential equations with
-% discontinuous coefficients can be found in the Demos menu of chebgui.
+% discontinuous coefficients can be found in the Demos menu of |chebgui|.
 
 %%
 % Finally, what about periodic boundary conditions?
@@ -206,13 +214,12 @@ plot(u, LW, 2), grid on
 % discretize the problem by Fourier methods, seeking to
 % find a periodic solution,
 % provided that the right-side function is also periodic.
-% (This feature was introduced in 2014.)
 % Here is an example:
 L = chebop(-pi,pi);
-L.op = @(x,u) diff(u,2) + diff(u) + 600*(1+sin(x)).*u;
+L.op = @(x,u) diff(u,2) + diff(u) + 600*(1+sin(x))*u;
 L.bc = 'periodic';
 u = L\1;
-hold off, plot(u, LW, 2), grid on
+plot(u), grid on
 
 %% 7.5 Eigenvalue problems: |eigs|
 % In MATLAB, |eig| finds all the eigenvalues of a matrix whereas |eigs| finds
@@ -226,7 +233,7 @@ L = chebop( @(x,u) diff(u,2), [0, pi] );
 L.bc = 0;
 [V, D] = eigs(L);
 diag(D)
-clf, plot(V(:,1:4), LW, 2), ylim([-1 1])
+clf, plot(V(:,1:4)), ylim([-1 1])
 
 %%
 % By default, |eigs| tries to find the six eigenvalues whose eigenmodes are
@@ -241,13 +248,13 @@ clf, plot(V(:,1:4), LW, 2), ylim([-1 1])
 % the imposition of periodic boundary conditions.
 q = 10;
 A = chebop(-pi, pi);
-A.op = @(x,u) diff(u,2) - 2*q*cos(2*x).*u;
+A.op = @(x,u) diff(u,2) - 2*q*cos(2*x)*u;
 A.bc = 'periodic';
 [V, D] = eigs(A, 16, 'LR');    % eigenvalues with largest real part
 d = diag(D); [d, ii] = sort(d, 'descend'); V = V(:, ii');
-subplot(1,2,1), plot(V(:, 9), LW, 2)
+subplot(1,2,1), plot(V(:, 9))
 ylim([-.8 .8]), title('elliptic cosine')
-subplot(1,2,2), plot(V(:,10), LW, 2)
+subplot(1,2,2), plot(V(:,10))
 ylim([-.8 .8]), title('elliptic sine')
 
 %%
@@ -263,12 +270,11 @@ B = chebop(-1, 1);
 B.op = @(x,u) diff(u,2) - u;
 A = chebop(-1, 1);
 A.op = @(x,u) (diff(u,4) - 2*diff(u, 2) + u)/Re - ...
-    1i*(2*u + (1 - x.^2).*(diff(u, 2) - u));
+    1i*(2*u + (1 - x^2)*(diff(u, 2) - u));
 A.lbc = [0; 0];
 A.rbc = [0; 0];
 lam = eigs(A, B, 50);
-MS = 'markersize';
-clf, plot(lam, 'r.', MS, 16), grid on, axis equal
+clf, plot(lam, 'r.', 'markersize', 16), grid on, axis equal
 spectral_abscissa = max(real(lam))
 
 %%
@@ -283,13 +289,14 @@ spectral_abscissa = max(real(lam))
 % taking $L$ to be the 2nd derivative operator, for example, we can use |expm|
 % to solve the heat equation $u_t = u_{xx}$:
 A = chebop(@(x,u) diff(u,2), [-1, 1], 0);  
-f = chebfun('exp(-1000*(x+0.3).^6)');
-clf, plot(f, 'r', LW, 2), hold on, c = [0.8 0 0];
+f = chebfun('exp(-1000*(x+0.3)^6)');
+clf, plot(f, 'r'), hold on, c = [0.8 0 0];
 for t = [0.01 0.1 0.5]
   u = expm(A, t, f);
-  plot(u,'color', c, LW, 2), c = 0.5*c;
+  plot(u,'color', c), c = 0.5*c;
   ylim([-.1 1.1])
 end
+hold off
 
 %%
 % Here is a more fanciful analogous computation with a complex initial function
@@ -306,17 +313,19 @@ for t = [0 .0001 .001]
   text(0.01, .46, sprintf('t = %6.4f', t), 'fontsize', 10), axis off
 end
 
-%% 7.7 Algorithms: rectangular collocation vs. ultraspherical
+%% 7.7 Algorithms: rectangular collocation and ultraspherical
 
 %% 
 % Let us say a word about how Chebfun carries out these computations.  Until
-% Chebfun version 5, the methods involved were all Chebyshev spectral methods on
-% automatically chosen grids.  The general ideas are presented in [Trefethen
-% 2000], [Driscoll, Bornemann & Trefethen 2008], and [Driscoll 2010], but
-% Chebfun actually uses modifications of these methods described in [Driscoll &
-% Hale 2014] and [Xu & Hale 2014]
-% involving a novel mix of Chebyshev grids of the first and second
-% kinds.  These *rectangular collocation* or *Driscoll-Hale* spectral
+% Chebfun version 5, the methods involved were classical Chebyshev
+% spectral collocation methods on
+% automatically chosen grids, as described in [Trefethen
+% 2000], [Driscoll, Bornemann & Trefethen 2008], and [Driscoll 2010].
+% With versin 5, however, Chebfun changed its default to a next kind
+% of Chebyshev discretization described in 
+% [Aurentz & Trefethen 2017], [Driscoll &
+% Hale 2014] and [Xu & Hale 2014].
+% These *rectangular collocation* or *Driscoll-Hale* spectral
 % discretizations start from the idea that a differential operator is
 % discretized as a rectangular matrix that maps from one grid to another with
 % fewer points.  The matrix is then made square again by the incorporation of
@@ -326,7 +335,27 @@ end
 % Chebyshev expansion coefficients.
 
 %%
-% One matter you might not guess was challenging is the determination of whether
+% If you want to learn about rectangular discretizations, you can
+% find a sequence of 12 explicit Chebfun examples presented in
+% [Aurentz & Trefethen 2017].  As described there, you can get
+% your hands on Chebfun's discretization matrices with the command
+% |matrix|.  For example, here is the $6\times 6$ discretization matrix
+% for the second derivative operator on $[-1,1]$ 
+% with zero boundary conditions:
+L = chebop(@(u) diff(u,2));
+L.bc = 0;
+matrix(L,4)
+
+%%
+% The first two rows correspond to the boundary conditions
+% and the remaining $4\times 6$ block is the rectangular
+% discretization matrix that takes input from the 6-point Chebyshev
+% grid, interpolates it by a degree-5 polynomial,
+% differentiates the interpolant twice, and samples the result 
+% on the 4-point Chebyshev grid.
+%%
+% One matter you might not guess was challenging
+% is the determination of whether
 % or not an operator is linear!  This is important since if an operator is
 % linear, special actions are possible possible such as application of |eigs|
 % and |expm| and solution of differential equations in a single step without
@@ -392,9 +421,10 @@ U = L\rhs;
 clf, plot(U)
 
 %%
-% The overloaded |spy| command helps clarify the structure of this operator
+% The overloaded |spy| command helps clarify the structure of the operator
 % we just made use of:
 spy(L) 
+
 %%
 % This image shows that $L$ maps a pair of functions $[u;v]$ to a pair of
 % functions $[w;y]$, where the dependences of $w$ on $u$ and $y$ on $v$ are
@@ -460,7 +490,7 @@ x = chebfun('x');
 u = -x;  nrmdu = Inf;
 while nrmdu > 1e-10
   r = L*u - u.^3;
-  J.op = @(du) .001*diff(du, 2) - 3*u.^2.*du;
+  J.op = @(du) .001*diff(du, 2) - 3*u^2*du;
   J.bc = 0;
   du = -(J\r);
   u = u + du;  nrmdu = norm(du)
@@ -476,7 +506,7 @@ clf, plot(u)
 % backslash" capability, which utilizes automatic differentiation to construct
 % the Frechet derivative automatically. In fact, all you need to type is
 N = chebop(-1, 1);
-N.op = @(x,u) 0.001*diff(u, 2) - u.^3;
+N.op = @(x,u) 0.001*diff(u, 2) - u^3;
 N.lbc = 1; N.rbc = -1;
 v = N\0;
 
@@ -487,7 +517,8 @@ norm(u - v)
 %% 7.10 BVP systems with unknown parameters
 % Sometimes ODEs or systems of ODEs contain unknown parameter values that must
 % be computed as part of the solution. An example of this is MATLAB's
-% built-in |mat4bvp| example. These parameters can always be included in a system
+% built-in |mat4bvp| example.
+% These parameters can always be included in a system
 % as unknowns with zero derivatives, but this can be computationally
 % inefficient. Chebfun allows the option of explicit treatment of the
 % parameters. Often the dependence of the solution on these parameters is
@@ -498,10 +529,10 @@ norm(u - v)
 %% 
 % Below is an example of such a parameterised problem, which represents a
 % linear pendulum with a forcing
-% sine-wave term of an unknown frequency $T$. The
-% task is to compute the solution for which
+% sine-wave term of an unknown frequency $T$.
+% The task is to compute the solution for which
 % $$ u(-\pi) = u(\pi) = u'(\pi) = 1. $$
-N = chebop(@(x, u , T) diff(u,2) - u - sin(T.*x/pi), [-pi pi]);
+N = chebop(@(x, u , T) diff(u,2) - u - sin(T*x/pi), [-pi pi]);
 N.lbc = @(u,T) u - 1;
 N.rbc = @(u,T) [u - 1; diff(u) - 1];
 uT = N\0;
@@ -514,12 +545,7 @@ uT = N\0;
 u = uT{1}; T = uT{2};
 
 %%
-% and another method is to use Chebfun's overloaded `deal` command:
-[u,T] = deal(uT);
-
-%%
-% Better still, one can solve the problem originally with
-% multiple outputs, like this:
+% but one can access the same results more simply like this:
 [u,T] = N\0;
 T
 plot(u)
@@ -534,6 +560,10 @@ T = T(1)
 plot(u)
 
 %% 7.11 References
+%
+% [Aurentz & Trefethen 2017] J. L. Aurentz and L. N. Trefethen,
+% Block opearators and spectral discretizations,
+% _SIAM Review_ 59 (2017), 423--446.
 %
 % [Birkisson 2014] A. Birkisson, _Numerical
 % Solution of Nonlinear Boundary Value Problems for
@@ -553,7 +583,8 @@ plot(u)
 % differential equations", _BIT Numerical Mathematics_, 46 (2008), 701-723.
 %
 % [Driscoll & Hale 2014] T. A. Driscoll and N. Hale, "Rectangular
-% spectral collocation", _IMA Journal of Numerical Analysis_, to appear.
+% spectral collocation", _IMA Journal of Numerical Analysis_ 36
+% (2016), 108--132.
 %
 % [Fornberg 1996] B. Fornberg, _A Practical Guide to Pseudospectral Methods_,
 % Cambridge University Press, 1996.
@@ -567,8 +598,9 @@ plot(u)
 %
 % [Trefethen 2000] L. N. Trefethen, _Spectral Methods in MATLAB_, SIAM, 2000.
 %
-% [Trefethen, Birkisson & Driscoll 2016] L. N. Trefethen, A. Birkisson,
-% and T. A. Driscoll, _Exploring ODEs_, textbook in preparation.
+% [Trefethen, Birkisson & Driscoll 2018] L. N. Trefethen, A. Birkisson,
+% and T. A. Driscoll, _Exploring ODEs_, SIAM, 2018.  Freely available
+% at |http://people.maths.ox.ac.uk/trefethen/ExplODE/|.
 %
 % [Xu & Hale 2015] K. Xu and N. Hale, "Explicit construction
 % of rectangular differentiation matrices", _IMA Journal of
