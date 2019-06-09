@@ -191,6 +191,7 @@ L = chebop( @(x,u) diff(u,2)+10000*u, [-1,1], 0, @(u) diff(u) );
 % Thus it is possible to set up and solve a differential equation and plot the
 % solution with a single line of Chebfun:
 plot( chebop(@(x,u) diff(u,2)+50*(1+sin(x))*u,[-20,20],0,0)\1 )
+grid on
 
 %%
 % When Chebfun solves differential or integral equations, the coefficients may
@@ -233,7 +234,7 @@ L = chebop( @(x,u) diff(u,2), [0, pi] );
 L.bc = 0;
 [V, D] = eigs(L);
 diag(D)
-clf, plot(V(:,1:4)), ylim([-1 1])
+clf, plot(V(:,1:4)), ylim([-1 1]), grid on
 
 %%
 % By default, |eigs| tries to find the six eigenvalues whose eigenmodes are
@@ -252,7 +253,7 @@ A.op = @(x,u) diff(u,2) - 2*q*cos(2*x)*u;
 A.bc = 'periodic';
 [V, D] = eigs(A, 16, 'LR');    % eigenvalues with largest real part
 d = diag(D); [d, ii] = sort(d, 'descend'); V = V(:, ii');
-subplot(1,2,1), plot(V(:, 9))
+subplot(1,2,1), plot(V(:, 9)), grid on
 ylim([-.8 .8]), title('elliptic cosine')
 subplot(1,2,2), plot(V(:,10))
 ylim([-.8 .8]), title('elliptic sine')
@@ -291,10 +292,10 @@ spectral_abscissa = max(real(lam))
 A = chebop(@(x,u) diff(u,2), [-1, 1], 0);  
 f = chebfun('exp(-1000*(x+0.3)^6)');
 clf, plot(f, 'r'), hold on, c = [0.8 0 0];
+ylim([-.1 1.1), grid on
 for t = [0.01 0.1 0.5]
   u = expm(A, t, f);
   plot(u,'color', c), c = 0.5*c;
-  ylim([-.1 1.1])
 end
 hold off
 
@@ -317,11 +318,10 @@ end
 
 %% 
 % Let us say a word about how Chebfun carries out these computations.  Until
-% Chebfun version 5, the methods involved were classical Chebyshev
-% spectral collocation methods on
-% automatically chosen grids, as described in [Trefethen
+% version 5, Chebfun used classical Chebyshev
+% spectral collocation methods as described in [Trefethen
 % 2000], [Driscoll, Bornemann & Trefethen 2008], and [Driscoll 2010].
-% With versin 5, however, Chebfun changed its default to a next kind
+% With version 5, however, the default changed to a new kind
 % of Chebyshev discretization described in 
 % [Aurentz & Trefethen 2017], [Driscoll &
 % Hale 2014] and [Xu & Hale 2014].
@@ -335,7 +335,8 @@ end
 % Chebyshev expansion coefficients.
 
 %%
-% If you want to learn about rectangular discretizations, you can
+% If you want to learn the
+% details of rectangular discretizations, you can
 % find a sequence of 12 explicit Chebfun examples presented in
 % [Aurentz & Trefethen 2017].  As described there, you can get
 % your hands on Chebfun's discretization matrices with the command
@@ -344,10 +345,12 @@ end
 % with zero boundary conditions:
 L = chebop(@(u) diff(u,2));
 L.bc = 0;
+format short
 matrix(L,4)
+format long
 
 %%
-% The first two rows correspond to the boundary conditions
+% The first two rows correspond to the boundary conditions,
 % and the remaining $4\times 6$ block is the rectangular
 % discretization matrix that takes input from the 6-point Chebyshev
 % grid, interpolates it by a degree-5 polynomial,
@@ -418,7 +421,7 @@ U = L\rhs;
 %%
 % The solution |U| is an $\infty\times 2$ Chebfun quasimatrix with columns
 % |u=U(:,1)| and |v=U(:,2)|.  Here is a plot:
-clf, plot(U)
+clf, plot(U), grid on
 
 %%
 % The overloaded |spy| command helps clarify the structure of the operator
@@ -452,12 +455,8 @@ clf, spy(L)
 eigenvalues = diag(D)
 %%
 % The |eigenfunctions| result has the first seven eigenfunctions for each
-% of the two variables, u and v:
-eigenfunctions
-
-%%
-% It's often convenient to convert a chebmatrix result to a chebfun. In
-% this case, we want to extract the $u$ and $v$ variables separately:
+% of the two variables, u and v.
+% We could extract this chebmatrix result to a chebfun like this:
 U = chebfun( eigenfunctions(1,:) );
 V = chebfun( eigenfunctions(2,:) );
 size(V)
@@ -495,7 +494,7 @@ while nrmdu > 1e-10
   du = -(J\r);
   u = u + du;  nrmdu = norm(du)
 end
-clf, plot(u)
+clf, plot(u), grid on
 
 %%
 % Note the beautifully fast convergence, as one expects with Newton's method.
@@ -548,7 +547,7 @@ u = uT{1}; T = uT{2};
 % but one can access the same results more simply like this:
 [u,T] = N\0;
 T
-plot(u)
+plot(u), grid on
 
 %%
 % As the system is nonlinear in $T$, we can expect that there will be more
@@ -557,7 +556,7 @@ plot(u)
 N.init = [chebfun(1, [-pi pi]); 4];
 [u,T] = N\0;
 T = T(1)
-plot(u)
+plot(u), grid on
 
 %% 7.11 References
 %
