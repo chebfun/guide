@@ -255,7 +255,7 @@ A.bc = 'periodic';
 d = diag(D); [d, ii] = sort(d, 'descend'); V = V(:, ii');
 subplot(1,2,1), plot(V(:, 9)), grid on
 ylim([-.8 .8]), title('elliptic cosine')
-subplot(1,2,2), plot(V(:,10))
+subplot(1,2,2), plot(V(:,10)), grid on
 ylim([-.8 .8]), title('elliptic sine')
 
 %%
@@ -292,7 +292,7 @@ spectral_abscissa = max(real(lam))
 A = chebop(@(x,u) diff(u,2), [-1, 1], 0);  
 f = chebfun('exp(-1000*(x+0.3)^6)');
 clf, plot(f, 'r'), hold on, c = [0.8 0 0];
-ylim([-.1 1.1), grid on
+ylim([-.1 1.1]), grid on
 for t = [0.01 0.1 0.5]
   u = expm(A, t, f);
   plot(u,'color', c), c = 0.5*c;
