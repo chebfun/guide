@@ -1,5 +1,5 @@
 %% 8. Chebfun Preferences
-% Lloyd N. Trefethen, November 2009, latest revision December 2015
+% Lloyd N. Trefethen, November 2009, latest revision June 2019
 
 %% 8.1  Introduction
 % Like any software package, Chebfun is based on certain design
@@ -35,14 +35,14 @@ chebfunpref.setDefaults('factory')
 % previous chebfuns.  In the former case we can include preferences
 % directly in the constructor command, and we recommend this as good
 % practice:
-f = chebfun('x.^x',[0,1],'splitting','on');
+f = chebfun('x^x',[0,1],'splitting','on');
 
 %%
 % In the latter case, however, one can turn the preference on and
 % off again.
 x = chebfun('x',[0,1]);
 chebfunpref.setDefaults('splitting',true) 
-f = x.^x;
+f = x^x;
 chebfunpref.setDefaults('splitting',false) 
 
 %% 8.2  |domain|: the default domain
@@ -118,7 +118,7 @@ chebfunpref.setDefaults('splitting',false)
 % resolution lies there.  For other functions, however, splitting will take
 % place at midpoints.  For example, here is a function that is complicated
 % throughout $[-1,1]$, especially for larger values of $x$.
-  ff = @(x) sin(x).*tanh(3*exp(x).*sin(15*x));
+  ff = @(x) sin(x)*tanh(3*exp(x)*sin(15*x));
 
 %%
 % With splitting off, it gets resolved by a global polynomial of rather
@@ -207,13 +207,13 @@ chebfunpref.setDefaults('splitting',false)
 
 %%
 % Perhaps more often one might wish to adjust this preference to enable use
-% of especially high degrees.  On the machines of 2015, Chebfun is
+% of especially high degrees.  On the machines of 2019, Chebfun is
 % perfectly capable of working with polynomials of degrees in the millions.
 % The function $|x|^{5/4}$ on $[-1,1]$ provides an example, for it is
 % smooth enough to be resolved by a global polynomial, provided it is of
 % rather high degree:
   tic
-  f = chebfun('abs(x).^1.25','maxLength',1e6);
+  f = chebfun('abs(x)^1.25','maxLength',1e6);
   lengthf = length(f)
   format long, sumf = sum(f)
   plot(f)
@@ -232,24 +232,23 @@ chebfunpref.setDefaults('splitting',false)
 % expansion coefficients will be computed, and 13 of these will be found to
 % be of negligible size and discarded.  So the resulting chebfun is a
 % cubic, even though the constructor never sampled at fewer than 17 points.
-  f = chebfun('x.^3');
+  f = chebfun('x^3');
   lengthf = length(f)
 
 %%
 % More generally a function is sampled at $17, 33, 65,\dots$ points until a set
-% of Chebyshev coefficients are obtained with a tail judged to be
-% negligible.
+% of Chebyshev coefficients are obtained with a tail judged to be negligible.
 
 %% 
 % Like any process based on sampling, this one can fail. For example, here
 % is a success:
-  f = chebfun('-x -x.^2 + exp(-(30*(x-.47)).^2)');
+  f = chebfun('-x -x^2 + exp(-(30*(x-.47))^2)');
   length(f)
   plot(f)
 
 %%
 % But if we change the exponent to 4, we get a failure:
-  f = chebfun('-x -x.^2 + exp(-(30*(x-.47)).^4)');
+  f = chebfun('-x -x^2 + exp(-(30*(x-.47))^4)');
   length(f)
   plot(f)
 
@@ -268,7 +267,7 @@ chebfunpref.setDefaults('splitting',false)
 
 %%
 % If we increase |minSamples|, the correct chebfun is found:
-  f = chebfun('-x -x.^2 + exp(-(30*(x-.48)).^4)','minSamples',33);
+  f = chebfun('-x -x^2 + exp(-(30*(x-.48))^4)','minSamples',33);
   length(f)
   plot(f)
 
@@ -284,7 +283,7 @@ chebfunpref.setDefaults('splitting',false)
 % perhaps it is most vulnerable when applied in splitting on mode to
 % functions with narrow spikes.  For example, the following chebfun is
 % missing most of the spikes that should be there:
-  ff = @(x) max(.85,sin(x+x.^2)) - x/20;
+  ff = @(x) max(.85,sin(x+x^2)) - x/20;
   f = chebfun(ff,[0,10],'splitting','on');
   plot(f)
 
@@ -315,7 +314,7 @@ chebfunpref.setDefaults('splitting',false)
   length(f)
 
 %%
-% There is a little if we set 'resampling on', so that previously
+% There is little change if we set 'resampling on', so that previously
 % computed values are not reused:
   tic, f = chebfun(ff,[0 8],'resampling','on'); toc 
   length(f)
@@ -352,7 +351,7 @@ plot(f,'.-')
 %%
 % Here is an in-between case where convergence is achieved on the grid of
 % length 65, and the resulting chebfun then trimmed to length 46.
-kk = @(x) sin(length(x).^(2/3)*x);    
+kk = @(x) sin(length(x)^(2/3)*x);    
 k = chebfun(kk,'sampleTest',0,'resampling','on');
 length(k)
 plot(k,'.-')
@@ -377,6 +376,13 @@ p.chebfuneps
 %%
 % However, one can change this with a command like
 % |chebfunpref.setDefaults('chebfuneps',1e-6)|.
+% Actually there is a simpler syntax:
+chebfuneps('1e-4')
+chebfuneps
+
+%%
+chebfuneps('factory')
+chebfuneps
 
 %%
 
@@ -388,7 +394,9 @@ p.chebfuneps
 % functions that the |chebfuneps|-adjustment feature is not as useful as you
 % might imagine, and we recommend that users not change |chebfuneps| unless
 % they are having real problems with standard precision or are working with
-% noisy data.
+% noisy data.  (In two or especially three dimensions, the balances change
+% and there is more often a big benefit in weakending the tolerance; see
+% section 8.11 below and chapter 18.)
 
 %% 8.9 Chebyshev grids of first or second kind
 % Beginning with Version 5, Chebfun includes capabilities for
@@ -430,7 +438,8 @@ cheboppref.setDefaults('discretization','chebcolloc2')
 cheboppref.setDefaults('discretization','chebcolloc1')
 
 %%
-% and for Olver-Townsend ultraspherical discretizations,
+% and for Olver-Townsend ultraspherical discretizations, as
+% discussed in the last chapter,
 cheboppref.setDefaults('discretization','ultraspherical')
 
 %%
@@ -438,12 +447,18 @@ cheboppref.setDefaults('discretization','ultraspherical')
 cheboppref.setDefaults('factory')
 
 %% 8.11 Chebfun2 preferences
-% The Chebfun2 preference that users may be most interested in
+% Chebfun2, for computing with functoins on a two-dimensional rectangle,
+% is described in Chapter 12-15.
+% A Chebfun2 preference that users may be particularly interested in
 % is |MaxRank|, which determines the maximum rank of a low-rank
 % approximation used to represent a function on a rectangle.
 % The current factory default is 512, and this can be changed
 % for example with
 chebfunpref.setDefaults({'cheb2Prefs','maxRank'},1024);
+
+%%
+% For changing the Chebfun2 tolerance one can do this:
+chebfun2eps = 1e-6;
 
 %%
 % Let us undo this change:
@@ -473,9 +488,8 @@ chebfunpref.setDefaults('factory')
 % For more information about the details of the
 % Chebfun function construction process, see [1].
 
-%% 8.13 References
+%% 8.13 Reference
 %
 % [Aurentz & Trefethen 2015] J. L. Aurentz and L. N. Trefethen,
-% Chopping a Chebyshev series, `http://arxiv.org/abs/1512.01803`.
-
-
+% Chopping a Chebyshev series, _ACM Trans. Math. Softw._ 43
+% (2017), p. 33.
