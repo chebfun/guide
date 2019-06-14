@@ -209,19 +209,14 @@ chebfunpref.setDefaults('splitting',false)
 % Perhaps more often one might wish to adjust this preference to enable use
 % of especially high degrees.  On the machines of 2019, Chebfun is
 % perfectly capable of working with polynomials of degrees in the millions.
-% The function $|x|^{5/4}$ on $[-1,1]$ provides an example, for it is
+% The function $1/(1+10^8 x^2)$ on $[-1,1]$ provides an example, for it is
 % smooth enough to be resolved by a global polynomial, provided it is of
 % rather high degree:
   tic
-  f = chebfun('abs(x)^1.25','maxLength',1e6);
+  f = chebfun('1/(1+1e8*x^2)','maxLength',1e6);
   lengthf = length(f)
   format long, sumf = sum(f)
-  plot(f)
   toc
-
-%%
-% (More efficient ways of resolving this function, by eliminating the
-% singularity, are described in Chapter 9.)
 
 %% 8.6 |minSamples|: minimum number of sample points
 % At the other end of the spectrum, the preference |minSamples| determines the
@@ -385,18 +380,18 @@ chebfuneps('factory')
 chebfuneps
 
 %%
-
 % There are cases where weakening the tolerance makes a big
-% difference. For example, this happens in certain applications in 2D and
-% in certain applications involving differential equations.  (Indeed, the
+% difference. For example, this happens in certain applications 
+% involving differential equations.  (Indeed, the
 % Chebfun differential equations commands have their own tolerance control
 % strategies.) However, Chebfun does such a good job at resolving many
-% functions that the |chebfuneps|-adjustment feature is not as useful as you
+% functions, at least in one dimension,
+% that the |chebfuneps|-adjustment feature is not as useful as you
 % might imagine, and we recommend that users not change |chebfuneps| unless
 % they are having real problems with standard precision or are working with
-% noisy data.  (In two or especially three dimensions, the balances change
+% noisy data.  In two or especially three dimensions, the balances change
 % and there is more often a big benefit in weakending the tolerance; see
-% section 8.11 below and chapter 18.)
+% section 8.11 below and chapter 18.
 
 %% 8.9 Chebyshev grids of first or second kind
 % Beginning with Version 5, Chebfun includes capabilities for
@@ -485,8 +480,7 @@ chebfunpref.setDefaults('factory')
 % (blowups with an arbitrary power).
 
 %%
-% For more information about the details of the
-% Chebfun function construction process, see [1].
+% For details of the Chebfun function construction process, see [1].
 
 %% 8.13 Reference
 %
