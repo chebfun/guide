@@ -390,7 +390,7 @@ chebfuneps
 % might imagine, and we recommend that users not change |chebfuneps| unless
 % they are having real problems with standard precision or are working with
 % noisy data.  In two or especially three dimensions, the balances change
-% and there is more often a big benefit in weakending the tolerance; see
+% and there is more often a big benefit in weakening the tolerance; see
 % section 8.11 below and chapter 18.
 
 %% 8.9 Chebyshev grids of first or second kind
