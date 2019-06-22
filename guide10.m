@@ -107,7 +107,7 @@ u = N\1; plot(u), ylim([-2 2]), grid on
 % This is one of several valid solutions to this problem.
 % To find another, we can specify a initial guess for the Newton
 % iteration that differs from Chebfun's default (a polynomial
-% function constructed to satisfy the boundary conditions--the
+% function constructed to satisfy the boundary conditions --- the
 % zero function in this case).
 % For example, here we specify the
 % initial guess $u(x) = 2(x^2 - 1)(1 - 2/(1 + 20x^2))$ and get
@@ -258,7 +258,7 @@ plot(u), grid on, ylim([-1.5 1.5])
 % A relatively new feature in Chebfun is the solution of periodic ODEs;
 % see chapter 19 of [Trefethen, Birkisson & Driscoll 2018].
 % For example, here is a function encoded in the |gallerytrig| command:
-plot(cheb.gallerytrig('tsunami'), 'color', [.6 .4 0])
+plot(cheb.gallerytrig('tsunami'), 'color', [.6 .4 0]), grid on
 ylim([-.2 .2])
 
 %%
