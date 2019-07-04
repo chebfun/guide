@@ -174,7 +174,7 @@ p11 = chebfun(uu,[-pi,pi],11,'trig');
 
 %%
 % The error curves for the two approximations are similar:
-plot([q11-u p11-u])
+plot([q11-u p11-u]), grid on
 legend('projection error','interpolation error','location','southeast')
 
 %%
@@ -215,7 +215,7 @@ sum(f)
 % For example, the absolute value of the function
 % above is a chebfun, not a trigfun:
 g = abs(f);
-plot(g)
+plot(g), grid on
 hold off
 
 %%
@@ -247,7 +247,7 @@ n = 201;
 tt = trigpts(n,[-pi pi]);
 ff = exp(sin(tt)) + 0.05*randn(n,1);
 f = chebfun(ff,[-pi pi],'trig')
-plot(f)
+plot(f), grid on
 
 %%
 % The high frequencies
@@ -431,11 +431,11 @@ f = chebfun(@cos,[7,7+2*pi],'trig'); trigcoeffs(f)
 % a trigonometric sum of degree $15$:
 sq_wave = @(t) sign(sin((t)));
 u = chebfun(sq_wave,[-pi pi],'splitting','on');
-plot(u), ylim([-1.5 1.5])
+plot(u), grid on, ylim([-1.5 1.5])
 degree = 15;
 a = trigcoeffs(u,2*degree+1);
 u_trunc = chebfun(a,[-pi pi],'trig','coeffs');
-hold on, plot(u_trunc)
+hold on, plot(u_trunc), hold off
 
 %%
 % This represents the best degree 15
