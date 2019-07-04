@@ -478,6 +478,6 @@ hold on, plot(u_trunc), hold off
 %
 % [Wright et al. 2015] G. B. Wright, M. Javed, H. Montanelli, and L. N. 
 % Trefethen, Extension of Chebfun to periodic functions,
-% _SIAM J. Sci. Comp._ 3 (2015), C554--C473.
+% _SIAM J. Sci. Comp._ 37 (2015), C554--C573.
 %
 % [Zygmund 1959] A. Zygmund, _Trigonometric Series_, Cambridge U. Press, 1959.
