@@ -44,7 +44,7 @@ plot(f)
 
 %%
 % For examples of Chebfun solution of periodic ODEs, see Chapter 7 and also
-% Chapter 15 of
+% Chapter 15 of [Trefethen, Birkisson & Driscoll 2018].
 
 %%
 % (_Editors' note._  Periodic chebfuns were created by Grady Wright
@@ -198,7 +198,7 @@ f = tanh(cos(1+2*g)^2) +g/3 - 0.5
 [minval, minpos] = min(f);
 r = roots(f);
 plot(f), grid on, hold on
-plot(r,f(r),'.r')
+plot(r,f(r),'.r','markersize',10)
 plot(maxpos,maxval,'ok')
 plot(minpos,minval,'ok')
 
@@ -467,7 +467,7 @@ hold on, plot(u_trunc)
 %
 % [Trefethen, Birkisson & Driscoll 2018] L. N. Trefethen, A. Birkisson,
 % and T. A. Driscoll, _Exploring ODEs_, SIAM, 2018; freely available at
-% `http://people.maths.ox.ac.uk/trefethen/ExplODE/`.
+% http://people.maths.ox.ac.uk/trefethen/ExplODE/.
 %
 % [Trefethen & Weideman 2014] L. N. Trefethen and J. A. C. Weideman,
 % "The exponentially convergent trapezoidal rule",
