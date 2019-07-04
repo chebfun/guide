@@ -1,19 +1,19 @@
 %% 11. Periodic Chebfuns
-% Grady B. Wright and Lloyd N. Trefethen, December 2014, last revision July 2019
+% Grady B. Wright and Lloyd N. Trefethen, December 2014, latest revision July 2019
 
 
 %% 11.1 Introduction
 % One of the major new features introduced in
 % Chebfun version 5 was the ability to 
 % use trigonometric functions instead of polynomials for 
-% representing smooth periodic functions.  These trig-based chebfuns, or
+% representing smooth periodic functions
+% [Wright et al. 2015].  These trig-based chebfuns, or
 % "trigfuns", can be created with the use of
 % the `'trig'` (or `'periodic'`) flag in the Chebfun constructor.  For
 % example, the function $f(t) = \tanh(3\sin t)-\sin(t+1/2)$ on
 % $[-\pi,\pi]$ can be constructed and plotted as follows:
-lw = 1.6; ms = 10;
 f = chebfun(@(t) tanh(3*sin(t))-sin(t+1/2),[-pi pi],'trig')
-plot(f)
+plot(f), grid on
 
 %%
 % The text `'trig'` in the display
@@ -198,7 +198,7 @@ f = tanh(cos(1+2*g)^2) +g/3 - 0.5
 [minval, minpos] = min(f);
 r = roots(f);
 plot(f), grid on, hold on
-plot(r,f(r),'.r','markersize',10)
+plot(r,f(r),'.r','markersize',14)
 plot(maxpos,maxval,'ok')
 plot(minpos,minval,'ok')
 
@@ -253,7 +253,7 @@ plot(f)
 % The high frequencies
 % can be smoothed by convolving $f$ with a mollifier such as
 % a Gaussian.
-gaussian = @(t,sigma) 1/(sigma*sqrt(2*pi))*exp(-0.5*(t/sigma).^2);
+gaussian = @(t,sigma) 1/(sigma*sqrt(2*pi))*exp(-0.5*(t/sigma)^2);
 g = @(sigma) chebfun(@(t) gaussian(t,sigma),[-pi pi],'trig');
 
 %% 
@@ -475,5 +475,9 @@ hold on, plot(u_trunc)
 %
 % [Van Loan 1992] C. Van Loan, _Computational Frameworks for the Fast
 % Fourier Transform_, SIAM, 1992.
+%
+% [Wright et al. 2015] G. B. Wright, M. Javed, H. Montanelli, and L. N. 
+% Trefethen, Extension of Chebfun to periodic functions,
+% _SIAM J. Sci. Comp._ 3 (2015), C554--C473.
 %
 % [Zygmund 1959] A. Zygmund, _Trigonometric Series_, Cambridge U. Press, 1959.
