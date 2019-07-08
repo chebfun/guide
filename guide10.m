@@ -12,7 +12,9 @@
 % collaboration with Toby Driscoll.
 % For many examples and a variety of further information,
 % see the Chebfun-based ODE textbook
-% [Trefethen, Birkisson & Driscoll 2018].
+% [Trefethen, Birkisson & Driscoll 2018], which is freely available
+% at http://people.maths.ox.ac.uk/trefethen/ExplODE/.
+
 
 %% 10.1  Boundary-value problems: \ and |solvebvp|
 % Chebfun contains overloads |bvp4c| and |bvp5c| of MATLAB codes
@@ -323,5 +325,8 @@ f
 %
 % [Trefethen, Birkisson & Driscoll 2013] L. N. Trefethen,
 % A. Birkisson, and T. A. Driscoll, _Exploring ODEs_,
+% SIAM, 2018; freely available at
+% http://people.maths.ox.ac.uk/trefethen/ExplODE/.
+
 % SIAM, 2018.
 
