@@ -60,7 +60,7 @@ max2(f)
 % A chebfun2 can be constructed by supplying the Chebfun2 constructor with a
 % bivariate function handle or string. The default rectangular domain is 
 % $[-1,1]\times [-1,1]$. (An example showing how to specify a different domain is 
-% given at the end of this chapter.) For example, here we construct and
+% given in section 6.) For example, here we construct and
 % plot a chebfun2 representing $\cos(2\pi xy)$ on $[-1,1]\times[-1,1]$.
 f = chebfun2(@(x,y) cos(2*pi*x.*y)); 
 
@@ -162,14 +162,11 @@ methods chebfun2
 help chebfun2/max2
 
 %% 12.6 Composition of chebfun2 objects
-% So far, in this chapter,
-% chebfun2 objects have been constructed explicitly via a command
-% of the form |chebfun2(...)|. Another way to construct new
-% chebfun2 objects is by composing them together with operations such as 
+% New chebfun2 objects can be constructed from existing ones by 
+% composing them with operations such as 
 % |+|, |-|, |.*|, and |.^|. For example,
-x = chebfun2(@(x,y) x, [-2 3 -4 4]); 
-y = chebfun2(@(x,y) y, [-2 3 -4 4]);   
-
+x = chebfun2(@(x,y) x, [-4 4 -2 2]); 
+y = chebfun2(@(x,y) y, [-4 4 -2 2]);   
 f = 1./( 2 + cos(.25 + x.^2.*y + y.^2) );
 contour(f), axis equal
 
