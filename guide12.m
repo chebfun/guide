@@ -67,8 +67,8 @@ f = chebfun2(@(x,y) cos(2*pi*x.*y));
 %%
 % We could equally well have constructed chebfun2 objects for
 % the variables $x$ and $y$ first and then computed $f$ from these:
-x = chebfun2(@x,y) x); 
-y = chebfun2(@x,y) y); 
+x = chebfun2(@(x,y) x); 
+y = chebfun2(@(x,y) y); 
 f = cos(2*pi*x.*y); 
 
 %%
