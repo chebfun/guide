@@ -1,5 +1,5 @@
 %% 12. Chebfun2: Getting Started
-% Alex Townsend, March 2013, latest revision December 2014
+% Alex Townsend, March 2013, latest revision July 2019
 
 %% 12.1  What is a chebfun2?
 % Chebfun2 is the part of Chebfun that deals with functions of
@@ -126,7 +126,7 @@ plot(fy)
 % following the matrix syntax in MATLAB. Chebfun2 also
 % offers the more easily remembered |diffx(f,k)| and 
 % |diffy(f,k)|, which differentiate $f(x,y)$ $k$ times with respect
-% to the first first and second variable, respectively.
+% to the first and second variable, respectively.
 
 %%
 % What is the mean value of $f$ on $[-1,1]\times[-1,1]$? 
@@ -179,7 +179,7 @@ plot(f)
 % For another example, try `cheb.gallery2('airycomplex')`.
 
 %%
-% At present, since Chebfun2 only represents smooth functions, a trick is
+% Since Chebfun2 only represents smooth functions, a trick is
 % required to draw pictures like these for
 % functions with poles [Trefethen 2013].  
 % For functions with branch points or essential singularities, it is currently
@@ -199,6 +199,9 @@ plot(f)
 % The underlying function representations are related to work by Carvajal, 
 % Chapman and Geddes [Carvajal, Chapman, & Geddes 2008] and others including
 % Bebendorf [Bebendorf 2008], Hackbusch, Khoromskij, Oseledets, and Tyrtyshnikov.
+% For further aspects of low-rank representations see
+% [Trefethen 2017] and [Beckermann and Townsend 2019].
+
 %%
 % Here is an exampled adapted from
 % [Townsend & Trefethen 2013] and `cheb.gallery2('smokering')`.
@@ -235,6 +238,10 @@ end
 % [Bebendorf 2008] M. Bebendorf, _Hierarchical Matrices: A Means to 
 % Efficiently Solve Elliptic Boundary Value Problems_, Springer, 2008.
 %
+% [Beckermann & Townsend 2019] Sylvester,
+% Bounds on the singular values of matrices with displacement structure,
+% _SIAM Rev._ 61 (2019), 319--344.
+%
 % [Carvajal, Chapman, & Geddes 2008] O. A. Carvajal, F. W. Chapman and 
 % K. O. Geddes, "Hybrid symbolic-numeric integration in multiple dimensions 
 % via tensor-product series", _Proceedings of ISSAC'05_, M. Kauers, ed., 
@@ -253,6 +260,9 @@ end
 %
 % [Trefethen 2013] L. N. Trefethen, "Phase Portraits for functions with poles", 
 % http://www.chebfun.org/examples/complex/PortraitsWithPoles.html.
+%
+% [Trefethen 2017] L. N. Trefethen, Cubature, approximation, and isotropy
+% in the hypercube, _SIAM Rev._ 59 (2017), 469--491.
 %
 % [Wegert 2012] E. Wegert, _Visual Complex Functions: An Introduction with
 % Phase Portraits_, Birkhauser/Springer, 2012.
