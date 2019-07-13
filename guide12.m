@@ -57,17 +57,34 @@ max2(f)
 % guide.
 
 %% 12.3 Constructing chebfun2 objects
-% A chebfun2 is constructed by supplying the Chebfun2 constructor with a
-% function handle or string. The default rectangular domain is 
+% A chebfun2 can be constructed by supplying the Chebfun2 constructor with a
+% bivariate function handle or string. The default rectangular domain is 
 % $[-1,1]\times [-1,1]$. (An example showing how to specify a different domain is 
 % given at the end of this chapter.) For example, here we construct and
 % plot a chebfun2 representing $\cos(2\pi xy)$ on $[-1,1]\times[-1,1]$.
 f = chebfun2(@(x,y) cos(2*pi*x.*y)); 
+
+%%
+% We could equally well have constructed chebfun2 objects for
+% the variables $x$ and $y$ first and then computed $f$ from these:
+x = chebfun2(@x,y) x); 
+y = chebfun2(@x,y) y); 
+f = cos(2*pi*x.*y); 
+
+%%
+% There's also a shortcut |cheb.xy| to constructing these objects |x| and |y|,
+% so we could also have executed
+cheb.xy
+f = cos(2*pi*x.*y); 
+
+%%
+% Here is a plot of $f$:
 plot(f), zlim([-2 2])
 
 %% 
-% There are several commands for plotting a chebfun2, including |plot|,
-% |contour|, and |surf|.  Here is a contour plot of $f$:
+% Along with |plot|, there are also commands
+% |contour| and |surf| for displaying a chebfun2.
+% Here is a contour plot of $f$:
 contour(f), axis square
 
 %%
@@ -114,7 +131,9 @@ f(:,pi/6)
 % There are plenty of other questions that may be of interest.  For
 % instance, what are the zero contours of $f(x,y) - .95$? 
 r = roots(f-.95);
-plot(r), axis square, title('Zero contours of f-.95')
+plot(r), axis([-1 1 -1 1])
+axis square, title('Zero contours of f-.95')
+
 
 %%
 % What is the partial derivative $\partial f/\partial y$? 
@@ -152,7 +171,7 @@ x = chebfun2(@(x,y) x, [-2 3 -4 4]);
 y = chebfun2(@(x,y) y, [-2 3 -4 4]);   
 
 f = 1./( 2 + cos(.25 + x.^2.*y + y.^2) );
-contour(f), axis square
+contour(f), axis equal
 
 %% 12.7 Analytic functions
 % An analytic function $f(z)$ can be thought of as a complex-valued 
@@ -213,7 +232,7 @@ plot(f)
 ff = @(x,y) exp(-40*(x.^2 - x.*y + 2*y.^2 - 1/2).^2);
 f = chebfun2(ff);
 levels = 0.1:0.1:0.9;
-contour(f,levels)
+contour(f,levels), axis([-1 1 -1 1]), axis square
 title(['rank ' int2str(length(f))],'fontsize',12)
 
 %%
@@ -225,7 +244,8 @@ levels = 0.2:0.2:0.8;
 clf
 for k = 1:9
     axes('position',[.03+.33*mod(k-1,3) .67-.3*floor((k-1)/3) .28 .28])
-    contour(chebfun2(ff,k),levels,'k'), axis off
+    contour(chebfun2(ff,k),levels,'k')
+    xlim([-1 1]), axis equal, axis off
 end
 
 %%
