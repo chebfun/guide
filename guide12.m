@@ -23,8 +23,8 @@ f = cheb.gallery2('peaks');
 plot(f), axis tight, title('Chebfun2 Peaks')
 
 %%
-% Of course in Chebfun we can do all sorts of things with
-% functions to high accuracy, such as evaluate them
+% In Chebfun we can do all sorts of things with
+% functions to a high accuracy, such as evaluate them
 f(0.5,0.5)
 
 %%
@@ -219,7 +219,7 @@ plot(f)
 % [Trefethen 2017] and [Beckermann and Townsend 2019].
 
 %%
-% Here is an exampled adapted from
+% Here is an example adapted from
 % [Townsend & Trefethen 2013] and `cheb.gallery2('smokering')`.
 % The function 
 % $$ f(x,y) = \exp( -40(x^2-xy+2y^2 - 1/2)^2) $$
@@ -255,8 +255,8 @@ end
 % [Bebendorf 2008] M. Bebendorf, _Hierarchical Matrices: A Means to 
 % Efficiently Solve Elliptic Boundary Value Problems_, Springer, 2008.
 %
-% [Beckermann & Townsend 2019] Sylvester,
-% Bounds on the singular values of matrices with displacement structure,
+% [Beckermann & Townsend 2019] "Bounds on the singular values of matrices 
+% with displacement structure",
 % _SIAM Rev._ 61 (2019), 319--344.
 %
 % [Carvajal, Chapman, & Geddes 2008] O. A. Carvajal, F. W. Chapman and 
@@ -278,8 +278,8 @@ end
 % [Trefethen 2013] L. N. Trefethen, "Phase Portraits for functions with poles", 
 % http://www.chebfun.org/examples/complex/PortraitsWithPoles.html.
 %
-% [Trefethen 2017] L. N. Trefethen, Cubature, approximation, and isotropy
-% in the hypercube, _SIAM Rev._ 59 (2017), 469--491.
+% [Trefethen 2017] L. N. Trefethen, "Cubature, approximation, and isotropy
+% in the hypercube", _SIAM Rev._ 59 (2017), 469--491.
 %
 % [Wegert 2012] E. Wegert, _Visual Complex Functions: An Introduction with
 % Phase Portraits_, Birkhauser/Springer, 2012.
