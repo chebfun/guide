@@ -453,7 +453,7 @@ chebfunpref.setDefaults({'cheb2Prefs','maxRank'},1024);
 
 %%
 % For changing the Chebfun2 tolerance one can do this:
-chebfun2eps = 1e-6;
+chebfun2eps 1e-6
 
 %%
 % Let us undo this change:
