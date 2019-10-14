@@ -33,7 +33,7 @@ sum(sum(f))
 % MATLAB |integral2| command.
 F = @(x,y) exp(-(x.^2 + y.^2 + cos(4*x.*y))); 
 tol = 3e-14; 
-tic, I = integral2(F,-1,1,-1,1,'AbsTol',tol); t = toc;
+tic, I = integral2(F,-1,1,-1,1,'AbsTol',tol,'RelTol',tol); t = toc;
 fprintf('      INTEGRAL2:  I = %17.15f  time = %6.4f secs\n',I,t)
 tic, I = sum(sum(chebfun2(F))); t = toc;
 fprintf('CHEBFUN2/SUMSUM:  I = %17.15f  time = %6.4f secs\n',I,t)
