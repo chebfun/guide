@@ -186,7 +186,7 @@ f = @(x,y,z) sin(5*(t(x,y,z) - r(x,y,z))) .* sin(p(x,y,z)).^2;
 I = @(z) sum2(chebfun2(@(x,y) f(x,y,z),[-2 2 .5 2.5]));
 tic, I = sum(chebfun(@(z) I(z),[1 2],'vectorize')); t = toc;
 fprintf('          Chebfun2:  I = %16.14f  time = %5.3f secs\n',I,t)
-tic, I = integral3(f,-2,2,.5,2.5,1,2); t = toc;
+tic, I = integral3(f,-2,2,.5,2.5,1,2,'abstol',3e-14,'reltol',3e-14); t = toc;
 fprintf('  MATLAB integral3:  I = %16.14f  time = %5.3f secs\n',I,t)
 
 %%
