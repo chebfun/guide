@@ -1,5 +1,5 @@
 %% 13. Chebfun2: Integration and Differentiation
-% Alex Townsend, March 2013, latest revision December 2014
+% Alex Townsend, March 2013, latest revision October 2019
  
 %% 13.1 |sum| and |sum2|
 % We have already seen the |sum2| command, which returns the definite double
@@ -15,8 +15,7 @@ sum(f)
 % A chebfun is returned because the result depends on $x$ and hence is a 
 % function of one variable.  Similarly, we can integrate over the
 % $x$ variable and plot the result. 
-LW = 'linewidth';
-sum(f,2), plot(sum(f,2),LW,1.6) 
+sum(f,2), plot(sum(f,2)) 
 
 %% 
 % A closer look reveals that |sum(f)| returns a row
@@ -30,16 +29,16 @@ sum(sum(f))
 %% 
 % It is interesting to compare the execution times involved for
 % computing the double integral by different commands.  Chebfun2 does very 
-% well for smooth functions. Here we see an example in which it is faster
-% than the MATLAB |quad2d| command.
+% well for smooth functions, with times comparable to those of the
+% MATLAB |quad2d| command.
 F = @(x,y) exp(-(x.^2 + y.^2 + cos(4*x.*y))); 
 tol = 3e-14; 
 tic, I = quad2d(F,-1,1,-1,1,'AbsTol',tol); t = toc;
-fprintf('QUAD2D:  I = %17.15f  time = %6.4f secs\n',I,t)
+fprintf('         QUAD2D:  I = %17.15f  time = %6.4f secs\n',I,t)
 tic, I = sum(sum(chebfun2(F))); t = toc;
 fprintf('CHEBFUN2/SUMSUM:  I = %17.15f  time = %6.4f secs\n',I,t)
 tic, I = sum2(chebfun2(F)); t = toc;
-fprintf('CHEBFUN2/SUM2:  I = %17.15f  time = %6.4f secs\n',I,t)
+fprintf('  CHEBFUN2/SUM2:  I = %17.15f  time = %6.4f secs\n',I,t)
 
 %% 
 % Chebfun2 is not designed specifically for numerical quadrature (or
@@ -48,7 +47,7 @@ fprintf('CHEBFUN2/SUM2:  I = %17.15f  time = %6.4f secs\n',I,t)
 % Low rank function approximations have been previously used for numerical
 % quadrature by Carvajal, Chapman, and Geddes [Carvajal, Chapman & Geddes
 % 2005].  A cubature package CHEBINT based on Chebyshev approximations
-% has been produced by Poppe and Cools [Poppe & Cools 2011].
+% has been produced by Poppe and Cools [Poppe & Cools 2013].
 
 %% 13.2 |norm|, |mean|, and |mean2|
 % The $L^2$-norm of a function $f(x,y)$ can be computed as the square root of the 
@@ -64,10 +63,7 @@ f = chebfun2(@(x,y) exp(-1./( sin(x.*y) + x ).^2));
 norm(f), norm( cos(f) ), norm( f.^5 )
 %% 
 % The command |mean2| scales the result of |sum2| to return
-% the mean value of $f$ over the rectangle of definition:
-help chebfun2/mean2
-
-%%
+% the mean value of $f$ over the rectangle of definition.
 % For example, here is the average value of a 2D Runge function. 
 runge = chebfun2( @(x,y) 1./( .01 + x.^2 + y.^2 )) ;  
 plot(runge)
@@ -77,7 +73,7 @@ mean2(runge)
 % The command |mean| computes 
 % the average along one variable.  The output is a
 % function of one variable represented by a chebfun, so we can plot it.
-plot(mean(runge),LW,1.6)
+plot(mean(runge))
 title('Mean value of 2D Runge function wrt y')
 
 %%
@@ -89,16 +85,13 @@ mean(mean(runge))
 %% 13.3 |cumsum| and |cumsum2|
 % The command |cumsum2| computes the double indefinite integral, which is a
 % function of two variables, and returns a chebfun2. 
-help chebfun2/cumsum2
-
-%% 
 % On the other hand, |cumsum(f)| computes the indefinite integral 
 % with respect to just one variable, also returning a chebfun2.
 % The indefinite integral with respect to $y$ and then
 % $x$ is the same as the double indefinite
 % integral, as we can check numerically. 
 f = chebfun2(@(x,y) sin(3*((x+1).^2+(y+1).^2)));
-contour(cumsum2(f),'numpts',400), axis equal
+contour(cumsum2(f)), axis equal
 title('Contours of cumsum2(f)'), axis([-1 1 -1 1])
 norm( cumsum(cumsum(f),2) - cumsum2(f) ) 
 
@@ -115,9 +108,9 @@ c = chebfun(@(t) cos(t)+1i*sin(t),d);  % one complex function
 
 %%
 % Here are two ways to make a plot of a circle.
-subplot(1,2,1), plot(c1,c2,LW,1.6)
+subplot(1,2,1), plot(c1,c2)
 axis equal, title('Two real-valued functions')
-subplot(1,2,2), plot(c,LW,1.6)
+subplot(1,2,2), plot(c)
 axis equal, title('One complex-valued function')
 
 %%
@@ -135,15 +128,15 @@ axis equal, title('One complex-valued function')
 
 %% 13.5 Integration along curves
 % Chebfun2 can compute the integral of $f(x,y)$ along a curve $(x(t),y(t))$. 
-% It uses the complex encoding trick and encode the curve $(x(t),y(t))$ 
+% It uses the complex encoding trick and encodes the curve $(x(t),y(t))$ 
 % as a complex valued chebfun $x(t) + iy(t)$.
 
 %%
 % For example, here is the curve 
 % in the unit square defined by $\exp(10 it)$, $t\in[0,1]$. 
 clf
-C = chebfun(@(t) t.*exp(10i*t),[0 1]);         
-plot(C,'k',LW,2), axis([-1 1 -1 1]), axis square
+C = chebfun(@(t) t*exp(10i*t),[0 1]);         
+plot(C,'k'), axis([-1 1 -1 1]), axis square
 
 %%
 % Here is a plot of the function 
@@ -151,7 +144,7 @@ plot(C,'k',LW,2), axis([-1 1 -1 1]), axis square
 % with the values of $f(x,y)$ on the curve $C$ shown in black:
 f = chebfun2(@(x,y) cos(10*x.*y.^2) + exp(-x.^2));
 plot(f), hold on 
-plot3(real(C),imag(C),f(C),'k',LW,2)
+plot3(real(C),imag(C),f(C),'k')
 
 %%
 % The object $|f(C)|$ is just a real-valued function defined
@@ -171,19 +164,14 @@ sum(f(C))
 %%
 % As pointed out in the last chapter, however, this can be rather
 % confusing.  Accordingly Chebfun2 offers the alternatives
-% |diffx| and |diffy| with more obvious meaning.  Here
-% for example is the syntax of |diffx|:
-
-help chebfun2/diffx
-
-%%
+% |diffx| and |diffy| with more obvious meaning.  
 % Here we use |diffx| and |diffy|
 % to check that the Cauchy-Riemann equations hold for an 
 % analytic function. 
 f = chebfun2(@(x,y) sin(x+1i*y));   % a holomorphic function
 u = real(f); v = imag(f);           % real and imaginary parts
 norm(diffy(v) - diffx(u))      
-norm(diffx(v) + diffy(u))         % Do the Cauchy-Riemann eqns hold?
+norm(diffx(v) + diffy(u))           % Do the Cauchy-Riemann eqs hold?
 
 %% 13.7 Integration in three variables 
 % Chebfun2 also works pretty well for integration in three variables.
@@ -201,6 +189,11 @@ fprintf('          Chebfun2:  I = %16.14f  time = %5.3f secs\n',I,t)
 tic, I = integral3(f,-2,2,.5,2.5,1,2); t = toc;
 fprintf('  MATLAB integral3:  I = %16.14f  time = %5.3f secs\n',I,t)
 
+%%
+% We can also do the integral with Chebfun3 -- see Chapter 18:
+tic, f3 = chebfun3(f,[-2 2 .5 2.5 1 2]); I = sum3(f3); t = toc;
+fprintf('          Chebfun3:  I = %16.14f  time = %5.3f secs\n',I,t)
+
 %% 13.8 References
 %
 % [Carvajal, Chapman & Geddes 2005] O. A. Carvajal, F. W. Chapman and 
@@ -208,6 +201,7 @@ fprintf('  MATLAB integral3:  I = %16.14f  time = %5.3f secs\n',I,t)
 % via tensor-product series", _Proceedings of ISSAC'05_, M. Kauers, ed., 
 % ACM Press, 2005, pp. 84--91.
 %
-% [Poppe & Cools 2011] K. Poppe and R. Cools, "CHEBINT: operations
-% on multivariate Chebyshev approximations",
-% http://nines.cs.kuleuven.be/software/CHEBINT/.
+% [Poppe & Cools 2013] K. Poppe and R. Cools, "CHEBINT: a MATLAB/Octave
+% toolbox for fast multivariate integration and
+% interpolation based on Chebyshev approximations over
+% hypercubes," ACM Trans. Math. Softw., 40 (2013), 2.
