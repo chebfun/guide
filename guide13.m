@@ -30,11 +30,11 @@ sum(sum(f))
 % It is interesting to compare the execution times involved for
 % computing the double integral by different commands.  Chebfun2 does very 
 % well for smooth functions, with times comparable to those of the
-% MATLAB |quad2d| command.
+% MATLAB |integral2| command.
 F = @(x,y) exp(-(x.^2 + y.^2 + cos(4*x.*y))); 
 tol = 3e-14; 
-tic, I = quad2d(F,-1,1,-1,1,'AbsTol',tol); t = toc;
-fprintf('         QUAD2D:  I = %17.15f  time = %6.4f secs\n',I,t)
+tic, I = integral2(F,-1,1,-1,1,'AbsTol',tol); t = toc;
+fprintf('      INTEGRAL2:  I = %17.15f  time = %6.4f secs\n',I,t)
 tic, I = sum(sum(chebfun2(F))); t = toc;
 fprintf('CHEBFUN2/SUMSUM:  I = %17.15f  time = %6.4f secs\n',I,t)
 tic, I = sum2(chebfun2(F)); t = toc;
