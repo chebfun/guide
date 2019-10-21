@@ -1,13 +1,12 @@
 %% 14. Chebfun2: Rootfinding and Optimisation
-% Alex Townsend, March 2013, latest revision Octrober 2019
+% Alex Townsend, March 2013, latest revision October 2019
 
 %% 14.1 Zero contours of a bivariate function: |roots|
 % The Chebfun2 |roots| command can compute the zero contours of a
 % function of two variables. For example, here we compute the zero contours
-% of a representation
 % of Trott's curve, an example from algebraic geometry [Trott 1997].
 cheb.xy;
-trott = 144*(x.^4+y.^4)-225*(x.^2+y.^2) + 350*x.^2.*y.^2+81;
+trott = 144*(x.^4+y.^4) - 225*(x.^2+y.^2) + 350*x.^2.*y.^2 + 81;
 r = roots(trott);
 plot(r), axis([-1 1 -1 1]), axis square
 
@@ -38,7 +37,7 @@ exact_perimeter = pi
 %%
 % For example, which points on Trott's curve intersect the circle of radius $0.9$?
 g = x.^2 + y.^2 - .9^2;
-r = roots(trott,g); 
+r = roots(trott,g)
 plot(roots(trott),'b'), hold on
 plot(roots(g),'r')
 MS = 'markersize';
@@ -74,7 +73,7 @@ hold off
 
 %% 14.4 Global optimisation: |max2|, |min2|, and |minandmax2|
 % Chebfun2 also provides functionality for global optimisation. Here is
-% an example, where we plot the minimum and maximum as red dots.
+% an example where we plot the minimum and maximum as red dots.
 f = sin(30*x.*y) + sin(10*y.*x.^2) + exp(-x.^2-(y-.8).^2);
 [mn mnloc] = min2(f); 
 [mx mxloc] = max2(f); 
