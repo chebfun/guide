@@ -151,7 +151,7 @@ r = roots( f-0.5 );
 % Here is a plot of these contours on the surface of the sphere together with the 
 % function $f$
 % </latex>
-plot( f ), colorbar, hold on,
+plot( f ), colorbar, hold on
 for k = 1 : size(r, 1)
      plot3( r{k}(:,1), r{k}(:,2), r{k}(:,3), 'k-' , 'linewidth', 2 )
 end
@@ -203,7 +203,7 @@ snapnow
 %%
 % The surface Laplacian of |f| is 
 lapf = laplacian( f );
-clf, plot( lapf )
+plot( lapf )
 
 %%
 % Finally, as with chebfun and chebfun2 objects, we can add, subtract,
@@ -317,7 +317,7 @@ f = spherefun( @(x,y,z) cos(cosh(5*x.*z)-10*y) )
 % the function is sampled during the construction process can be visualized
 % using
 % </latex>
-plot( f ), title('f'), view([-105 10]), snapnow, clf
+plot( f ), title('f'), view([-105 10]), snapnow
 plot( f, '.-', MS, 20 ), view([-105 10])
 title('Skeleton used for constructing f')
 
@@ -338,7 +338,7 @@ ylim([1e-20 1e2])
 X = coeffs2( f );
 [ m, n ] = length( f );
 [mm, nn] = meshgrid( -floor(m/2):ceil(m/2)-1, -floor(n/2):ceil(n/2)-1);
-clf, surf( mm, nn, log10( abs( X ) ) ), axis tight
+surf( mm, nn, log10( abs( X ) ) ), axis tight
 title('Bivariate Fourier coefficients') 
 xlabel('k'), ylabel('j')
 
@@ -357,7 +357,7 @@ xlabel('k'), ylabel('j')
 % pole to illustrate the full clustering of the tensor product method (a
 % similar picture results for the north pole).
 % </latex>
-clf, plot( f, '-' ), view( [0 -90] )
+plot( f, '-' ), view( [0 -90] )
 title('Low rank function samples'), snapnow
 
 [ m, n ] = length( f );
@@ -365,7 +365,7 @@ title('Low rank function samples'), snapnow
 XX = cos(LL).*sin(TT); 
 YY = sin(LL).*sin(TT); 
 ZZ = cos(TT);
-clf, surf(XX, YY, ZZ, 1+0*XX, 'FaceColor', [1 1 0.8], 'EdgeColor', [0 0 1])
+surf(XX, YY, ZZ, 1+0*XX, 'FaceColor', [1 1 0.8], 'EdgeColor', [0 0 1])
 view([0 -90]), axis([-1 1 -1 1 -1 1]), axis equal, 
 title('Tensor product function samples')
 
@@ -491,7 +491,8 @@ plot( u )
 %% 17.6 Filtering
 % Low-pass isotropic filtering for functions on the sphere can be performed
 % using the command |gaussfilt|.
-% For example, here is a smooth random spherefun:
+% For example, here is a smooth random spherefun, which we plot in zebra mode,
+% which positive values white and negative values black:
 rng(1), f = randnfunsphere(.1);
 plot(f,'zebra'), colorbar
 
@@ -517,7 +518,7 @@ plot(ff,'zebra'), colorbar
 % gradient of a spherefun returns a spherefunv object:
 f = spherefun.sphharm(6,0) + sqrt(14/11)*spherefun.sphharm(6,5);
 g = grad( f );
-clf, plot( f ), hold on
+plot( f ), hold on
 quiver( g ), hold off
 
 %%
