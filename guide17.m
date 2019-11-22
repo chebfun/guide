@@ -110,7 +110,7 @@ sum2( f )
 
 %%
 % <latex>
-% This matches the exact value of $216\pi/35$ to 16 digits
+% This matches the exact value of $216\pi/35$ to 15 digits
 % </latex>
 abs( sum2( f ) - 216*pi/35 )
 
@@ -491,18 +491,14 @@ plot( u )
 %% 17.6 Filtering
 % Low-pass isotropic filtering for functions on the sphere can be performed
 % using the command |gaussfilt|.
-% For example, consider the spherefun constructed from
-% random data on the sphere, given on a $101$-by-$200$ equally spaced grid 
-% of points in spherical coordinates
-rng(71)
-F = randn(101,200); F(1,:) = mean(F(1,:)); F(101,:) = mean(F(101,:));
-f = spherefun(F);
-plot(f), colorbar
+% For example, here is a smooth random spherefun:
+rng(1), f = randnfunsphere(.1);
+plot(f,'zebra'), colorbar
 
 %%
-% We can smooth |f| as follows:
-ff = gaussfilt(f, 180*pi/180);
-plot(ff), colorbar
+% We can smooth |f| with a spatial scale of 0.3 like this:
+ff = gaussfilt(f, 0.3);
+plot(ff,'zebra'), colorbar
 
 %%
 % Mathematically, the |gaussfilt| command amounts
