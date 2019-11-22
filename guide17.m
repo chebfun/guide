@@ -338,7 +338,7 @@ ylim([1e-20 1e2])
 X = coeffs2( f );
 [ m, n ] = length( f );
 [mm, nn] = meshgrid( -floor(m/2):ceil(m/2)-1, -floor(n/2):ceil(n/2)-1);
-surf( mm, nn, log10( abs( X ) ) ), axis tight
+clf, surf( mm, nn, log10( abs( X ) ) ), axis tight
 title('Bivariate Fourier coefficients') 
 xlabel('k'), ylabel('j')
 
