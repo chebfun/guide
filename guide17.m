@@ -357,7 +357,7 @@ xlabel('k'), ylabel('j')
 % pole to illustrate the full clustering of the tensor product method (a
 % similar picture results for the north pole).
 % </latex>
-plot( f, '-' ), view( [0 -90] )
+clf, plot( f, '-' ), view( [0 -90] )
 title('Low rank function samples'), snapnow
 
 [ m, n ] = length( f );
@@ -497,8 +497,8 @@ rng(1), f = randnfunsphere(.1);
 plot(f,'zebra'), colorbar
 
 %%
-% We can smooth |f| with a spatial scale of 0.1 like this:
-ff = gaussfilt(f, 0.1);
+% We can smooth |f| a little with a spatial scale of 0.05 like this:
+ff = gaussfilt(f, 0.05);
 plot(ff,'zebra'), colorbar
 
 %%
