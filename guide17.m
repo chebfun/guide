@@ -365,8 +365,8 @@ title('Low rank function samples'), snapnow
 XX = cos(LL).*sin(TT); 
 YY = sin(LL).*sin(TT); 
 ZZ = cos(TT);
-surf(XX, YY, ZZ, 1+0*XX, 'FaceColor', [1 1 0.8], 'EdgeColor', [0 0 1])
-view([0 -90]), axis([-1 1 -1 1 -1 1]), axis equal, 
+clf, surf(XX, YY, ZZ, 1+0*XX, 'FaceColor', [1 1 0.8], 'EdgeColor', [0 0 1])
+view([0 -90]), axis([-1 1 -1 1 -1 1]), axis equal
 title('Tensor product function samples')
 
 %%
@@ -497,8 +497,8 @@ rng(1), f = randnfunsphere(.1);
 plot(f,'zebra'), colorbar
 
 %%
-% We can smooth |f| with a spatial scale of 0.3 like this:
-ff = gaussfilt(f, 0.3);
+% We can smooth |f| with a spatial scale of 0.1 like this:
+ff = gaussfilt(f, 0.1);
 plot(ff,'zebra'), colorbar
 
 %%
