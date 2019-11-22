@@ -148,14 +148,16 @@ r = roots( f-0.5 );
 
 %%
 % <latex>
-% Here is a plot of these contours on the surface of the sphere together with the 
-% function $f$
+% Here is a plot of these contours on the surface
+% of the sphere together with the function $f$.  From now
+% one we usually turn off the axes, since it is clear where
+% the sphere lies.
 % </latex>
 plot( f ), colorbar, hold on
 for k = 1 : size(r, 1)
      plot3( r{k}(:,1), r{k}(:,2), r{k}(:,3), 'k-' , 'linewidth', 2 )
 end
-hold off
+hold off, axis off
 
 %%
 % <latex>
@@ -163,14 +165,14 @@ hold off
 % `contour` function.  Here are the contours of $f$ from $-2$ to $2$ in
 % increments of $0.25$
 % </latex>
-contour(f,-2:0.25:2)
+contour(f,-2:0.25:2), axis off
 
 %%
 % <latex>
 % The landmasses of earth can be added to this, or any other plot of a 
 % spherefun, as follows:
 % </latex>
-hold on, spherefun.plotEarth('k-'), hold off, view([45 20])
+hold on, spherefun.plotEarth('k-'), hold off, view([45 20]), axis off
 
 %% 
 % <latex>
@@ -193,29 +195,28 @@ hold on, spherefun.plotEarth('k-'), hold off, view([45 20])
 % The |diff| method is used to compute these derivatives.  For example,
 % the $x$ and $z$ components of the surface gradient of |f| are
 dfdx = diff( f, 1 );
-plot( dfdx ), title( 'x-component of the surface gradient')
+plot( dfdx ), title( 'x-component of the surface gradient'), axis off
 snapnow
 
 dfdz = diff( f, 3 );
-plot(dfdz), title( 'z-component of the surface gradient')
-snapnow
+plot(dfdz), title( 'z-component of the surface gradient'), axis off
 
 %%
 % The surface Laplacian of |f| is 
 lapf = laplacian( f );
-plot( lapf )
+plot( lapf ), axis off
 
 %%
 % Finally, as with chebfun and chebfun2 objects, we can add, subtract,
 % and multiply simple spherefuns together.
 g = spherefun( @(l,t) 2*cos(10*cos(l-0.25).*cos(l).*(sin(t).*cos(t)).^2) ); 
-plot( g ), title('g'), snapnow
+plot( g ), title('g'), axis off, snapnow
 h = f + g; 
-plot( h ), title('f + g'), snapnow
+plot( h ), title('f + g'), axis off, snapnow
 h = f - g;
-plot( h ), title('f - g'), snapnow
+plot( h ), title('f - g'), axis off, snapnow
 h = f.*g;
-plot( h ), title('f x g'), snapnow
+plot( h ), title('f x g'), axis off
 
 %%
 % For a complete list of methods available for spherefuns, type `methods
@@ -317,9 +318,9 @@ f = spherefun( @(x,y,z) cos(cosh(5*x.*z)-10*y) )
 % the function is sampled during the construction process can be visualized
 % using
 % </latex>
-plot( f ), title('f'), view([-105 10]), snapnow
+plot( f ), title('f'), view([-105 10]), axis off, snapnow
 plot( f, '.-', MS, 20 ), view([-105 10])
-title('Skeleton used for constructing f')
+title('Skeleton used for constructing f'), axis off
 
 %%
 % <latex>
@@ -379,7 +380,7 @@ title('Tensor product function samples')
 % approximant, 
 % </latex>
 f18 = spherefun( @(x,y,z) cos(cosh(5*x.*z)-10*y), 18 )
-plot(f18)
+plot(f18), axis off
 
 %%
 % Visually, this representation is identical to $f$, but this approximant
@@ -440,8 +441,8 @@ Y = spherefun.sphharm(6, -3);
 % of the surface Laplacian (in this case with eigenvalue $-6\times 7 =
 % -42$)
 % </latex>
-plot( -42*Y ), title('-30Y_{6}^{-3}'), snapnow
-plot( laplacian( Y ) ), title('\Delta Y_{6}^{-3}'), snapnow
+plot( -42*Y ), title('-30Y_{6}^{-3}'), axis off, snapnow
+plot( laplacian( Y ) ), title('\Delta Y_{6}^{-3}'), axis off
 norm( Y - (-1/42)*laplacian( Y ), inf)
 
 %%
@@ -482,7 +483,7 @@ norm( u - -(1/42)*f, inf )
 % </latex>
 f = spherefun( @(x,y,z) sin(100*x.*y.*z) );  % forcing term
 u = spherefun.poisson(f, 1, 1000, 1000);     % fast Poisson solver 
-plot( u )
+plot( u ), axis off
 
 %%
 % See [Townsend, Wilber, & Wright 2015] for a description of the fast 
@@ -494,12 +495,12 @@ plot( u )
 % For example, here is a smooth random spherefun, which we plot in zebra mode,
 % which positive values white and negative values black:
 rng(1), f = randnfunsphere(.1);
-plot(f,'zebra'), colorbar
+plot(f,'zebra'), axis off, colorbar
 
 %%
 % We can smooth |f| a little with a spatial scale of 0.05 like this:
 ff = gaussfilt(f, 0.05);
-plot(ff,'zebra'), colorbar
+plot(ff,'zebra'), axis off, colorbar
 
 %%
 % Mathematically, the |gaussfilt| command amounts
@@ -518,7 +519,7 @@ plot(ff,'zebra'), colorbar
 % gradient of a spherefun returns a spherefunv object:
 f = spherefun.sphharm(6,0) + sqrt(14/11)*spherefun.sphharm(6,5);
 g = grad( f );
-plot( f ), hold on
+plot( f ), axis off, hold on
 quiver( g ), hold off
 
 %%
@@ -544,12 +545,12 @@ psi = spherefun( @(lam,th) -cos(th) + cos(th).*sin(th).^4.*cos(4*lam) );
 % The surface curl of $\psi$ gives a field that is tangent to the level 
 % curves of $\psi$.
 u = curl( psi );
-plot( psi ), hold on, quiver( u ), hold off
+plot( psi ), hold on, quiver( u ), axis off, hold off
 
 %%
 % The vorticity represents the local spinning motion of the field.
 omega = vorticity( u );
-plot( omega ), hold on, quiver( u ), hold off
+plot( omega ), hold on, quiver( u ), axis off, hold off
 
 %%
 % The divergence of the field is
