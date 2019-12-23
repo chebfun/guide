@@ -124,18 +124,12 @@ contour(g, 'Linewidth', 1.2), hold on, axis off
 contour(g, [0 0], '-k', 'Linewidth', 2), hold off
 %%
 % The roots of a function (1D contours) can also be found explicitly. 
-% The contours are stored as a cell array of 
-% chebfuns. Each cell consists of an array-valued chebfun that parametrizes 
-% the $x$ and $y$ coordinates of the contour.  (This syntax is different
-% from that of Chebfun2.)
+% Following the pattern of Chebfun2,
+% the contours are stored as complex-valued chebfuns.
 %%
 r = roots(g);
-plot(g), hold on
-for j = 1:length(r)
-    rj = r{j};
-    plot(r{j}(:,1), r{j}(:,2), '-k', LW, 2)
-end
-colorbar, axis off, hold off
+plot(g),  colorbar, hold on
+plot(r,'k',LW,2), axis off, hold off
 %%
 % One can also perform calculus on diskfuns. For instance, the integral of 
 % the function $g(x,y) = -x^2 - 3xy-(y-1)^2$ over the unit disk can be 
