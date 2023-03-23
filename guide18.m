@@ -1,10 +1,11 @@
 %% 18. Chebfun3
-% Behnam Hashemi and Nick Trefethen, June 2016
+% Behnam Hashemi and Nick Trefethen, June 2016, latest revision March 2023
 
 %% 18.1.  Introduction
-% The Chebfun project began in 2003, and Chebfun2, for 2D functions, was first
-% released in 2013. Chebfun3, for 3D functions, was created by Behnam
-% Hashemi.
+% The Chebfun project began in 2003, and Chebfun2, for 2D functions, was
+% released in 2013 [Townsend & Trefethen 2013b].
+% Chebfun3, for 3D functions, was created by Behnam
+% Hashemi three years later [Hashemi & Trefethen 2017].
 
 %%
 % Chebfun3 aims to compute with functions in a 3D box
@@ -21,15 +22,15 @@
 f = chebfun3(@(x,y,z) 1./(1+x.^2+y.^2+z.^2));
 
 %% 
-% (Another way to make $f$ would be to execute `cheb.xyz` to make chebfun3
+% (Another way to construct $f$ would be to execute |cheb.xyz| to make chebfun3
 % objects for $x$, $y$, and $z$, and then set |f = 1./(1+x.^2+y.^2+z.^2)|.
-% Yet another way to make it would be to type
-% |f = cheb.gallery3('runge')|.)
+% Another would be to type |f = chebfun3('1./(1+x.^2+y.^2+z.^2)')|.
+% Yet another would be to type |f = cheb.gallery3('runge')|.)
 % At $(0, 0.5, 0.5)$, $f$ takes the value $2/3$:
 format long, f(0, 0.5, 0.5)
 
 %%
-% The triple integral over the whole cube is computed by `sum3`,
+% The triple integral over the whole cube is computed by |sum3|,
 sum3(f)
 
 %% 
@@ -46,14 +47,13 @@ mean3(f)
 max3(f)
 
 %%
-% One of the main Chebfun3 plotting commands is `slice`, which by default
+% One of the main Chebfun3 plotting commands is |slice|, which by default
 % shows the function on various slices in the three directions. Note the
-% sliders enabling users to adjust slice positions interactively. (These
-% may not work in older versions of MATLAB.)
+% sliders enabling users to adjust slice positions interactively.
 slice(f)
 
 %%
-% Another plotting capability is `isosurface` which, by default, plots 
+% Another plotting capability is |isosurface| which, by default, plots 
 % an isosurfaces with a slider.
 clf, isosurface(f), axis equal
 
@@ -63,10 +63,10 @@ clf, isosurface(f), axis equal
 
 %%
 % So far, there are about 100 methods that can be applied to chebfun3 objects. For a
-% complete list type `methods chebfun3`.
+% complete list type |methods chebfun3|.
 % (By the way, notice that in print we use the plural form "chebfun3 objects",
 % because the expression "chebfun3s" could be confusing, though informally
-% in conversation we speak of "chebfun3's".)
+% in conversation we may speak of "chebfun3's".)
 
 %% 18.2. Anatomy of a chebfun3
 % First, a quick reminder. In 1D, Chebfun represents functions by
@@ -91,7 +91,7 @@ clf, isosurface(f), axis equal
 % ideas in the literature. (This "literature" is mostly about discrete
 % tensors rather than multivariate functions [Bebendorf 2011], but one 
 % paper about functions worthy of note is 
-% [Gorodetsky, Karaman and Marzouk 2015].)  Thus we faced some fundamental 
+% [Gorodetsky, Karaman and Marzouk 2019].)  Thus we faced some fundamental 
 % decisions in the design of Chebfun3, and along the way we explored a 
 % number of different possibilities, ranging from a straightforward 3D 
 % tensor product to various compressed-rank representations.
@@ -106,7 +106,7 @@ clf, isosurface(f), axis equal
 % are positive integers whose size might typically be 10 or 50 for
 % the functions that Chebfun3 can efficiently represent.  These
 % three quasimatrices are combined in a product with coefficients
-% specified by an $r_1\times r_2\times r_3$ _core tensor_ called `core`.  
+% specified by an $r_1\times r_2\times r_3$ _core tensor_ called |core|.  
 % In short, we write:
 % $$ f(x,y,z) \approx core \times_1 c(x) \times_2 r(y) \times_3
 % t(z), $$ or more fully:
@@ -115,7 +115,7 @@ clf, isosurface(f), axis equal
 
 %%
 % We can get some information about the Tucker representation of
-% our 3D Runge function $f$ by typing `f` without a semicolon:
+% our 3D Runge function $f$ by typing |f| without a semicolon:
 f
 
 %%
@@ -124,14 +124,15 @@ f
 f = chebfun3(@(x,y,z) exp(x))
 
 %%
-% From this output we see that $f$ has rank 1 in some sense
-% (the word "rank" has no unique definition for 3D representations).
-% To be precise, the core tensor in this case only needs to
+% From this output we see that $f$ has rank 1 in some sense.
+% The word "rank" has no unique definition for 3D representations; in
+% Chebfun3, it is the largest dimension of the core tensor.
+% In this case the core tensor only needs to
 % be a $1\times 1\times 1$ scalar, and the same would apply
 % for any function that depends on just one of $x$, $y$, and $z$.
 % The "length" field of the output tells us what degree polynomial
 % is used to capture the dependencies in the three directions; this
-% information can also be obtained by calling the `length` method:
+% information can also be obtained by calling the |length| method:
 [m, n, p] = length(f)
 
 %%
@@ -166,16 +167,10 @@ clf, plotcoeffs(f, '.-')
 %%
 % These explorations give an idea of what a chebfun3 looks like.
 % However, they don't explain how the system constructs such an
-% object.  We will not give details here; a paper is in preparation 
-% [Hashemi & Trefethen 2016]. Very briefly, we use what we call a "slice 
-% decomposition" as an intermediate step: chebfun3 constructs a sum in which
-% each term can be thought of as a product of a chebfun in one direction
-% with a chebfun2 in 
-% the other two directions. (For efficiency, Chebfun3 does not actually 
-% construct chebfun and chebfun2 objects at this stage.) Thus the 
-% construction process does not treat $x$, $y$, and $z$ exactly 
-% symmetrically.  At the end, however, the constructed representation is 
-% converted to the Tucker form described above.
+% object.  We will not give details here; see 
+% [Dolgov, Kressner, and Str&ouml;ssner 2021] for the current algorithm
+% and [Hashemi & Trefethen 2017] for the original one, which can be
+% invoked by calling the |chebfun3| constructor with the flag |'classic'|.
 
 %% 18.3.  Computing with chebfun3 objects
 % Of course, Chebfun is all about computing with functions, not
@@ -200,13 +195,13 @@ max3(f.*g)
 sum3(f.*exp(g))
 
 %%
-% If we execute just `sum`, it integrates over just one
+% If we execute just |sum|, it integrates over just one
 % dimension, by default $x$, so the output is a 2D function, i.e.,
 % a chebfun2:
 close all, contourf(sum(f),20), colorbar
 
 %%
-% There is also a `sum2` command for integration over two
+% There is also a |sum2| command for integration over two
 % dimensions, by default $x$ and $y$, giving as output a
 % 1D function, i.e., a chebfun:
 plot(sum2(exp(g+2*f)))  
@@ -222,7 +217,7 @@ exact = -sqrt(1+(8*pi)^2)/(8*pi)
 %% 18.4. Getting inside a chebfun3
 % Suppose $f$ is a chebfun3.
 % We can examine its columns, rows, and tubes by executing
-% `f.cols`, `f.rows`, and `f.tubes`.  For example, let us look at the
+% |f.cols|, |f.rows|, and |f.tubes|.  For example, let us look at the
 % columns associated with the chebfun3 $g$ just considered.
 % This is a quasimatrix with 8 columns:
 size(g.cols)
@@ -284,8 +279,8 @@ fCheb = chebfun3(ff, dom);
 
 %% 18.6. Derivative and Laplacian
 % Like Chebfun and Chebfun2, Chebfun3 is good at calculus,
-% having commands `diffx`, `diffy`, `diffz`, and `lap` (identical
-% to `laplacian`).  There is also a general command `diff` that
+% having commands |diffx|, |diffy|, |diffz|, and |lap| (or
+% |laplacian|).  There is also a general command |diff| that
 % can take appropriate arguments to specify dimensions.
 
 %%
@@ -306,14 +301,14 @@ norm(Lf - div(grad(f)))
 %% 18.7. 3D vector fields
 % Consider a vector-valued function of three variables like 
 % $$ F(x,y,z) = (f(x,y,z); g(x,y,z); h(x,y,z)). $$ 
-% We can represent such functions using `chebfun3v`. Similarly to `chebfun2v`, 
+% We can represent such functions using |chebfun3v|. Similarly to |chebfun2v|, 
 % we can construct a chebfun3v object either by explicitly calling the 
 % constructor or by vertical concatenation of chebfun3 objects. We already
-% hinted at this by using `grad(f)' in the last subsection. Let's check its size:
+% hinted at this by using |grad(f)| in the last subsection. Let's check its size:
 size(grad(f))
 
 %%
-% Chebfun can plot 3D vector fields using the `quiver3` command, which 
+% Chebfun can plot 3D vector fields using the |quiver3| command, which 
 % draws a field of arrows.  For example, here is a quiver3 plot of
 % the vector field $F(x,y,z) = -yi + xj + zk$. 
 cheb.xyz
@@ -322,7 +317,7 @@ close all, quiver3(F, 0)
 view([2 2 40])
 
 %%
-% The `0' in the quiver3 command tells MATLAB 
+% The |0| in the quiver3 command tells MATLAB 
 % not to rescale the vectors.
 
 %%
@@ -339,7 +334,7 @@ I_spiral = integral(F, curve)
 ends = f(5*pi*cos(5*pi), 5*pi*sin(5*pi), 5*pi) - f(0, 0, 0)
 
 %% 
-% We can determine if a given vector field is conservative using `curl`:
+% We can determine if a given vector field is conservative using |curl|:
 norm(curl(F))
 
 %%
@@ -361,7 +356,7 @@ f = chebfun3(@(x,y,z) sin(x+2*y+3*z));
 [sv, S_core, S_cols, S_rows, S_tubes] = hosvd(f);
 
 %% 
-% `sv` is a cell array containing modal singular values of $f$:
+% |sv| is a cell array containing modal singular values of $f$:
 sv1 = sv{1}
 sv2 = sv{2}
 sv3 = sv{3}
@@ -369,9 +364,9 @@ sv3 = sv{3}
 %%
 % We see the decay in each set of modal singular values analogous to the 
 % decay of singular values of bivariate functions. Also, the columns of the
-% three factor quasimatrices `S_cols`, `S_rows`, and `S_tubes` are orthonormal. 
+% three factor quasimatrices |S_cols|, |S_rows|, and |S_tubes| are orthonormal. 
 % For example, the departure from orthogonality in the columns of the 
-% quasimatrix `S_cols` is:
+% quasimatrix |S_cols| is:
 norm(eye(size(S_cols,2)) - S_cols'*S_cols)
 
 %%
@@ -389,7 +384,7 @@ norm(S_core(:,:,1) .* S_core(:,:,2))
 
 %% 18.9. Rootfinding
 % Rootfinding in Chebfun3 is still under development.  What follows
-% describes the code `root`, which attempts to find just one single root
+% describes the code |root|, which attempts to find just one single root
 % of a chebfun3v or equivalently of three chebfun3 objects.
 
 %%
@@ -434,7 +429,7 @@ view([-8,8,5]), alpha(0.9)
 
 %% 18.10. Changing the accuracy with chebfun3eps
 % Chebfun has always had a parameter that describes its target relative 
-% accuracy which since 2015 has been called `chebfuneps`. For 1D 
+% accuracy which since 2015 has been called |chebfuneps|. For 1D 
 % computations, we do not recommend that users normally change this parameter
 % from its factory value of machine precision (unless dealing with
 % noisy functions), because the speedups to be obtained are usually not 
@@ -448,7 +443,7 @@ view([-8,8,5]), alpha(0.9)
 % they want to work with 10 digits of accuracy rather than 16 --
 % the speedup in many cases is on the order of a factor of 10.
 % For this reason, Chebfun allows users to set different tolerances 
-% `chebfuneps`, `chebfun2eps`, and `chebfun3eps` for computations in 1D, 2D
+% |chebfuneps|, |chebfun2eps|, and |chebfun3eps| for computations in 1D, 2D
 % and 3D. The factory values of these parameters are all machine epsilon.
 
 %%
@@ -470,12 +465,12 @@ end
 %%
 % As the above example indicates, one way to control the
 % accuracy of a chebfun3 construction is by explicitly specifying
-% `eps` in a call to the constructor.  Alternatively -- and
+% |eps| in a call to the constructor.  Alternatively -- and
 % necessarily, if you are doing follow-on operations on previously
 % constructed chebfun3 objects -- you can change the parameter
 % globally as described in Chapter 8.  For example, let us check the 
 % speed and accuracy of a certain computation using the factory value of 
-% `chebfun3eps`, i.e., machine precision. It runs slowly, and gives high 
+% |chebfun3eps|, i.e., machine precision. It runs slowly, and gives high 
 % accuracy:
 ff = @(x,y,z) tanh(2*(x+y+z));
 
@@ -486,7 +481,7 @@ error = abs(g(.5,.6,.7) - cos(ff(.5,.6,.7)+1)^2)
 toc
 
 %% 
-% Now let us set `chebfun3eps` to 1e-10 and run the same computation.  
+% Now let us set |chebfun3eps| to 1e-10 and run the same computation.  
 % Faster and less accurate!
 chebfun3eps 1e-10
 
@@ -497,14 +492,14 @@ error = abs(g(.5, .6, .7) - cos(ff(.5, .6, .7)+1)^2)
 toc
 
 %% 
-% The following command reverts `chebfun3eps` to the factory value:
+% The following command reverts |chebfun3eps| to the factory value:
 chebfun3eps factory
 
 %% 18.11. Chebfun3t for pure tensor product comparisons
 % Chebfun3, like Chebfun2 before it, exploits low-rank compression
 % of functions where possible.  The question of how much one gains
 % from this on average is controversial and certainly unresolved 
-% [Trefethen 2016]. One can construct examples where the gain is as large 
+% [Trefethen 2017]. One can construct examples where the gain is as large 
 % as you like, and other examples where there is no gain at all (and indeed
 % where the low-rank algorithms take longer).
 
@@ -512,7 +507,7 @@ chebfun3eps factory
 % To enable interested users to explore these tradeoffs, Chebfun
 % offers a certain fraction of the Chebfun3 functionality implemented
 % in a completely different, more straightforward but not
-% rank-compressed fashion.  The command `chebfun3t` will construct
+% rank-compressed fashion.  The command |chebfun3t| will construct
 % a chebfun3t object that is represented as a multivariate Chebyshev
 % polynomial defined by a tensor of Chebyshev coefficients.
 % Here is an example where Chebfun3 is much faster than Chebfun3t:
@@ -522,7 +517,7 @@ tic, chebfun3t(ff), toc
 
 %%
 % On the other hand here is an example where Chebfun3 is slower.
-ff = @(x,y,z) tanh(3*(x+y+z));
+ff = @(x,y,z) tanh(6*(x+y+z));
 tic, chebfun3(ff), toc
 tic, chebfun3t(ff), toc
 
@@ -535,24 +530,28 @@ tic, chebfun3t(ff), toc
 %% 18.12. References 
 % 
 % [Bebendorf 2011] M. Bebendorf, "Adaptive cross approximation of 
-% multivariate functions", _Constructive Approximation_, 34 (2011) 149-179.
+% multivariate functions", _Constructive Approximation_, 34 (2011), 149-179.
 %
 % [Cox, Little & O'Shea 2015] D. Cox, J. Little, and D. O'Shea, _Ideals, 
 % Varieties, and Algorithms_, 4th Edition, Springer, 2015.
 %
 % [De Lathauwer, De Moor & Vandewalle 2000] L. De Lathauwer, B. De Moor and 
 % J. Vandewalle, "A multilinear Singular Value Decomposition", _SIAM 
-% Journal on Matrix Analysis and Applications_, 21 (2000) 1253-1278.
+% Journal on Matrix Analysis and Applications_, 21 (2000), 1253-1278.
+%
+% [Dolgov, Kressner, and Str&ouml;ssner 2021] S. Dolgov, D. Kressner, and
+% C Str&ouml;ssner, "Functional Tucker approximation using Chebyshev interpolation",
+% _SIAM J. Sci. Comput._, 43 (2021), A2190--A2210.
 %
 % [Golub & Van Loan 2013] G. H. Golub, and C. F. Van Loan, _Matrix Computations_,
 % 4th Edition, Johns Hopkins University Press, 2013.
 %
-% [Gorodetsky, Karaman & Marzouk 2015] A. A. Gorodetsky, S. Karaman, 
-% and Y. M. Marzouk, "Function-train: a continuous analogue of the tensor-train 
-% decomposition", arXiv:1510.09088v1, 2015.
+% [Gorodetsky, Karaman & Marzouk 2019] A. Gorodetsky, S. Karaman, 
+% and Y. Marzouk, "A continuous analogue of the tensor-train 
+% decomposition", _Computer Meth. Appl. Mech. Engr._, 347 (2019), 59-84.
 %
-% [Hashemi & Trefethen 2016] B. Hashemi and L. N. Trefethen, "Chebfun in 
-% three dimensions", manuscript in preparation.
+% [Hashemi & Trefethen 2017] B. Hashemi and L. N. Trefethen, "Chebfun in 
+% three dimensions", _SIAM J. Sci. Comput._, 39 (2017), C341-C363.
 %
 % [Townsend & Trefethen 2013a] A. Townsend and L. N. Trefethen, "Gaussian 
 % elimination as an iterative algorithm", _SIAM News_, 46, March 2013.
@@ -561,5 +560,5 @@ tic, chebfun3t(ff), toc
 % of Chebfun to two dimensions", _SIAM Journal on Scientific Computing_, 35
 % (2013), C495-C518.
 %
-% [Trefethen 2016] L. N. Trefethen, "Cubature, approximation, and isotropy 
-% in the hypercube", _SIAM Review_, submitted.
+% [Trefethen 2017] L. N. Trefethen, "Cubature, approximation, and isotropy 
+% in the hypercube", _SIAM Review_, 59 (2017), 469-491.
