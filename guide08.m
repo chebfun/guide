@@ -442,7 +442,7 @@ cheboppref.setDefaults('discretization','ultraspherical')
 cheboppref.setDefaults('factory')
 
 %% 8.11 Chebfun2 preferences
-% Chebfun2, for computing with functoins on a two-dimensional rectangle,
+% Chebfun2, for computing with functions on a two-dimensional rectangle,
 % is described in Chapter 12-15.
 % A Chebfun2 preference that users may be particularly interested in
 % is |MaxRank|, which determines the maximum rank of a low-rank
@@ -462,7 +462,7 @@ chebfunpref.setDefaults('factory')
 %% 8.12 Additional preferences and further information
 % Information about additional Chebfun preferences can be found by
 % executing |chebfunpref| or |help chebfunpref|.  In general the most reliable
-% values to use in setting preferences are
+% values to use in setting preferences
 % are |1| or |true| and |0| or |false| (not |'on'| and |'off'|).
 
 %%
